@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -50,6 +51,7 @@ namespace GDD
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
+        [SerializeField]private bool _is_player_move = false;
         
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -71,6 +73,12 @@ namespace GDD
         private AssetsInputsSystem _input;
         private bool _hasAnimator;
         private GameObject _mainCamera;
+        
+        //Player State
+        public bool Get_Player_Move
+        {
+            get => _is_player_move;
+        }
 
         private void Awake()
         {
@@ -189,7 +197,15 @@ namespace GDD
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_input.GetMovement == Vector2.zero) targetSpeed = 0.0f;
+            if (_input.GetMovement == Vector2.zero)
+            {
+                targetSpeed = 0.0f;
+                _is_player_move = false;
+            }
+            else
+            {
+                _is_player_move = true;
+            }
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;

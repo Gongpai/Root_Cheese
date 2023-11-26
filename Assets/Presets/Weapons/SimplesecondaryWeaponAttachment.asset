@@ -16,5 +16,5 @@ MonoBehaviour:
   m_bullet_prefab: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef,
     type: 3}
   m_damage: 2
-  m_rate: 5
+  m_rate: 1
   m_shot: 0

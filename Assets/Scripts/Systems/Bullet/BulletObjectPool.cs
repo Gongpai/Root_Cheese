@@ -15,6 +15,7 @@ namespace GDD
         private GameObject _bulletGameObject;
         private Transform _spawnPoint;
         private IWeapon _weapon;
+        private Vector3 spawnPos;
 
         public int maxPoolSize
         {
@@ -65,6 +66,11 @@ namespace GDD
             GM = GameManager.Instance;
         }
 
+        private void Update()
+        {
+            spawnPos = _spawnPoint.position;
+        }
+
         private Bullet CreatePooledItem()
         {
             Bullet bullet = Instantiate(_bulletGameObject, GM.Get_Bullet_Pool.transform).AddComponent<Bullet>();
@@ -91,7 +97,8 @@ namespace GDD
         public Bullet OnSpawn()
         {
             Bullet bullet = Pool.Get();
-            bullet.transform.position = _spawnPoint.position;
+            bullet.transform.position = spawnPos;
+            print("Bullet Pos : " + bullet.transform.position + " || Spawn Pos : " + _spawnPoint.position);
             bullet._weapon = _weapon;
 
             TakeDamage bullet_TD;

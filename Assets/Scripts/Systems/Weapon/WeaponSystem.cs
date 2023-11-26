@@ -14,6 +14,11 @@ namespace GDD
         private IWeapon _weapon;
         private bool _isDecorated;
 
+        public IWeapon Get_Weapon
+        {
+            get => _weapon;
+        }
+
         private void Start()
         {
             _weapon = new Weapon(_weaponConfig);
@@ -21,35 +26,18 @@ namespace GDD
 
         public void ToggleFire(SpawnBullet spawnBullet)
         {
-            _isFiring = !_isFiring;
-
-            if (_isFiring)
+            if (secondaryAttachment == null)
             {
-                if (secondaryAttachment == null)
-                {
-                    spawnBullet.bulletObjectPool.Set_BulletGameObject = mainAttachment.m_bullet_prefab;
-                }
-                else
-                {
-                    spawnBullet.bulletObjectPool.Set_BulletGameObject = secondaryAttachment.m_bullet_prefab;
-                }
-
-                spawnBullet.bulletObjectPool.weapon = _weapon;
-                spawnBullet.OnSpawnBullet();
+                spawnBullet.bulletObjectPool.Set_BulletGameObject = mainAttachment.m_bullet_prefab;
             }
+            else
+            {
+                spawnBullet.bulletObjectPool.Set_BulletGameObject = secondaryAttachment.m_bullet_prefab;
+            }
+
+            spawnBullet.bulletObjectPool.weapon = _weapon;
+            spawnBullet.OnSpawnBullet();
         }
-
-        /*
-        IEnumerator Fireweapon()
-        {
-            float firing_rate = 1.0f / _weapon.rate;
-
-            while (_isFiring)
-            {
-                yield return new WaitForSeconds(firing_rate);
-                Debug.Log("Fire!!!!!!!!!!!!!!");
-            }
-        }*/
 
         public void Reset()
         {
