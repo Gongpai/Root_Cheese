@@ -1,15 +1,19 @@
 ﻿namespace GDD
 {
-    public class PlayerMoveState : State<PlayerSystem>
+    public class PlayerStateMachine : StateMachine<PlayerSystem>
     {
-        protected override void Start()
+        protected PlayerSystem _playerSystem;
+        protected GameManager GM;
+        
+        protected virtual void Start()
         {
-            base.Start();
+            GM = GameManager.Instance;
+            _playerSystem = GetComponent<PlayerSystem>();
         }
-
+        
         public override string StateName()
         {
-            return "PlayerMoveState";
+            return "State";
         }
         
         public override void OnStart(PlayerSystem contrller)

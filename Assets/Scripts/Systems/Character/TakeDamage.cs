@@ -35,9 +35,9 @@ namespace GDD
             Transform layer = other.transform.parent;
             if (layer != ownerLayer)
             {
-                if (other.gameObject.GetComponent<HealthSystem>() != null)
+                if (other.gameObject.GetComponent<CharacterSystem>() != null)
                 {
-                    OnTakeDamage(other.gameObject.GetComponent<HealthSystem>());
+                    OnTakeDamage(other.gameObject.GetComponent<CharacterSystem>());
                     print("TakeDamage : " + _weapon.damage);
                 }
                 else
@@ -49,14 +49,14 @@ namespace GDD
             _bullet.ReturnToPool();
         }
 
-        protected void OnTakeDamage(HealthSystem healthSystem)
+        protected void OnTakeDamage(CharacterSystem characterSystem)
         {
-            if (healthSystem.hp - _weapon.damage > 0)
-                healthSystem.hp -= _weapon.damage;
+            if (characterSystem.hp - _weapon.damage > 0)
+                characterSystem.hp -= _weapon.damage;
             else
-                healthSystem.hp = 0;
+                characterSystem.hp = 0;
             
-            print("Current Health : " + healthSystem.hp);
+            print("Current Health : " + characterSystem.hp);
         }
     }
 }

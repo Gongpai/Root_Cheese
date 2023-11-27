@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace GDD
+namespace GDD.Sinagleton
 {
     public class DontDestroy_Singleton<T> : MonoBehaviour where T : Component
     {

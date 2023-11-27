@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GDD.Spatial_Partition;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace GDD
 {
-    public class PlayerAttackState : State<PlayerSystem>
+    public class PlayerAttackStateMachine : PlayerStateMachine
     {
         private SpawnBullet _spawnBullet;
         private WeaponSystem _weaponSystem;
@@ -29,6 +30,8 @@ namespace GDD
         public override void OnStart(PlayerSystem contrller)
         {
             base.OnStart(contrller);
+
+            LookAtEnemy();
 
             _is_Start_Fire = true;
             
@@ -72,7 +75,7 @@ namespace GDD
 
                 if (time_count <= 0)
                 {
-                    print("End Time!!!!!!!!!!!!!!!!!!!");
+                    //print("End Time!!!!!!!!!!!!!!!!!!!");
                     if (_isEnterState)
                         action.Invoke();
                     
@@ -101,6 +104,38 @@ namespace GDD
                 if (time_count <= 0)
                 {
                     time_count = time;
+                }
+
+                yield return instruction;
+            }
+        }
+
+        private void LookAtEnemy()
+        {
+            IPawn closestEnemy = GM.grid.FindClosestEnemy(_playerSystem);
+            print("Enemy Around is found : " + (closestEnemy != null));
+            if (closestEnemy != null)
+            {
+                Quaternion lookAt = Quaternion.LookRotation(closestEnemy.GetPawnTransform().position - transform.position);
+                _coroutinesFires.Add(StartCoroutine(RotateCharacter(transform.eulerAngles, lookAt.eulerAngles, 0.5f)));
+            }
+        }
+
+        IEnumerator RotateCharacter(Vector3 start, Vector3 lookat , float time)
+        {
+            var instruction = new WaitForEndOfFrame();
+            
+            float time_count = time;
+            while (time_count / time > 0)
+            {
+                time_count -= Time.deltaTime;
+                print("Time : " + (time_count / time));
+                //transform.eulerAngles = Vector3.Lerp(start, new Vector3(0, lookat.y, 0), time_count / time) ;
+
+                if (time_count <= 0)
+                {
+                    print("End Time!!!!!!!!!!!!!!!!!!!");
+                    yield break;
                 }
 
                 yield return instruction;

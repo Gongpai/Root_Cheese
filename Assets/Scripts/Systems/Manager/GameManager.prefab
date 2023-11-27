@@ -44,4 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185568953d2da6a45bdcef8fd149faaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_characterLayer: []
+  m_players: []
+  m_enemies: []
+  m_mapWidth: 40
+  m_cellSize: 10
