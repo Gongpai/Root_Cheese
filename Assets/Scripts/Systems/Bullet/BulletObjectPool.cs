@@ -98,7 +98,7 @@ namespace GDD
         {
             Bullet bullet = Pool.Get();
             bullet.transform.position = spawnPos;
-            print("Bullet Pos : " + bullet.transform.position + " || Spawn Pos : " + _spawnPoint.position);
+            //print("Bullet Pos : " + bullet.transform.position + " || Spawn Pos : " + _spawnPoint.position);
             bullet._weapon = _weapon;
 
             TakeDamage bullet_TD;

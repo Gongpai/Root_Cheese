@@ -4,6 +4,8 @@ namespace GDD.Spatial_Partition
 {
     public interface IPawn
     {
+        public Vector2Int GetCellPosition();
+        public void SetCellPosition(Vector2Int cell);
         public Vector2 GetPawnVision();
         public void SetPawnVision(Vector2 vision);
         

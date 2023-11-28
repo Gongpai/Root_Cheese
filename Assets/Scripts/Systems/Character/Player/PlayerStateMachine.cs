@@ -1,9 +1,13 @@
-﻿namespace GDD
+﻿using GDD.Spatial_Partition;
+using UnityEngine;
+
+namespace GDD
 {
     public class PlayerStateMachine : StateMachine<PlayerSystem>
     {
         protected PlayerSystem _playerSystem;
         protected GameManager GM;
+        protected Transform target;
         
         protected virtual void Start()
         {

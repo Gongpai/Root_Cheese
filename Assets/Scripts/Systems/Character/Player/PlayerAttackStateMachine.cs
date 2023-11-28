@@ -12,7 +12,7 @@ namespace GDD
         private SpawnBullet _spawnBullet;
         private WeaponSystem _weaponSystem;
         private bool _is_Start_Fire = false;
-        private List<Coroutine> _coroutinesFires = new List<Coroutine>();
+        private List<Coroutine> _coroutines = new List<Coroutine>();
 
         protected override void Start()
         {
@@ -31,37 +31,69 @@ namespace GDD
         {
             base.OnStart(contrller);
 
-            LookAtEnemy();
-
             _is_Start_Fire = true;
             
-            foreach (var coroutine in _coroutinesFires)
+            //Reset Coriutines
+            foreach (var coroutine in _coroutines)
             {
                 StopCoroutine(coroutine);
             }
-            _coroutinesFires = new List<Coroutine>();
+            _coroutines = new List<Coroutine>();
             
-            _coroutinesFires.Add(StartCoroutine(Waiting(() =>
-            {
-                _coroutinesFires.Add(StartCoroutine(OnFire(_weaponSystem.Get_Weapon.rate)));
-            }, _playerSystem.delay_attack)));
+            //Start Coroutines Here
+            IPawn closestEnemy = GM.grid.FindClosestEnemy(_playerSystem);
+            LookAtEnemy(closestEnemy);
+            OnFire(closestEnemy);
         }
 
         public override void Handle(PlayerSystem contrller)
         {
             base.Handle(contrller);
+            
+            IPawn closestEnemy = GM.grid.FindClosestEnemy(_playerSystem);
+            print("Target null : " + (target == null));
+
+            if (closestEnemy == null)
+            {
+                target = null;
+                
+                foreach (var coroutine in _coroutines)
+                {
+                    StopCoroutine(coroutine);
+                }
+
+                _coroutines = new List<Coroutine>();
+            }
+
+            if (closestEnemy != null && target == null)
+            {
+                if(_coroutines.Count <= 0)
+                    OnFire(closestEnemy);
+                
+                LookAtEnemy(closestEnemy);
+            }
         }
 
         public override void OnExit()
         {
             base.OnExit();
 
-            foreach (var coroutine in _coroutinesFires)
+            foreach (var coroutine in _coroutines)
             {
                 StopCoroutine(coroutine);
             }
             
             _is_Start_Fire = false;
+        }
+
+        private void OnFire(IPawn enemy)
+        {
+            if (enemy != null)
+            {
+                _coroutines.Add(StartCoroutine(Waiting(
+                    () => { _coroutines.Add(StartCoroutine(Firing(_weaponSystem.Get_Weapon.rate))); },
+                    _playerSystem.delay_attack)));
+            }
         }
         
         IEnumerator Waiting(UnityAction action , float time)
@@ -86,7 +118,7 @@ namespace GDD
             }
         }
         
-        IEnumerator OnFire(float time)
+        IEnumerator Firing(float time)
         {
             var instruction = new WaitForEndOfFrame();
             float time_count = time;
@@ -110,33 +142,38 @@ namespace GDD
             }
         }
 
-        private void LookAtEnemy()
+        private void LookAtEnemy(IPawn enemy)
         {
-            IPawn closestEnemy = GM.grid.FindClosestEnemy(_playerSystem);
-            print("Enemy Around is found : " + (closestEnemy != null));
-            if (closestEnemy != null)
+            print("Enemy Around is found : " + (enemy != null));
+            if (enemy != null)
             {
-                Quaternion lookAt = Quaternion.LookRotation(closestEnemy.GetPawnTransform().position - transform.position);
-                _coroutinesFires.Add(StartCoroutine(RotateCharacter(transform.eulerAngles, lookAt.eulerAngles, 0.5f)));
+                target = enemy.GetPawnTransform();
+                Quaternion lookAt = Quaternion.LookRotation(enemy.GetPawnTransform().position - transform.position);
+                _coroutines.Add(StartCoroutine(RotateCharacter(transform.rotation, new Quaternion(0, lookAt.y, 0, lookAt.w), 0.5f)));
             }
         }
 
-        IEnumerator RotateCharacter(Vector3 start, Vector3 lookat , float time)
+        IEnumerator RotateCharacter(Quaternion start, Quaternion lookat , float time)
         {
             var instruction = new WaitForEndOfFrame();
             
-            float time_count = time;
-            while (time_count / time > 0)
+            float time_count = 0;
+            while (time_count < time)
             {
-                time_count -= Time.deltaTime;
+                time_count += Time.deltaTime;
+                
+                if (time_count >= time)
+                    time_count = time;
+                
                 print("Time : " + (time_count / time));
-                //transform.eulerAngles = Vector3.Lerp(start, new Vector3(0, lookat.y, 0), time_count / time) ;
+                transform.rotation = Quaternion.Lerp(start, lookat, time_count / time) ;
 
-                if (time_count <= 0)
+                /*
+                if (time_count >= time)
                 {
                     print("End Time!!!!!!!!!!!!!!!!!!!");
                     yield break;
-                }
+                }*/
 
                 yield return instruction;
             }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace GDD.Spatial_Partition
 {
@@ -23,6 +24,7 @@ namespace GDD.Spatial_Partition
             //Determine which grid cell the pawn is in
             int cellX = (int)(pawn.GetPawnTransform().position.x / cellSize);
             int cellZ = (int)(pawn.GetPawnTransform().position.z / cellSize);
+            pawn.SetCellPosition(new Vector2Int(cellX, cellZ));
 
             //Add the pawn to the front of the list for the cell it's in
             pawn.SetPreviousPawn(null);
@@ -36,6 +38,18 @@ namespace GDD.Spatial_Partition
                 //Set this pawn to be the previous pawn of the next pawn of this pawn (linked lists ftw)
                 pawn.GetNextPawn().SetPreviousPawn(pawn);
             }
+        }
+
+        public void Remove(Vector2Int cell)
+        {
+            IPawn pawn = cells[cell.x, cell.y];
+
+            if (pawn != null)
+            {
+                UnlinkCell(pawn);
+            }
+            
+            cells[cell.x, cell.y] = null;
         }
         
         //Get the closest enemy from the grid in player vision
@@ -79,8 +93,8 @@ namespace GDD.Spatial_Partition
                     if (next_enemy != null)
                     {
                         float new_distance = Vector3.Distance(playerPawn.GetPawnTransform().position, next_enemy.GetPawnTransform().position);
-                        Debug.Log("New Distance : " + new_distance);
-                        Debug.Log("Old Distance : " + distance);
+                        //Debug.Log("New Distance : " + new_distance);
+                        //Debug.Log("Old Distance : " + distance);
                         if (new_distance < distance || distance == 0)
                         {
                             enemy = cells[cells_pos[i, 0], cells_pos[i, 1]];
@@ -140,15 +154,7 @@ namespace GDD.Spatial_Partition
             }
 
             //Unlink it from the list of its old cell
-            if (pawn.GetPreviousPawn() != null)
-            {
-                pawn.GetPreviousPawn().SetNextPawn(pawn.GetNextPawn());
-            }
-
-            if (pawn.GetNextPawn() != null)
-            {
-                pawn.GetNextPawn().SetPreviousPawn(pawn.GetPreviousPawn());
-            }
+            UnlinkCell(pawn);
 
             //If it's the head of a list, remove it
             if (cells[oldCellX, oldCellZ] == pawn)
@@ -158,6 +164,19 @@ namespace GDD.Spatial_Partition
 
             //Add it bacl to the grid at its new cell
             Add(pawn);
+        }
+
+        private void UnlinkCell(IPawn pawn)
+        {
+            if (pawn.GetPreviousPawn() != null)
+            {
+                pawn.GetPreviousPawn().SetNextPawn(pawn.GetNextPawn());
+            }
+
+            if (pawn.GetNextPawn() != null)
+            {
+                pawn.GetNextPawn().SetPreviousPawn(pawn.GetPreviousPawn());
+            }
         }
     }
 }

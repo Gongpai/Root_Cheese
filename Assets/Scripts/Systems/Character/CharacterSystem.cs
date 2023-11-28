@@ -28,6 +28,24 @@ namespace GDD
         public virtual void Update()
         {
             m_hp_bar.value = m_hp / 100;
+            
+            if(m_hp <= 0)
+                Destroy(gameObject);
+        }
+
+        public virtual void OnDisable()
+        {
+            
+        }
+
+        public virtual Vector2Int GetCellPosition()
+        {
+            return new Vector2Int();
+        }
+
+        public virtual void SetCellPosition(Vector2Int cell)
+        {
+            
         }
 
         public virtual Vector2 GetPawnVision()
