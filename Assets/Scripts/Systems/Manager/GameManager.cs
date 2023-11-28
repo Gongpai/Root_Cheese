@@ -56,14 +56,15 @@ namespace GDD
         {
             base.OnAwake();
             
-            _grid = new Grid((int)m_mapWidth, m_cellSize);
+            m_players = FindObjectsByType<PlayerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
+            m_enemies = FindObjectsByType<EnemySystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
+            _grid = new Grid((int)m_mapWidth, m_cellSize, enemies.Count);
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            m_players = FindObjectsByType<PlayerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
-            m_enemies = FindObjectsByType<EnemySystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
+            
         }
 
         // Update is called once per frame

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GDD.Spatial_Partition
@@ -6,16 +7,17 @@ namespace GDD.Spatial_Partition
     public class Grid
     {
         private int cellSize;
-        private IPawn[,] cells;
+        private List<IPawn>[,] cells;
+        private int numEnemies;
         
         //Init the grid
-        public Grid(int mapWidth, int cellSize)
+        public Grid(int mapWidth, int cellSize, int numEnemies)
         {
             this.cellSize = cellSize;
-
+            this.numEnemies = numEnemies;
             int numberOfCells = mapWidth / cellSize;
 
-            cells = new IPawn[numberOfCells, numberOfCells];
+            cells = new List<IPawn>[numberOfCells, numberOfCells];
         }
         
         //Add a unity to the grid
@@ -24,14 +26,25 @@ namespace GDD.Spatial_Partition
             //Determine which grid cell the pawn is in
             int cellX = (int)(pawn.GetPawnTransform().position.x / cellSize);
             int cellZ = (int)(pawn.GetPawnTransform().position.z / cellSize);
+
+            if (cells[cellX, cellZ] == null)
+                cells[cellX, cellZ] = new List<IPawn>(numEnemies);
+            
+            int i_pawn = cells[cellX, cellZ].IndexOf(pawn);
+            if (i_pawn < 0)
+                cells[cellX, cellZ].Add(pawn);
+            else
+                cells[cellX, cellZ][i_pawn] = pawn;
+            
+            Debug.Log("Pawn Count : " + cells[cellX, cellZ].Count);
             pawn.SetCellPosition(new Vector2Int(cellX, cellZ));
 
             //Add the pawn to the front of the list for the cell it's in
             pawn.SetPreviousPawn(null);
-            pawn.SetNextPawn(cells[cellX, cellZ]);
+            pawn.SetNextPawn(cells[cellX, cellZ][cells[cellX, cellZ].Count - 1]);
 
             //Associate this cell with this pawn
-            cells[cellX, cellZ] = pawn;
+            cells[cellX, cellZ][cells[cellX, cellZ].Count - 1] = pawn;
 
             if (pawn.GetNextPawn() != null)
             {
@@ -40,16 +53,14 @@ namespace GDD.Spatial_Partition
             }
         }
 
-        public void Remove(Vector2Int cell)
+        public void Remove(Vector2Int cell, IPawn pawn)
         {
-            IPawn pawn = cells[cell.x, cell.y];
-
             if (pawn != null)
             {
                 UnlinkCell(pawn);
             }
             
-            cells[cell.x, cell.y] = null;
+            cells[cell.x, cell.y][cells[cell.x, cell.y].IndexOf(pawn)] = null;
         }
         
         //Get the closest enemy from the grid in player vision
@@ -89,16 +100,29 @@ namespace GDD.Spatial_Partition
 
                 if (cells_pos[i, 0] < (cellSize / 2) && cells_pos[i, 1] < (cellSize / 2))
                 {
-                    IPawn next_enemy = cells[cells_pos[i, 0], cells_pos[i, 1]];
-                    if (next_enemy != null)
+                    for (int j = 0; j < cells[cells_pos[i, 0], cells_pos[i, 1]].Count; j++)
                     {
-                        float new_distance = Vector3.Distance(playerPawn.GetPawnTransform().position, next_enemy.GetPawnTransform().position);
-                        //Debug.Log("New Distance : " + new_distance);
-                        //Debug.Log("Old Distance : " + distance);
-                        if (new_distance < distance || distance == 0)
+                        Debug.Log(i + ". Count : " + cells[cells_pos[i, 0], cells_pos[i, 1]].Count);
+                        IPawn next_enemy = cells[cells_pos[i, 0], cells_pos[i, 1]][j];
+                        if (next_enemy != null)
                         {
-                            enemy = cells[cells_pos[i, 0], cells_pos[i, 1]];
-                            distance = Vector3.Distance(playerPawn.GetPawnTransform().position, enemy.GetPawnTransform().position);
+                            float new_distance = Vector3.Distance(playerPawn.GetPawnTransform().position,
+                                next_enemy.GetPawnTransform().position);
+                            
+                            //Debug.Log("New Distance : " + new_distance);
+                            //Debug.Log("Old Distance : " + distance);
+                            if (new_distance < distance || distance == 0)
+                            {
+                                enemy = next_enemy;
+                                
+                                distance = Vector3.Distance(playerPawn.GetPawnTransform().position,
+                                    enemy.GetPawnTransform().position);
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log(i + ". " + " Not Found : " + "Pos X : " + cells_pos[i, 0] + " Pos Z : " +
+                                      cells_pos[i, 1]);
                         }
                     }
                 }
@@ -116,6 +140,7 @@ namespace GDD.Spatial_Partition
             float bestDistSqr = Mathf.Infinity;
 
             //Loop through the linked list
+            /*
             while (enemy != null)
             {
                 //The distance sqr between the pawn and this enemy
@@ -131,9 +156,9 @@ namespace GDD.Spatial_Partition
 
                 //Get the next enemy in the list
                 enemy = enemy.GetNextPawn();
-            }
+            }*/
 
-            return closestPawn;
+            return enemy;
         }
         
         //A pawn in the grid has moved, so see if we need to update in which grid the soldier is
@@ -157,10 +182,15 @@ namespace GDD.Spatial_Partition
             UnlinkCell(pawn);
 
             //If it's the head of a list, remove it
-            if (cells[oldCellX, oldCellZ] == pawn)
+            for (int i = 0; i < cells[oldCellX, oldCellZ].Count; i++)
             {
-                cells[oldCellX, oldCellZ] = pawn.GetNextPawn();
+                if (cells[oldCellX, oldCellZ][i] == pawn)
+                {
+                    cells[oldCellX, oldCellZ][i] = pawn.GetNextPawn();
+                    break;
+                }
             }
+
 
             //Add it bacl to the grid at its new cell
             Add(pawn);

@@ -6,13 +6,10 @@ using UnityEngine.UI;
 
 namespace GDD
 {
-    public abstract class CharacterSystem : MonoBehaviour, IPawn
+    public abstract class CharacterSystem : Pawn
     {
         [SerializeField] protected Slider m_hp_bar;
         [SerializeField] protected float m_hp = 100;
-        
-        IPawn previousPawn;
-        private IPawn nextPawn;
 
         public float hp
         {
@@ -38,48 +35,9 @@ namespace GDD
             
         }
 
-        public virtual Vector2Int GetCellPosition()
-        {
-            return new Vector2Int();
-        }
-
-        public virtual void SetCellPosition(Vector2Int cell)
-        {
-            
-        }
-
-        public virtual Vector2 GetPawnVision()
-        {
-            return new Vector2();
-        }
-        public virtual void SetPawnVision(Vector2 vision)
-        {
-            
-        }
-
-        public Transform GetPawnTransform()
+        public override Transform GetPawnTransform()
         {
             return transform;
-        }
-
-        public IPawn GetPreviousPawn()
-        {
-            return previousPawn;
-        }
-
-        public void SetPreviousPawn(IPawn pawn)
-        {
-            previousPawn = pawn;
-        }
-
-        public IPawn GetNextPawn()
-        {
-            return nextPawn;
-        }
-
-        public void SetNextPawn(IPawn pawn)
-        {
-            nextPawn = pawn;
         }
     }
 }
