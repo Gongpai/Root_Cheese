@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace GDD
+namespace GDD.StateMachine
 {
     public interface IState<T>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GDD
+namespace GDD.StateMachine
 {
     public class StateContext<T>
     {

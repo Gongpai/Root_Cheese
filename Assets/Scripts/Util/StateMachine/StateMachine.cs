@@ -2,7 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace GDD
+namespace GDD.StateMachine
 {
     public abstract class StateMachine<T> : MonoBehaviour, IState<T>
     {

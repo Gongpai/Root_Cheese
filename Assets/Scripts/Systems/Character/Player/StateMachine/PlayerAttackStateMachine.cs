@@ -9,11 +9,8 @@ namespace GDD
 {
     public class PlayerAttackStateMachine : PlayerStateMachine
     {
-        private SpawnBullet _spawnBullet;
         private WeaponSystem _weaponSystem;
-        private bool _is_Start_Fire = false;
-        private List<Coroutine> _coroutines = new List<Coroutine>();
-
+        
         protected override void Start()
         {
             base.Start();
@@ -33,15 +30,8 @@ namespace GDD
 
             _is_Start_Fire = true;
             
-            //Reset Coriutines
-            foreach (var coroutine in _coroutines)
-            {
-                StopCoroutine(coroutine);
-            }
-            _coroutines = new List<Coroutine>();
-            
             //Start Coroutines Here
-            IPawn closestEnemy = GM.grid.FindClosestEnemy(_playerSystem);
+            IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
             LookAtEnemy(closestEnemy);
             OnFire(closestEnemy);
         }
@@ -50,19 +40,15 @@ namespace GDD
         {
             base.Handle(contrller);
             
-            IPawn closestEnemy = GM.grid.FindClosestEnemy(_playerSystem);
+            IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
             //print("Target null : " + (target == null));
 
             if (closestEnemy == null)
             {
                 target = null;
                 
-                foreach (var coroutine in _coroutines)
-                {
-                    StopCoroutine(coroutine);
-                }
-
-                _coroutines = new List<Coroutine>();
+                //Reset Coriutines
+                ClearCoriutines();
             }
 
             if (closestEnemy != null && target == null)
@@ -77,11 +63,6 @@ namespace GDD
         public override void OnExit()
         {
             base.OnExit();
-
-            foreach (var coroutine in _coroutines)
-            {
-                StopCoroutine(coroutine);
-            }
             
             _is_Start_Fire = false;
         }
@@ -92,7 +73,7 @@ namespace GDD
             {
                 _coroutines.Add(StartCoroutine(Waiting(
                     () => { _coroutines.Add(StartCoroutine(Firing(_weaponSystem.Get_Weapon.rate))); },
-                    _playerSystem.delay_attack)));
+                    _characterSystem.delay_attack)));
             }
         }
         
