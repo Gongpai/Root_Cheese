@@ -52,6 +52,11 @@ namespace GDD
             get => m_enemies;
         }
 
+        public float mapWidth
+        {
+            get => m_mapWidth;
+        }
+
         public override void OnAwake()
         {
             base.OnAwake();

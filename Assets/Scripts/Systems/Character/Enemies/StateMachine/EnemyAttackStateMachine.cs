@@ -1,6 +1,6 @@
 ﻿using GDD.StrategyPattern;
 
-namespace GDD.StateMachine
+namespace GDD
 {
     public class EnemyAttackStateMachine : EnemyStateMachine
     {
@@ -8,5 +8,28 @@ namespace GDD.StateMachine
         {
             return "EnemyAttackState";
         }
+        
+        public override void OnStart(EnemySystem contrller)
+        {
+            base.OnStart(contrller);
+
+            ApplyEnemyStrategy();
+        }
+        
+        public override void Handle(EnemySystem contrller)
+        {
+            base.Handle(contrller);
+            
+            
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            
+            WithdrawEnemyStrategy();
+        }
+        
+        
     }
 }

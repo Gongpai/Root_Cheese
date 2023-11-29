@@ -1,4 +1,5 @@
 ﻿using System;
+using GDD;
 using GDD.StrategyPattern;
 
 namespace GDD
@@ -28,6 +29,7 @@ namespace GDD
 
         public void ApplyEnemyStrategy()
         {
+            strategy = GetComponent<EnemyManeuver>();
             strategy.Maneuver(this);
         }
 

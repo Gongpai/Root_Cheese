@@ -39,5 +39,10 @@ namespace GDD
         {
             return transform;
         }
+
+        public virtual void OnDestroy()
+        {
+            
+        }
     }
 }
