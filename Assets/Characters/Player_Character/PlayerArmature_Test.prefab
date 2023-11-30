@@ -1142,7 +1142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_hp_bar: {fileID: 2335550544014905371}
   m_hp: 100
-  m_delay_attack: 1
+  m_delay_attack: 0.25
+  vision: {x: 0, y: 0}
 --- !u!4 &705807638788262956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544,

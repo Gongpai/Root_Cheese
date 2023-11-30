@@ -36,7 +36,7 @@ namespace GDD.Spatial_Partition
             else
                 cells[cellX, cellZ][i_pawn] = pawn;
             
-            Debug.Log("Pawn Count : " + cells[cellX, cellZ].Count);
+            //Debug.Log("Pawn Count : " + cells[cellX, cellZ].Count);
             pawn.SetCellPosition(new Vector2Int(cellX, cellZ));
 
             //Add the pawn to the front of the list for the cell it's in
@@ -100,29 +100,32 @@ namespace GDD.Spatial_Partition
 
                 if (cells_pos[i, 0] < (cellSize / 2) && cells_pos[i, 1] < (cellSize / 2))
                 {
-                    for (int j = 0; j < cells[cells_pos[i, 0], cells_pos[i, 1]].Count; j++)
+                    if (cells[cells_pos[i, 0], cells_pos[i, 1]] != null)
                     {
-                        Debug.Log(i + ". Count : " + cells[cells_pos[i, 0], cells_pos[i, 1]].Count);
-                        IPawn next_enemy = cells[cells_pos[i, 0], cells_pos[i, 1]][j];
-                        if (next_enemy != null)
+                        for (int j = 0; j < cells[cells_pos[i, 0], cells_pos[i, 1]].Count; j++)
                         {
-                            float new_distance = Vector3.Distance(playerPawn.GetPawnTransform().position,
-                                next_enemy.GetPawnTransform().position);
-                            
-                            //Debug.Log("New Distance : " + new_distance);
-                            //Debug.Log("Old Distance : " + distance);
-                            if (new_distance < distance || distance == 0)
+                            //Debug.Log(i + ". Count : " + cells[cells_pos[i, 0], cells_pos[i, 1]].Count);
+                            IPawn next_enemy = cells[cells_pos[i, 0], cells_pos[i, 1]][j];
+                            if (next_enemy != null)
                             {
-                                enemy = next_enemy;
-                                
-                                distance = Vector3.Distance(playerPawn.GetPawnTransform().position,
-                                    enemy.GetPawnTransform().position);
+                                float new_distance = Vector3.Distance(playerPawn.GetPawnTransform().position,
+                                    next_enemy.GetPawnTransform().position);
+
+                                //Debug.Log("New Distance : " + new_distance);
+                                //Debug.Log("Old Distance : " + distance);
+                                if (new_distance < distance || distance == 0)
+                                {
+                                    enemy = next_enemy;
+
+                                    distance = Vector3.Distance(playerPawn.GetPawnTransform().position,
+                                        enemy.GetPawnTransform().position);
+                                }
                             }
-                        }
-                        else
-                        {
-                            Debug.Log(i + ". " + " Not Found : " + "Pos X : " + cells_pos[i, 0] + " Pos Z : " +
-                                      cells_pos[i, 1]);
+                            else
+                            {
+                                Debug.Log(i + ". " + " Not Found : " + "Pos X : " + cells_pos[i, 0] + " Pos Z : " +
+                                          cells_pos[i, 1]);
+                            }
                         }
                     }
                 }
@@ -135,9 +138,9 @@ namespace GDD.Spatial_Partition
             }
             
             //Find the closest pawn of all in the linked list
-            IPawn closestPawn = null;
+            //IPawn closestPawn = null;
 
-            float bestDistSqr = Mathf.Infinity;
+            //float bestDistSqr = Mathf.Infinity;
 
             //Loop through the linked list
             /*

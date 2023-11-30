@@ -10,6 +10,7 @@ namespace GDD
     public class PlayerAttackStateMachine : PlayerStateMachine
     {
         private WeaponSystem _weaponSystem;
+        private bool _is_end_rotation = false;
         
         protected override void Start()
         {
@@ -32,7 +33,7 @@ namespace GDD
             
             //Start Coroutines Here
             IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
-            LookAtEnemy(closestEnemy);
+            SmoothLookAtEnemy(closestEnemy);
             OnFire(closestEnemy);
         }
 
@@ -41,7 +42,7 @@ namespace GDD
             base.Handle(contrller);
             
             IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
-            //print("Target null : " + (target == null));
+            print("ClosestEnemy null : " + (closestEnemy == null));
 
             if (closestEnemy == null)
             {
@@ -51,13 +52,18 @@ namespace GDD
                 ClearCoriutines();
             }
 
-            if (closestEnemy != null && target == null)
+            if (closestEnemy != null && closestEnemy.GetPawnTransform() != target)
             {
                 if(_coroutines.Count <= 0)
                     OnFire(closestEnemy);
                 
-                LookAtEnemy(closestEnemy);
+                SmoothLookAtEnemy(closestEnemy);
             }
+            
+            //Debug.Log("IS TRUE : " + _is_end_rotation);
+            if(target != null && _is_end_rotation)
+                LookAtEnemy(target);
+                
         }
 
         public override void OnExit()
@@ -123,15 +129,22 @@ namespace GDD
             }
         }
 
-        private void LookAtEnemy(IPawn enemy)
+        private void SmoothLookAtEnemy(IPawn enemy)
         {
-            print("Enemy Around is found : " + (enemy != null));
+            //print("Enemy Around is found : " + (enemy != null));
             if (enemy != null)
             {
                 target = enemy.GetPawnTransform();
                 Quaternion lookAt = Quaternion.LookRotation(enemy.GetPawnTransform().position - transform.position);
-                _coroutines.Add(StartCoroutine(RotateCharacter(transform.rotation, new Quaternion(0, lookAt.y, 0, lookAt.w), 0.5f)));
+                _coroutines.Add(StartCoroutine(RotateCharacter(transform.rotation, new Quaternion(0, lookAt.y, 0, lookAt.w), 0.25f)));
             }
+        }
+
+        private void LookAtEnemy(Transform pawn)
+        {
+            Quaternion lookAt = Quaternion.LookRotation(pawn.position - transform.position);
+            transform.rotation = new Quaternion(0, lookAt.y, 0, lookAt.w);
+            //print("Time : ");
         }
 
         IEnumerator RotateCharacter(Quaternion start, Quaternion lookat , float time)
@@ -142,19 +155,15 @@ namespace GDD
             while (time_count < time)
             {
                 time_count += Time.deltaTime;
-                
-                if (time_count >= time)
-                    time_count = time;
-                
-                print("Time : " + (time_count / time));
-                transform.rotation = Quaternion.Lerp(start, lookat, time_count / time) ;
 
-                /*
+                _is_end_rotation = false;
                 if (time_count >= time)
                 {
-                    print("End Time!!!!!!!!!!!!!!!!!!!");
-                    yield break;
-                }*/
+                    time_count = time;
+                    _is_end_rotation = true;
+                }
+                
+                transform.rotation = Quaternion.Lerp(start, lookat, time_count / time) ;
 
                 yield return instruction;
             }
