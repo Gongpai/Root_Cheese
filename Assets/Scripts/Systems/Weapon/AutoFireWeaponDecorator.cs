@@ -6,13 +6,13 @@ namespace GDD
 {
     public class AutoFireWeaponDecorator : MonoBehaviour
     {
-        private SpawnBullet _spawnBullet;
+        private PlayerSpawnBullet _playerSpawnBullet;
         private WeaponSystem _weaponSystem;
         private bool _isWeaponDecorated;
 
         private void Start()
         {
-            _spawnBullet = GetComponent<SpawnBullet>();
+            _playerSpawnBullet = GetComponent<PlayerSpawnBullet>();
             _weaponSystem = GetComponent<WeaponSystem>();
 
             StartCoroutine(AutoFire());
@@ -23,7 +23,7 @@ namespace GDD
             while (true)
             {
                yield return new WaitForSeconds(1);
-               _weaponSystem.ToggleFire(_spawnBullet);
+               _weaponSystem.ToggleFire(_playerSpawnBullet);
             }
         }
     }

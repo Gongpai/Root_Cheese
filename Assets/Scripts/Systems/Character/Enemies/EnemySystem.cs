@@ -1,7 +1,9 @@
+using System;
 using GDD.Spatial_Partition;
 using GDD.StateMachine;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace GDD
 {
@@ -14,17 +16,21 @@ namespace GDD
         private StateContext<EnemySystem> _enemyStateContext;
         private WaypointReachingState _waypointReaching;
         private GameObject _waypoint;
-        
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            
+            _enemyStateContext = new StateContext<EnemySystem>(this);
+            _attackState = gameObject.AddComponent<EnemyAttackStateMachine>();
+            _moveState = gameObject.AddComponent<EnemyMoveStateMachine>();
+            _waypointReaching = GetComponent<WaypointReachingState>();
+        }
+
         public override void Start()
         {
             base.Start();
             GM = GameManager.Instance;
-            
-            _enemyStateContext = new StateContext<EnemySystem>(this);
-
-            _attackState = gameObject.AddComponent<EnemyAttackStateMachine>();
-            _moveState = gameObject.AddComponent<EnemyMoveStateMachine>();
-            _waypointReaching = GetComponent<WaypointReachingState>();
             
             //Add this unit to the grid
             GM.grid.Add(this);

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace GDD.Spatial_Partition
 {
@@ -7,7 +8,12 @@ namespace GDD.Spatial_Partition
         protected IPawn previousPawn;
         protected IPawn nextPawn;
         protected Vector2Int cellPos = new Vector2Int();
-        
+
+        public virtual void OnEnable()
+        {
+            
+        }
+
         public virtual void Start()
         {
             

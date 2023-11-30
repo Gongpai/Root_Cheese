@@ -1,4 +1,7 @@
-﻿using GDD.StrategyPattern;
+﻿using System.Collections;
+using GDD.Spatial_Partition;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace GDD
 {
@@ -29,7 +32,5 @@ namespace GDD
             
             WithdrawEnemyStrategy();
         }
-        
-        
     }
 }

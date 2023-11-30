@@ -11,7 +11,7 @@ namespace GDD
         protected T _characterSystem;
         protected GameManager GM;
         protected Transform target;
-        protected SpawnBullet _spawnBullet;
+        protected PlayerSpawnBullet PlayerSpawnBullet;
         protected bool _is_Start_Fire = false;
         protected List<Coroutine> _coroutines = new List<Coroutine>();
         

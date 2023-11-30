@@ -123,8 +123,7 @@ namespace GDD.Spatial_Partition
                             }
                             else
                             {
-                                Debug.Log(i + ". " + " Not Found : " + "Pos X : " + cells_pos[i, 0] + " Pos Z : " +
-                                          cells_pos[i, 1]);
+                                //Debug.Log(i + ". " + " Not Found : " + "Pos X : " + cells_pos[i, 0] + " Pos Z : " + cells_pos[i, 1]);
                             }
                         }
                     }

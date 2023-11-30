@@ -24,19 +24,19 @@ namespace GDD
             _weapon = new Weapon(_weaponConfig);
         }
 
-        public void ToggleFire(SpawnBullet spawnBullet)
+        public void ToggleFire(PlayerSpawnBullet playerSpawnBullet)
         {
             if (secondaryAttachment == null)
             {
-                spawnBullet.bulletObjectPool.Set_BulletGameObject = mainAttachment.m_bullet_prefab;
+                playerSpawnBullet.bulletObjectPool.Set_GameObject = mainAttachment.m_bullet_prefab;
             }
             else
             {
-                spawnBullet.bulletObjectPool.Set_BulletGameObject = secondaryAttachment.m_bullet_prefab;
+                playerSpawnBullet.bulletObjectPool.Set_GameObject = secondaryAttachment.m_bullet_prefab;
             }
 
-            spawnBullet.bulletObjectPool.weapon = _weapon;
-            spawnBullet.OnSpawnBullet();
+            playerSpawnBullet.bulletObjectPool.weapon = _weapon;
+            playerSpawnBullet.OnSpawnBullet();
         }
 
         public void Reset()

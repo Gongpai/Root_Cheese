@@ -16,7 +16,7 @@ namespace GDD
         {
             base.Start();
             
-            _spawnBullet = GetComponent<SpawnBullet>();
+            PlayerSpawnBullet = GetComponent<PlayerSpawnBullet>();
             _weaponSystem = GetComponent<WeaponSystem>();
         }
 
@@ -42,7 +42,7 @@ namespace GDD
             base.Handle(contrller);
             
             IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
-            print("ClosestEnemy null : " + (closestEnemy == null));
+            //print("ClosestEnemy null : " + (closestEnemy == null));
 
             if (closestEnemy == null)
             {
@@ -114,7 +114,7 @@ namespace GDD
             {
                 if (time_count == time)
                 {
-                    _weaponSystem.ToggleFire(_spawnBullet);
+                    _weaponSystem.ToggleFire(PlayerSpawnBullet);
                 }
 
                 time_count -= Time.deltaTime;

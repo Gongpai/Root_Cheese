@@ -17,6 +17,11 @@ namespace GDD
             set => m_hp = value;
         }
 
+        public virtual void OnEnable()
+        {
+            
+        }
+        
         public virtual void Start()
         {
             

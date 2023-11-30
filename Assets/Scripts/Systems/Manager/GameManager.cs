@@ -19,6 +19,10 @@ namespace GDD
         private float m_mapWidth = 50f;
         [SerializeField]
         private int m_cellSize = 10;
+
+        [Header("Play Mode")] 
+        [SerializeField] 
+        private PlayMode m_playMode;
         
         private GameObject _bullet_pool;
         private Grid _grid;
@@ -55,6 +59,11 @@ namespace GDD
         public float mapWidth
         {
             get => m_mapWidth;
+        }
+
+        public PlayMode playMode
+        {
+            get => m_playMode;
         }
 
         public override void OnAwake()

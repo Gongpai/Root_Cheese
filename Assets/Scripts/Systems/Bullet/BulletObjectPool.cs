@@ -1,123 +1,62 @@
 ﻿using System;
+using GDD.ObjectPool;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace GDD
 {
-    public class BulletObjectPool : MonoBehaviour
+    public class BulletObjectPool : ObjectPoolBuilder
     {
-        [SerializeField]private int _maxPoolSize = 10;
-        [SerializeField]private int _stackDefaultCapacity = 5;
-
-        private GameManager GM;
-        
-        private IObjectPool<Bullet> _pool;
-        private GameObject _bulletGameObject;
-        private Transform _spawnPoint;
-        private IWeapon _weapon;
-        private Vector3 spawnPos;
-
-        public int maxPoolSize
+        public override void Start()
         {
-            get => _maxPoolSize;
-            set => _maxPoolSize = value;
+            base.Start();
         }
 
-        public int stackDefaultCapacity
+        public override void Update()
         {
-            get => _stackDefaultCapacity;
-            set => _stackDefaultCapacity = value;
+            base.Update();
         }
 
-        public GameObject Set_BulletGameObject
+        public override GameObjectPool CreatePooledItem()
         {
-            set => _bulletGameObject = value;
+            return base.CreatePooledItem();
         }
 
-        public Transform spawnPoint
+        public override void OnReturnToPool(GameObjectPool bullet)
         {
-            set => _spawnPoint = value;
-        }
-        
-        public IObjectPool<Bullet> Pool
-        {
-            get
-            {
-                if (_pool == null)
-                    _pool = new ObjectPool<Bullet>(CreatePooledItem,
-                        OnTakeFromPool,
-                        OnReturnToPool,
-                        OnDestroyPoolObject,
-                        true,
-                        stackDefaultCapacity,
-                        maxPoolSize);
-
-                return _pool;
-            }
+            base.OnReturnToPool(bullet);
         }
 
-        public IWeapon weapon
+        public override void OnTakeFromPool(GameObjectPool bullet)
         {
-            set => _weapon = value;
-        }
-        
-        private void Start()
-        {
-            GM = GameManager.Instance;
+            base.OnTakeFromPool(bullet);
         }
 
-        private void Update()
+        public override void OnDestroyPoolObject(GameObjectPool bullet)
         {
-            spawnPos = _spawnPoint.position;
+            base.OnDestroyPoolObject(bullet);
         }
 
-        private Bullet CreatePooledItem()
+        public override GameObject OnSpawn()
         {
-            Bullet bullet = Instantiate(_bulletGameObject, GM.Get_Bullet_Pool.transform).AddComponent<Bullet>();
-            bullet.objectPool = Pool;
-
-            return bullet;
-        }
-
-        private void OnReturnToPool(Bullet bullet)
-        {
-            bullet.gameObject.SetActive(false);
-        }
-        
-        private void OnTakeFromPool(Bullet bullet)
-        {
-            bullet.gameObject.SetActive(true);
-        }
-
-        private void OnDestroyPoolObject(Bullet bullet)
-        {
-            Destroy(bullet.gameObject);
-        }
-        
-        public Bullet OnSpawn()
-        {
-            Bullet bullet = Pool.Get();
-            bullet.transform.position = spawnPos;
-            //print("Bullet Pos : " + bullet.transform.position + " || Spawn Pos : " + _spawnPoint.position);
-            bullet._weapon = _weapon;
-
+            GameObject bullet_gobj = base.OnSpawn().gameObject;
             TakeDamage bullet_TD;
-            if (bullet.GetComponent<TakeDamage>() == null)
+            
+            if (bullet_gobj.GetComponent<TakeDamage>() == null)
             {
-                bullet_TD = bullet.gameObject.AddComponent<TakeDamage>();
+                bullet_TD = bullet_gobj.gameObject.AddComponent<TakeDamage>();
             }
             else
             {
-                bullet_TD = bullet.GetComponent<TakeDamage>();
+                bullet_TD = bullet_gobj.GetComponent<TakeDamage>();
             }
-            bullet_TD._weapon = _weapon;
             bullet_TD.ownerLayer = transform;
             
-            Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
+            Rigidbody rigidbody = bullet_gobj.GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
             rigidbody.AddForce(_spawnPoint.forward * 10, ForceMode.Impulse);
             
-            return bullet;
+            return bullet_gobj;
         }
     }
 }
