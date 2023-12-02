@@ -48,18 +48,20 @@ namespace GDD
             {
                 _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
                 OnTakeDamage(_characterSystem, _damage);
+                _bullet.ReturnToPool();
             }
             else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
             {
                 _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
                 OnTakeDamage(_characterSystem, _damage);
+                _bullet.ReturnToPool();
             }
             else
             {
                 //Debug.LogError("Not Found HealthSystem Component");
             }
 
-            if(other.tag != "Enemy" && other.tag != "Player")
+            if(other.tag != "Enemy" && other.tag != "Player" && other.transform.parent != transform.parent)
                 _bullet.ReturnToPool();
         }
 

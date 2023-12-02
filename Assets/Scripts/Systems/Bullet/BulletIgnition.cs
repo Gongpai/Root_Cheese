@@ -29,7 +29,18 @@ namespace GDD
         public List<GameObject> OnIgnition(ObjectPoolBuilder builder, Transform spawnPoint, float distance, float power, int shot, BulletShotSurroundMode surroundMode)
         {
             int current_axis = 0;
-            int surrounded_axis = 360 / shot;
+            int surrounded_axis;
+            int helf_axis = 0;
+            if (surroundMode == BulletShotSurroundMode.Surround)
+            {
+                surrounded_axis = 360 / shot;
+            }
+            else
+            {
+                helf_axis = 180 / shot;
+                surrounded_axis = helf_axis;
+            }
+
             bullets = new List<GameObject>();
             
             if(bullet_rot_spawn == null)
@@ -43,7 +54,15 @@ namespace GDD
             {
                 //Rotation Parent Spawn Point
                 Quaternion rot = Quaternion.AngleAxis(current_axis, spawnPoint.up);
-                spawnPoint.rotation = transform.rotation;
+                
+                if(surroundMode == BulletShotSurroundMode.Surround)
+                    spawnPoint.rotation = transform.rotation;
+                else if(surroundMode == BulletShotSurroundMode.Front)
+                    spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) - 90, 0));
+                else if (surroundMode == BulletShotSurroundMode.Back)
+                    spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) + 90, 0));
+                    
+                
                 spawnPoint.rotation *= rot;
                 
                 //Rot
