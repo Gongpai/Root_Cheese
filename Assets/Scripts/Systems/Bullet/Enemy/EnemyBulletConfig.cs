@@ -14,14 +14,8 @@ namespace GDD
         [SerializeField]private float m_rate = 0.25f;
 
         [SerializeField] private float m_bullet_power = 5;
-
-        [SerializeField] private BulletShotSurroundMode m_shotSurroundMode;
-        [Range(1, 8)]
-        [SerializeField] private int m_shot = 1;
         
         [SerializeField]private float m_timedelay = 0.25f;
-
-        [SerializeField] private float m_bullet_spawn_distance;
         
         public float damage
         {
@@ -37,25 +31,10 @@ namespace GDD
         {
             get => m_bullet_power;
         }
-
-        public BulletShotSurroundMode shotSurroundMode
-        {
-            get => m_shotSurroundMode;
-        }
-
-        public int shot
-        {
-            get => m_shot;
-        }
         
         public float timedelay
         {
             get => m_timedelay;
-        }
-
-        public float bullet_spawn_distance
-        {
-            get => m_bullet_spawn_distance;
         }
     }
 }

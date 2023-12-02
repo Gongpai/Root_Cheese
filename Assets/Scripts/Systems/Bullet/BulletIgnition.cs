@@ -21,12 +21,12 @@ namespace GDD
             
         }
         
-        public virtual List<GameObject> OnSpawnBullet(float distance, float power, int shot, BulletShotSurroundMode surroundMode, ObjectPoolBuilder builder = null)
+        public virtual List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damge, BulletShotSurroundMode surroundMode, ObjectPoolBuilder builder = null)
         {
-            return OnIgnition(builder, m_spawnPoint, distance, power, shot, surroundMode);
+            return OnIgnitionBulletSurround(builder, m_spawnPoint, distance, power, shot, damge, surroundMode);
         }
 
-        public List<GameObject> OnIgnition(ObjectPoolBuilder builder, Transform spawnPoint, float distance, float power, int shot, BulletShotSurroundMode surroundMode)
+        public List<GameObject> OnIgnitionBulletSurround(ObjectPoolBuilder builder, Transform spawnPoint, float distance, float power, int shot, float damage, BulletShotSurroundMode surroundMode)
         {
             int current_axis = 0;
             int surrounded_axis;
@@ -72,6 +72,8 @@ namespace GDD
                 
                 //Add Force And Spawn Bullet
                 GameObject bullet = builder.OnSpawn();
+                bullet.GetComponent<TakeDamage>().damage = damage;
+                
                 bullet.GetComponent<Collider>().isTrigger = true;
                 bullet.transform.position = bullet_rot_spawn.transform.position;
                 Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
@@ -80,6 +82,7 @@ namespace GDD
                     bullet.AddComponent<Rigidbody>();
                 }
 
+                rigidbody.useGravity = false;
                 rigidbody.AddForce(spawnPoint.forward * power, ForceMode.Impulse);
 
                 //Add Bullet To List
@@ -91,5 +94,7 @@ namespace GDD
 
             return bullets;
         }
+        
+        
     }
 }

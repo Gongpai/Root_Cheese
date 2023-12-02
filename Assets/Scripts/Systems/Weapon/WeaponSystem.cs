@@ -40,6 +40,7 @@ namespace GDD
                 _weapon.bullet_spawn_distance,
                 _weapon.power,
                 _weapon.shot,
+                _weapon.damage,
                 _weapon.surroundMode
                 );
         }

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using GDD.StrategyPattern;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GDD
 {
     public class EnemyManeuver : StrategyPattern<EnemyStateMachine>
     {
+        [SerializeField] protected float m_bulletSpawnDistance = 0.25f;
         protected List<Coroutine> _coroutines = new List<Coroutine>();
         protected PlayerSystem _player;
         protected EnemySystem _enemySystem;

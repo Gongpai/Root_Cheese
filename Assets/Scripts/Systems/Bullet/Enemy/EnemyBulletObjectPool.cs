@@ -15,10 +15,7 @@ namespace GDD
 
         public override GameObject OnSpawn()
         {
-            GameObject bullet_gobj = base.OnSpawn();
-            bullet_gobj.GetComponent<TakeDamage>().damage = GetComponent<EnemySystem>()._enemyBulletConfig.damage;
-            
-            return bullet_gobj;
+            return base.OnSpawn();
         }
     }
 }

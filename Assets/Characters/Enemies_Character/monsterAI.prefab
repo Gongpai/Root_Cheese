@@ -600,10 +600,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5151492872390713093, guid: a0563e3c577cb814c9279e187e4d1335,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a0563e3c577cb814c9279e187e4d1335,
         type: 3}
       propertyPath: m_Name
       value: monsterAI
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a0563e3c577cb814c9279e187e4d1335,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: a0563e3c577cb814c9279e187e4d1335,
         type: 3}
@@ -741,10 +751,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15aa77a535638ae47b646aa4e84dc190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellPos: {x: 0, y: 0}
   m_hp_bar: {fileID: 271448741}
   m_hp: 100
-  m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
-    type: 2}
 --- !u!114 &549421544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,7 +795,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_spawnPoint: {fileID: 4172384370893570413}
---- !u!114 &7689956400384939121
+--- !u!114 &1194258277064258382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963713794769125096}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 910fb8d8c4ed41abbd4ed5ecbf265b85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_bulletSpawnDistance: 0.5
+  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
+    type: 2}
+--- !u!114 &1286383971283845097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963713794769125096}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d6e548a6594fafbd5f36d85d52279a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_bulletSpawnDistance: 0.5
+  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
+    type: 2}
+--- !u!114 &2022173739784471013
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -795,7 +836,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7963713794769125096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d8199f7f914a9fab44607507199901, type: 3}
+  m_Script: {fileID: 11500000, guid: 9527741bab10422a8d27a04b54b1030a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_bulletSpawnDistance: 0.5
   bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
+    type: 2}
