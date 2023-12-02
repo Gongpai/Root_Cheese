@@ -19,8 +19,10 @@ namespace GDD
         [Range(0, 60)] [Tooltip("Increase rate of firing per second")]
         [SerializeField]private float m_rate;
 
-        [Range(0, 60)] [Tooltip("Increase shot Number")]
-        [SerializeField]private int m_shot;
+        [Range(1, 8)] [Tooltip("Increase shot Number")]
+        [SerializeField]private int m_shot = 1;
+
+        [SerializeField] private float m_power;
         
         public float damage
         {
@@ -37,6 +39,11 @@ namespace GDD
             get => m_shot;
         }
 
+        public float power
+        {
+            get => m_power;
+        }
+        
         public GameObject bullet_prefab
         {
             get => m_bullet_prefab;

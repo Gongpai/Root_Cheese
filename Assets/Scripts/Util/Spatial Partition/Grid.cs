@@ -9,6 +9,11 @@ namespace GDD.Spatial_Partition
         private int cellSize;
         private List<IPawn>[,] cells;
         private int numEnemies;
+
+        public List<IPawn>[,] get_allCells
+        {
+            get => cells;
+        }
         
         //Init the grid
         public Grid(int mapWidth, int cellSize, int numEnemies)
@@ -60,7 +65,7 @@ namespace GDD.Spatial_Partition
                 UnlinkCell(pawn);
             }
             
-            cells[cell.x, cell.y][cells[cell.x, cell.y].IndexOf(pawn)] = null;
+            cells[cell.x, cell.y].Remove(cells[cell.x, cell.y][cells[cell.x, cell.y].IndexOf(pawn)]);
         }
         
         //Get the closest enemy from the grid in player vision
@@ -108,6 +113,16 @@ namespace GDD.Spatial_Partition
                             IPawn next_enemy = cells[cells_pos[i, 0], cells_pos[i, 1]][j];
                             if (next_enemy != null)
                             {
+                                try
+                                {
+                                    float new__distance = Vector3.Distance(playerPawn.GetPawnTransform().position,
+                                        next_enemy.GetPawnTransform().position);
+                                }
+                                catch (Exception e)
+                                {
+                                
+                                }
+                                
                                 float new_distance = Vector3.Distance(playerPawn.GetPawnTransform().position,
                                     next_enemy.GetPawnTransform().position);
 
@@ -181,7 +196,7 @@ namespace GDD.Spatial_Partition
             }
 
             //Unlink it from the list of its old cell
-            UnlinkCell(pawn);
+            Remove(new Vector2Int(oldCellX, oldCellZ), pawn);
 
             //If it's the head of a list, remove it
             for (int i = 0; i < cells[oldCellX, oldCellZ].Count; i++)

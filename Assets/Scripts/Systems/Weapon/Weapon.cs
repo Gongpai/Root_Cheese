@@ -14,6 +14,14 @@
         {
             get => _config.shot;
         }
+        
+        public float bullet_spawn_distance
+        {
+            get => _config.bullet_spawn_distance;
+        }
+        
+        public float power { get => _config.power; }
+        public BulletShotSurroundMode surroundMode { get => _config.surroundMode; }
 
         private readonly WeaponConfig _config;
 

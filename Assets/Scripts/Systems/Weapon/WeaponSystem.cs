@@ -36,7 +36,12 @@ namespace GDD
             }
 
             playerSpawnBullet.bulletObjectPool.weapon = _weapon;
-            playerSpawnBullet.OnSpawnBullet();
+            playerSpawnBullet.OnSpawnBullet(
+                _weapon.bullet_spawn_distance,
+                _weapon.power,
+                _weapon.shot,
+                _weapon.surroundMode
+                );
         }
 
         public void Reset()

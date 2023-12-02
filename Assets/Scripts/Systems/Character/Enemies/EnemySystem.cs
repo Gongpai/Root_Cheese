@@ -9,6 +9,7 @@ namespace GDD
 {
     public class EnemySystem : CharacterSystem
     {
+        [SerializeField] private EnemyBulletConfig m_enemyBulletConfig;
         private GameManager GM;
         private Vector3 oldPos;
         
@@ -16,6 +17,11 @@ namespace GDD
         private StateContext<EnemySystem> _enemyStateContext;
         private WaypointReachingState _waypointReaching;
         private GameObject _waypoint;
+
+        public EnemyBulletConfig _enemyBulletConfig
+        {
+            get => m_enemyBulletConfig;
+        }
 
         public override void OnEnable()
         {

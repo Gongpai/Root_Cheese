@@ -4596,6 +4596,16 @@ PrefabInstance:
       propertyPath: m_mapWidth
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
+      propertyPath: m_enemy_layer
+      value: 
+      objectReference: {fileID: 792819154}
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
+      propertyPath: m_player_layer
+      value: 
+      objectReference: {fileID: 2000432017}
     - target: {fileID: 1659570200318343430, guid: c6525255d3471a540a2d08ab5ff1e386,
         type: 3}
       propertyPath: m_Name
@@ -5031,7 +5041,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_hp
-      value: 99999
+      value: 999999
       objectReference: {fileID: 0}
     - target: {fileID: 733290474, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_AnchorMax.x

@@ -11,8 +11,6 @@ namespace GDD.ObjectPool
         protected GameManager GM;
         protected IObjectPool<GameObjectPool> _pool;
         protected GameObject _gameObjectPool;
-        protected Transform _spawnPoint;
-        protected Vector3 spawnPos;
 
         public int maxPoolSize
         {
@@ -29,11 +27,6 @@ namespace GDD.ObjectPool
         public GameObject Set_GameObject
         {
             set => _gameObjectPool = value;
-        }
-
-        public Transform spawnPoint
-        {
-            set => _spawnPoint = value;
         }
         
         public IObjectPool<GameObjectPool> Pool
@@ -60,7 +53,7 @@ namespace GDD.ObjectPool
 
         public virtual void Update()
         {
-            spawnPos = _spawnPoint.position;
+            
         }
 
         public virtual GameObjectPool CreatePooledItem()
@@ -71,6 +64,8 @@ namespace GDD.ObjectPool
         public virtual void OnReturnToPool(GameObjectPool bullet)
         {
             bullet.gameObject.SetActive(false);
+            Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
+            rigidbody.velocity = Vector3.zero;
         }
         
         public virtual void OnTakeFromPool(GameObjectPool bullet)
@@ -86,7 +81,6 @@ namespace GDD.ObjectPool
         public virtual GameObject OnSpawn()
         {
             GameObject bullet = Pool.Get().gameObject;
-            bullet.transform.position = spawnPos;
             return bullet;
         }
     }

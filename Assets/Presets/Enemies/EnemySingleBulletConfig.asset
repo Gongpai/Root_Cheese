@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58d7ab93729b4836883e049a50f8167c, type: 3}
-  m_Name: SimpleMainWeaponAttachment
+  m_Script: {fileID: 11500000, guid: f305a3b5497a48d2b15083f37ab1bafc, type: 3}
+  m_Name: EnemySingleBulletConfig
   m_EditorClassIdentifier: 
-  attachmentName: Simple
-  m_bullet_prefab: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef,
-    type: 3}
-  m_damage: 50
-  m_rate: 1
-  m_shot: 4
-  m_power: 20
+  m_damage: 10
+  m_rate: 0.25
+  m_bullet_power: 20
+  m_shotSurroundMode: 0
+  m_shot: 1
+  m_timedelay: 0.25
+  m_bullet_spawn_distance: 0.25

@@ -27,6 +27,7 @@ namespace GDD
             PlayerBullet playerBullet = bullet_gobj.GetComponent<PlayerBullet>();
             //print("Bullet Pos : " + bullet.transform.position + " || Spawn Pos : " + _spawnPoint.position);
             playerBullet._weapon = _weapon;
+            bullet_gobj.GetComponent<TakeDamage>().damage = weapon.damage;
             
             return bullet_gobj;
         }

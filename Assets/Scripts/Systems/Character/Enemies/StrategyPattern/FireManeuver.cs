@@ -37,8 +37,8 @@ namespace GDD
             {
                 print("On Maneuver");
                 _coroutines.Add(StartCoroutine(Waiting(
-                    () => { _coroutines.Add(StartCoroutine(Firing(0.25f))); },
-                    0.25f)));
+                    () => { _coroutines.Add(StartCoroutine(Firing(_enemySystem._enemyBulletConfig.rate))); },
+                    _enemySystem._enemyBulletConfig.timedelay)));
             }
         }
         
@@ -88,7 +88,14 @@ namespace GDD
         public void ToggleFire(EnemySpawnBullet enemySpawnBullet)
         {
             enemySpawnBullet.bulletObjectPool.Set_GameObject = bullet;
-            enemySpawnBullet.OnSpawnBullet();
+
+            EnemyBulletConfig _enemyBulletConfig = _enemySystem._enemyBulletConfig;
+            enemySpawnBullet.OnSpawnBullet(
+                _enemyBulletConfig.bullet_spawn_distance,
+                _enemyBulletConfig.bullet_power,
+                _enemyBulletConfig.shot,
+                _enemyBulletConfig.shotSurroundMode
+                );
         }
     }
 }

@@ -15,4 +15,7 @@ MonoBehaviour:
   weaponName: Simple
   m_damage: 50
   m_rate: 1
-  m_shot: 0
+  m_shot: 4
+  m_power: 20
+  m_bullet_spawn_distance: 0.5
+  m_surroundMode: 0

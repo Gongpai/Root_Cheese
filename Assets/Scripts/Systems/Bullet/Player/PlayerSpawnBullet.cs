@@ -1,28 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
+using GDD.ObjectPool;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace GDD
 {
-    public class PlayerSpawnBullet : MonoBehaviour
+    public class PlayerSpawnBullet : BulletIgnition
     {
-        [SerializeField] private GameObject m_spawnPoint;
         private PlayerBulletObjectPool _bulletObjectPool;
-
         public PlayerBulletObjectPool bulletObjectPool
         {
             get => _bulletObjectPool;
         }
 
-        private void Start()
+        public override void Start()
         {
+            base.Start();
+            
             _bulletObjectPool = gameObject.AddComponent<PlayerBulletObjectPool>();
-            _bulletObjectPool.spawnPoint = m_spawnPoint.transform;
         }
 
-        public PlayerBullet OnSpawnBullet()
+        public override List<GameObject> OnSpawnBullet(float distance, float power, int shot, BulletShotSurroundMode surroundMode, ObjectPoolBuilder builder = null)
         {
-            return _bulletObjectPool.OnSpawn().GetComponent<PlayerBullet>();
+           return base.OnSpawnBullet(distance, power, shot, surroundMode,  _bulletObjectPool);
         }
     }
 }

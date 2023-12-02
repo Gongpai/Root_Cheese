@@ -1,4 +1,5 @@
 ﻿using GDD.ObjectPool;
+using UnityEngine;
 
 namespace GDD
 {
@@ -10,6 +11,14 @@ namespace GDD
             bullet.objectPool = Pool;
 
             return bullet;
+        }
+
+        public override GameObject OnSpawn()
+        {
+            GameObject bullet_gobj = base.OnSpawn();
+            bullet_gobj.GetComponent<TakeDamage>().damage = GetComponent<EnemySystem>()._enemyBulletConfig.damage;
+            
+            return bullet_gobj;
         }
     }
 }

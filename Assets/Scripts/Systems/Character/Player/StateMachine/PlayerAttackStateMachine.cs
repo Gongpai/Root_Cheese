@@ -41,6 +41,7 @@ namespace GDD
         {
             base.Handle(contrller);
             
+            print("Character System = null : " + (_characterSystem == null));
             IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
             //print("ClosestEnemy null : " + (closestEnemy == null));
 

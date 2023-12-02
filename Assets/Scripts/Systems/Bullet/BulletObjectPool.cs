@@ -52,10 +52,6 @@ namespace GDD
             }
             bullet_TD.ownerLayer = transform;
             
-            Rigidbody rigidbody = bullet_gobj.GetComponent<Rigidbody>();
-            rigidbody.velocity = Vector3.zero;
-            rigidbody.AddForce(_spawnPoint.forward * 10, ForceMode.Impulse);
-            
             return bullet_gobj;
         }
     }

@@ -7,7 +7,7 @@ namespace GDD.Spatial_Partition
     {
         protected IPawn previousPawn;
         protected IPawn nextPawn;
-        protected Vector2Int cellPos = new Vector2Int();
+        [SerializeField]protected Vector2Int cellPos = new Vector2Int();
 
         public virtual void OnEnable()
         {
