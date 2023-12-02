@@ -41,7 +41,8 @@ namespace GDD
                 _weapon.power,
                 _weapon.shot,
                 _weapon.damage,
-                _weapon.surroundMode
+                _weapon.surroundMode,
+                _weapon.bulletShotMode
                 );
         }
 

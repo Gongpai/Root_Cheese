@@ -32,7 +32,8 @@ namespace GDD
                 _enemyBulletConfig.bullet_power,
                 1,
                 _enemyBulletConfig.damage,
-                BulletShotSurroundMode.Surround
+                BulletShotSurroundMode.Surround,
+                BulletShotMode.SurroundMode
             );
         }
     }

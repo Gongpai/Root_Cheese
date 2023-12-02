@@ -22,6 +22,8 @@
         
         public float power { get => _config.power; }
         public BulletShotSurroundMode surroundMode { get => _config.surroundMode; }
+        
+        public BulletShotMode bulletShotMode { get => _config.bulletShotMode; }
 
         private readonly WeaponConfig _config;
 

@@ -5006,6 +5006,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8095716035511171481, guid: 2ef1d37735647b14c8cf0156231ca24e,
         type: 3}
+      propertyPath: m_hp
+      value: 100000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095716035511171481, guid: 2ef1d37735647b14c8cf0156231ca24e,
+        type: 3}
       propertyPath: vision.x
       value: 5
       objectReference: {fileID: 0}
@@ -5077,6 +5082,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2022173739784471013, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7336112194551489618, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
         type: 3}
       propertyPath: m_RootOrder
@@ -5140,6 +5150,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1286383971283845097, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
     - {fileID: 1194258277064258382, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
+    - {fileID: 2022173739784471013, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
 --- !u!1001 &7303769776487810643
 PrefabInstance:

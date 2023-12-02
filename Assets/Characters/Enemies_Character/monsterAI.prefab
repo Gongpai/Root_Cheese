@@ -834,9 +834,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7963713794769125096}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9527741bab10422a8d27a04b54b1030a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_bulletSpawnDistance: 0.5
+  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
+    type: 2}
+--- !u!114 &1804085855532818162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963713794769125096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f34e2618f648e6813d38d9333de364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnDistance: 0.5

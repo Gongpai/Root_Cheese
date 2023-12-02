@@ -40,5 +40,10 @@
         {
             get => _decoratedWeapon.surroundMode;
         }
+        
+        public BulletShotMode bulletShotMode
+        {
+            get => _decoratedWeapon.bulletShotMode;
+        }
     }
 }

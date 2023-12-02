@@ -8,5 +8,6 @@
         float power { get; }
         float bullet_spawn_distance { get; }
         BulletShotSurroundMode surroundMode { get; }
+       BulletShotMode bulletShotMode { get; }
     }
 }

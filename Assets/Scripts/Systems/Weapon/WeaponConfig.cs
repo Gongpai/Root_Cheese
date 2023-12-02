@@ -27,6 +27,9 @@ namespace GDD
         
         [SerializeField]
         private BulletShotSurroundMode m_surroundMode;
+
+        [SerializeField] 
+        private BulletShotMode m_bulletShotMode = BulletShotMode.SurroundMode;
         public float damage
         {
             get => m_damage;
@@ -50,6 +53,11 @@ namespace GDD
         public BulletShotSurroundMode surroundMode
         {
             get => m_surroundMode;
+        }
+
+        public BulletShotMode bulletShotMode
+        {
+            get => m_bulletShotMode;
         }
         
         public float bullet_spawn_distance

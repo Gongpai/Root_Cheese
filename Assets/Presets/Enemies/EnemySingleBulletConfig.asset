@@ -14,8 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_damage: 10
   m_rate: 0.25
-  m_bullet_power: 20
-  m_shotSurroundMode: 0
-  m_shot: 1
+  m_bullet_power: 2
   m_timedelay: 0.25
-  m_bullet_spawn_distance: 0.25
