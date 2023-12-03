@@ -13,6 +13,7 @@ namespace GDD
         Vector3 velocity;
         private float dis;
         private float old_dis = 0;
+        private float _power = 3;
 
         private List<Vector3> _reflexPos;
         private List<Vector3> _reflexDir;
@@ -29,45 +30,52 @@ namespace GDD
             set => _reflexDir = value;
         }
 
+        public float power
+        {
+            set => _power = value;
+        }
+
         private int ReflexCount = 0;
         
         private void Start()
         {
             rig = GetComponent<Rigidbody>();
             rig.useGravity = false;
-            rig.AddForce(transform.forward * 2f, ForceMode.Impulse);
+            rig.AddForce(transform.forward * _power, ForceMode.Impulse);
         }
 
         private void Update()
         {
-            if (ReflexCount < 5)
-                Destroy(gameObject);
-
-            if (Vector3.Distance(_reflexPos[ReflexCount], transform.position) <= rig.velocity.magnitude * Time.deltaTime)
+            //print(ReflexCount + " Obj Distance : " + Vector3.Distance(_reflexPos[ReflexCount], transform.position) + " | Snap Distance : " + rig.velocity.magnitude * Time.deltaTime);
+            if (ReflexCount < 5 && Vector3.Distance(_reflexPos[ReflexCount], transform.position) <= rig.velocity.magnitude * Time.deltaTime)
             {
-                //print("Distance : " + Vector3.Distance(transform.position, hit.point));
+                //print("On Reflex!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 if (!is_reflex)
                 {
                     is_reflex = true;
-                    if (ReflexCount < 4)
-                    {
-                        rig.velocity = reflexDir[ReflexCount] * 2.0f;
-                        transform.position = _reflexPos[ReflexCount];
-                    }
+                    rig.velocity = reflexDir[ReflexCount] * _power;
+                    transform.position = _reflexPos[ReflexCount];
+
                     //rig.AddForce(reflexDir[ReflexCount] * 2.0f, ForceMode.Impulse);
 
-                    if (ReflexCount < 5)
-                        ReflexCount++;
+                    ReflexCount++;
                     //print("REflexxxxxxxxxxxxxxxxxxx : " + Vector3.Distance(transform.position, hit.point));
                 }
-
             }
             else
             {
                 is_reflex = false;
             }
+            
+            if (ReflexCount > 4)
+                Destroy(gameObject);
         }
-/*
+
+        private void OnDestroy()
+        {
+            print("Deadddddddddddddddddddddddddddddddddddddddd");
+        }
+        /*
         private void OnDrawGizmos()
         {
             //print(_reflexPos.Count);
