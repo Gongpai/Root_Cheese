@@ -72,7 +72,7 @@ namespace GDD
             else
                 characterSystem.hp = 0;
             
-            print("Current Health : " + characterSystem.hp);
+            //print("Current Health : " + characterSystem.hp);
         }
     }
 }
