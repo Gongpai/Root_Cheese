@@ -41,6 +41,7 @@ namespace GDD
                 _weapon.power,
                 _weapon.shot,
                 _weapon.damage,
+                BulletType.Rectilinear,
                 _weapon.surroundMode,
                 _weapon.bulletShotMode
                 );

@@ -10,6 +10,7 @@ namespace GDD
         private GameObjectPool _bullet;
         private GameManager GM;
         private float _damage;
+        private bool _is_undying = false;
         
         //Character Owner
         private Transform _ownerLayer;
@@ -24,6 +25,11 @@ namespace GDD
         {
             set => _damage = value;
         }
+
+        public bool is_undying
+        {
+            set => _is_undying = value;
+        }
         
         // Start is called before the first frame update
         void Start()
@@ -37,7 +43,7 @@ namespace GDD
         IEnumerator WaitReturnToPool(float time)
         {
             yield return new WaitForSeconds(time);
-            _bullet.ReturnToPool();
+            ReturnToPool();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -48,13 +54,13 @@ namespace GDD
             {
                 _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
                 OnTakeDamage(_characterSystem, _damage);
-                _bullet.ReturnToPool();
+                ReturnToPool();
             }
             else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
             {
                 _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
                 OnTakeDamage(_characterSystem, _damage);
-                _bullet.ReturnToPool();
+                ReturnToPool();
             }
             else
             {
@@ -62,7 +68,18 @@ namespace GDD
             }
 
             if(other.tag != "Enemy" && other.tag != "Player" && other.transform.parent != transform.parent)
+                ReturnToPool();
+        }
+
+        private void ReturnToPool()
+        {
+            if(!_is_undying)
                 _bullet.ReturnToPool();
+        }
+        
+        public void ReturnBulletToPool()
+        {
+            _bullet.ReturnToPool();
         }
 
         protected void OnTakeDamage(CharacterSystem characterSystem, float damage)

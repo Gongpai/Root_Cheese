@@ -12,6 +12,8 @@ namespace GDD
         private GameObject _spawnLine;
         private GameObject _spawnArrow;
         private Transform _line_parent;
+        private Vector3 default_scale_arrow = new Vector3(0.75f, 0.2f, 1);
+        private Vector3 default_scale_line = new Vector3(0.1f, 0.05f, 0.25f);
 
         public bool is_null
         {
@@ -34,7 +36,7 @@ namespace GDD
             _spawnLine.name = "PRLine_Object";
             _spawnLine.layer = LayerMask.NameToLayer("Bullet");
             Destroy(_spawnLine.GetComponent<Collider>());
-            _spawnLine.transform.localScale = new Vector3(0.15f, 0.25f, 0.15f);
+            _spawnLine.transform.localScale = default_scale_line;
             _spawnLine.SetActive(false);
         }
 
@@ -74,7 +76,7 @@ namespace GDD
         {
             GameObject arrow = Instantiate(_spawnArrow);
             arrow.transform.parent = _line_parent;
-            arrow.transform.localScale = Vector3.one;
+            arrow.transform.localScale = default_scale_arrow;
             arrow.transform.localPosition = Vector3.zero;
             arrow.name = "Arrow";
             arrow.layer = LayerMask.NameToLayer("Bullet");
@@ -113,6 +115,7 @@ namespace GDD
         {
             Destroy(_line_parent.gameObject);
             _lines = new List<GameObject>();
+            _arrows = new List<GameObject>();
             CreateParent();
         }
 

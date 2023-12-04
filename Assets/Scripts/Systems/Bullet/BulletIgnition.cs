@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GDD.ObjectPool;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace GDD
@@ -11,7 +12,14 @@ namespace GDD
         [SerializeField] protected Transform m_spawnPoint;
         private GameObject bullet_rot_spawn;
         protected List<GameObject> bullets;
+        private SpawnerProjectileReflectionBulletCalculate _SPRBC;
+        
         private List<Quaternion> rots_random = new List<Quaternion>();
+
+        public Transform spawnPoint
+        {
+            get => m_spawnPoint;
+        }
         
         public virtual void Start()
         {
@@ -23,15 +31,22 @@ namespace GDD
             
         }
         
-        public virtual List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damge, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)
+        public virtual List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damge, BulletType type, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)
         {
             if (shotMode == BulletShotMode.SurroundMode)
-                return OnIgnitionBulletSurround(builder, m_spawnPoint, distance, power, shot, damge, surroundMode);
+                return OnIgnitionBulletSurround(builder, 
+                    m_spawnPoint,
+                    type, 
+                    distance, 
+                    power, 
+                    shot, 
+                    damge, 
+                    surroundMode);
             else
                 return OnIgnitionBulletRandom(builder, m_spawnPoint, distance, power, shot, damge);
         }
 
-        public List<GameObject> OnIgnitionBulletSurround(ObjectPoolBuilder builder, Transform spawnPoint, float distance, float power, int shot, float damage, BulletShotSurroundMode surroundMode)
+        public List<GameObject> OnIgnitionBulletSurround(ObjectPoolBuilder builder, Transform spawnPoint, BulletType _type, float distance, float power, int shot, float damage, BulletShotSurroundMode surroundMode)
         {
             int current_axis = 0;
             int surrounded_axis;
@@ -75,24 +90,11 @@ namespace GDD
                 bullet_rot_spawn.transform.localPosition = Vector3.forward * distance;
                 bullet_rot_spawn.transform.rotation = Quaternion.Euler(Vector3.zero);
                 
-                //Add Force And Spawn Bullet
-                GameObject bullet = builder.OnSpawn();
-                bullet.GetComponent<TakeDamage>().damage = damage;
-                
-                bullet.GetComponent<Collider>().isTrigger = true;
-                bullet.transform.position = bullet_rot_spawn.transform.position;
-                Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
-                if (rigidbody == null)
-                {
-                    bullet.AddComponent<Rigidbody>();
-                }
+                if(_type == BulletType.Rectilinear)
+                    AddForceBullet(builder, spawnPoint, power, damage);
+                else if (_type == BulletType.ProjectileReflection)
+                    CreateProjectileReflectionBullet(builder, spawnPoint, power, damage, i);
 
-                rigidbody.useGravity = false;
-                rigidbody.AddForce(spawnPoint.forward * power, ForceMode.Impulse);
-
-                //Add Bullet To List
-                bullets.Add(bullet);
-                
                 //Add Axis
                 current_axis += surrounded_axis;
             }
@@ -167,6 +169,65 @@ namespace GDD
             }
 
             return bullets;
+        }
+
+        private void AddForceBullet(ObjectPoolBuilder builder, Transform spawnPoint, float power, float damage)
+        {
+            GameObject bullet = builder.OnSpawn();
+            bullet.GetComponent<TakeDamage>().damage = damage;
+                
+            bullet.GetComponent<Collider>().isTrigger = true;
+            bullet.transform.position = bullet_rot_spawn.transform.position;
+            Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
+            if (rigidbody == null)
+            {
+                bullet.AddComponent<Rigidbody>();
+            }
+
+            rigidbody.useGravity = false;
+            rigidbody.AddForce(spawnPoint.forward * power, ForceMode.Impulse);
+
+            //Add Bullet To List
+            bullets.Add(bullet);
+        }
+
+        private void CreateProjectileReflectionBullet(ObjectPoolBuilder builder, Transform spawnPoint, float power, float damage, int index)
+        {
+            GameObject bullet = builder.OnSpawn();
+            TakeDamage _takeDamage = bullet.GetComponent<TakeDamage>();
+            _takeDamage.damage = damage;
+            _takeDamage.is_undying = true;
+            
+            ProjectileReflectionBullet _prBullet;
+            if (bullet.GetComponent<ProjectileReflectionBullet>() == null)
+            {
+                _prBullet = bullet.AddComponent<ProjectileReflectionBullet>();
+            }
+            else
+            {
+                _prBullet = bullet.GetComponent<ProjectileReflectionBullet>();
+            }
+            
+            _prBullet.enabled = true;
+            _prBullet.power = power;
+
+            if (_SPRBC == null)
+            {
+                _SPRBC = GetComponent<SpawnerProjectileReflectionBulletCalculate>();
+            }
+
+            _prBullet.reflex_DirStart = _SPRBC.PRBCs[index].Get_FirstDirection();
+            _prBullet.reflex_PosStart = _SPRBC.PRBCs[index].Get_FirstPosition();
+            _prBullet.reflexDir = _SPRBC.PRBCs[index].GetReflectionDirection();;
+            _prBullet.reflexPos = _SPRBC.PRBCs[index].GetReflectionPoint();;
+            bullet.transform.position += _prBullet.reflexDir[0] * 1.25f;
+            
+            bullet.GetComponent<Collider>().isTrigger = true;
+            bullet.transform.position = bullet_rot_spawn.transform.position;
+            _prBullet.OnIgnition();
+
+            //Add Bullet To List
+            bullets.Add(bullet);
         }
     }
 }

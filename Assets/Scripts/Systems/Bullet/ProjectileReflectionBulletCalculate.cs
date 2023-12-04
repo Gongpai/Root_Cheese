@@ -13,60 +13,64 @@ namespace GDD
         private GameObject bullet;
         private ProjectileReflectionLines _projectileReflectionLines;
         private bool is_line_null = true;
-        
+        [SerializeField]private bool is_start;
+
+        private Vector3 _reflex_DirStart;
+        private Vector3 _reflex_PosStart;
         private List<Vector3> _reflexPos = new List<Vector3>();
         private List<Vector3> _reflexDir = new List<Vector3>();
         
         private int L_Default;
         private int L_Bullet;
+        private int L_Character;
+        private int L_Enemy;
+
+        private void Awake()
+        {
+            _projectileReflectionLines = gameObject.AddComponent<ProjectileReflectionLines>();
+        }
 
         private void Start()
         {
             L_Default = LayerMask.NameToLayer("Default");
             L_Bullet = LayerMask.NameToLayer("Bullet");
-
-            _projectileReflectionLines = gameObject.AddComponent<ProjectileReflectionLines>();
+            L_Character = LayerMask.NameToLayer("Character");
+            L_Enemy = LayerMask.NameToLayer("Enemy");
         }
-        
-        private void OnDrawGizmos()
-        {
-            /*
-            Handles.color = Color.red;
-            Handles.ArrowHandleCap(0, transform.position + transform.forward * 0.25f, transform.rotation, 0.5f, EventType.Repaint);
-            */
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(transform.position, 0.25f);
 
+        private void Update()
+        {
+            if (is_start)
+                ProjectileReflection();
+
+            if (!_projectileReflectionLines.is_null && !is_start)
+            {
+                _projectileReflectionLines.ClearLine();
+                is_line_null = _projectileReflectionLines.is_null;
+            }
+        }
+
+        private void ProjectileReflection()
+        {
+            //Set Start Position And Direction
             Vector3 pos = transform.position + transform.forward * 0.75f;
             Vector3 dir = transform.forward;
-
-            if (time <= 0)
-            {
-                print("Create Obj Test Projectile ReflectionBulletCalculate");
-                time = 30;
-                bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                bullet.transform.name = "Test Projectile ReflectionBulletCalculate";
-                bullet.layer = L_Bullet;
-                bullet.transform.position = transform.position;
-                bullet.transform.rotation = transform.rotation;
-                bullet.transform.localScale = Vector3.one * 0.25f;
-                bullet.GetComponent<Collider>().isTrigger = true;
-                bullet.AddComponent<Rigidbody>();
-                bullet.AddComponent<ProjectileReflectionBullet>();
-            }
-            else
-            {
-                time -= Time.deltaTime;
-            }
+            _reflex_DirStart = dir;
             
+            //For Debug Only vvvvvvvvvv
+            //CreateBulletObjectDebug();
+            
+            //Clear List Position And Direction
             _reflexPos = new List<Vector3>();
             _reflexDir = new List<Vector3>();
+            
+            //Build Projectile Reflection Line 
             for (int i = 0; i < maxReflexCount; i++)
             {
                 Vector3 startPos = pos;
                 Ray ray = new Ray(pos, dir);
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, maxStepDistance, 1<<L_Default|0<<L_Bullet))
+                if (Physics.Raycast(ray, out hit, maxStepDistance, 1<<L_Default|0<<L_Bullet|0<<L_Character|0<<L_Enemy))
                 {
                     dir = Vector3.Reflect(dir, hit.normal);
                     //print("OffSet" + reflex_offset);
@@ -89,19 +93,84 @@ namespace GDD
 
                 _reflexPos.Add(pos);
                 _reflexDir.Add(dir);
-
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawLine(startPos, pos); 
             }
             
+            //For Debug Only vvvvvvvvvv
+            /*
+            //Add Projectile Reflection Data TO ProjectileReflectionBullet Component
             if (bullet != null && bullet.GetComponent<ProjectileReflectionBullet>() != null)
             {
                 bullet.GetComponent<ProjectileReflectionBullet>().reflexPos = _reflexPos;
                 bullet.GetComponent<ProjectileReflectionBullet>().reflexDir = _reflexDir;
                 bullet = null;
             }
+            */
             
+            //Check When Projectile Reflection Lines Is Empty
             is_line_null = _projectileReflectionLines.is_null;
         }
+
+        private void CreateBulletObjectDebug()
+        {
+            //Spawn Bullet Test
+            if (time <= 0)
+            {
+                print("Create Obj Test Projectile ReflectionBulletCalculate");
+                time = 30;
+                bullet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                bullet.transform.name = "Test Projectile ReflectionBulletCalculate";
+                bullet.layer = L_Bullet;
+                bullet.transform.position = transform.position;
+                bullet.transform.rotation = transform.rotation;
+                bullet.transform.localScale = Vector3.one * 0.25f;
+                bullet.GetComponent<Collider>().isTrigger = true;
+                bullet.AddComponent<Rigidbody>();
+                bullet.AddComponent<ProjectileReflectionBullet>();
+            }
+            else
+            {
+                time -= Time.deltaTime;
+            }
+        }
+        
+        public void OnStart()
+        {
+            is_start = true;
+        }
+
+        public void OnStop()
+        {
+            is_start = false;
+        }
+
+        public Vector3 Get_FirstDirection()
+        {
+            return _reflex_DirStart;
+        }
+
+        public Vector3 Get_FirstPosition()
+        {
+            return _reflex_PosStart;
+        }
+        
+        public List<Vector3> GetReflectionPoint()
+        {
+            return _reflexPos;
+        }
+
+        public List<Vector3> GetReflectionDirection()
+        {
+            return _reflexDir;
+        }
+        
+        /*
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(transform.position, 0.25f);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(startPos, pos);
+        }*/
     }
 }

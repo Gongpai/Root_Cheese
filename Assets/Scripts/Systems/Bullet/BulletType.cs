@@ -3,7 +3,8 @@
     public enum BulletType
     {
         Rectilinear,
-        Projectile
+        Projectile,
+        ProjectileReflection
     }
     
     public enum BulletShotSurroundMode

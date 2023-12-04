@@ -40,6 +40,7 @@ namespace GDD
         public override GameObject OnSpawn()
         {
             GameObject bullet_gobj = base.OnSpawn().gameObject;
+            bullet_gobj.layer = LayerMask.NameToLayer("Bullet");
             TakeDamage bullet_TD;
             
             if (bullet_gobj.GetComponent<TakeDamage>() == null)

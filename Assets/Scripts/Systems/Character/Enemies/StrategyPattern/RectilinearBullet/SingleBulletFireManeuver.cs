@@ -14,6 +14,7 @@
                 _enemyBulletConfig.bullet_power,
                 1,
                 _enemyBulletConfig.damage,
+                BulletType.Rectilinear,
                 BulletShotSurroundMode.Surround,
                 BulletShotMode.SurroundMode
             );
