@@ -32,10 +32,11 @@ namespace GDD
             
             //line
             _spawnLine = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            
             _spawnLine.transform.parent = transform;
             _spawnLine.name = "PRLine_Object";
             _spawnLine.layer = LayerMask.NameToLayer("Bullet");
-            Destroy(_spawnLine.GetComponent<Collider>());
+            
             _spawnLine.transform.localScale = default_scale_line;
             _spawnLine.SetActive(false);
         }
@@ -43,6 +44,7 @@ namespace GDD
         private void CreateLine(Vector3 start, Vector3 end)
         {
             GameObject line = Instantiate(_spawnLine);
+            Destroy(line.GetComponent<Collider>());
             line.transform.parent = _line_parent;
             line.transform.localPosition = Vector3.zero;
             line.SetActive(true);

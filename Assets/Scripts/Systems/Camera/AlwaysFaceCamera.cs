@@ -7,8 +7,7 @@ namespace Samarnggoon.GameDev3.Chapter5.Utility
     {
         private void Update()
         {
-            transform.rotation = 
-                Quaternion.LookRotation( transform.position - Camera.main.transform.position );
+            transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position, Vector3.left);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace GDD
         private GameManager GM;
         private float _damage;
         private bool _is_undying = false;
+        private Coroutine _coroutinereturnpool;
         
         //Character Owner
         private Transform _ownerLayer;
@@ -37,7 +38,7 @@ namespace GDD
             GM = GameManager.Instance;
             _bullet = GetComponent<GameObjectPool>();
 
-            WaitReturnToPool(10);
+            _coroutinereturnpool = StartCoroutine(WaitReturnToPool(120));
         }
 
         IEnumerator WaitReturnToPool(float time)
@@ -48,16 +49,21 @@ namespace GDD
 
         private void OnTriggerEnter(Collider other)
         {
+            if(_ownerLayer.parent == GM.enemy_layer)
+                print("Take Damage : " + other.name);
+            
             Transform layer = other.transform.parent;
             CharacterSystem _characterSystem;
             if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
             {
+                print("Enemy Take Damage");
                 _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
                 OnTakeDamage(_characterSystem, _damage);
                 ReturnToPool();
             }
             else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
             {
+                print("Character Take Damage");
                 _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
                 OnTakeDamage(_characterSystem, _damage);
                 ReturnToPool();
@@ -73,8 +79,11 @@ namespace GDD
 
         private void ReturnToPool()
         {
-            if(!_is_undying)
+            if (!_is_undying)
+            {
                 _bullet.ReturnToPool();
+                StopCoroutine(_coroutinereturnpool);
+            }
         }
         
         public void ReturnBulletToPool()

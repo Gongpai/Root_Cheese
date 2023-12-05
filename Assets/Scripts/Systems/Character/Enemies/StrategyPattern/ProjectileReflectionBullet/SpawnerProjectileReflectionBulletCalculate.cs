@@ -76,7 +76,6 @@ namespace GDD
             PPR.transform.position = spawnPoint.transform.position;
             PPR.transform.localRotation = rot_dir;
             ProjectileReflectionBulletCalculate _PRBC = PPR.AddComponent<ProjectileReflectionBulletCalculate>();
-            _PRBC.OnStart();
             _PRBCs.Add(_PRBC);
         }
     }

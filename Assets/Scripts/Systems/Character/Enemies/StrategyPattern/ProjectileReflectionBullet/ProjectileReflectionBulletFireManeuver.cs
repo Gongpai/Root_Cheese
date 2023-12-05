@@ -12,13 +12,42 @@ namespace GDD
         {
             base.Start();
 
-            _spawnerPRBC = gameObject.AddComponent<SpawnerProjectileReflectionBulletCalculate>();
-            _spawnerPRBC.shot = 3;
-            _spawnerPRBC.Set_spawnPoint = _enemySpawnBullet.spawnPoint.gameObject;
-            _spawnerPRBC.surroundMode = BulletShotSurroundMode.Front;
-            _spawnerPRBC.OnStart();
+            if (GetComponent<SpawnerProjectileReflectionBulletCalculate>() == null)
+            {
+                _spawnerPRBC = gameObject.AddComponent<SpawnerProjectileReflectionBulletCalculate>();
+                _spawnerPRBC.shot = 3;
+                _spawnerPRBC.Set_spawnPoint = _enemySpawnBullet.spawnPoint.gameObject;
+                _spawnerPRBC.surroundMode = BulletShotSurroundMode.Front;
+                _spawnerPRBC.OnStart();
+            }
         }
-        
+
+        public override void Maneuver(EnemyStateMachine pawn)
+        {
+            if (_spawnerPRBC != null)
+            {
+                foreach (var PRBC in _spawnerPRBC.PRBCs)
+                {
+                    PRBC.OnStart();
+                }
+            }
+            
+            base.Maneuver(pawn);
+        }
+
+        public override void Truce()
+        {
+            base.Truce();
+            
+            if (_spawnerPRBC != null)
+            {
+                foreach (var PRBC in _spawnerPRBC.PRBCs)
+                {
+                    PRBC.OnStop();
+                }
+            }
+        }
+
         public override void ToggleFire(EnemySpawnBullet enemySpawnBullet)
         {
             base.ToggleFire(enemySpawnBullet);
