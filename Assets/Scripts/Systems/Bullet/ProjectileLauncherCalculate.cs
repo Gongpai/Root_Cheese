@@ -1,112 +1,123 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GDD
 {
     public class ProjectileLauncherCalculate : MonoBehaviour
     {
         [SerializeField] private bool reset_time = true;
-        [SerializeField] private GameObject target;
-        private float _gravity = 9.8f;
-        private float _distance = 0;
-        private float _maxHeight = 20;
-        private float _velocity = 0;
-        private float _angle = 0;
+        [SerializeField] private GameObject plance;
+        [SerializeField] private Transform target;
+        [Range(1.0f, 25.0f)] public float TargetRadius;
+        [Range(20.0f, 75.0f)] public float LaunchAngle;
+        [Range(0.0f, 10.0f)] public float TargetHeightOffsetFromGround;
+
+        private Vector3 random_point;
+        private GameObject spawnObject;
+        public bool RandomizeHeightOffset;
         private float time = 0;
-        private void OnDrawGizmos()
+
+        void Start()
         {
-            if (target != null)
+            spawnObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            spawnObject.name = "Bullets";
+            spawnObject.AddComponent<Rigidbody>();
+            spawnObject.transform.parent = transform;
+            spawnObject.transform.localPosition = Vector3.zero;
+            spawnObject.SetActive(false);
+
+            random_point = Random.insideUnitSphere * 10;
+        }
+
+        //For Debug Only
+        void Update()
+        {
+            if (time <= 0)
             {
-                InitialVelocity();
-                LaunchAngle();
-                
-                Handles.color = Color.red;
-                
-                float vrot = Mathf.Rad2Deg * _angle;
-                //Debug.Log("Angle : " + vrot);
-                Quaternion rot = Quaternion.AngleAxis(vrot, Vector3.left);
-                //Debug.Log("ROTTTT : " + rot);
-                Handles.ArrowHandleCap(0, transform.position, rot, 0.5f, EventType.Repaint);
-
-                Quaternion trot = Quaternion.LookRotation(target.transform.position, Vector3.up);
-                Handles.color = Color.blue;
-                Handles.ArrowHandleCap(0, transform.position, trot, 0.5f, EventType.Repaint);
-                
-                Quaternion tyrot = Quaternion.LookRotation(new Vector3(target.transform.position.x, 0, target.transform.position.z), Vector3.up);
-                Handles.color = Color.yellow;
-                Handles.ArrowHandleCap(0, transform.position, tyrot, 0.5f, EventType.Repaint);
-
-                Quaternion rrot = tyrot * rot;
-                Handles.color = Color.green;
-                Handles.ArrowHandleCap(0, transform.position, rrot, 0.5f, EventType.Repaint);
-                
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(transform.position, 0.05f);
-
-                if (reset_time)
-                    time = 1;
-                
-                if (time <= 0)
-                {
-                    GameObject Grenade = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    Grenade.name = "Grenade";
-                    Grenade.GetComponent<Collider>().isTrigger = true;
-                    Grenade.transform.localScale = Vector3.one * 0.25f;
-                    Rigidbody rig = Grenade.AddComponent<Rigidbody>();
-                    rig.mass = 0.25f;
-                    rig.AddForce(GetDirection() * GetForce(), ForceMode.Impulse);
-                    Debug.Log("Rigiboby Dir : " + GetDirection() + " Forece : " + GetForce());
-                    
-                    time = 1;
-
-                    Destroy(Grenade, 5);
-                }
-                else
-                {
-                    time -= Time.deltaTime;
-                }
+                time = 10;
+                SetNewTarget();
+                Launch();
+                transform.position = random_point;
+                plance.transform.position = random_point;
+                random_point = Random.insideUnitSphere * 10;
+            }
+            else
+            {
+                time -= Time.deltaTime;
             }
         }
 
-        public Vector3 GetDirection()
-        {
-            float vrot = Mathf.Rad2Deg * _angle;
-            Quaternion rot = Quaternion.AngleAxis(vrot, Vector3.left);
-            Quaternion looktorot = Quaternion.LookRotation(new Vector3(target.transform.position.x, 0, target.transform.position.z), Vector3.up);
-
-            Quaternion finalRot = looktorot * rot;
-            return finalRot * Vector3.forward;
-        }
-
-        public float GetForce()
-        {
-            return _velocity * _angle;
-        }
         
-        private void InitialVelocity()
+        private void OnDrawGizmos()
         {
-            //Find Distance
-            _distance = Vector3.Distance(transform.position, target.transform.position);
-            _maxHeight = _distance;
+            Handles.color = Color.yellow;
+            Quaternion rot = Quaternion.LookRotation(target.position - transform.position, Vector3.up);
+            Handles.ArrowHandleCap(0, transform.position, rot, 1f, EventType.Repaint);
             
-            // Time Max Height
-            float time_maxHeight = Mathf.Sqrt(2 * _maxHeight / _gravity);
-            
-            // Find Start Velocity X,Y
-            float x_velocity = _distance / time_maxHeight;
-            float y_velocity = _maxHeight / time_maxHeight - 0.5f * _gravity * time_maxHeight;
-            
-            // Find Start Velocity
-            _velocity = Mathf.Sqrt(x_velocity * x_velocity + y_velocity * y_velocity);
+            Handles.color = Color.red;
+            Handles.ArrowHandleCap(0, target.position, Quaternion.Euler(Vector3.left * 90), 1f, EventType.Repaint);
+        }
+        float GetPlatformOffset()
+        {
+            float platformOffset = 0.0f;
+
+            foreach (Transform childTransform in target.GetComponentsInChildren<Transform>())
+            {
+                if (childTransform.name == "Mark")
+                {
+                    platformOffset = childTransform.localPosition.y;
+                    break;
+                }
+            }
+
+            return platformOffset;
         }
 
-        private void LaunchAngle()
+        void Launch()
         {
-            //Find Start Velocity Y
-            float y_velocity = _maxHeight / Mathf.Sqrt(2 * _maxHeight / _gravity);
+            GameObject bullet = Instantiate(spawnObject);
+            bullet.SetActive(true);
+            bullet.transform.position = transform.position;
+            Rigidbody rig = bullet.GetComponent<Rigidbody>();
+            rig.velocity = Vector3.zero;
+
+            Vector3 projectileXZPos = new Vector3(bullet.transform.position.x, bullet.transform.position.y, bullet.transform.position.z);
+            Vector3 targetXZPos = new Vector3(target.position.x, bullet.transform.position.y, target.position.z);
             
-            //Find Launch Angle
-            _angle = Mathf.Atan(y_velocity / _distance);
+            // rotate the object to face the target
+            transform.LookAt(targetXZPos);
+            bullet.transform.rotation = transform.rotation;
+
+            float R = Vector3.Distance(projectileXZPos, targetXZPos);
+            float G = Physics.gravity.y;
+            float tanAlpha = Mathf.Tan(LaunchAngle * Mathf.Deg2Rad);
+            float H = (target.position.y + GetPlatformOffset()) - bullet.transform.position.y;
+
+            float Vz = Mathf.Sqrt(G * R * R / (2.0f * (H - R * tanAlpha)));
+            float Vy = tanAlpha * Vz;
+
+            Vector3 localVelocity = new Vector3(0f, Vy, Vz);
+            Vector3 globalVelocity = bullet.transform.TransformDirection(localVelocity);
+
+            rig.velocity = globalVelocity;
+        }
+
+        void SetNewTarget()
+        {
+            Transform targetTF = target.GetComponent<Transform>();
+
+            Vector3 rotationAxis = Vector3.up;
+            float randomAngle = Random.Range(0.0f, 360.0f);
+            Vector3 randomVectorOnGroundPlane = Quaternion.AngleAxis(randomAngle, rotationAxis) * Vector3.right;
+
+            float heightOffset = (RandomizeHeightOffset ? Random.Range(0.2f, 1.0f) : 1.0f) * TargetHeightOffsetFromGround;
+            float aboveOrBelowGround = (Random.Range(0.0f, 1.0f) > 0.5f ? 1.0f : -1.0f);
+            Vector3 heightOffsetVector = new Vector3(0, heightOffset, 0) * aboveOrBelowGround;
+            Vector3 randomPoint = randomVectorOnGroundPlane * TargetRadius + heightOffsetVector;
+
+            target.SetPositionAndRotation(randomPoint, targetTF.rotation);
         }
     }
 }
