@@ -1344,6 +1344,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d440916593083643aabf3ebf21393c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &76614021475303580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963713794769125096}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f9edcadbf7431ebe984ef44ff7d220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_bulletSpawnDistance: 0.25
+  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
+    type: 2}
 --- !u!114 &885309489064837252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1428,9 +1444,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7963713794769125096}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4121f7a0583459ca26db7199d2a3ca8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_bulletSpawnDistance: 0.25
+  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
+    type: 2}
+--- !u!114 &8856079723556138974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963713794769125096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349d4298902e4bb086f661c28f417c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnDistance: 0.25

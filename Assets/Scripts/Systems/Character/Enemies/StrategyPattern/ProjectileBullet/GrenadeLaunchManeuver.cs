@@ -6,14 +6,14 @@ namespace GDD
 {
     public class GrenadeLaunchManeuver : BulletFireManeuver
     {
-        public virtual void OnFire(IPawn enemy)
+        public override void OnFire(IPawn enemy)
         {
-            
+            base.OnFire(enemy);
         }
         
-        public virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet)
+        public override void ToggleFire(EnemySpawnBullet enemySpawnBullet)
         {
-            
+            base.ToggleFire(enemySpawnBullet);
         }
 
         protected Coroutine KeepLaunching(float time)

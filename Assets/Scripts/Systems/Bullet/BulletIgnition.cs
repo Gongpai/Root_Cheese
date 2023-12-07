@@ -13,7 +13,7 @@ namespace GDD
         private GameObject bullet_rot_spawn;
         protected List<GameObject> bullets;
         private SpawnerProjectileReflectionBulletCalculate _SPRBC;
-        
+        private List<GameObject> _projectileLaunchers = new List<GameObject>();
         private List<Quaternion> rots_random = new List<Quaternion>();
 
         public Transform spawnPoint
@@ -33,17 +33,25 @@ namespace GDD
         
         public virtual List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damge, BulletType type, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)
         {
-            if (shotMode == BulletShotMode.SurroundMode)
-                return OnIgnitionBulletSurround(builder, 
-                    m_spawnPoint,
-                    type, 
-                    distance, 
-                    power, 
-                    shot, 
-                    damge, 
-                    surroundMode);
+            if (type != BulletType.Projectile)
+            {
+                if (shotMode == BulletShotMode.SurroundMode)
+                    return OnIgnitionBulletSurround(builder,
+                        m_spawnPoint,
+                        type,
+                        distance,
+                        power,
+                        shot,
+                        damge,
+                        surroundMode);
+                else
+                    return OnIgnitionBulletRandom(builder, m_spawnPoint, distance, power, shot, damge);
+            }
             else
-                return OnIgnitionBulletRandom(builder, m_spawnPoint, distance, power, shot, damge);
+            {
+                OnProjectileLaunch(builder, m_spawnPoint, shot, damge);
+                return null;
+            }
         }
 
         public List<GameObject> OnIgnitionBulletSurround(ObjectPoolBuilder builder, Transform spawnPoint, BulletType _type, float distance, float power, int shot, float damage, BulletShotSurroundMode surroundMode)
@@ -228,6 +236,34 @@ namespace GDD
 
             //Add Bullet To List
             bullets.Add(bullet);
+        }
+
+        public void OnProjectileLaunch(ObjectPoolBuilder builder, Transform spawnPoint, int shot, float damage)
+        {
+            if (_projectileLaunchers.Count <= 0)
+            {
+                for (int i = 0; i < shot; i++)
+                {
+                    GameObject launcher = new GameObject("lanucher [" + i + "]");
+                    launcher.transform.parent = spawnPoint;
+                    launcher.transform.localPosition = Vector3.zero;
+                    launcher.AddComponent<ProjectileLauncherCalculate>().launchAngle = 70f;
+                    _projectileLaunchers.Add(launcher);
+                }
+            }
+
+            print("Launcher Count : " + _projectileLaunchers.Count);
+            foreach (var launcher in _projectileLaunchers)
+            {
+                ProjectileLauncherCalculate _PLC = launcher.GetComponent<ProjectileLauncherCalculate>();
+                _PLC.SetNewTarget(GameManager.Instance.players[0].transform);
+                
+                GameObject grenade = builder.OnSpawn();
+                grenade.GetComponent<TakeDamage>().damage = damage;
+                grenade.GetComponent<Collider>().isTrigger = true;
+                
+                _PLC.Launch(grenade);
+            }
         }
     }
 }
