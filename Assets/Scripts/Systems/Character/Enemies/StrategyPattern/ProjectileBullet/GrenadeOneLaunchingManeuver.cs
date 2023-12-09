@@ -6,8 +6,6 @@ namespace GDD
     {
         public override void OnFire(IPawn enemy)
         {
-            base.OnFire(enemy);
-            
             if (enemy != null)
             {
                 print("On Maneuver");

@@ -81,6 +81,7 @@ namespace GDD
         {
             if (!_is_undying)
             {
+                print("Return TO Poooooollllll!!!!!!!!!!!!");
                 _bullet.ReturnToPool();
                 StopCoroutine(_coroutinereturnpool);
             }

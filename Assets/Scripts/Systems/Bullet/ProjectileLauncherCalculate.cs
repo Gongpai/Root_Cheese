@@ -24,6 +24,11 @@ namespace GDD
         private bool RandomizeHeightOffset;
         private float time = 0;
 
+        public Transform target
+        {
+            get => _target;
+        }
+
         public float launchAngle
         {
             set => _launchAngle = value;
@@ -95,6 +100,8 @@ namespace GDD
             grenade.transform.position = transform.position;
             Rigidbody rig = grenade.GetComponent<Rigidbody>();
             rig.velocity = Vector3.zero;
+            
+            print("Launchhhhhhhhhhhhhh!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             
             //For Debug Only
             /*

@@ -23,7 +23,8 @@ namespace GDD
         
         public virtual void Start()
         {
-            
+            string sb = " ␆ ␈ ␇ ␘ ␍ ␐ ␡ ␔ ␑ ␓ ␒ ␙ ␃ ␄ ␗ ␅ ␛ ␜ ␌ ␝ ␉ ␊ ␕ ␤ ␀ ␞ ␏ ␎ ␠ ␁ ␂ ␚ ␖ ␟ ␋";
+            //print(sb);
         }
 
         public virtual void Update()
@@ -242,27 +243,71 @@ namespace GDD
         {
             if (_projectileLaunchers.Count <= 0)
             {
+                GameObject group_launcher_point = new GameObject(gameObject.name + " | Group Launcher Point");
+                group_launcher_point.transform.parent = transform.parent;
+                group_launcher_point.transform.localPosition = Vector3.zero;
+                
                 for (int i = 0; i < shot; i++)
                 {
                     GameObject launcher = new GameObject("lanucher [" + i + "]");
                     launcher.transform.parent = spawnPoint;
                     launcher.transform.localPosition = Vector3.zero;
-                    launcher.AddComponent<ProjectileLauncherCalculate>().launchAngle = 70f;
+                    ProjectileLauncherCalculate _PLC = launcher.AddComponent<ProjectileLauncherCalculate>();
+                    _PLC.launchAngle = 70f;
+
+                    GameObject launchPoint = new GameObject("launchPoint");
+                    launchPoint.transform.parent = group_launcher_point.transform;
+                    launchPoint.transform.localPosition = Vector3.zero;
+
+                    GameObject shooting_point = new GameObject("Shooting Target");
+                    shooting_point.transform.parent = launchPoint.transform;
+                    shooting_point.transform.localPosition = Vector3.zero + new Vector3(0, 0.01f, 0);
+                    shooting_point.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Weapon/ShootingTarget");
+                    shooting_point.GetComponent<SpriteRenderer>().color = Color.red;
+                    shooting_point.transform.localRotation = Quaternion.Euler(new Vector3(90, 0, 0));
+                    shooting_point.transform.localScale = Vector3.one * 0.1f;
+                    _PLC.SetNewTarget(launchPoint.transform);
+
                     _projectileLaunchers.Add(launcher);
                 }
             }
 
-            print("Launcher Count : " + _projectileLaunchers.Count);
-            foreach (var launcher in _projectileLaunchers)
+            Transform player_target = null;
+            if (_projectileLaunchers.Count > 0)
             {
-                ProjectileLauncherCalculate _PLC = launcher.GetComponent<ProjectileLauncherCalculate>();
-                _PLC.SetNewTarget(GameManager.Instance.players[0].transform);
-                
-                GameObject grenade = builder.OnSpawn();
-                grenade.GetComponent<TakeDamage>().damage = damage;
-                grenade.GetComponent<Collider>().isTrigger = true;
-                
-                _PLC.Launch(grenade);
+                player_target = GameManager.Instance.players[0].transform;
+
+                for (int i = 0; i < _projectileLaunchers.Count; i++)
+                {
+                    ProjectileLauncherCalculate _PLC = _projectileLaunchers[i].GetComponent<ProjectileLauncherCalculate>();
+
+                    if(i > 0)
+                    {
+                        Vector2 vector_random = Random.insideUnitCircle * 5f;
+                        Vector3 player_random = new Vector3(vector_random.x, 0, vector_random.y);
+                        Vector3 random_pos = player_random + player_target.position;
+                        _PLC.target.position = random_pos;
+                    }
+                    else
+                    {
+                        _PLC.target.position = player_target.position;
+                    }
+
+                    GameObject grenade = builder.OnSpawn();
+                    grenade.GetComponent<TakeDamage>().damage = damage;
+                    grenade.GetComponent<Collider>().isTrigger = true;
+
+                    GameObject targetObject = _PLC.target.GetChild(0).gameObject;
+                    targetObject.SetActive(true);
+                    Target_Point targetPoint = targetObject.GetComponent<Target_Point>();
+                    if (targetPoint == null)
+                    {
+                        targetPoint = targetObject.AddComponent<Target_Point>();
+                    }
+                    targetPoint.OnStart(2f);
+                    
+                    _PLC.Launch(grenade);
+                }
             }
         }
     }
