@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Systems.UI
+namespace GDD
 {
     public class ProgressBarScale : MonoBehaviour
     {
