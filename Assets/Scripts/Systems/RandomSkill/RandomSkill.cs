@@ -33,7 +33,7 @@ namespace GDD
             get => _upgradeSkills;
         }
         
-        private void Start()
+        private void OnEnable()
         {
             _weaponSystem = GetComponent<WeaponSystem>();
             /*
@@ -53,7 +53,7 @@ namespace GDD
                 AssetDatabase.CreateAsset(_skillConfigPath, r_skillConfigPath);
                 AssetDatabase.SaveAssets();
             }
-            //print("Skill Con = null : " + (_skillConfigPath == null));
+            print("Skill Con = null : " + (_skillConfigPath == null));
 
             //SkillUpgradePath
             _skillUpgradePath = Resources.Load<ResourcesPath>("Resources_Data/SkillUpgradePath");
@@ -65,8 +65,10 @@ namespace GDD
                 AssetDatabase.CreateAsset(_skillUpgradePath, r_skillUpgradePath);
                 AssetDatabase.SaveAssets();
             }
-            //print("Skill Up = null : " + (_skillUpgradePath == null));
+            print("Skill Up = null : " + (_skillUpgradePath == null));
         }
+
+
 
         public void OnRandomSkill(RandomSkillType _type, int count)
         {
