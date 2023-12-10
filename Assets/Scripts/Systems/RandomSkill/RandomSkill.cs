@@ -20,6 +20,8 @@ namespace GDD
         private string r_skillUpgradePath = "Assets/Resources/Resources_Data/SkillUpgradePath.asset";
         private ResourcesPath _skillConfigPath;
         private ResourcesPath _skillUpgradePath;
+        private List<Tuple<WeaponConfig, WeaponAttachment>> _baseSkills = new List<Tuple<WeaponConfig, WeaponAttachment>>();
+        private List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> _upgradeSkills = new List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>>();
 
         private void Start()
         {
@@ -54,33 +56,51 @@ namespace GDD
                 AssetDatabase.SaveAssets();
             }
             //print("Skill Up = null : " + (_skillUpgradePath == null));
-
-            List<Tuple<WeaponConfig, WeaponAttachment>> _weaponConfigs = RandomMainSkill(3);
-            foreach (var weaponConfig in _weaponConfigs)
-            {
-                if(weaponConfig.Item1 != null)
-                    print("Weapon Con : " + weaponConfig.Item1.weaponName);
-                else
-                    print("Weapon Con : " + weaponConfig.Item2.name);
-            }
             
-            print("Pause");
+            OnRandomSkill(RandomSkillType.All, 3);
         }
 
         public void OnRandomSkill(RandomSkillType _type, int count)
         {
+            int base_count = Random.Range(0, count);
+            int upgrade_count = count - base_count;
+            print("B : " + base_count + " || UP : " + upgrade_count);
+            
             switch (_type)
             {
                 case RandomSkillType.All:
+                    _baseSkills = RandomBaseSkill(base_count);
+                    
+                    //Debug
+                    foreach (var weaponConfig in _baseSkills)
+                    {
+                        if(weaponConfig.Item1 != null)
+                            print("Weapon Con : " + weaponConfig.Item1.weaponName);
+                        else
+                            print("Weapon Con : " + weaponConfig.Item2.name);
+                    }
+                    
+                    _upgradeSkills = RandomUpgradeSkill(upgrade_count);
+                    
+                    //Debug
+                    foreach (var upgradeSkill in _upgradeSkills)
+                    {
+                        if(upgradeSkill.Item1 != null)
+                            print("Weapon Up : " + upgradeSkill.Item1.name);
+                        else
+                            print("Weapon Up : " + upgradeSkill.Item2.name);
+                    }
                     break;
-                case RandomSkillType.MainSkill:
+                case RandomSkillType.BaseSkill:
+                    _baseSkills = RandomBaseSkill(count);
                     break;
                 case RandomSkillType.UpgradeSkill:
+                    _upgradeSkills = RandomUpgradeSkill(count);
                     break;
             }
         }
 
-        public List<Tuple<WeaponConfig, WeaponAttachment>> RandomMainSkill(int count)
+        public List<Tuple<WeaponConfig, WeaponAttachment>> RandomBaseSkill(int count)
         {
             List<Tuple<WeaponConfig, WeaponAttachment>> _weaponConfigs = new List<Tuple<WeaponConfig, WeaponAttachment>>();
             List<string> skillpaths = new List<string>();
@@ -102,6 +122,30 @@ namespace GDD
                 print("Ramdom Count : " + skillpaths.Count);
             }
             return _weaponConfigs;
+        }
+        
+        public List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> RandomUpgradeSkill(int count)
+        {
+            List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> _weaponUpgrade = new List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>>();
+            List<string> skillpaths = new List<string>();
+            skillpaths = _skillUpgradePath.paths.ToArray().Clone().ConvertTo<string[]>().ToList();
+            //Array.Copy(_skillConfigPath.paths.ToArray(), skillpaths.ToArray(), _skillConfigPath.paths.Count);
+            
+            for (int i = 0; i < count; i++)
+            {
+                int i_random = Random.Range(0, skillpaths.Count - 1);
+                string path = skillpaths[i_random].Remove(0, 17).Split(".")[0];
+
+                MainSkillUpgrade _upgrade = Resources.Load<MainSkillUpgrade>(path);
+                if (_upgrade == null)
+                    _weaponUpgrade.Add(new Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>(null, Resources.Load<AttachmentSkillUpgrade>(path)));
+                else
+                    _weaponUpgrade.Add(new Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>(_upgrade, null));
+                
+                skillpaths.RemoveAt(i_random);
+                print("Ramdom Count : " + skillpaths.Count);
+            }
+            return _weaponUpgrade;
         }
         
         private void ApplySkill()

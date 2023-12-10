@@ -3,7 +3,7 @@
     public enum RandomSkillType
     {
         All,
-        MainSkill,
+        BaseSkill,
         UpgradeSkill
     }
 }
