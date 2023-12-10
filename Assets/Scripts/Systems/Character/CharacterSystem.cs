@@ -7,17 +7,12 @@ using UnityEngine.UI;
 
 namespace GDD
 {
-    public abstract class CharacterSystem : Pawn
+    public abstract class CharacterSystem : Pawn, ICharacter
     {
         [SerializeField] private TextMeshProUGUI m_hp_text;
         [SerializeField] protected Slider m_hp_bar;
         [SerializeField] protected float m_hp = 100;
-
-        public float hp
-        {
-            get => m_hp;
-            set => m_hp = value;
-        }
+        [SerializeField] protected float m_shield = 0;
 
         public virtual void OnEnable()
         {
@@ -41,6 +36,26 @@ namespace GDD
         public virtual void OnDisable()
         {
             
+        }
+
+        public virtual float GetHP()
+        {
+            return m_hp;
+        }
+
+        public virtual void SetHP(float hp)
+        {
+            m_hp = hp;
+        }
+
+        public virtual float GetShield()
+        {
+            return m_shield;
+        }
+
+        public virtual void SetShiel(float shield)
+        {
+            m_shield = shield;
         }
 
         public override Transform GetPawnTransform()

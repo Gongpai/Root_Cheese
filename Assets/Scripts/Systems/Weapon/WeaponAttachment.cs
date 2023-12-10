@@ -8,45 +8,22 @@ namespace GDD
         [Header("Name")]
         public string attachmentName;
 
-        [Header("Bullet Object")] 
-        public GameObject m_bullet_prefab;
-        
-        [Header("Setting")]
-        [Range(0, 60)][Tooltip("Increase damage")]
+        [Header("Attachment")] 
         [SerializeField]
-        private float m_damage;
-
-        [Range(0, 60)] [Tooltip("Increase rate of firing per second")]
-        [SerializeField]private float m_rate;
-
-        [Range(1, 8)] [Tooltip("Increase shot Number")]
-        [SerializeField]private int m_shot = 1;
-
-        [SerializeField] private float m_power;
+        private float _shield;
+        [SerializeField]
+        private float _effect_health;
+        [SerializeField]
+        private GameObject _attachmentObject;
+        [SerializeField]
+        private float _attachmentSpinSpeed;
+        [SerializeField]
+        private float _attachmentDamage;
         
-        public float damage
-        {
-            get => m_damage;
-        }
-
-        public float rate
-        {
-            get => m_rate;
-        }
-
-        public int shot
-        {
-            get => m_shot;
-        }
-
-        public float power
-        {
-            get => m_power;
-        }
-        
-        public GameObject bullet_prefab
-        {
-            get => m_bullet_prefab;
-        }
+        public float shield { get => _shield; }
+        public float effect_health { get => _effect_health; }
+        public GameObject attachmentObject { get => _attachmentObject; }
+        public float attachmentSpinSpeed { get => _attachmentSpinSpeed; }
+        public float attachmentDamage { get => _attachmentDamage; }
     }
 }

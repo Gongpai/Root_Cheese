@@ -94,11 +94,21 @@ namespace GDD
 
         protected void OnTakeDamage(CharacterSystem characterSystem, float damage)
         {
-            if (characterSystem.hp - damage > 0)
-                characterSystem.hp -= damage;
+            if (characterSystem.GetShield() > 0)
+            {
+                if (characterSystem.GetShield() - damage > 0)
+                    characterSystem.SetShiel(characterSystem.GetShield() - damage);
+                else
+                    characterSystem.SetShiel(0);
+            }
             else
-                characterSystem.hp = 0;
-            
+            {
+                if (characterSystem.GetHP() - damage > 0)
+                    characterSystem.SetHP(characterSystem.GetHP() - damage);
+                else
+                    characterSystem.SetHP(0);
+            }
+
             //print("Current Health : " + characterSystem.hp);
         }
     }

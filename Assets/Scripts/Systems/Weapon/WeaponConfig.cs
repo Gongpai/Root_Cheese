@@ -9,11 +9,10 @@ namespace GDD
         public string weaponName;
         
         [Header("Setting")]
-        [Range(0, 100)]
         [SerializeField]
         private float m_damage;
 
-        [Range(0, 100)] [Tooltip("Rate of firing per second")]
+        [Range(0, 5)] [Tooltip("Rate of firing per second")]
         [SerializeField]private float m_rate;
 
         [Range(1, 8)] [Tooltip("Shot Number")]
@@ -30,6 +29,7 @@ namespace GDD
 
         [SerializeField] 
         private BulletShotMode m_bulletShotMode = BulletShotMode.SurroundMode;
+
         public float damage
         {
             get => m_damage;
@@ -64,5 +64,11 @@ namespace GDD
         {
             get => m_bullet_spawn_distance;
         }
+        
+        public float shield { get => 0; }
+        public float effect_health { get => 0; }
+        public GameObject attachmentObject { get => null; }
+        public float attachmentSpinSpeed { get => 0; }
+        public float attachmentDamage { get => 0; }
     }
 }

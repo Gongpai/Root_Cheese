@@ -102,6 +102,7 @@ namespace GDD
             
         }
 
+        /*
         private void OnGUI()
         {
             int ix = _grid.get_allCells.GetLength(0);
@@ -153,6 +154,6 @@ namespace GDD
                     parentt = childd + 10;
                 }
             }
-        }
+        }*/
     }
 }

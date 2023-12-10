@@ -18,19 +18,27 @@ namespace GDD
 
         private StateContext<PlayerSystem> _playerStateContext;
 
+        private WeaponSystem _weaponSystem;
+
         public float delay_attack
         {
             get => m_delay_attack;
         }
+        
+        public float shield
+        {
+            get => m_shield;
+            set => m_shield = value;
+        }
+        
         // Start is called before the first frame update
         public override void Start()
         {
             base.Start();
-            
+
+            _weaponSystem = GetComponent<WeaponSystem>();
             _playerController = GetComponent<PlayerCharacterController>();
-
             _playerStateContext = new StateContext<PlayerSystem>(this);
-
             _attackState = gameObject.AddComponent<PlayerAttackStateMachine>();
             _moveState = gameObject.AddComponent<PlayerMoveStateMachine>();
         }
@@ -55,7 +63,17 @@ namespace GDD
         {
             _playerStateContext.Transition(_moveState);
         }
-        
+
+        public override float GetShield()
+        {
+            return _weaponSystem.attachmentStats.shield;
+        }
+
+        public override void SetShiel(float shield)
+        {
+            _weaponSystem.attachmentStats.shield = shield;
+        }
+
         //Spatial Partition Enemy Finding
         public override Vector2 GetPawnVision()
         {

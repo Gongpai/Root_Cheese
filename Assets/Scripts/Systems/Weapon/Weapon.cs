@@ -1,4 +1,6 @@
-﻿namespace GDD
+﻿using UnityEngine;
+
+namespace GDD
 {
     public class Weapon : IWeapon
     {
@@ -19,7 +21,6 @@
         {
             get => _config.bullet_spawn_distance;
         }
-        
         public float power { get => _config.power; }
         public BulletShotSurroundMode surroundMode { get => _config.surroundMode; }
         
@@ -31,5 +32,11 @@
         {
             _config = weaponConfig;
         }
+        
+        public float shield { get => 0; }
+        public float effect_health { get => 0; }
+        public GameObject attachmentObject { get => null; }
+        public float attachmentSpinSpeed { get => 0; }
+        public float attachmentDamage { get => 0; }
     }
 }

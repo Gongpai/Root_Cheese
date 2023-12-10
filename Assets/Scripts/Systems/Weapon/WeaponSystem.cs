@@ -1,18 +1,31 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GDD
 {
     public class WeaponSystem : MonoBehaviour
     {
         [SerializeField] private WeaponConfig _weaponConfig;
-        [SerializeField] private WeaponAttachment mainAttachment;
-        [SerializeField] private WeaponAttachment secondaryAttachment;
+        [SerializeField] private WeaponAttachment _mainAttachment;
+        [SerializeField] private WeaponAttachment _secondaryAttachment;
 
-        private bool _isFiring;
+        private WeaponConfigStats _weaponConfigStats;
+        private WeaponAttachmentStats _attachmentStats;
         private IWeapon _weapon;
+        private bool _isFiring;
         private bool _isDecorated;
+
+        public WeaponConfigStats weaponConfigStats
+        {
+            get => _weaponConfigStats;
+        }
+
+        public WeaponAttachmentStats attachmentStats
+        {
+            get => _attachmentStats;
+        }
 
         public IWeapon Get_Weapon
         {
@@ -22,19 +35,12 @@ namespace GDD
         private void Start()
         {
             _weapon = new Weapon(_weaponConfig);
+            _weaponConfigStats = gameObject.AddComponent<WeaponConfigStats>();
+            _attachmentStats = gameObject.AddComponent<WeaponAttachmentStats>();
         }
 
         public void ToggleFire(PlayerSpawnBullet playerSpawnBullet)
         {
-            if (secondaryAttachment == null)
-            {
-                playerSpawnBullet.bulletObjectPool.Set_GameObject = mainAttachment.m_bullet_prefab;
-            }
-            else
-            {
-                playerSpawnBullet.bulletObjectPool.Set_GameObject = secondaryAttachment.m_bullet_prefab;
-            }
-
             playerSpawnBullet.bulletObjectPool.weapon = _weapon;
             playerSpawnBullet.OnSpawnBullet(
                 _weapon.bullet_spawn_distance,
@@ -46,6 +52,24 @@ namespace GDD
                 _weapon.bulletShotMode
                 );
         }
+        
+        
+        public void Set_WeaponConfig(WeaponConfig weaponConfig)
+        {
+            _weaponConfig = weaponConfig;
+        }
+
+        public void mainAttachment(WeaponAttachment weaponAttachment)
+        {
+            _mainAttachment = weaponAttachment;
+            Decorate();
+        }
+
+        public void secondaryAttachment(WeaponAttachment weaponAttachment)
+        {
+            _secondaryAttachment = weaponAttachment;
+            Decorate();
+        }
 
         public void Reset()
         {
@@ -55,11 +79,13 @@ namespace GDD
 
         public void Decorate()
         {
-            if ((mainAttachment && !secondaryAttachment))
-                _weapon = new WeaponDecorator(_weapon, mainAttachment);
+            if ((_mainAttachment && !_secondaryAttachment))
+                _weapon = new WeaponDecorator(_weapon, _mainAttachment, _weaponConfigStats, _attachmentStats);
 
-            if ((mainAttachment && !secondaryAttachment))
-                _weapon = new WeaponDecorator(new WeaponDecorator(_weapon, mainAttachment), secondaryAttachment);
+            if ((_mainAttachment && _secondaryAttachment))
+                _weapon = new WeaponDecorator(new WeaponDecorator(_weapon, _mainAttachment, _weaponConfigStats, _attachmentStats), _secondaryAttachment, _weaponConfigStats, _attachmentStats);
+            
+            _isDecorated = !_isDecorated;
         }
     }
 }
