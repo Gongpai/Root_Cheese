@@ -13,6 +13,12 @@ namespace GDD
         [Range(0, 1)]
         public float m_scollDelta;
         private float _height;
+
+        public RectTransform content
+        {
+            get => m_content;
+            set => m_content = value;
+        }
         
         private void Update()
         {

@@ -23,6 +23,16 @@ namespace GDD
         private List<Tuple<WeaponConfig, WeaponAttachment>> _baseSkills = new List<Tuple<WeaponConfig, WeaponAttachment>>();
         private List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> _upgradeSkills = new List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>>();
 
+        public List<Tuple<WeaponConfig, WeaponAttachment>> baseSkills
+        {
+            get => _baseSkills;
+        }
+
+        public List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> upgradeSkills
+        {
+            get => _upgradeSkills;
+        }
+        
         private void Start()
         {
             _weaponSystem = GetComponent<WeaponSystem>();
@@ -56,8 +66,6 @@ namespace GDD
                 AssetDatabase.SaveAssets();
             }
             //print("Skill Up = null : " + (_skillUpgradePath == null));
-            
-            OnRandomSkill(RandomSkillType.All, 3);
         }
 
         public void OnRandomSkill(RandomSkillType _type, int count)
