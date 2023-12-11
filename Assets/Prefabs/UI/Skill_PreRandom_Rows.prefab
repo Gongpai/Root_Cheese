@@ -29,9 +29,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 143681420382973056}
-  - {fileID: 6812958618366733102}
-  - {fileID: 2520712357390233066}
+  - {fileID: 2002269724255975052}
+  - {fileID: 799633991807202559}
+  - {fileID: 2658414630084123976}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66,13 +66,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1001 &1528659917239905067
+--- !u!1001 &4657363291027797242
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 143681420889414923}
     m_Modifications:
+    - target: {fileID: 211179851371040011, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5456843069629988869, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -181,30 +186,34 @@ PrefabInstance:
     - target: {fileID: 5456843069629988870, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_Name
-      value: Skill (1)
+      value: Skill_Element (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 5456843069665520557, guid: 3092b8da996f79644b2047283b8ab01f,
+    - target: {fileID: 6995298871810333438, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
-      propertyPath: m_text
-      value: 'Skill 2
-
-'
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fc777545b4d344a5b99edffa6d33f15e,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3092b8da996f79644b2047283b8ab01f, type: 3}
---- !u!224 &6812958618366733102 stripped
+--- !u!224 &799633991807202559 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5456843069629988869, guid: 3092b8da996f79644b2047283b8ab01f,
     type: 3}
-  m_PrefabInstance: {fileID: 1528659917239905067}
+  m_PrefabInstance: {fileID: 4657363291027797242}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5351662436386155653
+--- !u!1001 &5797228283142796937
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 143681420889414923}
     m_Modifications:
+    - target: {fileID: 211179851371040011, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5456843069629988869, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -313,23 +322,28 @@ PrefabInstance:
     - target: {fileID: 5456843069629988870, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_Name
-      value: Skill
+      value: Skill_Element
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3092b8da996f79644b2047283b8ab01f, type: 3}
---- !u!224 &143681420382973056 stripped
+--- !u!224 &2002269724255975052 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5456843069629988869, guid: 3092b8da996f79644b2047283b8ab01f,
     type: 3}
-  m_PrefabInstance: {fileID: 5351662436386155653}
+  m_PrefabInstance: {fileID: 5797228283142796937}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &7584562413668117999
+--- !u!1001 &8024869012104322381
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 143681420889414923}
     m_Modifications:
+    - target: {fileID: 211179851371040011, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5456843069629988869, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -438,20 +452,19 @@ PrefabInstance:
     - target: {fileID: 5456843069629988870, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_Name
-      value: Skill (2)
+      value: Skill_Element (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 5456843069665520557, guid: 3092b8da996f79644b2047283b8ab01f,
+    - target: {fileID: 6995298871810333438, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
-      propertyPath: m_text
-      value: 'Skill 3
-
-'
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a87754109546444e49dfcd605b2cfe2b,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3092b8da996f79644b2047283b8ab01f, type: 3}
---- !u!224 &2520712357390233066 stripped
+--- !u!224 &2658414630084123976 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5456843069629988869, guid: 3092b8da996f79644b2047283b8ab01f,
     type: 3}
-  m_PrefabInstance: {fileID: 7584562413668117999}
+  m_PrefabInstance: {fileID: 8024869012104322381}
   m_PrefabAsset: {fileID: 0}

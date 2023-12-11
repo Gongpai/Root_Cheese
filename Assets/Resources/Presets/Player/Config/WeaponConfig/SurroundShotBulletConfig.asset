@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3993092858d4621b7f126d1e45c9d27, type: 3}
   m_Name: SurroundShotBulletConfig
   m_EditorClassIdentifier: 
+  _skillIcon: {fileID: 21300000, guid: 84f346c9327bb4f2ea3bd1876eb1e9af, type: 3}
   weaponName: SurroundShotBullet
+  _skillDescription: Description - Surround Shot Bullet
   m_damage: 20
   m_rate: 1
   m_shot: 8

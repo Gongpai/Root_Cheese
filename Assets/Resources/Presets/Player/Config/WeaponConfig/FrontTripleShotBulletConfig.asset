@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3993092858d4621b7f126d1e45c9d27, type: 3}
   m_Name: FrontTripleShotBulletConfig
   m_EditorClassIdentifier: 
+  _skillIcon: {fileID: 21300000, guid: eebe3e3d6fa3d41419a71318d31107fe, type: 3}
   weaponName: FrontTripleShotBullet
+  _skillDescription: Description - Front Triple Shot Bullet
   m_damage: 25
   m_rate: 1
   m_shot: 3

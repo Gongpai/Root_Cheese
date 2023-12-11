@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2561ef9166a42c0812f0d5b1b942f3a, type: 3}
   m_Name: SwordSpinSpeedUpgrade
   m_EditorClassIdentifier: 
+  _skillIcon: {fileID: 21300000, guid: 830ef5ebf56f040938259cef13b73c10, type: 3}
+  _skillName: SwordSpinSpeedUpgrade
+  _skillDescription: Description - Sword Spin Speed Upgrade
   _shield: 0
   _effect_health: 0
   _attachmentSpinSpeed: 0.2

@@ -2,6 +2,8 @@
 {
     public interface ICharacter
     {
+        public float GetMaxHP();
+        public void SetMaxHP(float maxHP);
         public float GetHP();
         public void SetHP(float hp);
         

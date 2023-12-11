@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3993092858d4621b7f126d1e45c9d27, type: 3}
   m_Name: FBTwoShotBulletConfig
   m_EditorClassIdentifier: 
+  _skillIcon: {fileID: 21300000, guid: 9a12305ea62654ca1af22adf3f558e47, type: 3}
   weaponName: FBTwoShotBullet
+  _skillDescription: Description - FB Two Shot Bullet
   m_damage: 25
   m_rate: 1
   m_shot: 2

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d7ab93729b4836883e049a50f8167c, type: 3}
   m_Name: SwordSpinSkillAttachment
   m_EditorClassIdentifier: 
+  _skillIcon: {fileID: 21300000, guid: 650f7522bfa164c58b484bc895416321, type: 3}
   attachmentName: SwordSpinSkillAttachment
+  _skillDescription: Description - Sword Spin Skill Attachment
   _shield: 0
   _effect_health: 0
   _attachmentObject: {fileID: 117750181572583873, guid: ea8a79ae9926ee54cb4d16465f9d023b,

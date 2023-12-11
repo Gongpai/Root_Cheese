@@ -5,10 +5,15 @@ namespace GDD
     [CreateAssetMenu(fileName = "NewWeaponAttachment", menuName = "GDD/Weapon/Attachment", order = 1)]
     public class WeaponAttachment : ScriptableObject
     {
+        [Header("Skill Info")]
+        [SerializeField] 
+        private Sprite _skillIcon;
         [Header("Name")]
         public string attachmentName;
-
-        [Header("Attachment")] 
+        [SerializeField] 
+        private string _skillDescription;
+        
+        [Header("Skill Attachment")] 
         [SerializeField]
         private float _shield;
         [SerializeField]
@@ -20,6 +25,14 @@ namespace GDD
         [SerializeField]
         private float _attachmentDamage;
         
+        public Sprite skillIcon
+        {
+            get => _skillIcon;
+        }
+        public string skillDescription
+        {
+            get => _skillDescription;
+        }
         public float shield { get => _shield; }
         public float effect_health { get => _effect_health; }
         public GameObject attachmentObject { get => _attachmentObject; }

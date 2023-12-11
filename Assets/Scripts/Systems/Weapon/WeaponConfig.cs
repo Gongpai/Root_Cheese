@@ -5,10 +5,15 @@ namespace GDD
     [CreateAssetMenu(fileName = "NewWeaponConfig", menuName = "GDD/Weapon/Config", order = 1)]
     public class WeaponConfig : ScriptableObject, IWeapon
     {
-        [Header("Name")]
+        [Header("Skill Info")]
+        [SerializeField] 
+        private Sprite _skillIcon;
+        [SerializeField] 
         public string weaponName;
+        [SerializeField] 
+        private string _skillDescription;
         
-        [Header("Setting")]
+        [Header("Main Skill Config")]
         [SerializeField]
         private float m_damage;
 
@@ -30,6 +35,14 @@ namespace GDD
         [SerializeField] 
         private BulletShotMode m_bulletShotMode = BulletShotMode.SurroundMode;
 
+        public Sprite skillIcon
+        {
+            get => _skillIcon;
+        }
+        public string skillDescription
+        {
+            get => _skillDescription;
+        }
         public float damage
         {
             get => m_damage;

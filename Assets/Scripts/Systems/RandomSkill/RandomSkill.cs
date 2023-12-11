@@ -23,6 +23,12 @@ namespace GDD
         private List<Tuple<WeaponConfig, WeaponAttachment>> _baseSkills = new List<Tuple<WeaponConfig, WeaponAttachment>>();
         private List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> _upgradeSkills = new List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>>();
 
+        public WeaponSystem weaponSystem
+        {
+            get => _weaponSystem;
+            set => _weaponSystem = value;
+        }
+        
         public List<Tuple<WeaponConfig, WeaponAttachment>> baseSkills
         {
             get => _baseSkills;
@@ -156,11 +162,6 @@ namespace GDD
                 print("Ramdom Count : " + skillpaths.Count);
             }
             return _weaponUpgrade;
-        }
-        
-        private void ApplySkill()
-        {
-            
         }
     }
 }

@@ -13,6 +13,7 @@ namespace GDD
 
         private WeaponConfigStats _weaponConfigStats;
         private WeaponAttachmentStats _attachmentStats;
+        private CharacterSystem _characterSystem;
         private IWeapon _weapon;
         private bool _isFiring;
         private bool _isDecorated;
@@ -34,6 +35,7 @@ namespace GDD
 
         private void Start()
         {
+            _characterSystem = GetComponent<CharacterSystem>();
             _weapon = new Weapon(_weaponConfig);
             _weaponConfigStats = gameObject.AddComponent<WeaponConfigStats>();
             _attachmentStats = gameObject.AddComponent<WeaponAttachmentStats>();
@@ -54,21 +56,48 @@ namespace GDD
         }
         
         
-        public void Set_WeaponConfig(WeaponConfig weaponConfig)
+        public void Set_MainSkill(WeaponConfig weaponConfig)
         {
             _weaponConfig = weaponConfig;
         }
 
-        public void mainAttachment(WeaponAttachment weaponAttachment)
+        public void Set_Attachment(WeaponAttachment weaponAttachment)
         {
-            _mainAttachment = weaponAttachment;
+            if (_mainAttachment == null || _secondaryAttachment != null)
+                _mainAttachment = weaponAttachment;
+            else
+                _secondaryAttachment = weaponAttachment;
             Decorate();
         }
 
-        public void secondaryAttachment(WeaponAttachment weaponAttachment)
+        public void UpgradeMainSkill(MainSkillUpgrade _upgrade)
         {
-            _secondaryAttachment = weaponAttachment;
-            Decorate();
+            if(_upgrade.damage > 0)
+                _weaponConfigStats.damage *= _upgrade.damage;
+            
+            if(_upgrade.power > 0)
+                _weaponConfigStats.power *= _upgrade.power;
+            
+            if (_upgrade.rate > 0)
+                _weaponConfigStats.rate *= _upgrade.rate;
+        }
+        
+        public void UpgradeAttachmentSkill(AttachmentSkillUpgrade _upgrade)
+        {
+            if(_upgrade.maxHealth > 0)
+                _characterSystem.SetMaxHP(_characterSystem.GetMaxHP() * _upgrade.maxHealth);
+            
+            if(_upgrade.shield > 0)
+                _characterSystem.SetShiel(_characterSystem.GetShield() * _upgrade.shield);
+            
+            if(_upgrade.effect_health > 0)
+                _attachmentStats.effect_health *= _upgrade.effect_health;
+            
+            if(_upgrade.attachmentSpinSpeed > 0)
+                _attachmentStats.attachmentSpinSpeed *= _upgrade.attachmentSpinSpeed;
+            
+            if(_upgrade.attachmentDamage > 0)
+                _attachmentStats.attachmentDamage *= _upgrade.attachmentDamage;
         }
 
         public void Reset()

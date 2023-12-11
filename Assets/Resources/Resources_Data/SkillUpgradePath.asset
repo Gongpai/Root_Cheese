@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _paths:
   - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/EffectDamageUpgrade.asset
+  - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/MaxHealthUpgrade.asset
   - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/ShieldUpgrade.asset
   - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/SwordDamageUpgrade.asset
   - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/SwordSpinSpeedUpgrade.asset

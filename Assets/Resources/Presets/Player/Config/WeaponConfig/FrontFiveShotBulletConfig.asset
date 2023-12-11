@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3993092858d4621b7f126d1e45c9d27, type: 3}
   m_Name: FrontFiveShotBulletConfig
   m_EditorClassIdentifier: 
+  _skillIcon: {fileID: 21300000, guid: b251b5b438bef4729bb483ac599adcca, type: 3}
   weaponName: FrontFiveShotBullet
+  _skillDescription: Description - Front Five Shot Bullet
   m_damage: 20
   m_rate: 1
   m_shot: 5

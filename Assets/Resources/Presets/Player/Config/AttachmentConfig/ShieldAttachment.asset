@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d7ab93729b4836883e049a50f8167c, type: 3}
   m_Name: ShieldAttachment
   m_EditorClassIdentifier: 
+  _skillIcon: {fileID: 21300000, guid: 975a0c0325e80477cb797a436a6cffa1, type: 3}
   attachmentName: ShieldAttachment
+  _skillDescription: Description - Shield Attachment
   _shield: 50
   _effect_health: 0
   _attachmentObject: {fileID: 0}
