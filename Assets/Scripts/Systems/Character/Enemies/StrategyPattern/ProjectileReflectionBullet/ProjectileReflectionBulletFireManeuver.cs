@@ -15,7 +15,7 @@ namespace GDD
             if (GetComponent<SpawnerProjectileReflectionBulletCalculate>() == null)
             {
                 _spawnerPRBC = gameObject.AddComponent<SpawnerProjectileReflectionBulletCalculate>();
-                _spawnerPRBC.shot = 3;
+                _spawnerPRBC.shot = 1;
                 _spawnerPRBC.Set_spawnPoint = _enemySpawnBullet.spawnPoint.gameObject;
                 _spawnerPRBC.surroundMode = BulletShotSurroundMode.Front;
                 _spawnerPRBC.OnStart();
@@ -58,7 +58,7 @@ namespace GDD
             enemySpawnBullet.OnSpawnBullet(
                 m_bulletSpawnDistance,
                 _enemyBulletConfig.bullet_power,
-                3,
+                1,
                 _enemyBulletConfig.damage,
                 BulletType.ProjectileReflection,
                 BulletShotSurroundMode.Front,

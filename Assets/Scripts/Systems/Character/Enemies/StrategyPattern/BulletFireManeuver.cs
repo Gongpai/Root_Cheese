@@ -75,7 +75,7 @@ namespace GDD
                 }
 
                 time_count -= Time.deltaTime;
-                //print("Time IEnumerator : " + time_count);
+                print("Time IEnumerator : " + time_count);
                 
                 if (time_count <= 0)
                 {

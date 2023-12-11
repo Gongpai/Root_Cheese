@@ -23,7 +23,8 @@ namespace GDD
         {
             base.Handle(contrller);
             
-            
+            //print("Handleeeeeee");
+            transform.LookAt(GM.players[0].transform);
         }
 
         public override void OnExit()

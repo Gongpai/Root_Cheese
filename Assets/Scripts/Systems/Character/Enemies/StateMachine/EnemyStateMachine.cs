@@ -27,6 +27,16 @@ namespace GDD
             base.OnStart(contrller);
         }
 
+        public override void Handle(EnemySystem contrller)
+        {
+            base.Handle(contrller);
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+        }
+
         public void ApplyEnemyStrategy()
         {
             strategy = GetComponent<EnemyManeuver>();

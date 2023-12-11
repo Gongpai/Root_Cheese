@@ -13,17 +13,22 @@ namespace GDD
         private Vector3 oldPos;
         
         private IState<EnemySystem> _attackState, _moveState;
+        private IState<EnemySystem> _currentState;
         private StateContext<EnemySystem> _enemyStateContext;
         private WaypointReachingState _waypointReaching;
         private GameObject _waypoint;
+
+        private void Awake()
+        {
+            _enemyStateContext = new StateContext<EnemySystem>(this);
+            _moveState = gameObject.AddComponent<EnemyMoveStateMachine>();
+            _attackState = gameObject.AddComponent<EnemyAttackStateMachine>();
+        }
 
         public override void OnEnable()
         {
             base.OnEnable();
             
-            _enemyStateContext = new StateContext<EnemySystem>(this);
-            _attackState = gameObject.AddComponent<EnemyAttackStateMachine>();
-            _moveState = gameObject.AddComponent<EnemyMoveStateMachine>();
             _waypointReaching = GetComponent<WaypointReachingState>();
         }
 
@@ -42,18 +47,26 @@ namespace GDD
         {
             base.Update();
 
+            if (_currentState == null)
+                _currentState = _attackState;
+            
+            _enemyStateContext.Transition(_currentState);
+            
             UpdateEnemyMove();
         }
 
         public void StartAttack()
         {
-            _enemyStateContext.Transition(_attackState);
+            if (_attackState != null)
+            {
+                _currentState = _attackState;
+            }
         }
 
         public void StartMove()
         {
             RandomWayPointPosition();
-            _enemyStateContext.Transition(_moveState);
+            _currentState = _moveState;
         }
 
         protected void RandomWayPointPosition()
@@ -65,10 +78,10 @@ namespace GDD
                 _waypointReaching._waypoints.Add(_waypoint.transform);
             }
 
-            Vector3 randomDirection = Random.insideUnitSphere * (GM.mapWidth - 30);
-            randomDirection += transform.position;
+            Vector3 randomDirection = Random.insideUnitSphere * (GM.mapWidth / 2);
+            randomDirection += new Vector3(GM.mapWidth / 2, transform.position.y, GM.mapWidth / 2);
             NavMeshHit _hit;
-            NavMesh.SamplePosition(randomDirection, out _hit, (GM.mapWidth - 30), 1);
+            NavMesh.SamplePosition(randomDirection, out _hit, (GM.mapWidth / 2), 1);
 
             _waypoint.transform.position = _hit.position;
         }

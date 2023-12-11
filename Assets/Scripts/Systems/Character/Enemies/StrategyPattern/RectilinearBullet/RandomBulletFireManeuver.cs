@@ -64,7 +64,7 @@ namespace GDD
                 12,
                 _enemyBulletConfig.damage,
                 BulletType.Rectilinear,
-                BulletShotSurroundMode.Surround,
+                BulletShotSurroundMode.Back,
                 BulletShotMode.RandomMode
             );
         }

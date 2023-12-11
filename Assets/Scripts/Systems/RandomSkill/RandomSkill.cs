@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using GDD.Helper;
 using Unity.VisualScripting;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -46,8 +48,9 @@ namespace GDD
 
             print("Weapon : " + _weaponAttachment.attachmentName);
 */
+#if UNITY_EDITOR
             _paths = ResourcesManager.GetAllResourcePathSeparateFolder("/Resources/Presets/Player");
-
+#endif
             //SkillConfigPath
             _skillConfigPath = Resources.Load<ResourcesPath>("Resources_Data/SkillConfigPath");
             if (_skillConfigPath == null || is_overrideResourcesPath)
@@ -55,8 +58,10 @@ namespace GDD
                 //print("Skill Con Create");
                 _skillConfigPath = ScriptableObject.CreateInstance<ResourcesPath>();
                 _skillConfigPath.paths = ArrayHelper.GetRow(_paths, 0).Where(x => !string.IsNullOrEmpty(x)).ToList();
+#if UNITY_EDITOR
                 AssetDatabase.CreateAsset(_skillConfigPath, r_skillConfigPath);
                 AssetDatabase.SaveAssets();
+#endif
             }
             print("Skill Con = null : " + (_skillConfigPath == null));
 
@@ -67,8 +72,10 @@ namespace GDD
                 //print("Skill Up Create");
                 _skillUpgradePath = ScriptableObject.CreateInstance<ResourcesPath>();
                 _skillUpgradePath.paths = ArrayHelper.GetRow(_paths, 1).Where(x => !string.IsNullOrEmpty(x)).ToList();
+#if UNITY_EDITOR
                 AssetDatabase.CreateAsset(_skillUpgradePath, r_skillUpgradePath);
                 AssetDatabase.SaveAssets();
+#endif
             }
             print("Skill Up = null : " + (_skillUpgradePath == null));
         }

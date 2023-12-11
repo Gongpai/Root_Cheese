@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using GDD.Helper;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace GDD
@@ -9,6 +11,7 @@ namespace GDD
     public static class ResourcesManager
     {
         // "/Resources/Presets/Player"
+#if UNITY_EDITOR
         public static string[] GetAllResourcePath(string path)
         {
             var info = new DirectoryInfo(Application.dataPath + path);
@@ -78,5 +81,6 @@ namespace GDD
 
             return _allpaths;
         }
+#endif
     }
 }

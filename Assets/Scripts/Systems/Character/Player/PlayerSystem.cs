@@ -53,10 +53,12 @@ namespace GDD
             _randomSkill.weaponSystem = _weaponSystem;
             _randomSkill.OnInitialize();
 
+            /*
             GameObject r_skill_ui = Instantiate(m_skillRandomUI);
             _randomSkillUI = r_skill_ui.transform.GetChild(0).GetComponent<RandomSkill_UI>();
             _randomSkillUI.randomSkill = _randomSkill;
             _randomSkillUI.OnCreate();
+            */
         }
 
         // Update is called once per frame

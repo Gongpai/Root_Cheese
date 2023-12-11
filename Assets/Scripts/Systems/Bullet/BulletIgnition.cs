@@ -133,7 +133,7 @@ namespace GDD
                 {
                     //Rotation Parent Spawn Point
                     Quaternion rot = Quaternion.AngleAxis(current_axis, spawnPoint.up);
-                    spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) - 90, 0));
+                    spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) + 90, 0));
                     spawnPoint.rotation *= rot;
                     rots_random.Add(spawnPoint.rotation);
 
