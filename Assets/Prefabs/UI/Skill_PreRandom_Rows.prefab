@@ -73,11 +73,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 143681420889414923}
     m_Modifications:
+    - target: {fileID: 165106703402520605, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 211179851371040011, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2612149704891286524, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a9b64f4d61a0346eca8f12494b571006,
+        type: 3}
     - target: {fileID: 5456843069629988869, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -209,11 +220,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 143681420889414923}
     m_Modifications:
+    - target: {fileID: 165106703402520605, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 211179851371040011, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2612149704891286524, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612149704891286524, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a9b64f4d61a0346eca8f12494b571006,
+        type: 3}
     - target: {fileID: 5456843069629988869, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -339,11 +366,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 143681420889414923}
     m_Modifications:
+    - target: {fileID: 165106703402520605, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 211179851371040011, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2612149704891286524, guid: 3092b8da996f79644b2047283b8ab01f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a9b64f4d61a0346eca8f12494b571006,
+        type: 3}
     - target: {fileID: 5456843069629988869, guid: 3092b8da996f79644b2047283b8ab01f,
         type: 3}
       propertyPath: m_Pivot.x

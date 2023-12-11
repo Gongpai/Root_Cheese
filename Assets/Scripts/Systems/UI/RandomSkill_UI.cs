@@ -45,8 +45,9 @@ namespace GDD
             {
                 //Random Skill
                 GameObject element = Instantiate(m_skill_Element);
-                Image element_image = element.transform.GetChild(0).GetComponent<Image>();
-                Button skill_button = element.GetComponent<Button>();
+                Transform child_element = element.transform.GetChild(0);
+                Image element_image = child_element.GetComponent<Image>();
+                Button skill_button = child_element.GetComponent<Button>();
 
                 //Description Skill
                 GameObject d_element = Instantiate(m_description_Element);
@@ -61,6 +62,7 @@ namespace GDD
                     skill_button.onClick.AddListener((() =>
                     {
                         _randomSkill.weaponSystem.Set_MainSkill(baseSkill.Item1);
+                        Destroy(transform.parent.gameObject);
                     }));
                 }
                 else
@@ -71,6 +73,7 @@ namespace GDD
                     skill_button.onClick.AddListener((() =>
                     {
                         _randomSkill.weaponSystem.Set_Attachment(baseSkill.Item2);
+                        Destroy(transform.parent.gameObject);
                     }));
                 }
 
@@ -85,8 +88,9 @@ namespace GDD
             {
                 //Random Skill
                 GameObject element = Instantiate(m_skill_Element);
-                Image element_image = element.transform.GetChild(0).GetComponent<Image>();
-                Button skill_button = element.GetComponent<Button>();
+                Transform child_element = element.transform.GetChild(0);
+                Image element_image = child_element.GetComponent<Image>();
+                Button skill_button = child_element.GetComponent<Button>();
 
                 //Description Skill
                 GameObject d_element = Instantiate(m_description_Element);
@@ -101,6 +105,7 @@ namespace GDD
                     skill_button.onClick.AddListener((() =>
                     {
                         _randomSkill.weaponSystem.UpgradeMainSkill(upgradeSkill.Item1);
+                        Destroy(transform.parent.gameObject);
                     }));
                 }
                 else
@@ -111,6 +116,7 @@ namespace GDD
                     skill_button.onClick.AddListener((() =>
                     {
                         _randomSkill.weaponSystem.UpgradeAttachmentSkill(upgradeSkill.Item2);
+                        Destroy(transform.parent.gameObject);
                     }));
                 }
 
