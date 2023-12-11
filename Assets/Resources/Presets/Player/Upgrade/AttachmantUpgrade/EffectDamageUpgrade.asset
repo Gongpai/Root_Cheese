@@ -15,6 +15,7 @@ MonoBehaviour:
   _skillIcon: {fileID: 21300000, guid: fc644da6b59084a8ca9d8ce9b3eeb344, type: 3}
   _skillName: EffectDamageUpgrade
   _skillDescription: Description - Effect Damage Upgrade
+  _maxHealth: 0
   _shield: 0
   _effect_health: 0.1
   _attachmentSpinSpeed: 0

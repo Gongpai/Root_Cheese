@@ -9,6 +9,7 @@ namespace GDD
 {
     public abstract class CharacterSystem : Pawn, ICharacter
     {
+        [Header("Player Stats Setting")]
         [SerializeField] private TextMeshProUGUI m_hp_text;
         [SerializeField] protected Slider m_hp_bar;
         [SerializeField] protected float m_hp = 100;

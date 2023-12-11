@@ -15,6 +15,9 @@ namespace GDD
         
         [Header("Main Skill Config")]
         [SerializeField]
+        private GameObject _bulletObject;
+        
+        [SerializeField]
         private float m_damage;
 
         [Range(0, 5)] [Tooltip("Rate of firing per second")]
@@ -35,6 +38,10 @@ namespace GDD
         [SerializeField] 
         private BulletShotMode m_bulletShotMode = BulletShotMode.SurroundMode;
 
+        public string mainName { get => weaponName; }
+        public string mainAttachmentName { get; }
+        public string secAttachmentName { get; }
+
         public Sprite skillIcon
         {
             get => _skillIcon;
@@ -42,6 +49,11 @@ namespace GDD
         public string skillDescription
         {
             get => _skillDescription;
+        }
+
+        public GameObject bulletObject
+        {
+            get => _bulletObject;
         }
         public float damage
         {

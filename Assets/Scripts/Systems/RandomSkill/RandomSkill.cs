@@ -39,9 +39,8 @@ namespace GDD
             get => _upgradeSkills;
         }
         
-        private void OnEnable()
+        public void OnInitialize()
         {
-            _weaponSystem = GetComponent<WeaponSystem>();
             /*
             _weaponAttachment = Resources.Load<WeaponAttachment>("Presets/Player/SimplesecondaryWeaponAttachment");
 

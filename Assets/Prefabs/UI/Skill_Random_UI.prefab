@@ -246,7 +246,6 @@ GameObject:
   - component: {fileID: 2005608045561181868}
   - component: {fileID: 2005608045561181870}
   - component: {fileID: 2005608045561181871}
-  - component: {fileID: 2005608045561181856}
   - component: {fileID: 2005608045561181857}
   - component: {fileID: 9085178592845613792}
   m_Layer: 5
@@ -366,21 +365,8 @@ MonoBehaviour:
   m_description_group: {fileID: 2005608045202809636}
   m_description_Element: {fileID: 5217147891586321922, guid: c4791d296166cfe4dbb65db4106df0ec,
     type: 3}
-  _randomSkill: {fileID: 2005608045561181856}
+  _randomSkill: {fileID: 0}
   _scrollViewAnim: {fileID: 2005608046798225226}
---- !u!114 &2005608045561181856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2005608045561181866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 120dd3dad3e048b3b30437cabc16a92a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  is_overrideResourcesPath: 0
 --- !u!95 &2005608045561181857
 Animator:
   serializedVersion: 5

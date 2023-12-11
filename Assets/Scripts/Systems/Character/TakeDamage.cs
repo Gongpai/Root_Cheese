@@ -49,21 +49,23 @@ namespace GDD
 
         private void OnTriggerEnter(Collider other)
         {
+            /*
             if(_ownerLayer.parent == GM.enemy_layer)
                 print("Take Damage : " + other.name);
+            */
             
             Transform layer = other.transform.parent;
             CharacterSystem _characterSystem;
             if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
             {
-                print("Enemy Take Damage");
+                //print("Enemy Take Damage");
                 _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
                 OnTakeDamage(_characterSystem, _damage);
                 ReturnToPool();
             }
             else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
             {
-                print("Character Take Damage");
+                //print("Character Take Damage");
                 _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
                 OnTakeDamage(_characterSystem, _damage);
                 ReturnToPool();
@@ -81,7 +83,7 @@ namespace GDD
         {
             if (!_is_undying)
             {
-                print("Return TO Poooooollllll!!!!!!!!!!!!");
+                //print("Return TO Poooooollllll!!!!!!!!!!!!");
                 _bullet.ReturnToPool();
                 StopCoroutine(_coroutinereturnpool);
             }

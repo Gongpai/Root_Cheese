@@ -36,7 +36,7 @@ namespace GDD
         {
             if (enemy != null)
             {
-                print("On Maneuver");
+                //print("On Maneuver");
                 _coroutines.Add(StartCoroutine(Waiting(
                     () => { _coroutines.Add(StartCoroutine(Firing(m_enemyBulletConfig.rate))); },
                     m_enemyBulletConfig.timedelay)));

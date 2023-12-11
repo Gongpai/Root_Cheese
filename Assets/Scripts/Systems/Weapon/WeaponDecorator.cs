@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace GDD
 {
@@ -16,15 +18,35 @@ namespace GDD
             _weaponConfigStats = weaponConfigStats;
             _attachmentStats = attachmentStats;
         }
-        
-        public float damage
+
+        public string mainName { get => _decoratedWeapon.mainName; }
+        public string mainAttachmentName { get => "AttMain"; }
+        public string secAttachmentName { get => _attachment.attachmentName; }
+
+        public GameObject bulletObject
         {
-            get => _decoratedWeapon.damage * _weaponConfigStats.damage;
+            get => _decoratedWeapon.bulletObject;
+        }
+        public virtual float damage
+        {
+            get
+            {
+                if (_weaponConfigStats == null)
+                    return _decoratedWeapon.damage * 1;
+                else
+                    return _decoratedWeapon.damage * _weaponConfigStats.damage;
+            }
         }
 
-        public float rate
+        public virtual float rate
         {
-            get => _decoratedWeapon.rate * _weaponConfigStats.rate;
+            get
+            {
+                if (_weaponConfigStats == null)
+                    return _decoratedWeapon.rate * 1;
+                else
+                    return _decoratedWeapon.rate * _weaponConfigStats.rate;
+            }
         }
 
         public int shot
@@ -34,7 +56,13 @@ namespace GDD
         
         public float power
         {
-            get => _decoratedWeapon.power * _weaponConfigStats.power;
+            get
+            {
+                if (_weaponConfigStats == null)
+                    return _decoratedWeapon.power * 1;
+                else
+                    return _decoratedWeapon.power * _weaponConfigStats.power;
+            }
         }
         
         public float bullet_spawn_distance
@@ -52,10 +80,66 @@ namespace GDD
             get => _decoratedWeapon.bulletShotMode;
         }
         
-        public float shield { get => _attachment.shield * _attachmentStats.shield; }
-        public float effect_health { get => _attachment.effect_health * _attachmentStats.effect_health; }
-        public GameObject attachmentObject { get => _attachment.attachmentObject; }
-        public float attachmentSpinSpeed { get => _attachment.attachmentSpinSpeed * _attachmentStats.attachmentSpinSpeed; }
-        public float attachmentDamage { get => _attachment.attachmentDamage  * _attachmentStats.attachmentDamage; }
+        public float shield {
+            get
+            {
+                if (_attachment == null)
+                    return _decoratedWeapon.shield;
+                else if (_attachmentStats == null)
+                    return _attachment.shield * 1;
+                else
+                    return _attachment.shield * _attachmentStats.shield;
+            }
+        }
+
+        public virtual float effect_health
+        {
+            get
+            {
+                if (_attachment == null)
+                    return _decoratedWeapon.effect_health;
+                else if (_attachmentStats == null)
+                    return _attachment.effect_health * 1;
+                else
+                    return _attachment.effect_health * _attachmentStats.effect_health;
+            }
+        }
+
+        public GameObject attachmentObject
+        {
+            get
+            {
+                if (_attachment == null)
+                    return _decoratedWeapon.attachmentObject;
+                else
+                    return _attachment.attachmentObject;
+            }
+        }
+
+        public virtual float attachmentSpinSpeed
+        {
+            get
+            {
+                if (_attachment == null)
+                    return _decoratedWeapon.attachmentSpinSpeed;
+                else if (_attachmentStats == null)
+                    return _attachment.attachmentSpinSpeed * 1;
+                else
+                    return _attachment.attachmentSpinSpeed * _attachmentStats.attachmentSpinSpeed;
+            }
+        }
+
+        public virtual float attachmentDamage
+        {
+            get
+            {
+                if (_attachment == null)
+                    return _decoratedWeapon.attachmentDamage;
+                else if (_attachmentStats == null)
+                    return _attachment.attachmentDamage * 1;
+                else
+                    return _attachment.attachmentDamage * _attachmentStats.attachmentDamage; 
+            }
+        }
     }
 }

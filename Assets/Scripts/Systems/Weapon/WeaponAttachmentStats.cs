@@ -4,10 +4,10 @@ namespace GDD
 {
     public class WeaponAttachmentStats : MonoBehaviour
     {
-        private float _shield = 0;
-        private float _effect_health = 0;
-        private float _attachmentSpinSpeed = 0;
-        private float _attachmentDamage = 0;
+        private float _shield = 1;
+        private float _effect_health = 1;
+        private float _attachmentSpinSpeed = 1;
+        private float _attachmentDamage = 1;
         
         public float shield 
         {

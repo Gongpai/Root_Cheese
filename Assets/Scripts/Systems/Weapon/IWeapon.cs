@@ -4,7 +4,13 @@ namespace GDD
 {
     public interface IWeapon
     {
+        //Name
+        public string mainName { get; }
+        public string mainAttachmentName { get; }
+        public string secAttachmentName { get; }
+        
         //Weapon Config
+        public GameObject bulletObject { get; }
         float damage { get; }
         float rate { get; }
         int shot { get; }

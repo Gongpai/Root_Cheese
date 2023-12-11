@@ -4,6 +4,14 @@ namespace GDD
 {
     public class Weapon : IWeapon
     {
+        public string mainName { get => _config.weaponName; }
+        public string mainAttachmentName { get; }
+        public string secAttachmentName { get; }
+
+        public GameObject bulletObject
+        {
+            get => _config.bulletObject;
+        }
         public float damage
         {
             get => _config.damage;

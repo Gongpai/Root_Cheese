@@ -15,6 +15,7 @@ MonoBehaviour:
   _skillIcon: {fileID: 21300000, guid: a1d8ca8d1f4ad438ba741377021ddc30, type: 3}
   _skillName: Sword - DamageUpgrade
   _skillDescription: Description - Sword Damage Upgrade
+  _maxHealth: 0
   _shield: 0
   _effect_health: 0
   _attachmentSpinSpeed: 0

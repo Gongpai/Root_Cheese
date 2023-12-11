@@ -31,10 +31,9 @@ namespace GDD
             set => _randomSkill = value;
         }
         
-        private void Start()
+        public void OnCreate()
         {
             _scrollViewAnim.enabled = false;
-            _randomSkill = GetComponent<RandomSkill>();
 
             GameObject group = Instantiate(m_skill_Gruop);
             group.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;

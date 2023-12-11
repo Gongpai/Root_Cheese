@@ -1261,9 +1261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponConfig: {fileID: 11400000, guid: 00aad5496ca44bd4fb610a85de7ea307, type: 2}
-  mainAttachment: {fileID: 11400000, guid: 060c66609e99a02459598c9ac784ad2b, type: 2}
-  secondaryAttachment: {fileID: 11400000, guid: 7bc084381e42465448304b6b599a5034,
-    type: 2}
+  _mainAttachment: {fileID: 0}
+  _secondaryAttachment: {fileID: 0}
 --- !u!114 &8095716035511171481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1280,8 +1279,26 @@ MonoBehaviour:
   m_hp_text: {fileID: 475180726385747780}
   m_hp_bar: {fileID: 2335550544014905371}
   m_hp: 100
+  m_max_HP: 100
+  m_shield: 0
+  m_skillRandomUI: {fileID: 2005608045575106628, guid: dd27f74880ca05948922fe56b975edce,
+    type: 3}
+  m_maxLevel: 100
   m_delay_attack: 0.25
   vision: {x: 0, y: 0}
+--- !u!114 &7239729719400075180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180241714106799766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 120dd3dad3e048b3b30437cabc16a92a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  is_overrideResourcesPath: 0
 --- !u!4 &705807638788262956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544,

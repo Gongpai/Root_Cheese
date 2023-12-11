@@ -15,6 +15,8 @@ MonoBehaviour:
   _skillIcon: {fileID: 21300000, guid: 84f346c9327bb4f2ea3bd1876eb1e9af, type: 3}
   weaponName: SurroundShotBullet
   _skillDescription: Description - Surround Shot Bullet
+  _bulletObject: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef,
+    type: 3}
   m_damage: 20
   m_rate: 1
   m_shot: 8

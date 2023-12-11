@@ -15,6 +15,8 @@ MonoBehaviour:
   _skillIcon: {fileID: 21300000, guid: 144e44718298e400ea65a9ae71ca1a5e, type: 3}
   weaponName: LRFTripleShotBullet
   _skillDescription: Description - LRF Triple Shot Bullet
+  _bulletObject: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef,
+    type: 3}
   m_damage: 25
   m_rate: 1
   m_shot: 3

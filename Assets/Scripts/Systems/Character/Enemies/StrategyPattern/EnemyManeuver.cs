@@ -28,7 +28,7 @@ namespace GDD
 
         public override void Truce()
         {
-            print("On Truce!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            //print("On Truce!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             foreach (var coroutine in _coroutines)
             {
                 if(coroutine != null)

@@ -4,9 +4,9 @@ namespace GDD
 {
     public class WeaponConfigStats : MonoBehaviour
     {
-        private float _damage = 0;
-        private float _rate = 0;
-        private float _power = 0;
+        private float _damage = 1;
+        private float _rate = 1;
+        private float _power = 1;
 
         public float damage
         {

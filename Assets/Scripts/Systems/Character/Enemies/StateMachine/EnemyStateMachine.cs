@@ -30,7 +30,7 @@ namespace GDD
         public void ApplyEnemyStrategy()
         {
             strategy = GetComponent<EnemyManeuver>();
-            print("Apply Enemy Strategy");
+            //print("Apply Enemy Strategy");
             strategy.Maneuver(this);
         }
 

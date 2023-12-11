@@ -15,7 +15,7 @@ MonoBehaviour:
   _skillIcon: {fileID: 21300000, guid: 7633c37895d8f412b9638b720e56983a, type: 3}
   _skillName: MaxHealthUpgrade
   _skillDescription: Description - Max Health Upgrade
-  _maxHealth: 0.1
+  _maxHealth: 1.1
   _shield: 0
   _effect_health: 0
   _attachmentSpinSpeed: 0

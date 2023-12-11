@@ -79,7 +79,7 @@ namespace GDD
             if (enemy != null)
             {
                 _coroutines.Add(StartCoroutine(Waiting(
-                    () => { _coroutines.Add(StartCoroutine(Firing(_weaponSystem.Get_Weapon.rate))); },
+                    () => { _coroutines.Add(StartCoroutine(Firing(_weaponSystem.weapon.rate))); },
                     _characterSystem.delay_attack)));
             }
         }

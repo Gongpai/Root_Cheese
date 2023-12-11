@@ -101,7 +101,7 @@ namespace GDD
             Rigidbody rig = grenade.GetComponent<Rigidbody>();
             rig.velocity = Vector3.zero;
             
-            print("Launchhhhhhhhhhhhhh!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            //print("Launchhhhhhhhhhhhhh!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             
             //For Debug Only
             /*
