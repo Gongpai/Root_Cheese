@@ -22,7 +22,7 @@ namespace GDD
             }
         }
 
-        public override void Maneuver(EnemyStateMachine pawn)
+        public override void Maneuver(EnemyState pawn)
         {
             if (_spawnerPRBC != null)
             {

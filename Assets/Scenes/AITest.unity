@@ -6129,12 +6129,12 @@ PrefabInstance:
     - target: {fileID: 8095716035511171481, guid: 2ef1d37735647b14c8cf0156231ca24e,
         type: 3}
       propertyPath: vision.x
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8095716035511171481, guid: 2ef1d37735647b14c8cf0156231ca24e,
         type: 3}
       propertyPath: vision.y
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8735984563068894044, guid: 2ef1d37735647b14c8cf0156231ca24e,
         type: 3}
@@ -6167,6 +6167,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
+      propertyPath: m_cellSize
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
         type: 3}
       propertyPath: m_mapWidth

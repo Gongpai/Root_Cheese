@@ -2,7 +2,7 @@
 
 namespace GDD
 {
-    public class EnemyMoveStateMachine : EnemyStateMachine
+    public class EnemyMoveState : EnemyState
     {
         public override string StateName()
         {

@@ -21,8 +21,8 @@ namespace GDD
         private void Awake()
         {
             _enemyStateContext = new StateContext<EnemySystem>(this);
-            _moveState = gameObject.AddComponent<EnemyMoveStateMachine>();
-            _attackState = gameObject.AddComponent<EnemyAttackStateMachine>();
+            _moveState = gameObject.AddComponent<EnemyMoveState>();
+            _attackState = gameObject.AddComponent<EnemyAttackState>();
         }
 
         public override void OnEnable()

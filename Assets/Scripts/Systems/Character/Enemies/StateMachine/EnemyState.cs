@@ -4,9 +4,9 @@ using GDD.StrategyPattern;
 
 namespace GDD
 {
-    public class EnemyStateMachine : CharacterStateMachine<EnemySystem>
+    public class EnemyState : CharacterStateMachine<EnemySystem>
     {
-        protected IManeuverBehaviour<EnemyStateMachine> strategy;
+        protected IManeuverBehaviour<EnemyState> strategy;
         protected override void Start()
         {
             base.Start();

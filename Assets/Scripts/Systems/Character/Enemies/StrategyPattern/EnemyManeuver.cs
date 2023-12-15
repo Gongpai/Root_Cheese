@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 namespace GDD
 {
-    public class EnemyManeuver : StrategyPattern<EnemyStateMachine>
+    public class EnemyManeuver : StrategyPattern<EnemyState>
     {
         [SerializeField] protected float m_bulletSpawnDistance = 0.25f;
         protected List<Coroutine> _coroutines = new List<Coroutine>();
@@ -21,7 +21,7 @@ namespace GDD
                 _player = GM.players[0];
         }
 
-        public override void Maneuver(EnemyStateMachine pawn)
+        public override void Maneuver(EnemyState pawn)
         {
             
         }

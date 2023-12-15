@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace GDD
 {
-    public class PlayerAttackStateMachine : PlayerStateMachine
+    public class PlayerAttackState : PlayerState
     {
         private WeaponSystem _weaponSystem;
         private bool _is_end_rotation = false;

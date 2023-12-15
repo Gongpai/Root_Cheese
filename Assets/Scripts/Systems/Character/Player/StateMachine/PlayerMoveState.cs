@@ -1,6 +1,6 @@
 ﻿namespace GDD
 {
-    public class PlayerStateMachine : CharacterStateMachine<PlayerSystem>
+    public class PlayerMoveState : PlayerState
     {
         protected override void Start()
         {
@@ -9,7 +9,7 @@
 
         public override string StateName()
         {
-            return "PlayerState";
+            return "PlayerMoveState";
         }
         
         public override void OnStart(PlayerSystem contrller)

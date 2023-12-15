@@ -31,6 +31,11 @@ namespace GDD
         {
             get => m_delay_attack;
         }
+
+        public Vector2 Get_Vision
+        {
+            get => vision;
+        }
         
         public float shield
         {
@@ -46,8 +51,8 @@ namespace GDD
             _weaponSystem = GetComponent<WeaponSystem>();
             _playerController = GetComponent<PlayerCharacterController>();
             _playerStateContext = new StateContext<PlayerSystem>(this);
-            _attackState = gameObject.AddComponent<PlayerAttackStateMachine>();
-            _moveState = gameObject.AddComponent<PlayerMoveStateMachine>();
+            _attackState = gameObject.AddComponent<PlayerAttackState>();
+            _moveState = gameObject.AddComponent<PlayerMoveState>();
             
             _randomSkill = GetComponent<RandomSkill>();
             _randomSkill.weaponSystem = _weaponSystem;

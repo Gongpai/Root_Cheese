@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace GDD
 {
-    public class EnemyAttackStateMachine : EnemyStateMachine
+    public class EnemyAttackState : EnemyState
     {
         public override string StateName()
         {

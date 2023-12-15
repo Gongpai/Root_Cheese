@@ -20,7 +20,7 @@ namespace GDD
             _enemySpawnBullet = GetComponent<EnemySpawnBullet>();
         }
 
-        public override void Maneuver(EnemyStateMachine pawn)
+        public override void Maneuver(EnemyState pawn)
         {
             base.Maneuver(pawn);
             

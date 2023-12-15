@@ -102,6 +102,52 @@ namespace GDD
             
         }
 
+        void OnDrawGizmosSelected()
+        {
+            foreach (var _player in players)
+            {
+                Vector2 p_vision = _player.GetComponent<PlayerSystem>().Get_Vision / 2;
+                //Determine which grid cell the friendly soldier is in
+                float cellX = _player.GetPawnTransform().position.x;
+                float cellZ = _player.GetPawnTransform().position.z;
+                Vector2[] cells_pos = new Vector2[4];
+                cells_pos[0] = new Vector2(cellX + p_vision.x, cellZ - p_vision.y);
+                cells_pos[1] = new Vector2(cellX + p_vision.x, cellZ + p_vision.y);
+                cells_pos[2] = new Vector2(cellX - p_vision.x, cellZ + p_vision.y);
+                cells_pos[3] = new Vector2(cellX - p_vision.x, cellZ - p_vision.y);
+                
+                Gizmos.color = new Color(0, 1, 0, 0.5f);
+                Gizmos.DrawCube(_player.GetPawnTransform().position, new Vector3(_player.Get_Vision.x, 1, _player.Get_Vision.y));
+                
+                
+                int[,] cells_pos_map = new int[4, 2]
+                {
+                    { (int)((cellX + p_vision.x) / m_cellSize), (int)((cellZ - p_vision.y) / m_cellSize)},
+                    { (int)((cellX + p_vision.x) / m_cellSize), (int)((cellZ + p_vision.y) / m_cellSize)},
+                    { (int)((cellX - p_vision.x) / m_cellSize), (int)((cellZ + p_vision.y) / m_cellSize)},
+                    { (int)((cellX - p_vision.x) / m_cellSize), (int)((cellZ - p_vision.y) / m_cellSize)}
+                };
+                
+                Gizmos.color = new Color(0, 0, 1, 0.5f);
+                for (int i = 0; i < cells_pos_map.Length / 2; i++)
+                {
+                    Gizmos.DrawCube(new Vector3(cells_pos_map[i, 0] * m_cellSize + (5f), 0, cells_pos_map[i, 1] * m_cellSize + (5f)), new Vector3(1, 1, 1));
+                }
+                
+                Gizmos.color = new Color(1, 0, 0, 0.5f);
+                int _i = 1;
+                foreach (var cell in cells_pos)
+                {
+                    if(_i > cells_pos.Length - 1)
+                        Gizmos.DrawLine(new Vector3(cell.x, 0.1f, cell.y), new Vector3(cells_pos[0].x, 0.1f, cells_pos[0].y));
+                    else
+                        Gizmos.DrawLine(new Vector3(cell.x, 0.1f, cell.y), new Vector3(cells_pos[_i].x, 0.1f, cells_pos[_i].y));
+                    
+                    _i++;
+                }
+            }
+        }
+        
         /*
         private void OnGUI()
         {

@@ -99,11 +99,12 @@ namespace GDD.Spatial_Partition
             IPawn enemy = null;
             float distance = 0;
             //Get the first enemy in vision
-            for (int i = 0; i < cells_pos.Length / 2;)
+            for (int i = 0; i < cells_pos.GetLength(0);)
             {
-                //Debug.Log("INDEX : " + i + " :: Current : " + (cells_pos.Length / 2));
+                //Debug.Log("INDEX : " + i + " :: Current : " + (cells_pos.Length / 2) + " :: Calls x : " + cells.GetLength(0)  + " :: Calls x : " + cells.GetLength(1));
+                Debug.Log("INDEX : " + i + " :: Calls x : " + cells_pos[i, 0]  + " :: Calls x : " + cells_pos[i, 1]);
 
-                if (cells_pos[i, 0] < (cellSize / 2) && cells_pos[i, 1] < (cellSize / 2))
+                if (cells_pos[i, 0] < (cellSize / vision.x) && cells_pos[i, 1] < (cellSize / vision.y))
                 {
                     if (cells[cells_pos[i, 0], cells_pos[i, 1]] != null)
                     {
