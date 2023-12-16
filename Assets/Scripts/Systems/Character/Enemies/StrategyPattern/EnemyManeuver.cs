@@ -17,8 +17,13 @@ namespace GDD
             base.Start();
             
             _enemySystem = GetComponent<EnemySystem>();
-            if(GM.playMode == PlayMode.Singleplayer)
+            if (GM.playMode == PlayMode.Singleplayer)
                 _player = GM.players[0];
+            else
+            {
+                if(GM.players.Count > 0)
+                    _player = GM.players[Random.Range(0, GM.players.Count)];
+            }
         }
 
         public override void Maneuver(EnemyState pawn)

@@ -102,7 +102,7 @@ namespace GDD.Spatial_Partition
             for (int i = 0; i < cells_pos.GetLength(0);)
             {
                 //Debug.Log("INDEX : " + i + " :: Current : " + (cells_pos.Length / 2) + " :: Calls x : " + cells.GetLength(0)  + " :: Calls x : " + cells.GetLength(1));
-                Debug.Log("INDEX : " + i + " :: Calls x : " + cells_pos[i, 0]  + " :: Calls x : " + cells_pos[i, 1]);
+                //Debug.Log("INDEX : " + i + " :: Calls x : " + cells_pos[i, 0]  + " :: Calls x : " + cells_pos[i, 1]);
 
                 if (cells_pos[i, 0] < (cellSize / vision.x) && cells_pos[i, 1] < (cellSize / vision.y))
                 {
@@ -113,7 +113,7 @@ namespace GDD.Spatial_Partition
                             //Debug.Log(i + ". Count : " + cells[cells_pos[i, 0], cells_pos[i, 1]].Count);
                             IPawn next_enemy = cells[cells_pos[i, 0], cells_pos[i, 1]][j];
                             if (next_enemy != null)
-                            {
+                            { 
                                 try
                                 {
                                     float new__distance = Vector3.Distance(playerPawn.GetPawnTransform().position,

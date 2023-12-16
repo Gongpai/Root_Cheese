@@ -71,7 +71,7 @@ namespace GDD
 
         protected void RandomWayPointPosition()
         {
-            if (_waypoint == null)
+            if (_waypoint == null && this.enabled)
             {
                 _waypoint = new GameObject(gameObject.name + " WayPoint");
                 _waypoint.transform.parent = transform.parent;

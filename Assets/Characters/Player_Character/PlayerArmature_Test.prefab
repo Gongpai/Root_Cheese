@@ -1260,7 +1260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d33a5b564f477fae1eb37d80af252b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponConfig: {fileID: 11400000, guid: 00aad5496ca44bd4fb610a85de7ea307, type: 2}
+  _weaponConfig: {fileID: 11400000, guid: 6aeab7e039c42d643a46f76fa3ad1f06, type: 2}
   _mainAttachment: {fileID: 0}
   _secondaryAttachment: {fileID: 0}
 --- !u!114 &7239729719400075180
@@ -1298,7 +1298,7 @@ MonoBehaviour:
     type: 3}
   m_maxLevel: 100
   m_delay_attack: 0.25
-  vision: {x: 0, y: 0}
+  vision: {x: 10, y: 10}
 --- !u!4 &705807638788262956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544,
