@@ -85,8 +85,6 @@ namespace GDD
         {
             base.OnAwake();
             
-            m_players = FindObjectsByType<PlayerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
-            m_enemies = FindObjectsByType<EnemySystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
             _grid = new Grid((int)m_mapWidth, m_cellSize, enemies.Count);
         }
 
@@ -102,6 +100,11 @@ namespace GDD
             
         }
 
+        private void AddNewPlayer()
+        {
+            
+        }
+        
         void OnDrawGizmosSelected()
         {
             foreach (var _player in players)

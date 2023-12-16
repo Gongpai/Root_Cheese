@@ -1,7 +1,6 @@
 ﻿using System;
 using Cinemachine;
 using ExitGames.Client.Photon;
-using GDD.Sinagleton;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
@@ -121,7 +120,7 @@ namespace GDD.PUN
         {
             // we're in a room. spawn a character for the local player.
             // it gets synced by using PhotonNetwork.Instantiate
-            PhotonNetwork.Instantiate(GamePlayerPrefab.name, new Vector3(5f, 2f, 2f), Quaternion.identity, 0);
+            PhotonNetwork.Instantiate(GamePlayerPrefab.name, new Vector3(5f, 5f, 2f), Quaternion.identity, 0);
         }
         
         public void gameStateUpdate(Hashtable propertiesThatChanged) {

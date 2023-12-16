@@ -1,9 +1,13 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace GDD.PUN
 {
+    [RequireComponent(typeof(PhotonView))]
+    [RequireComponent(typeof(PhotonTransformView))]
     public class PunUserNetControl : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
     {
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
@@ -16,6 +20,7 @@ namespace GDD.PUN
         {
             //Game Manager
             GM = GameManager.Instance;
+            transform.parent = GM.player_layer;
             
             Debug.Log(info.photonView.Owner.ToString());
             Debug.Log(info.photonView.ViewID.ToString());
@@ -26,7 +31,6 @@ namespace GDD.PUN
             if (photonView.IsMine)
             {
                 LocalPlayerInstance = gameObject;
-                transform.parent = GM.player_layer;
                 //GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
                 // Reference Camera on run-time
                 GameObject followCamObject = new GameObject("FollowCamera");
@@ -42,10 +46,13 @@ namespace GDD.PUN
             else
             {
                 GetComponent<PlayerCharacterController>().enabled = false;
+                GetComponent<CharacterSystem>().enabled = false;
                 OnPlayerPropertiesUpdate(photonView.Owner, photonView.Owner.CustomProperties);
-
+                
             }
         }
-        
+        public override void OnPlayerPropertiesUpdate(Player target, Hashtable changedProps) {
+            base.OnPlayerPropertiesUpdate(target, changedProps);
+        }
     }
 }

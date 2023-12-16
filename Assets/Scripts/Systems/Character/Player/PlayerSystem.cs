@@ -26,6 +26,7 @@ namespace GDD
         private RandomSkill _randomSkill;
         private RandomSkill_UI _randomSkillUI;
         private float _level;
+        private GameManager GM;
 
         public float delay_attack
         {
@@ -57,6 +58,9 @@ namespace GDD
             _randomSkill = GetComponent<RandomSkill>();
             _randomSkill.weaponSystem = _weaponSystem;
             _randomSkill.OnInitialize();
+
+            GM = GameManager.Instance;
+            GM.players.Add(this);
 
             /*
             GameObject r_skill_ui = Instantiate(m_skillRandomUI);

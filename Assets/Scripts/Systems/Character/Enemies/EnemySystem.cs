@@ -36,6 +36,7 @@ namespace GDD
         {
             base.Start();
             GM = GameManager.Instance;
+            GM.enemies.Add(this);
             
             //Add this unit to the grid
             GM.grid.Add(this);
