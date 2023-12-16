@@ -44,6 +44,12 @@ namespace GDD
         {
             base.OnStart(contrller);
             
+            if(GM == null)
+                GM = GameManager.Instance;
+            
+            if(_characterSystem == null)
+                _characterSystem = GetComponent<T>();
+            
             //Clear All Coriutines
             ClearCoriutines();
         }

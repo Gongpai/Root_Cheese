@@ -13,10 +13,9 @@ namespace GDD.PUN
     public class PunNetworkManager : ConnectAndJoinRandom
     {
         //Field
-        [Header("Player Spawn Settings")][Tooltip("The prefab to use for representing the player")]
-        [SerializeField] private PlayerCameraFollow _followCam;
+        [Header("Player Spawn Settings")] [Tooltip("The prefab to use for representing the player")] 
+        [SerializeField] private CinemachineVirtualCamera _vCam;
         [SerializeField] private InputActionAsset _inputActionAsset;
-        [SerializeField] private Transform _playerParent;
         [SerializeField] private GameObject GamePlayerPrefab;
         private PunGameState _currentGameState = PunGameState.GameStart;
         
@@ -60,9 +59,9 @@ namespace GDD.PUN
                 PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
             }
         }
-        public PlayerCameraFollow followCam
+        public CinemachineVirtualCamera vCAm
         {
-            get => _followCam;
+            get => _vCam;
         }
 
         public InputActionAsset inputActionAsset
@@ -122,9 +121,7 @@ namespace GDD.PUN
         {
             // we're in a room. spawn a character for the local player.
             // it gets synced by using PhotonNetwork.Instantiate
-            GameObject player = PhotonNetwork.Instantiate(GamePlayerPrefab.name, new Vector3(5f, 2f, 2f), Quaternion.identity, 0);
-            print("Player Name :: " + player.name);
-            player.transform.parent = _playerParent;
+            PhotonNetwork.Instantiate(GamePlayerPrefab.name, new Vector3(5f, 2f, 2f), Quaternion.identity, 0);
         }
         
         public void gameStateUpdate(Hashtable propertiesThatChanged) {

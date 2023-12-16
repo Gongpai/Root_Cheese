@@ -32,6 +32,7 @@ namespace GDD
             _is_Start_Fire = true;
             
             //Start Coroutines Here
+            //print("Is null :: " + (GM == null));
             IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
             SmoothLookAtEnemy(closestEnemy);
             OnFire(closestEnemy);
