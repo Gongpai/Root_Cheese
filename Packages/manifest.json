@@ -1,14 +1,5 @@
 {
   "dependencies": {
-    "com.supabase.dll.mimemapping": "https://github.com/kamyker/supabase-unity.git?path=.UnityDlls/MimeMapping",
-    "com.supabase.dll.newtonsoft.json": "https://github.com/kamyker/supabase-unity.git?path=.UnityDlls/Newtonsoft.Json",
-    "com.supabase.dll.system.reactive": "https://github.com/kamyker/supabase-unity.git?path=.UnityDlls/System.Reactive",
-    "com.supabase.dll.system.runtime.compilerservices.unsafe": "https://github.com/kamyker/supabase-unity.git?path=.UnityDlls/System.Runtime.CompilerServices.Unsafe",
-    "com.supabase.dll.system.runtime.interopservices.windowsruntime": "https://github.com/kamyker/supabase-unity.git?path=.UnityDlls/System.Runtime.InteropServices.WindowsRuntime",
-    "com.supabase.dll.system.threading.channels": "https://github.com/kamyker/supabase-unity.git?path=.UnityDlls/System.Threading.Channels",
-    "com.supabase.dll.system.threading.tasks.extensions": "https://github.com/kamyker/supabase-unity.git?path=.UnityDlls/System.Threading.Tasks.Extensions",
-    "com.supabase.dll.websocket.client": "https://github.com/kamyker/supabase-unity.git?path=.UnityDlls/Websocket.Client",
-    "com.supabase.unitybuilder": "https://github.com/kamyker/supabase-unity.git",
     "com.unity.cinemachine": "2.8.9",
     "com.unity.collab-proxy": "2.2.0",
     "com.unity.feature.2d": "2.0.0",

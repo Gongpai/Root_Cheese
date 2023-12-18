@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Postgrest;
 using Supabase;
 using Supabase.Gotrue;
@@ -34,6 +35,13 @@ namespace GDD.DataBase
 
         private void Start()
         {
+            SupabaseOptions
+                supabaseOptions = new SupabaseOptions()
+                {
+                    AutoConnectRealtime = true
+                }; 
+            _client = new Client(m_supaBaseURL, m_supaBaseKey, supabaseOptions);
+            
             if (is_singUp) SingUp();
             else SignIn();
         }
@@ -45,9 +53,6 @@ namespace GDD.DataBase
                 _loadpercent = GetConnectionProgress();
                 //print("Connet Progress : " + _loadpercent * 100 + "%");
             }
-
-            if (Client.Instance != null && _client == null)
-                _client = Client.Instance;
 
             if (_session != null)
             {
@@ -74,58 +79,13 @@ namespace GDD.DataBase
 
         private async void SingUp()
         {
-            SupabaseOptions
-                supabaseOptions = new SupabaseOptions()
-                {
-                    AutoConnectRealtime = true
-                }; //(m_supaBaseURL, m_supaBaseKey, supabaseOptions, client1 => { CallBack(); });
-            _client = await Client.InitializeAsync(m_supaBaseURL, m_supaBaseKey, supabaseOptions);
+            await _client.InitializeAsync();
 
             _sessionTask = _client.Auth.SignUp(_email, _password);
             print("Connet Progress : " + _sessionTask.Status);
             try
             {
                 await _sessionTask;
-            }
-            catch (BadRequestException badRequestException)
-            {
-                _result += "BadRequestException";
-                _result += $"{badRequestException.Message}";
-                _result += $"{badRequestException.Content}";
-                _result += $"{badRequestException.StackTrace}";
-                return;
-            }
-            catch (UnauthorizedException unauthorizedException)
-            {
-                _result += "UnauthorizedException";
-                _result += unauthorizedException.Message;
-                _result += unauthorizedException.Content;
-                _result += unauthorizedException.StackTrace;
-                return;
-            }
-            catch (ExistingUserException existingUserException)
-            {
-                _result += "ExistingUserException";
-                _result += existingUserException.Message;
-                _result += existingUserException.Content;
-                _result += existingUserException.StackTrace;
-                return;
-            }
-            catch (ForbiddenException forbiddenException)
-            {
-                _result += "ForbiddenException";
-                _result += forbiddenException.Message;
-                _result += forbiddenException.Content;
-                _result += forbiddenException.StackTrace;
-                return;
-            }
-            catch (InvalidEmailOrPasswordException invalidEmailOrPasswordException)
-            {
-                _result += "invalidEmailOrPasswordException";
-                _result += invalidEmailOrPasswordException.Message;
-                _result += invalidEmailOrPasswordException.Content;
-                _result += invalidEmailOrPasswordException.StackTrace;
-                return;
             }
             catch (Exception exception)
             {
@@ -167,58 +127,13 @@ namespace GDD.DataBase
 
         private async void SignIn()
         {
-            SupabaseOptions
-                supabaseOptions = new SupabaseOptions()
-                {
-                    AutoConnectRealtime = true
-                }; //(m_supaBaseURL, m_supaBaseKey, supabaseOptions, client1 => { CallBack(); });
-            _client = await Client.InitializeAsync(m_supaBaseURL, m_supaBaseKey, supabaseOptions);
+            await _client .InitializeAsync();
 
             _sessionTask = _client.Auth.SignIn(_email, _password);
             print("Connet Progress : " + _sessionTask.Status);
             try
             {
                 await _sessionTask;
-            }
-            catch (BadRequestException badRequestException)
-            {
-                _result += "BadRequestException";
-                _result += $"{badRequestException.Message}";
-                _result += $"{badRequestException.Content}";
-                _result += $"{badRequestException.StackTrace}";
-                return;
-            }
-            catch (UnauthorizedException unauthorizedException)
-            {
-                _result += "UnauthorizedException";
-                _result += unauthorizedException.Message;
-                _result += unauthorizedException.Content;
-                _result += unauthorizedException.StackTrace;
-                return;
-            }
-            catch (ExistingUserException existingUserException)
-            {
-                _result += "ExistingUserException";
-                _result += existingUserException.Message;
-                _result += existingUserException.Content;
-                _result += existingUserException.StackTrace;
-                return;
-            }
-            catch (ForbiddenException forbiddenException)
-            {
-                _result += "ForbiddenException";
-                _result += forbiddenException.Message;
-                _result += forbiddenException.Content;
-                _result += forbiddenException.StackTrace;
-                return;
-            }
-            catch (InvalidEmailOrPasswordException invalidEmailOrPasswordException)
-            {
-                _result += "invalidEmailOrPasswordException";
-                _result += invalidEmailOrPasswordException.Message;
-                _result += invalidEmailOrPasswordException.Content;
-                _result += invalidEmailOrPasswordException.StackTrace;
-                return;
             }
             catch (Exception exception)
             {
@@ -240,9 +155,6 @@ namespace GDD.DataBase
             print("Connet Progress : " + _sessionTask.Status);
             
             //Select / Get Data
-            var model = new GameSaveDataBase();
-            model.user_id = _session.User.Id;
-            model.created_at = DateTime.Now;
             var data = await _client.From<GameSaveDataBase>()
                 .Filter("user_id", Constants.Operator.Equals, _session.User.Id)
                 .Get();
@@ -250,18 +162,22 @@ namespace GDD.DataBase
             _result = $"Supabase sign in user id: {_session?.User?.Id}";
             foreach (var sdata in data.Models)
             {
-                print("Connet Progress : " + sdata.user_id);
+                print("Connect Progress : " + sdata.user_id);
             }
             
             //Update Data
-            var update_model = await _client
-                .From<GameSaveDataBase>()
-                .Filter("user_id", Constants.Operator.Equals, _session.User.Id)
-                .Single();
             //Create Json Save File
-            update_model.savedata = JsonConvert.SerializeObject(new GameInstance());
-
+            string j_data = JsonConvert.SerializeObject(new GameInstance());
+            JObject j_obj = JsonConvert.DeserializeObject<JObject>(j_data);
+            var update_model = await _client.From<GameSaveDataBase>()
+                .Where(x => x.user_id == _session.User.Id)
+                .Single();
+            
+            print($"SaveData : {update_model.savedata}");
+            update_model.savedata = j_obj;
             await update_model.Update<GameSaveDataBase>();
+            
+            print($"SaveData : {update_model.savedata}");
         }
 
         public void CallBack()
