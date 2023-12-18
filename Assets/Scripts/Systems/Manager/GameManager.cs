@@ -11,6 +11,10 @@ namespace GDD
 {
     public class GameManager : DontDestroy_Singleton<GameManager>
     {
+        //GameInstance
+        private GameInstance GI = new GameInstance();
+        
+        //Game Setting
         [Header("Emeny Finding System")] 
         [SerializeField]
         private List<PlayerSystem> m_players;
@@ -31,7 +35,11 @@ namespace GDD
         
         private GameObject _bullet_pool;
         private Grid _grid;
-        
+
+        public GameInstance gameInstance
+        {
+            get => GI;
+        }
         public GameObject Get_Bullet_Pool
         {
             get

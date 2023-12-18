@@ -152,10 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c02c18a57ea742e5a54ec9c54525059a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  is_singUp: 0
   m_supaBaseURL: https://cevgbpclgngixiswbzsx.supabase.co
   m_supaBaseKey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNldmdicGNsZ25naXhpc3dienN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI4MTUwMzksImV4cCI6MjAxODM5MTAzOX0.hmyg57-RqIKgYzv5Xrk7p9fMslXz4xlU1Pzn8vJUo6I
-  _email: treecom2014@outlook.co.th
-  _password: 25264752@Gong
+  _email: 6048@pongppk.ac.th
+  _password: 1212312121@GGG
   _result: 
 --- !u!4 &653997211
 Transform:
