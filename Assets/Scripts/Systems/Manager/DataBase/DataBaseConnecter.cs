@@ -31,7 +31,18 @@ namespace GDD.DataBase
         private Task<Session> _sessionTask;
         private Client _client;
         private Session _session;
-        private List<GameSaveDataBase> userId = new List<GameSaveDataBase>();
+        private GameInstance _saveData = new();
+
+        public GameInstance saveData
+        {
+            get => _saveData;
+            set => _saveData = value;
+        }
+
+        public float progress
+        {
+            get => _loadpercent;
+        }
 
         private void Start()
         {
@@ -42,17 +53,16 @@ namespace GDD.DataBase
                 }; 
             _client = new Client(m_supaBaseURL, m_supaBaseKey, supabaseOptions);
             
+            //For Debug
+            /*
             if (is_singUp) SingUp();
             else SignIn();
+            */
         }
 
         private void Update()
         {
-            if (_sessionTask != null)
-            {
-                _loadpercent = GetConnectionProgress();
-                //print("Connet Progress : " + _loadpercent * 100 + "%");
-            }
+            _loadpercent = GetConnectionProgress();
 
             if (_session != null)
             {
@@ -64,24 +74,35 @@ namespace GDD.DataBase
         {
             float progress = 0;
 
-            if (_sessionTask.Status == TaskStatus.Created || _sessionTask.Status == TaskStatus.WaitingForActivation ||
-                _sessionTask.Status == TaskStatus.WaitingToRun)
+            if (_sessionTask != null)
+            {
+                if (_sessionTask.Status == TaskStatus.Created ||
+                    _sessionTask.Status == TaskStatus.WaitingForActivation ||
+                    _sessionTask.Status == TaskStatus.WaitingToRun)
+                    progress = 0.1f;
+                else if (_sessionTask.Status == TaskStatus.Running)
+                    progress = 0.5f;
+                else if (_sessionTask.Status == TaskStatus.WaitingForChildrenToComplete)
+                    progress = 0.9f;
+                else if (_sessionTask.Status == TaskStatus.RanToCompletion)
+                    progress = 1;
+                else
+                    progress = 0;
+            }
+            else
+            {
                 progress = 0;
-            else if (_sessionTask.Status == TaskStatus.Running)
-                progress = 0.5f;
-            else if (_sessionTask.Status == TaskStatus.WaitingForChildrenToComplete)
-                progress = 0.9f;
-            else if (_sessionTask.Status == TaskStatus.RanToCompletion)
-                progress = 1;
+            }
 
             return progress;
         }
 
-        private async void SingUp()
+        public async Task SingUp(string email, string password, GameInstance instance)
         {
             await _client.InitializeAsync();
 
-            _sessionTask = _client.Auth.SignUp(_email, _password);
+            _sessionTask = _client.Auth.SignUp(email, password);
+            //_sessionTask = _client.Auth.SignUp(_email, _password);
             print("Connet Progress : " + _sessionTask.Status);
             try
             {
@@ -102,14 +123,15 @@ namespace GDD.DataBase
             {
                 _result = $"Supabase sign in user id: {_session?.User?.Id}";
 
-                var set_model = new GameSaveDataBase();
+                InsertSaveData set_model = new InsertSaveData();
                 set_model.created_at = DateTime.Now;
+                string j_data = JsonConvert.SerializeObject(instance);
+                JObject j_obj = JsonConvert.DeserializeObject<JObject>(j_data);
+                set_model.savedata = j_obj;
                 set_model.user_id = _session.User.Id;
-                await _client.From<GameSaveDataBase>().Insert(set_model);
+                await _client.From<InsertSaveData>().Insert(set_model);
                 
-                var get_model = new GameSaveDataBase();
-                get_model.user_id = _session.User.Id;
-                get_model.created_at = DateTime.Now;
+                
                 var data = await _client.From<GameSaveDataBase>()
                     .Filter("user_id", Constants.Operator.Equals, _session.User.Id)
                     .Get();
@@ -125,11 +147,12 @@ namespace GDD.DataBase
 
         }
 
-        private async void SignIn()
+        public async Task SignIn(string email, string password)
         {
             await _client .InitializeAsync();
 
-            _sessionTask = _client.Auth.SignIn(_email, _password);
+            _sessionTask = _client.Auth.SignIn(email, password);
+            //_sessionTask = _client.Auth.SignIn(_email, _password);
             print("Connet Progress : " + _sessionTask.Status);
             try
             {
@@ -153,21 +176,18 @@ namespace GDD.DataBase
             }
 
             print("Connet Progress : " + _sessionTask.Status);
-            
-            //Select / Get Data
-            var data = await _client.From<GameSaveDataBase>()
-                .Filter("user_id", Constants.Operator.Equals, _session.User.Id)
-                .Get();
+        }
 
-            _result = $"Supabase sign in user id: {_session?.User?.Id}";
-            foreach (var sdata in data.Models)
-            {
-                print("Connect Progress : " + sdata.user_id);
-            }
-            
+        public void CallBack()
+        {
+            print("Call Me by Your Name......");
+        }
+
+        public async Task UpdateSave(GameInstance instance)
+        {
             //Update Data
             //Create Json Save File
-            string j_data = JsonConvert.SerializeObject(new GameInstance());
+            string j_data = JsonConvert.SerializeObject(instance);
             JObject j_obj = JsonConvert.DeserializeObject<JObject>(j_data);
             var update_model = await _client.From<GameSaveDataBase>()
                 .Where(x => x.user_id == _session.User.Id)
@@ -180,39 +200,26 @@ namespace GDD.DataBase
             print($"SaveData : {update_model.savedata}");
         }
 
-        public void CallBack()
+        public async Task SyncData()
         {
-            print("Call Me by Your Name......");
+            //Select / Get Data
+            var data = await _client.From<GameSaveDataBase>()
+                .Filter("user_id", Constants.Operator.Equals, _session.User.Id)
+                .Single();
+
+            _result = $"Supabase sign in user id: {_session?.User?.Id}";
+            string sdata = JsonConvert.SerializeObject(data.savedata);
+            _saveData = JsonConvert.DeserializeObject<GameInstance>(sdata);
+            
+            return;
         }
-/*
-        IEnumerator OnConnection(SupabaseOptions options, Func<Task<Client>> _funcTask)
+        
+        public async Task SignOut()
         {
-            Task.Run( async () =>
-                    {
-                        try
-                        {
-                            await _funcTask.Invoke();
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.Log(e.Message);
-                        }
-                    }
-            );
-
-            if (_taskClient.Status == TaskStatus.Created || _taskClient.Status == TaskStatus.WaitingForActivation ||
-                _taskClient.Status == TaskStatus.WaitingToRun)
-                _loadpercent = 0;
-            else if (_taskClient.Status == TaskStatus.Running)
-                _loadpercent = 0.5f;
-            else if (_taskClient.Status == TaskStatus.WaitingForChildrenToComplete)
-                _loadpercent = 0.9f;
-            else if (_taskClient.Status == TaskStatus.RanToCompletion)
-                _loadpercent = 1;
-
-            if(_taskClient.Status == TaskStatus.RanToCompletion)
-                yield break;
-        }*/
+            _sessionTask = null;
+            
+            await _client.Auth.SignOut();
+        }
 
         private async void OnDisable()
         {
