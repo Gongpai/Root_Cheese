@@ -5,7 +5,7 @@ using Postgrest.Models;
 namespace GDD.DataBase
 {
     [Table("SaveData")]
-    public class GameSaveDataBase : BaseModel
+    public class UpdateRowData : BaseModel,ITableData
     {
         [PrimaryKey("user_id", false)]
         public string user_id { get; set; }

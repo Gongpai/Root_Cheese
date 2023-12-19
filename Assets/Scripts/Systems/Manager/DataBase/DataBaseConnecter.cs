@@ -123,16 +123,16 @@ namespace GDD.DataBase
             {
                 _result = $"Supabase sign in user id: {_session?.User?.Id}";
 
-                InsertSaveData set_model = new InsertSaveData();
+                InsertRowData set_model = new InsertRowData();
                 set_model.created_at = DateTime.Now;
                 string j_data = JsonConvert.SerializeObject(instance);
                 JObject j_obj = JsonConvert.DeserializeObject<JObject>(j_data);
                 set_model.savedata = j_obj;
                 set_model.user_id = _session.User.Id;
-                await _client.From<InsertSaveData>().Insert(set_model);
+                await _client.From<InsertRowData>().Insert(set_model);
                 
                 
-                var data = await _client.From<GameSaveDataBase>()
+                var data = await _client.From<UpdateRowData>()
                     .Filter("user_id", Constants.Operator.Equals, _session.User.Id)
                     .Get();
                 //await _client.From<GameSaveDataBase>().Insert(model);
@@ -189,13 +189,13 @@ namespace GDD.DataBase
             //Create Json Save File
             string j_data = JsonConvert.SerializeObject(instance);
             JObject j_obj = JsonConvert.DeserializeObject<JObject>(j_data);
-            var update_model = await _client.From<GameSaveDataBase>()
+            var update_model = await _client.From<UpdateRowData>()
                 .Where(x => x.user_id == _session.User.Id)
                 .Single();
             
             print($"SaveData : {update_model.savedata}");
             update_model.savedata = j_obj;
-            await update_model.Update<GameSaveDataBase>();
+            await update_model.Update<UpdateRowData>();
             
             print($"SaveData : {update_model.savedata}");
         }
@@ -203,7 +203,7 @@ namespace GDD.DataBase
         public async Task SyncData()
         {
             //Select / Get Data
-            var data = await _client.From<GameSaveDataBase>()
+            var data = await _client.From<UpdateRowData>()
                 .Filter("user_id", Constants.Operator.Equals, _session.User.Id)
                 .Single();
 

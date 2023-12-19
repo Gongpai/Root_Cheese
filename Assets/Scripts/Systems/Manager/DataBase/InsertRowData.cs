@@ -5,7 +5,7 @@ using Postgrest.Models;
 namespace GDD.DataBase
 {
     [Table("SaveData")]
-    public class InsertSaveData : BaseModel
+    public class InsertRowData : BaseModel, ITableData
     {
         [Column("user_id")] public string user_id { get; set; }
 
