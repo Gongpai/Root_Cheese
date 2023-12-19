@@ -1,6 +1,8 @@
-﻿using GDD.DataBase;
+﻿using System;
+using GDD.DataBase;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GDD
@@ -15,13 +17,19 @@ namespace GDD
         [SerializeField] private Button m_login;
         [SerializeField] private Button m_register;
         [SerializeField] private GameObject m_loading;
-        [SerializeField] private DataBaseConnecter _dataConnecter;
-        
+        [SerializeField] private DataBaseController _dataBaseController;
+
+        private GameManager GM;
+        private void Start()
+        {
+            GM = GameManager.Instance;
+        }
+
         private void Update()
         {
-            if(_dataConnecter.progress == 0.1f)
+            if(_dataBaseController.GetProgress() == 0.1f)
                 m_loading.SetActive(true);
-            else if (_dataConnecter.progress == 1)
+            else if (_dataBaseController.GetProgress() == 1)
             {
                 m_loading.SetActive(false);
             }
@@ -36,7 +44,7 @@ namespace GDD
                 gameInstance.playerName = m_name.text;
                 gameInstance.age = int.Parse(m_age.text);
                 gameInstance.date = m_birthday.text;
-                await _dataConnecter.SingUp(m_e_mail.text, m_password.text, gameInstance);
+                await _dataBaseController.SingUp(m_e_mail.text, m_password.text, gameInstance);
                 gameObject.SetActive(false);
                 print("Login!");
             }

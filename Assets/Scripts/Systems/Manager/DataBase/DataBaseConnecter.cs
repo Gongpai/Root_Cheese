@@ -183,18 +183,16 @@ namespace GDD.DataBase
             print("Call Me by Your Name......");
         }
 
-        public async Task UpdateSave(GameInstance instance)
+        public async Task UpdateSave(JObject jObject)
         {
             //Update Data
             //Create Json Save File
-            string j_data = JsonConvert.SerializeObject(instance);
-            JObject j_obj = JsonConvert.DeserializeObject<JObject>(j_data);
             var update_model = await _client.From<UpdateRowData>()
                 .Where(x => x.user_id == _session.User.Id)
                 .Single();
             
             print($"SaveData : {update_model.savedata}");
-            update_model.savedata = j_obj;
+            update_model.savedata = jObject;
             await update_model.Update<UpdateRowData>();
             
             print($"SaveData : {update_model.savedata}");

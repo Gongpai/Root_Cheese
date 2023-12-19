@@ -2,6 +2,7 @@
 using GDD.DataBase;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GDD
@@ -13,15 +14,15 @@ namespace GDD
         [SerializeField] private Button m_login;
         [SerializeField] private Button m_register;
         [SerializeField] private GameObject m_loading;
-        [SerializeField] private DataBaseConnecter _dataConnecter;
+        [SerializeField] private DataBaseController _dataBaseController;
         [SerializeField] private GameObject m_userForm;
         [SerializeField] private GameObject m_signUp;
 
         private void Update()
         {
-            if(_dataConnecter.progress == 0.1f)
+            if(_dataBaseController.GetProgress() == 0.1f)
                 m_loading.SetActive(true);
-            else if (_dataConnecter.progress == 1)
+            else if (_dataBaseController.GetProgress() == 1)
             {
                 m_loading.SetActive(false);
                 m_userForm.SetActive(true);
@@ -33,7 +34,7 @@ namespace GDD
             print($"E-mail : {m_e_mail.text} | Password : {m_password.text}");
             if (m_e_mail.text != "" && m_password.text != "")
             {
-                _dataConnecter.SignIn(m_e_mail.text, m_password.text);
+                _dataBaseController.SignIn(m_e_mail.text, m_password.text);
                 print("Login!");
             }
             else

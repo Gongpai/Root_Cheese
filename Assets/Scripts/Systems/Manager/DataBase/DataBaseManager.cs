@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GDD.JsonHelper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Supabase;
@@ -33,6 +34,26 @@ namespace GDD.DataBase
         {
             get
             {
+                if (_sessionTask != null)
+                {
+                    if (_sessionTask.Status == TaskStatus.Created ||
+                        _sessionTask.Status == TaskStatus.WaitingForActivation ||
+                        _sessionTask.Status == TaskStatus.WaitingToRun)
+                        return 0.1f;
+                    else if (_sessionTask.Status == TaskStatus.Running)
+                        return 0.5f;
+                    else if (_sessionTask.Status == TaskStatus.WaitingForChildrenToComplete)
+                        return 0.9f;
+                    else if (_sessionTask.Status == TaskStatus.RanToCompletion)
+                        return 1;
+                    else
+                        return 0;
+                }
+                else
+                {
+                    return 0;
+                }
+
                 return 0;
             }
         }
@@ -56,7 +77,7 @@ namespace GDD.DataBase
         }
 
         //SignUp
-        public async Task SingUp(string email, string password, GameInstance instance)
+        public async Task SingUp(string email, string password, JObject jObject)
         {
             if (_client != null)
                 await _client.InitializeAsync();
@@ -90,13 +111,11 @@ namespace GDD.DataBase
                 _result = $"Supabase sign up user id: {_session?.User?.Id}";
 
                 //Insert Data
-                InsertRowData set_model = new InsertRowData();
-                set_model.created_at = DateTime.Now;
-                string j_data = JsonConvert.SerializeObject(instance);
-                JObject j_obj = JsonConvert.DeserializeObject<JObject>(j_data);
-                set_model.savedata = j_obj;
-                set_model.user_id = _session.User.Id;
-                await _client.From<InsertRowData>().Insert(set_model);
+                InsertRowData rowData = new InsertRowData();
+                rowData.created_at = DateTime.Now;
+                rowData.user_id = _session.User.Id;
+                rowData.savedata = jObject;
+                await _client.From<InsertRowData>().Insert(rowData);
                 
                 //Get Data From DataBase
                 var get_data = await _client.From<UpdateRowData>()
@@ -145,7 +164,7 @@ namespace GDD.DataBase
         }
 
         //Update row
-        public async Task Update(ITableData model)
+        public async Task Update(JObject jObject)
         {
             if (_client == null)
             {
@@ -158,8 +177,7 @@ namespace GDD.DataBase
                 .Single();
             
             //Set model
-            update_model.savedata = model.savedata;
-            update_model.created_at = model.created_at;
+            update_model.savedata = jObject;
             
             await update_model.Update<UpdateRowData>();
             
@@ -184,7 +202,13 @@ namespace GDD.DataBase
             _result = $"Supabase sign in user id: {_session?.User?.Id}";
             _data = data;
         }
+
+        public T GetData<T>()
+        {
+            return JsonHelperScript.ConvertTo<T>(_data.savedata);
+        }
         
+        //SignOut
         public async Task SignOut()
         {
             if (_client == null)

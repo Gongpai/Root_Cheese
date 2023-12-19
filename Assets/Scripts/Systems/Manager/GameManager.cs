@@ -12,16 +12,16 @@ namespace GDD
     public class GameManager : DontDestroy_Singleton<GameManager>
     {
         //GameInstance
-        private GameInstance GI = new GameInstance();
+        private GameInstance _GI = new GameInstance();
         
         //Game Setting
         [Header("Emeny Finding System")] 
         [SerializeField]
-        private List<PlayerSystem> m_players;
+        private List<PlayerSystem> m_players = new List<PlayerSystem>();
         [SerializeField]
         private Transform m_player_layer;
         [SerializeField]
-        private List<EnemySystem> m_enemies;
+        private List<EnemySystem> m_enemies = new List<EnemySystem>();
         [SerializeField]
         private Transform m_enemy_layer;
         [SerializeField]
@@ -36,9 +36,10 @@ namespace GDD
         private GameObject _bullet_pool;
         private Grid _grid;
 
-        public GameInstance gameInstance
+        public GameInstance GI
         {
-            get => GI;
+            get => _GI;
+            set => _GI = value;
         }
         public GameObject Get_Bullet_Pool
         {
