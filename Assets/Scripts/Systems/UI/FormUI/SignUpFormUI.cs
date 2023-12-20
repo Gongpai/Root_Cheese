@@ -56,6 +56,7 @@ namespace GDD
                 gameInstance.date = m_birthday.text;
                 await _dataBaseController.SingUp(m_e_mail.text, m_password.text, gameInstance);
 
+                print($"Connect State : {_dataBaseController.dataBase.state}");
                 if (_dataBaseController.dataBase.state == ConnectionState.Successfully)
                 {
                     OnClose();

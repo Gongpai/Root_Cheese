@@ -35,19 +35,8 @@ namespace GDD.DataBase
 
         public ConnectionState state
         {
-            get
-            {
-                if (_sessionTask != null)
-                {
-                    if (_sessionTask.Status == TaskStatus.Running)
-                        return ConnectionState.Connecting;
-                    else
-                        return state;
-                }
-                else
-                    return ConnectionState.Close;
-            } 
-            private set{}
+            get;
+            private set;
         }
         
         public float progress
@@ -269,6 +258,7 @@ namespace GDD.DataBase
             {
                 _result = "Client not found or Client has not been created.";
                 Debug.LogError(_result);
+                state = ConnectionState.Close;
                 return;
             }
             

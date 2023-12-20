@@ -48,6 +48,8 @@ namespace GDD.DataBase
             
             JObject data = JsonHelperScript.CreateJsonObject<GameInstance>(instance);
             await _dataBaseManager.SingUp(email, password, data);
+            await OnSync();
+            GM.GI = _dataBaseManager.GetData<GameInstance>();
         }
 
         private void SignUpOnErrorAction()
