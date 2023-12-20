@@ -20,6 +20,9 @@ namespace GDD.DataBase
         private Session _session;
         private ITableData _data;
 
+        public delegate void Action();
+        public event Action errorAction;
+        
         public Client client
         {
             get => _client;
@@ -28,6 +31,23 @@ namespace GDD.DataBase
         public string result
         {
             get => _result;
+        }
+
+        public ConnectionState state
+        {
+            get
+            {
+                if (_sessionTask != null)
+                {
+                    if (_sessionTask.Status == TaskStatus.Running)
+                        return ConnectionState.Connecting;
+                    else
+                        return state;
+                }
+                else
+                    return ConnectionState.Close;
+            } 
+            private set{}
         }
         
         public float progress
@@ -73,6 +93,8 @@ namespace GDD.DataBase
             
             _client = new Client(supaBaseURL, supaBaseKey, supabaseOptions);
             _client.Auth.AddDebugListener(DebugListener!);
+            _result = "Client created";
+            Debug.Log(_result);
             return _client;
         }
 
@@ -84,31 +106,45 @@ namespace GDD.DataBase
             else
             {
                 _result = "Client not found or Client has not been created.";
+                Debug.LogError(_result);
                 return;
             }
             
             //SignUp new account
+            state = ConnectionState.Start;
             _sessionTask = _client.Auth.SignUp(email, password);
             _result = $"Connect Status : {_sessionTask.Status}";
+            Debug.Log(_result);
             try
             {
                 await _sessionTask;
             }
             catch (Exception exception)
             {
-                _result += "unknown exception";
+                state = ConnectionState.Error;
+                _result = "";
                 _result += exception.Message;
                 _result += exception.StackTrace;
+                _session = null;
+                _sessionTask = null;
+                Debug.LogError(_result);
+                errorAction?.Invoke();
                 return;
             }
             
             //Set Sesstion
             _session = _sessionTask.Result;
             if (_session == null)
+            {
+                state = ConnectionState.Error;
                 _result = "Sign up failed";
+                Debug.LogError(_result);
+            }
             else
             {
+                state = ConnectionState.Successfully;
                 _result = $"Supabase sign up user id: {_session?.User?.Id}";
+                Debug.Log(_result);
 
                 //Insert Data
                 InsertRowData rowData = new InsertRowData();
@@ -123,7 +159,8 @@ namespace GDD.DataBase
                     .Single();
                 _data = get_data;
                 
-                _result = $"Supabase sign in user id: {_session?.User?.Id}";
+                _result = $"Successfully sign up user id: {_session?.User?.Id}";
+                Debug.Log(_result);
             }
         }
 
@@ -135,31 +172,45 @@ namespace GDD.DataBase
             else
             {
                 _result = "Client not found or Client has not been created.";
+                Debug.LogError(_result);
                 return;
             }
             
             //SignIn Account
+            state = ConnectionState.Start;
             _sessionTask = _client.Auth.SignIn(email, password);
             _result = $"Connect Status : {_sessionTask.Status}";
+            Debug.Log(_result);
             try
             {
                 await _sessionTask;
             }
             catch (Exception exception)
             {
-                _result += "unknown exception";
+                state = ConnectionState.Error;
+                _result = "";
                 _result += exception.Message;
                 _result += exception.StackTrace;
+                _session = null;
+                _sessionTask = null;
+                Debug.LogError(_result);
+                errorAction?.Invoke();
                 return;
             }
             
             //Set Sesstion
             _session = _sessionTask.Result;
             if (_session == null)
+            {
+                state = ConnectionState.Error;
                 _result = "Sign in failed";
+                Debug.LogError(_result);
+            }
             else
             {
-                _result = $"Sign in success {_session.User?.Id} {_session.AccessToken} {_session.User?.Aud} {_session.User?.Email} {_session.RefreshToken}";
+                state = ConnectionState.Successfully;
+                _result = $"Successfully sign in user id: {_session.User?.Id} {_session.AccessToken} {_session.User?.Aud} {_session.User?.Email} {_session.RefreshToken}";
+                Debug.Log(_result);
             }
         }
 
@@ -169,6 +220,7 @@ namespace GDD.DataBase
             if (_client == null)
             {
                 _result = "Client not found or Client has not been created.";
+                Debug.LogError(_result);
                 return;
             }
             
@@ -191,6 +243,7 @@ namespace GDD.DataBase
             if (_client == null)
             {
                 _result = "Client not found or Client has not been created.";
+                Debug.LogError(_result);
                 return;
             }
             
@@ -198,8 +251,9 @@ namespace GDD.DataBase
             var data = await _client.From<UpdateRowData>()
                 .Filter("user_id", Constants.Operator.Equals, _session.User.Id)
                 .Single();
-
-            _result = $"Supabase sign in user id: {_session?.User?.Id}";
+            
+            _result = $"Successfully sync data user id: {_session?.User?.Id}";
+            Debug.Log(_result);
             _data = data;
         }
 
@@ -214,17 +268,28 @@ namespace GDD.DataBase
             if (_client == null)
             {
                 _result = "Client not found or Client has not been created.";
+                Debug.LogError(_result);
                 return;
             }
             
             //SignOut / Clear session
             _sessionTask = null;
             await _client.Auth.SignOut();
+
+            if (_session != null)
+            {
+                _result = $"Successfully sign out user id: {_session.User?.Id}";
+                Debug.Log(_result);
+            }
+
+            _session = null;
         }
 
         public void RemoveClient()
         {
             _client = null;
+            _result = "Client deleted";
+            Debug.Log(_result);
         }
         
         private void DebugListener(string message, Exception e)

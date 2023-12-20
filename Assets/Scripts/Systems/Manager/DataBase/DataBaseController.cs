@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Reflection;
 using GDD.JsonHelper;
 using GDD.Sinagleton;
 using Newtonsoft.Json.Linq;
@@ -18,6 +20,18 @@ namespace GDD.DataBase
 
         private GameManager GM;
         private DataBaseManager _dataBaseManager = new DataBaseManager();
+        private IConnectionError _connectionError;
+
+        public DataBaseManager dataBase
+        {
+            get => _dataBaseManager;
+        }
+
+        public IConnectionError ConnectionError
+        {
+            get => _connectionError;
+            set => _connectionError = value;
+        }
         
         private void Start()
         {
@@ -27,17 +41,36 @@ namespace GDD.DataBase
 
         public async Task SingUp(string email, string password, GameInstance instance)
         {
+            //Error Action
+            _dataBaseManager.errorAction -= SignInOnErrorAction;
+            _dataBaseManager.errorAction -= SignUpOnErrorAction;
+            _dataBaseManager.errorAction += SignUpOnErrorAction;
+            
             JObject data = JsonHelperScript.CreateJsonObject<GameInstance>(instance);
             await _dataBaseManager.SingUp(email, password, data);
-            
+        }
+
+        private void SignUpOnErrorAction()
+        {
+            print("Unable to register. Please check your information. and check the internet connection.");
+            _connectionError!.OnErrorAction();
         }
 
         public async Task SignIn(string email, string password)
         {
+            _dataBaseManager.errorAction -= SignUpOnErrorAction;
+            _dataBaseManager.errorAction -= SignInOnErrorAction;
+            _dataBaseManager.errorAction += SignInOnErrorAction;
             await _dataBaseManager.SignIn(email, password);
             GM.GI = _dataBaseManager.GetData<GameInstance>();
         }
-
+        
+        private void SignInOnErrorAction()
+        {
+            print("Incorrect email or password.");
+            _connectionError!.OnErrorAction();
+        }
+        
         public async Task SignOut()
         {
             await _dataBaseManager.SignOut();
