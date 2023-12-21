@@ -18,7 +18,9 @@ namespace GDD
 
             _haspunPlayerController = TryGetComponent(out _punPlayerController);
             _punPlayerController = GetComponent<PunPlayerCharacterController>();
-            _punPlayerController.footStepAudioClipLists = _footStepAudioClipLists;
+            
+            if(_haspunPlayerController)
+                _punPlayerController.footStepAudioClipLists = _footStepAudioClipLists;
         }
 
         protected override float Move()
@@ -26,7 +28,9 @@ namespace GDD
             float inputMagnitude = base.Move();
 
             float[] speedData = new float[]{_animationBlend, inputMagnitude};
-            _punPlayerController.SetSpeed(speedData, _punPlayerController.photonView.ViewID);
+            
+            if(_haspunPlayerController)
+                _punPlayerController.SetSpeed(speedData, _punPlayerController.photonView.ViewID);
             return inputMagnitude;
         }
     }

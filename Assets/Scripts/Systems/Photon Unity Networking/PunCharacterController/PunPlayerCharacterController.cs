@@ -28,6 +28,18 @@ namespace GDD.PUN
         private bool _hasAnimator;
         private byte _punEventCode = 10;
         private CharacterController _controller;
+        private WeaponSystem _weaponSystem;
+        private PlayerSpawnBullet _playerSpawnBullet;
+
+        public WeaponSystem weaponSystem
+        {
+            set => _weaponSystem = value;
+        }
+
+        public PlayerSpawnBullet playerSpawnBullet
+        {
+            set => _playerSpawnBullet = value;
+        }
 
         public CharacterFootStepAudioClipLists footStepAudioClipLists
         {
@@ -103,7 +115,7 @@ namespace GDD.PUN
             }
         }
         
-        private void CallRaisePlayerEvent()
+        public void CallRaiseToggleFireEvent()
         {
             object[] content = new object[]
             {
@@ -138,7 +150,7 @@ namespace GDD.PUN
                     print(data[0] + " : " + gameObject.name);
                     
                     //Invoke Event --------------------
-                    
+                    _weaponSystem.ToggleFire(_playerSpawnBullet);
                 }
             }
         }

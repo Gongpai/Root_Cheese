@@ -9,7 +9,7 @@ namespace GDD
 {
     public class PlayerAttackState : PlayerState
     {
-        private WeaponSystem _weaponSystem;
+        protected WeaponSystem _weaponSystem;
         private bool _is_end_rotation = false;
         
         protected override void Start()
@@ -116,7 +116,7 @@ namespace GDD
             {
                 if (time_count == time)
                 {
-                    _weaponSystem.ToggleFire(PlayerSpawnBullet);
+                    ToggleFire();
                 }
 
                 time_count -= Time.deltaTime;
@@ -129,6 +129,11 @@ namespace GDD
 
                 yield return instruction;
             }
+        }
+
+        protected virtual void ToggleFire()
+        {
+            _weaponSystem.ToggleFire(PlayerSpawnBullet);
         }
 
         private void SmoothLookAtEnemy(IPawn enemy)

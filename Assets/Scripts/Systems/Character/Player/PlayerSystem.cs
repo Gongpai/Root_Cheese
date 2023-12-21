@@ -52,7 +52,14 @@ namespace GDD
             _weaponSystem = GetComponent<WeaponSystem>();
             _playerController = GetComponent<PlayerCharacterController>();
             _playerStateContext = new StateContext<PlayerSystem>(this);
-            _attackState = gameObject.AddComponent<PlayerAttackState>();
+            
+            //SinglePlayer AttackState
+            //_attackState = gameObject.AddComponent<PlayerAttackState>();
+            
+            //Multiplayer AttackState
+            _attackState = gameObject.AddComponent<MultiplayerAttackState>();
+            
+            //MoveState
             _moveState = gameObject.AddComponent<PlayerMoveState>();
             
             _randomSkill = GetComponent<RandomSkill>();
