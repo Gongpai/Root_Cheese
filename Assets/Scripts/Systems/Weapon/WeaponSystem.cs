@@ -98,6 +98,7 @@ namespace GDD
         
         public void SetMainSkill(WeaponConfig weaponConfig, int index)
         {
+            print("Index Set Skill : " + index);
             _weaponConfig = new Tuple<WeaponConfig, int>(weaponConfig, index);
             _weapon = new WeaponDecorator(_weaponConfig.Item1, null, _weaponConfigStats, _attachmentStats);
             Debug.Log(weapon.mainName + $" Player Name {gameObject.name} SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");

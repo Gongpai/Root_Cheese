@@ -65,11 +65,13 @@ namespace GDD
                     _skillDescription.text = baseSkill.Item1.skillDescription;
                     skill_button.onClick.AddListener((() =>
                     {
+                        print("Index Begin In UI : " + baseSkill.Item3);
                         //Set Host
                         _randomSkill.weaponSystem.SetMainSkill(baseSkill.Item1, baseSkill.Item3);
 
                         //Set Client
                         int[] skills = new int[2] { baseSkill.Item3, 0};
+                        print("Index In UI : " + skills[0]);
                         int OwnerNetID = _punPlayerController.photonView.ViewID;
                         _punPlayerController.SetSkill(skills, OwnerNetID);
                         

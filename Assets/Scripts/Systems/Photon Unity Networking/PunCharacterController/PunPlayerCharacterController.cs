@@ -105,12 +105,18 @@ namespace GDD.PUN
 
                 object[] datas = new object[5];
                 
-                if(_weaponSystem.mainAttachment != null)
+                if(_weaponSystem.weaponConfig != null)
                     datas[0] = _weaponSystem.weaponConfig.Item2;
-                if (_weaponSystem.mainAttachment != null)
+                
+                if (_weaponSystem.mainAttachment.Item1 != null)
                     datas[1] = _weaponSystem.mainAttachment.Item2;
-                if (_weaponSystem.secondaryAttachment != null)
+                else
+                    datas[1] = -1;
+                
+                if (_weaponSystem.secondaryAttachment.Item1 != null)
                     datas[2] = _weaponSystem.secondaryAttachment.Item2;
+                else
+                    datas[2] = -1;
                 
                 datas[3] = JsonConvert.SerializeObject(_weaponSystem.weaponConfigStats);
                 datas[4] = JsonConvert.SerializeObject(_weaponSystem.attachmentStats);
@@ -125,21 +131,30 @@ namespace GDD.PUN
             if(photonView.IsMine)
                 return;
 
-            print($"Initialize Datas {gameObject.name}");
+            print($"Initialize Datas {datas[0]}, {datas[1]}, {datas[2]}");
             _weaponSystem.weaponConfig = new Tuple<WeaponConfig, int>(
                 Resources.Load<WeaponConfig>(_skillConfigPath.paths[(int)datas[0]]),
                 (int)datas[0]);
-            _weaponSystem.mainAttachment = new Tuple<WeaponAttachment, int>(
-                Resources.Load<WeaponAttachment>(_skillConfigPath.paths[(int)datas[1]]),
-                (int)datas[1]);
-            _weaponSystem.secondaryAttachment = new Tuple<WeaponAttachment, int>(
-                Resources.Load<WeaponAttachment>(_skillConfigPath.paths[(int)datas[2]]),
-                (int)datas[2]);
+
+            if ((int)datas[1] != -1)
+                _weaponSystem.mainAttachment = new Tuple<WeaponAttachment, int>(
+                    Resources.Load<WeaponAttachment>(_skillConfigPath.paths[(int)datas[1]]),
+                    (int)datas[1]);
+            else
+                _weaponSystem.mainAttachment = new Tuple<WeaponAttachment, int>(null, 0);
+            if((int)datas[2] != -1)
+                _weaponSystem.secondaryAttachment = new Tuple<WeaponAttachment, int>(
+                    Resources.Load<WeaponAttachment>(_skillConfigPath.paths[(int)datas[2]]),
+                    (int)datas[2]);
+            else
+                _weaponSystem.secondaryAttachment = new Tuple<WeaponAttachment, int>(null, 0);
             
             _weaponSystem.weaponConfigStats = JsonConvert.DeserializeObject<WeaponConfigStats>((string)datas[3]);
             _weaponSystem.attachmentStats = JsonConvert.DeserializeObject<WeaponAttachmentStats>((string)datas[4]);
             _weaponSystem.SetWeaponConfig();
-            _weaponSystem.Decorate();
+            
+            if(_weaponSystem.mainAttachment.Item1 != null || _weaponSystem.secondaryAttachment.Item1 != null)
+                _weaponSystem.Decorate();
         }
         
         private void AssignAnimationIDs()
@@ -215,6 +230,7 @@ namespace GDD.PUN
             {
                 case 0:
                     print($"Path is : {_skillConfigPath.paths[skills[0]]}");
+                    print("Index In UI : " + skills[0]);
                     _skill = Resources.Load<WeaponConfig>(_skillConfigPath.paths[skills[0]]);
                     print($"Skill is null {_skill == null}");
                     photonView.RPC("OnApplyMainSkill", RpcTarget.All, skills[0]);
