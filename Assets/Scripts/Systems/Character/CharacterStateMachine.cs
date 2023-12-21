@@ -30,7 +30,8 @@ namespace GDD
         {
             foreach (var coroutine in _coroutines)
             {
-                StopCoroutine(coroutine);
+                if(coroutine != null)
+                    StopCoroutine(coroutine);
             }
             _coroutines = new List<Coroutine>();
         }

@@ -38,15 +38,13 @@ namespace GDD
         
         [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
         [SerializeField]private float FallTimeout = 0.15f;
-        
+
         [Header("Audio")]
-        [SerializeField]private AudioClip LandingAudioClip;
-        [SerializeField]private AudioClip[] FootstepAudioClips;
-        [SerializeField][Range(0, 1)] private float FootstepAudioVolume = 0.5f;
+        [SerializeField] protected CharacterFootStepAudioClipLists _footStepAudioClipLists;
         
         // player
-        private float _speed;
-        private float _animationBlend;
+        protected float _speed;
+        protected float _animationBlend;
         private float _targetRotation = 0.0f;
         private float _rotationVelocity;
         private float _verticalVelocity;
@@ -80,7 +78,7 @@ namespace GDD
             get => _is_player_move;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             // get a reference to our main camera
             if (_mainCamera == null)
@@ -89,7 +87,7 @@ namespace GDD
             }
         }
         
-        private void Start()
+        protected virtual void Start()
         {
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
@@ -99,7 +97,7 @@ namespace GDD
             AssignAnimationIDs();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
             
@@ -117,19 +115,19 @@ namespace GDD
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         }
         
-        private void OnFootstep(AnimationEvent animationEvent)
+        protected virtual void OnFootstep(AnimationEvent animationEvent)
         {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            if (animationEvent.animatorClipInfo.weight > 0.5f && this.enabled)
             {
-                if (FootstepAudioClips.Length > 0)
+                if (_footStepAudioClipLists.FootstepAudioClips.Length > 0)
                 {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                    var index = Random.Range(0, _footStepAudioClipLists.FootstepAudioClips.Length);
+                    AudioSource.PlayClipAtPoint(_footStepAudioClipLists.FootstepAudioClips[index], transform.TransformPoint(_controller.center), _footStepAudioClipLists.FootstepAudioVolume);
                 }
             }
         }
         
-        private void GroundedCheck()
+        protected virtual void GroundedCheck()
         {
             // set sphere position, with offset
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
@@ -144,7 +142,7 @@ namespace GDD
             }
         }
         
-        private void SimulateGravity()
+        protected virtual void SimulateGravity()
         {
             if (Grounded)
             {
@@ -188,7 +186,7 @@ namespace GDD
             }
         }
         
-        private void Move()
+        protected virtual float Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = MoveSpeed;
@@ -261,18 +259,19 @@ namespace GDD
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
-            
+
+            return inputMagnitude;
         }
         
-        private void OnLand(AnimationEvent animationEvent)
+        protected virtual void OnLand(AnimationEvent animationEvent)
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(_footStepAudioClipLists.LandingAudioClip, transform.TransformPoint(_controller.center), _footStepAudioClipLists.FootstepAudioVolume);
             }
         }
         
-        private void OnDrawGizmosSelected()
+        protected virtual void OnDrawGizmosSelected()
         {
             Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
             Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);

@@ -72,7 +72,7 @@ namespace GDD
         }
         
         
-        public void Set_MainSkill(WeaponConfig weaponConfig)
+        public void SetMainSkill(WeaponConfig weaponConfig)
         {
             Debug.Log(weapon.mainName + " SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
             _weaponConfig = weaponConfig;
@@ -80,7 +80,7 @@ namespace GDD
             Decorate();
         }
 
-        public void Set_Attachment(WeaponAttachment weaponAttachment)
+        public void SetAttachment(WeaponAttachment weaponAttachment)
         {
             Debug.Log(weapon.mainName + " SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
             if (_mainAttachment == null || _secondaryAttachment != null)

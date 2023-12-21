@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GDD
 {
-    public class RandomSkill_UI : MonoBehaviour
+    public class RandomSkillUI : MonoBehaviour
     {
         [Header("Add Random Skill To Viewport")]
         [SerializeField] private GameObject m_viewport;
@@ -60,7 +60,7 @@ namespace GDD
                     _skillDescription.text = baseSkill.Item1.skillDescription;
                     skill_button.onClick.AddListener((() =>
                     {
-                        _randomSkill.weaponSystem.Set_MainSkill(baseSkill.Item1);
+                        _randomSkill.weaponSystem.SetMainSkill(baseSkill.Item1);
                         Destroy(transform.parent.gameObject);
                     }));
                 }
@@ -71,7 +71,7 @@ namespace GDD
                     _skillDescription.text = baseSkill.Item2.skillDescription;
                     skill_button.onClick.AddListener((() =>
                     {
-                        _randomSkill.weaponSystem.Set_Attachment(baseSkill.Item2);
+                        _randomSkill.weaponSystem.SetAttachment(baseSkill.Item2);
                         Destroy(transform.parent.gameObject);
                     }));
                 }

@@ -24,7 +24,7 @@ namespace GDD
         private StateContext<PlayerSystem> _playerStateContext;
         private WeaponSystem _weaponSystem;
         private RandomSkill _randomSkill;
-        private RandomSkill_UI _randomSkillUI;
+        private RandomSkillUI _randomSkillUI;
         private float _level;
         private GameManager GM;
 
@@ -78,7 +78,7 @@ namespace GDD
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 GameObject r_skill_ui = Instantiate(m_skillRandomUI);
-                _randomSkillUI = r_skill_ui.transform.GetChild(0).GetComponent<RandomSkill_UI>();
+                _randomSkillUI = r_skill_ui.transform.GetChild(0).GetComponent<RandomSkillUI>();
                 _randomSkillUI.randomSkill = _randomSkill;
                 _randomSkillUI.OnCreate();
             }
