@@ -14,7 +14,12 @@ namespace GDD
         protected PlayerSpawnBullet PlayerSpawnBullet;
         protected bool _is_Start_Fire = false;
         protected List<Coroutine> _coroutines = new List<Coroutine>();
-        
+
+        protected virtual void OnEnable()
+        {
+            
+        }
+
         protected virtual void Start()
         {
             GM = GameManager.Instance;
@@ -66,6 +71,11 @@ namespace GDD
             
             //Clear All Coriutines
             ClearCoriutines();
+        }
+
+        protected virtual void OnDisable()
+        {
+            
         }
     }
 }

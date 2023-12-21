@@ -41,6 +41,18 @@ MonoBehaviour:
   - RespawnSpaceship
   - OnMove
   - RPCApplyCharacterSpeed
+  - OnApplySkill
+  - RPCApplySkill
+  - OnApplyMainSkill
+  - RPCApplyMainSkill
+  - OnApplyAttachmentSkill
+  - OnUpgradeAttachmentSkill
+  - OnUpgradeMainSkill
+  - RPCApplyAttachmentSkill
+  - RPCUpgradeAttachmentSkill
+  - RPCUpgradeMainSkill
+  - OnGetCharacterData
+  - RPCInitializeCharacter
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

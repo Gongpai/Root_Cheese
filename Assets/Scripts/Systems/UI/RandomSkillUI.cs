@@ -1,4 +1,5 @@
 ﻿using System;
+using GDD.PUN;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +27,9 @@ namespace GDD
         [SerializeField] private RandomSkill _randomSkill;
         [SerializeField] private ScrollViewForAnimation _scrollViewAnim;
 
+        //Pun System
+        private PunPlayerCharacterController _punPlayerController;
+
         public RandomSkill randomSkill
         {
             set => _randomSkill = value;
@@ -38,6 +42,7 @@ namespace GDD
             GameObject group = Instantiate(m_skill_Gruop);
             group.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             _randomSkill.OnRandomSkill(RandomSkillType.All, 3);
+            _punPlayerController = _randomSkill.GetComponent<PunPlayerCharacterController>();
             
             //BaseSkill
             foreach (var baseSkill in _randomSkill.baseSkills)
@@ -60,7 +65,14 @@ namespace GDD
                     _skillDescription.text = baseSkill.Item1.skillDescription;
                     skill_button.onClick.AddListener((() =>
                     {
-                        _randomSkill.weaponSystem.SetMainSkill(baseSkill.Item1);
+                        //Set Host
+                        _randomSkill.weaponSystem.SetMainSkill(baseSkill.Item1, baseSkill.Item3);
+
+                        //Set Client
+                        int[] skills = new int[2] { baseSkill.Item3, 0};
+                        int OwnerNetID = _punPlayerController.photonView.ViewID;
+                        _punPlayerController.SetSkill(skills, OwnerNetID);
+                        
                         Destroy(transform.parent.gameObject);
                     }));
                 }
@@ -71,7 +83,14 @@ namespace GDD
                     _skillDescription.text = baseSkill.Item2.skillDescription;
                     skill_button.onClick.AddListener((() =>
                     {
-                        _randomSkill.weaponSystem.SetAttachment(baseSkill.Item2);
+                        //Set Host
+                        _randomSkill.weaponSystem.SetAttachment(baseSkill.Item2, baseSkill.Item3);
+                        
+                        //Set Client
+                        int[] skills = new int[2] { baseSkill.Item3, 1};
+                        int OwnerNetID = _punPlayerController.photonView.ViewID;
+                        _punPlayerController.SetSkill(skills, OwnerNetID);
+                        
                         Destroy(transform.parent.gameObject);
                     }));
                 }
@@ -103,7 +122,14 @@ namespace GDD
                     _skillDescription.text = upgradeSkill.Item1.skillDescription;
                     skill_button.onClick.AddListener((() =>
                     {
+                        //Set Host
                         _randomSkill.weaponSystem.UpgradeMainSkill(upgradeSkill.Item1);
+                        
+                        //Set Client
+                        int[] skills = new int[2] { upgradeSkill.Item3, 2};
+                        int OwnerNetID = _punPlayerController.photonView.ViewID;
+                        _punPlayerController.SetSkill(skills, OwnerNetID);
+                        
                         Destroy(transform.parent.gameObject);
                     }));
                 }
@@ -114,7 +140,14 @@ namespace GDD
                     _skillDescription.text = upgradeSkill.Item2.skillDescription;
                     skill_button.onClick.AddListener((() =>
                     {
+                        //Set Host
                         _randomSkill.weaponSystem.UpgradeAttachmentSkill(upgradeSkill.Item2);
+                        
+                        //Set Client
+                        int[] skills = new int[2] { upgradeSkill.Item3, 3};
+                        int OwnerNetID = _punPlayerController.photonView.ViewID;
+                        _punPlayerController.SetSkill(skills, OwnerNetID);
+                        
                         Destroy(transform.parent.gameObject);
                     }));
                 }

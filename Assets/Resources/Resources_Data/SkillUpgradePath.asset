@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: SkillUpgradePath
   m_EditorClassIdentifier: 
   _paths:
-  - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/EffectDamageUpgrade.asset
-  - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/MaxHealthUpgrade.asset
-  - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/ShieldUpgrade.asset
-  - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/SwordDamageUpgrade.asset
-  - Assets/Resources/Presets/Player/Upgrade/AttachmantUpgrade/SwordSpinSpeedUpgrade.asset
-  - Assets/Resources/Presets/Player/Upgrade/MainWeaponUpgrade/WeaponDamageUpgrade.asset
-  - Assets/Resources/Presets/Player/Upgrade/MainWeaponUpgrade/WeaponPowerUpgrade.asset
-  - Assets/Resources/Presets/Player/Upgrade/MainWeaponUpgrade/WeaponRateUpgrade.asset
+  - Presets/Player/Upgrade/AttachmantUpgrade/EffectDamageUpgrade
+  - Presets/Player/Upgrade/AttachmantUpgrade/MaxHealthUpgrade
+  - Presets/Player/Upgrade/AttachmantUpgrade/ShieldUpgrade
+  - Presets/Player/Upgrade/AttachmantUpgrade/SwordDamageUpgrade
+  - Presets/Player/Upgrade/AttachmantUpgrade/SwordSpinSpeedUpgrade
+  - Presets/Player/Upgrade/MainWeaponUpgrade/WeaponDamageUpgrade
+  - Presets/Player/Upgrade/MainWeaponUpgrade/WeaponPowerUpgrade
+  - Presets/Player/Upgrade/MainWeaponUpgrade/WeaponRateUpgrade

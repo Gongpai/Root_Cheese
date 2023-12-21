@@ -2,7 +2,7 @@
 
 namespace GDD
 {
-    public class WeaponAttachmentStats : MonoBehaviour
+    public class WeaponAttachmentStats
     {
         private float _shield = 1;
         private float _effect_health = 1;

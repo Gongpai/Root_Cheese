@@ -15,15 +15,15 @@ namespace GDD
     public class RandomSkill : MonoBehaviour
     {
         [SerializeField] private bool is_overrideResourcesPath = true;
+        [SerializeField] private string r_skillConfigPath = "Assets/Resources/Resources_Data/SkillConfigPath.asset";
+        [SerializeField] private string r_skillUpgradePath = "Assets/Resources/Resources_Data/SkillUpgradePath.asset";
         private WeaponSystem _weaponSystem;
         private WeaponAttachment _weaponAttachment;
         private string[,] _paths;
-        private string r_skillConfigPath = "Assets/Resources/Resources_Data/SkillConfigPath.asset";
-        private string r_skillUpgradePath = "Assets/Resources/Resources_Data/SkillUpgradePath.asset";
         private ResourcesPath _skillConfigPath;
         private ResourcesPath _skillUpgradePath;
-        private List<Tuple<WeaponConfig, WeaponAttachment>> _baseSkills = new List<Tuple<WeaponConfig, WeaponAttachment>>();
-        private List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> _upgradeSkills = new List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>>();
+        private List<Tuple<WeaponConfig, WeaponAttachment, int>> _baseSkills = new List<Tuple<WeaponConfig, WeaponAttachment, int>>();
+        private List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>> _upgradeSkills = new List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>>();
 
         public WeaponSystem weaponSystem
         {
@@ -31,14 +31,24 @@ namespace GDD
             set => _weaponSystem = value;
         }
         
-        public List<Tuple<WeaponConfig, WeaponAttachment>> baseSkills
+        public List<Tuple<WeaponConfig, WeaponAttachment, int>> baseSkills
         {
             get => _baseSkills;
         }
 
-        public List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> upgradeSkills
+        public List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>> upgradeSkills
         {
             get => _upgradeSkills;
+        }
+
+        public string skillConfigPath
+        {
+            get => r_skillConfigPath;
+        }
+
+        public string skillUpgradePath
+        {
+            get => r_skillUpgradePath;
         }
         
         public void OnInitialize()
@@ -122,9 +132,9 @@ namespace GDD
             }
         }
 
-        public List<Tuple<WeaponConfig, WeaponAttachment>> RandomBaseSkill(int count)
+        public List<Tuple<WeaponConfig, WeaponAttachment, int>> RandomBaseSkill(int count)
         {
-            List<Tuple<WeaponConfig, WeaponAttachment>> _weaponConfigs = new List<Tuple<WeaponConfig, WeaponAttachment>>();
+            List<Tuple<WeaponConfig, WeaponAttachment, int>> _weaponConfigs = new List<Tuple<WeaponConfig, WeaponAttachment, int>>();
             List<string> skillpaths = new List<string>();
             skillpaths = _skillConfigPath.paths.ToArray().Clone().ConvertTo<string[]>().ToList();
             //Array.Copy(_skillConfigPath.paths.ToArray(), skillpaths.ToArray(), _skillConfigPath.paths.Count);
@@ -132,13 +142,13 @@ namespace GDD
             for (int i = 0; i < count; i++)
             {
                 int i_random = Random.Range(0, skillpaths.Count - 1);
-                string path = skillpaths[i_random].Remove(0, 17).Split(".")[0];
+                string path = skillpaths[i_random];
 
                 WeaponConfig _config = Resources.Load<WeaponConfig>(path);
                 if (_config == null)
-                    _weaponConfigs.Add(new Tuple<WeaponConfig, WeaponAttachment>(null, Resources.Load<WeaponAttachment>(path)));
+                    _weaponConfigs.Add(new Tuple<WeaponConfig, WeaponAttachment, int>(null, Resources.Load<WeaponAttachment>(path), i_random));
                 else
-                    _weaponConfigs.Add(new Tuple<WeaponConfig, WeaponAttachment>(_config, null));
+                    _weaponConfigs.Add(new Tuple<WeaponConfig, WeaponAttachment, int>(_config, null, i_random));
                 
                 skillpaths.RemoveAt(i_random);
                 print("Ramdom Count : " + skillpaths.Count);
@@ -146,9 +156,9 @@ namespace GDD
             return _weaponConfigs;
         }
         
-        public List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> RandomUpgradeSkill(int count)
+        public List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>> RandomUpgradeSkill(int count)
         {
-            List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>> _weaponUpgrade = new List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>>();
+            List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>> _weaponUpgrade = new List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>>();
             List<string> skillpaths = new List<string>();
             skillpaths = _skillUpgradePath.paths.ToArray().Clone().ConvertTo<string[]>().ToList();
             //Array.Copy(_skillConfigPath.paths.ToArray(), skillpaths.ToArray(), _skillConfigPath.paths.Count);
@@ -156,13 +166,13 @@ namespace GDD
             for (int i = 0; i < count; i++)
             {
                 int i_random = Random.Range(0, skillpaths.Count - 1);
-                string path = skillpaths[i_random].Remove(0, 17).Split(".")[0];
+                string path = skillpaths[i_random];
 
                 MainSkillUpgrade _upgrade = Resources.Load<MainSkillUpgrade>(path);
                 if (_upgrade == null)
-                    _weaponUpgrade.Add(new Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>(null, Resources.Load<AttachmentSkillUpgrade>(path)));
+                    _weaponUpgrade.Add(new Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>(null, Resources.Load<AttachmentSkillUpgrade>(path), i_random));
                 else
-                    _weaponUpgrade.Add(new Tuple<MainSkillUpgrade, AttachmentSkillUpgrade>(_upgrade, null));
+                    _weaponUpgrade.Add(new Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>(_upgrade, null, i_random));
                 
                 skillpaths.RemoveAt(i_random);
                 print("Ramdom Count : " + skillpaths.Count);

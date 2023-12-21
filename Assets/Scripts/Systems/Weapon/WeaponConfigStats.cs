@@ -2,7 +2,7 @@
 
 namespace GDD
 {
-    public class WeaponConfigStats : MonoBehaviour
+    public class WeaponConfigStats
     {
         private float _damage = 1;
         private float _rate = 1;

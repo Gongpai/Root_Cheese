@@ -11,13 +11,18 @@ namespace GDD
     {
         protected WeaponSystem _weaponSystem;
         private bool _is_end_rotation = false;
-        
+
+        protected override void OnEnable()
+        {
+            PlayerSpawnBullet = GetComponent<PlayerSpawnBullet>();
+            _weaponSystem = GetComponent<WeaponSystem>();
+            
+            base.OnEnable();
+        }
+
         protected override void Start()
         {
             base.Start();
-            
-            PlayerSpawnBullet = GetComponent<PlayerSpawnBullet>();
-            _weaponSystem = GetComponent<WeaponSystem>();
         }
 
         public override string StateName()

@@ -27,7 +27,14 @@ namespace GDD
         private RandomSkillUI _randomSkillUI;
         private float _level;
         private GameManager GM;
+        private bool _isOtherPlayer = false;
 
+        public bool IsOtherPlayer
+        {
+            get => _isOtherPlayer;
+            set => _isOtherPlayer = value;
+        }
+        
         public float delay_attack
         {
             get => m_delay_attack;
@@ -50,7 +57,10 @@ namespace GDD
             base.Start();
 
             _weaponSystem = GetComponent<WeaponSystem>();
-            _playerController = GetComponent<PlayerCharacterController>();
+            
+            if(!IsOtherPlayer)
+                _playerController = GetComponent<PlayerCharacterController>();
+            
             _playerStateContext = new StateContext<PlayerSystem>(this);
             
             //SinglePlayer AttackState
@@ -81,7 +91,10 @@ namespace GDD
         public override void Update()
         {
             base.Update();
-
+            
+            if(_isOtherPlayer)
+                return;
+            
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 GameObject r_skill_ui = Instantiate(m_skillRandomUI);
@@ -98,6 +111,9 @@ namespace GDD
 
         private void OnGUI()
         {
+            if(!_isOtherPlayer)
+                return;
+            
             GUI.contentColor = Color.magenta;
             GUI.Label(new Rect(10, 10, 600, 20), "CONFIG -------------------------");
 
@@ -111,12 +127,12 @@ namespace GDD
             else
                 GUI.Label(new Rect(10, 40, 600, 20), "Main Skill = -null-");
 
-            if (_weaponSystem.mainAttachment != null)
+            if (_weaponSystem.mainAttachment.Item1 != null)
                 GUI.Label(new Rect(10, 70, 600, 20), "Main Attachment Skill = " + _weaponSystem.weapon.mainAttachmentName);
             else
                 GUI.Label(new Rect(10, 70, 600, 20), "Main Attachment Skill = -null-");
             
-            if(_weaponSystem.secondaryAttachment != null)
+            if(_weaponSystem.secondaryAttachment.Item1 != null)
                 GUI.Label(new Rect(10, 100, 600, 20), "Secondary Attachment Skill = " + _weaponSystem.weapon.secAttachmentName);
             else
                 GUI.Label(new Rect(10, 100, 600, 20), "Secondary Attachment Skill = -null-");

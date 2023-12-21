@@ -7,9 +7,15 @@ namespace GDD
 {
     public class WeaponSystem : MonoBehaviour
     {
-        [SerializeField] private WeaponConfig _weaponConfig;
-        [SerializeField] private WeaponAttachment _mainAttachment;
-        [SerializeField] private WeaponAttachment _secondaryAttachment;
+        [SerializeField] private WeaponConfig m_weaponConfig;
+        [SerializeField] private int m_weaponConfigPathIndex;
+        [SerializeField] private WeaponAttachment m_mainAttachment;
+        [SerializeField] private int m_mainAttachmentPathIndex;
+        [SerializeField] private WeaponAttachment m_secondaryAttachment;
+        [SerializeField] private int m_secondaryAttachmentPathIndex;
+        private Tuple<WeaponConfig, int> _weaponConfig;
+        private Tuple<WeaponAttachment, int> _mainAttachment;
+        private Tuple<WeaponAttachment, int> _secondaryAttachment;
 
         private WeaponConfigStats _weaponConfigStats;
         private WeaponAttachmentStats _attachmentStats;
@@ -23,41 +29,59 @@ namespace GDD
             get => _weapon;
         }
         
-        public WeaponConfig weaponConfig
+        public Tuple<WeaponConfig, int> weaponConfig
         {
             get => _weaponConfig;
+            set => _weaponConfig = value;
         }
 
-        public WeaponAttachment mainAttachment
+        public Tuple<WeaponAttachment, int> mainAttachment
         {
             get => _mainAttachment;
+            set => _mainAttachment = value;
         }
 
-        public WeaponAttachment secondaryAttachment
+        public Tuple<WeaponAttachment, int> secondaryAttachment
         {
             get => _secondaryAttachment;
+            set => _secondaryAttachment = value;
         }
         
         public WeaponConfigStats weaponConfigStats
         {
             get => _weaponConfigStats;
+            set => _weaponConfigStats = value;
         }
 
         public WeaponAttachmentStats attachmentStats
         {
             get => _attachmentStats;
+            set => _attachmentStats = value;
         }
-
+        
         private void Start()
         {
             _characterSystem = GetComponent<CharacterSystem>();
-            _weaponConfigStats = gameObject.AddComponent<WeaponConfigStats>();
-            _attachmentStats = gameObject.AddComponent<WeaponAttachmentStats>();
-            _weapon = new WeaponDecorator(_weaponConfig, null, _weaponConfigStats, _attachmentStats);
+            _weaponConfigStats = new WeaponConfigStats();
+            _attachmentStats = new WeaponAttachmentStats();
+            
+            if(!_characterSystem.enabled)
+                return;
+            
+            _weaponConfig = new Tuple<WeaponConfig, int>(m_weaponConfig, m_weaponConfigPathIndex);
+            _mainAttachment = new Tuple<WeaponAttachment, int>(m_mainAttachment, m_mainAttachmentPathIndex);
+            _secondaryAttachment = new Tuple<WeaponAttachment, int>(m_secondaryAttachment, m_secondaryAttachmentPathIndex);
+            SetWeaponConfig();
         }
 
+        public void SetWeaponConfig()
+        {
+            _weapon = new WeaponDecorator(_weaponConfig.Item1, null, _weaponConfigStats, _attachmentStats);
+        }
+        
         public void ToggleFire(PlayerSpawnBullet playerSpawnBullet)
         {
+            //print($"PlayerS is null : {playerSpawnBullet == null} | Weapon is null : {_weapon == null}");
             playerSpawnBullet.bulletObjectPool.weapon = _weapon;
             playerSpawnBullet.bulletObjectPool.Set_GameObject = _weapon.bulletObject;
             playerSpawnBullet.OnSpawnBullet(
@@ -72,21 +96,22 @@ namespace GDD
         }
         
         
-        public void SetMainSkill(WeaponConfig weaponConfig)
+        public void SetMainSkill(WeaponConfig weaponConfig, int index)
         {
-            Debug.Log(weapon.mainName + " SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-            _weaponConfig = weaponConfig;
-            _weapon = new WeaponDecorator(_weaponConfig, null, _weaponConfigStats, _attachmentStats);
+            _weaponConfig = new Tuple<WeaponConfig, int>(weaponConfig, index);
+            _weapon = new WeaponDecorator(_weaponConfig.Item1, null, _weaponConfigStats, _attachmentStats);
+            Debug.Log(weapon.mainName + $" Player Name {gameObject.name} SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
             Decorate();
         }
 
-        public void SetAttachment(WeaponAttachment weaponAttachment)
+        public void SetAttachment(WeaponAttachment weaponAttachment, int index)
         {
-            Debug.Log(weapon.mainName + " SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+            Debug.Log(weaponAttachment.attachmentName + $" Player Name {gameObject.name} SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
             if (_mainAttachment == null || _secondaryAttachment != null)
-                _mainAttachment = weaponAttachment;
+                _mainAttachment = new Tuple<WeaponAttachment, int>(weaponAttachment, index);
             else
-                _secondaryAttachment = weaponAttachment;
+                _secondaryAttachment = new Tuple<WeaponAttachment, int>(weaponAttachment, index);
+            
             Decorate();
         }
 
@@ -122,17 +147,17 @@ namespace GDD
 
         public void Reset()
         {
-            _weapon = new Weapon(_weaponConfig);
+            _weapon = new Weapon(_weaponConfig.Item1);
             _isDecorated = !_isDecorated;
         }
 
         public void Decorate()
         {
-            if ((_mainAttachment && !_secondaryAttachment))
-                _weapon = new WeaponDecorator(_weapon, _mainAttachment, null, null);
+            if ((_mainAttachment.Item1 && !_secondaryAttachment.Item1))
+                _weapon = new WeaponDecorator(_weapon, _mainAttachment.Item1, null, null);
 
-            if ((_mainAttachment && _secondaryAttachment))
-                _weapon = new WeaponDecorator(new WeaponDecorator(_weapon, _mainAttachment, null, null), _secondaryAttachment, null, null);
+            if ((_mainAttachment.Item1 && _secondaryAttachment.Item1))
+                _weapon = new WeaponDecorator(new WeaponDecorator(_weapon, _mainAttachment.Item1, null, null), _secondaryAttachment.Item1, null, null);
             
             _isDecorated = !_isDecorated;
         }

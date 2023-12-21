@@ -74,7 +74,7 @@ namespace GDD
                 for (int i = 0; i < R_Data.Length; i++)
                 {
                     var assetPath = AssetDatabase.GetAssetPath(R_Data[i]);
-                    _allpaths[f_index, i] = assetPath;
+                    _allpaths[f_index, i] = assetPath.Remove(0, 17).Split(".")[0];
                     // "/Resources/Presets/Player/" + dir.Name + "/" + r.name + r.GetType()
                 }
             }

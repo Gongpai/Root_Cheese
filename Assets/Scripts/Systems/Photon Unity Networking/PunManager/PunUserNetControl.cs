@@ -45,8 +45,9 @@ namespace GDD.PUN
             }
             else
             {
+                gameObject.name += $" [Other Player] [{photonView.ViewID}]";
                 GetComponent<PlayerCharacterController>().enabled = false;
-                GetComponent<CharacterSystem>().enabled = false;
+                GetComponent<PlayerSystem>().IsOtherPlayer = true;
                 OnPlayerPropertiesUpdate(photonView.Owner, photonView.Owner.CustomProperties);
                 
             }

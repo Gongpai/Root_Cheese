@@ -56,6 +56,7 @@ namespace GDD
             
             Transform layer = other.transform.parent;
             CharacterSystem _characterSystem;
+            //print($"Other Layer : {layer == null} | GM E Layer : {GM.enemy_layer == null} | OwnerLayer : {ownerLayer.transform.parent} | GM P Layer : {GM.player_layer}");
             if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
             {
                 //print("Enemy Take Damage");

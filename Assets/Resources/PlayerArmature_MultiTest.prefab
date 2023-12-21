@@ -1286,6 +1286,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _footStepAudioClipLists: {fileID: 11400000, guid: 7c351ee28a3f5254984b60b0f7086382,
     type: 2}
+  r_skillConfigPath: 
+  r_skillUpgradePath: 
 --- !u!114 &4333272112360276589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1298,9 +1300,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d33a5b564f477fae1eb37d80af252b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponConfig: {fileID: 11400000, guid: 6aeab7e039c42d643a46f76fa3ad1f06, type: 2}
-  _mainAttachment: {fileID: 0}
-  _secondaryAttachment: {fileID: 0}
+  m_weaponConfig: {fileID: 11400000, guid: 6aeab7e039c42d643a46f76fa3ad1f06, type: 2}
+  m_weaponConfigPathIndex: 7
+  m_mainAttachment: {fileID: 0}
+  m_mainAttachmentPathIndex: 0
+  m_secondaryAttachment: {fileID: 0}
+  m_secondaryAttachmentPathIndex: 0
 --- !u!114 &7239729719400075180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1314,6 +1319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   is_overrideResourcesPath: 0
+  r_skillConfigPath: Assets/Resources/Resources_Data/SkillConfigPath.asset
+  r_skillUpgradePath: Assets/Resources/Resources_Data/SkillUpgradePath.asset
 --- !u!114 &8095716035511171481
 MonoBehaviour:
   m_ObjectHideFlags: 0

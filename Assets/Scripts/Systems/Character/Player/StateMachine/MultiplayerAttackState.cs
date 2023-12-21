@@ -10,19 +10,16 @@ namespace GDD
         private PunPlayerCharacterController _punPlayerController;
         private bool _haspunPlayerController;
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            
+            _haspunPlayerController = TryGetComponent(out _punPlayerController);
+        }
+
         protected override void Start()
         {
             base.Start();
-            
-            _haspunPlayerController = TryGetComponent(out _punPlayerController);
-
-            if (_haspunPlayerController)
-            {
-                print($"Weapon System {_weaponSystem == null}");
-                _punPlayerController.weaponSystem = _weaponSystem;
-                _punPlayerController.playerSpawnBullet = PlayerSpawnBullet;
-            }
-
         }
 
         protected override void ToggleFire()
