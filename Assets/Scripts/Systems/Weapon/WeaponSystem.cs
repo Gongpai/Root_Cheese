@@ -7,6 +7,7 @@ namespace GDD
 {
     public class WeaponSystem : MonoBehaviour
     {
+        [Header("Config Weapon")]
         [SerializeField] private WeaponConfig m_weaponConfig;
         [SerializeField] private int m_weaponConfigPathIndex;
         [SerializeField] private WeaponAttachment m_mainAttachment;
@@ -107,12 +108,17 @@ namespace GDD
 
         public void SetAttachment(WeaponAttachment weaponAttachment, int index)
         {
-            Debug.Log(weaponAttachment.attachmentName + $" Player Name {gameObject.name} SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-            if (_mainAttachment == null || _secondaryAttachment != null)
+            if (_mainAttachment.Item1 == null || _secondaryAttachment.Item1 != null)
+            {
                 _mainAttachment = new Tuple<WeaponAttachment, int>(weaponAttachment, index);
+                Debug.Log($"Main Attachment {weaponAttachment.attachmentName} | Player Name {gameObject.name}");
+            }
             else
+            {
                 _secondaryAttachment = new Tuple<WeaponAttachment, int>(weaponAttachment, index);
-            
+                Debug.Log($"Secondary Attachment {weaponAttachment.attachmentName} | Player Name {gameObject.name}");
+            }
+
             Decorate();
         }
 
