@@ -109,6 +109,11 @@ namespace GDD
                 StartAttack();
         }
 
+        public override float GetMaxShield()
+        {
+            return _weaponSystem.attachmentStats.shield * 100;
+        }
+
         private void OnGUI()
         {
             if(!_isOtherPlayer)

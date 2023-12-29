@@ -57,7 +57,15 @@ namespace GDD
 
         public virtual void SetHP(float hp)
         {
-            m_hp = hp;
+            if (hp >= m_max_HP)
+                hp = m_max_HP;
+            else
+                m_hp = hp;
+        }
+
+        public virtual float GetMaxShield()
+        {
+            return 0;
         }
 
         public virtual float GetShield()
@@ -67,7 +75,10 @@ namespace GDD
 
         public virtual void SetShiel(float shield)
         {
-            m_shield = shield;
+            if (shield >= GetMaxShield())
+                shield = GetMaxShield();
+            else
+                m_shield = shield;
         }
 
         public override Transform GetPawnTransform()
