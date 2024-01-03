@@ -40,7 +40,7 @@ namespace GDD
         {
             GM = GameManager.Instance;
             _bullet = GetComponent<GameObjectPool>();
-            OwnerViewID = ownerLayer.GetComponent<MonoBehaviourPun>().photonView.ViewID;
+            OwnerViewID = GM.playerClient.GetComponent<MonoBehaviourPun>().photonView.ViewID;
             
             _coroutinereturnpool = StartCoroutine(WaitReturnToPool(120));
         }
@@ -53,13 +53,22 @@ namespace GDD
         
         private void OnTriggerEnter(Collider other)
         {
+            if (ownerLayer.transform.parent == GM.enemy_layer)
+            {
+                print($"Layer Check {GM.player_layer.name}");
+                print($"Layer A : {other.transform.parent.name} || B : {ownerLayer.transform.parent.name}");
+            }
+
             Transform layer = other.transform.parent;
             PunCharacterHealth _punCharacterHealth;
             bool has_punCharacterHealth = other.TryGetComponent<PunCharacterHealth>(out _punCharacterHealth);
-            
-            if(has_punCharacterHealth)
+
+            if (!has_punCharacterHealth)
+            {
+                print($"{other.transform.name} : Pun is null!!!!!!!!!!!!!!!!!!");
                 return;
-            
+            }
+
             if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
             {
                 print("Enemy Take Damage");
@@ -102,9 +111,9 @@ namespace GDD
             if (characterSystem.GetShield() > 0)
             {
                 if (characterSystem.GetShield() - damage > 0)
-                    characterSystem.SetShiel(characterSystem.GetShield() - damage);
+                    characterSystem.SetShield(characterSystem.GetShield() - damage);
                 else
-                    characterSystem.SetShiel(0);
+                    characterSystem.SetShield(0);
             }
             else
             {

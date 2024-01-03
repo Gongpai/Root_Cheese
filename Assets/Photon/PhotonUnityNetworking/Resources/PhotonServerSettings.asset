@@ -58,6 +58,8 @@ MonoBehaviour:
   - PunRPCApplyShield
   - PunRPCSetHealth
   - PunRPCSetShield
+  - GetPlayerStatsToOtherPlayer
+  - OnInitializeOtherPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

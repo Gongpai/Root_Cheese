@@ -15,7 +15,7 @@ namespace GDD
         private GameInstance _GI = new GameInstance();
         
         //Game Setting
-        [Header("Emeny Finding System")] 
+        [Header("Finding System")] 
         [SerializeField]
         private List<PlayerSystem> m_players = new List<PlayerSystem>();
         [SerializeField]
@@ -28,6 +28,10 @@ namespace GDD
         private float m_mapWidth = 50f;
         [SerializeField]
         private int m_cellSize = 10;
+
+        [Header("Player Client")] 
+        [SerializeField]
+        private PlayerSystem m_playerClient;
 
         [Header("Play Mode")] 
         [SerializeField] 
@@ -63,6 +67,13 @@ namespace GDD
         public List<PlayerSystem> players
         {
             get => m_players;
+            set => m_players = value;
+        }
+
+        public PlayerSystem playerClient
+        {
+            get => m_playerClient;
+            set => m_playerClient = value;
         }
 
         public Transform player_layer
@@ -73,6 +84,7 @@ namespace GDD
         public List<EnemySystem> enemies
         {
             get => m_enemies;
+            set => m_enemies = value;
         }
         
         public Transform enemy_layer

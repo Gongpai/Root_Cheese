@@ -77,7 +77,7 @@ namespace GDD
             return m_shield;
         }
 
-        public virtual void SetShiel(float shield)
+        public virtual void SetShield(float shield)
         {
             if (shield >= GetMaxShield())
                 shield = GetMaxShield();

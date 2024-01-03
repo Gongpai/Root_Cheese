@@ -6,6 +6,11 @@ namespace GDD
 {
     public class RandomBulletFireManeuver : BulletFireManeuver
     {
+        public override void Start()
+        {
+            base.Start();
+        }
+        
         public override void OnFire(IPawn enemy)
         {
             if (enemy != null)

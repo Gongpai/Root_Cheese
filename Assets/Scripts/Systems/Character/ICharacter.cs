@@ -8,6 +8,6 @@
         public void SetHP(float hp);
         public float GetMaxShield();
         public float GetShield();
-        public void SetShiel(float shield);
+        public void SetShield(float shield);
     }
 }

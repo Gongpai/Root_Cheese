@@ -1,5 +1,7 @@
 ﻿using System;
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace GDD.PUN
@@ -7,16 +9,22 @@ namespace GDD.PUN
     public class PunCharacterHealth : MonoBehaviourPun
     {
         private CharacterSystem _characterSystem;
+        private byte _punEventCode = 10;
+
+        private void OnEnable()
+        {
+            
+        }
 
         private void Start()
         {
             _characterSystem = GetComponent<CharacterSystem>();
         }
-
+            
         public void TakeDamage(float amount, int OwnerNetID)
         {
             if (photonView != null)
-                photonView.RPC("PunRPCApplyHealth", RpcTarget.MasterClient, -amount, OwnerNetID);
+                photonView.RPC("PunRPCApplyHealth", photonView.Owner, -amount, OwnerNetID);
             else 
                 print("photonView is NULL.");
         }
@@ -37,15 +45,15 @@ namespace GDD.PUN
             
             if (_characterSystem.GetShield() > 0 && amount < 0)
             {
-                photonView.RPC("PunRPCSetShield", photonView.Owner, amount, OwnerNetID);
+                photonView.RPC("PunRPCSetShield", RpcTarget.All, amount, OwnerNetID);
                 
                 float shield_remaining = _characterSystem.GetShield() + amount;
                 if(shield_remaining <= 0)
-                    photonView.RPC("PunRPCSetHealth", photonView.Owner, shield_remaining, OwnerNetID);
+                    photonView.RPC("PunRPCSetHealth", RpcTarget.All, shield_remaining, OwnerNetID);
             }
             else
             {
-                photonView.RPC("PunRPCSetHealth", photonView.Owner, amount, OwnerNetID);
+                photonView.RPC("PunRPCSetHealth", RpcTarget.All, amount, OwnerNetID);
 
             }
             
@@ -60,9 +68,9 @@ namespace GDD.PUN
         public void PunRPCSetShield(float amount, int OwnerNetID)
         {
             if (_characterSystem.GetShield() + amount > 0)
-                _characterSystem.SetShiel(_characterSystem.GetShield() + amount);
+                _characterSystem.SetShield(_characterSystem.GetShield() + amount);
             else
-                _characterSystem.SetShiel(0);
+                _characterSystem.SetShield(0);
             
             print($"Shield {gameObject.name} is : {_characterSystem.GetShield()}");
         }
@@ -82,6 +90,11 @@ namespace GDD.PUN
         public void PunResetPlayer()
         {
             Debug.Log("Reset ...");
+        }
+        
+        private void OnDisable()
+        {
+            
         }
     }
 }

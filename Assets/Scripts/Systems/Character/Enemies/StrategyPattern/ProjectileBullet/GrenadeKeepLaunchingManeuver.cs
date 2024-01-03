@@ -4,6 +4,11 @@ namespace GDD
 {
     public class GrenadeKeepLaunchingManeuver : GrenadeLaunchManeuver
     {
+        public override void Start()
+        {
+            base.Start();
+        }
+        
         public override void ToggleFire(EnemySpawnBullet enemySpawnBullet)
         {
             base.ToggleFire(enemySpawnBullet);

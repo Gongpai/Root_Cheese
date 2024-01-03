@@ -37,6 +37,7 @@ namespace GDD.PUN
         private byte _punEventCode = 10;
         private CharacterController _controller;
         private WeaponSystem _weaponSystem;
+        private PlayerSystem _playerSystem;
         private PlayerSpawnBullet _playerSpawnBullet;
         private GameManager GM;
         
@@ -59,6 +60,7 @@ namespace GDD.PUN
 
         private void Awake()
         {
+            _playerSystem = GetComponent<PlayerSystem>();
             _weaponSystem = GetComponent<WeaponSystem>();
             _playerSpawnBullet = GetComponent<PlayerSpawnBullet>();
         }
@@ -84,6 +86,7 @@ namespace GDD.PUN
             GM = GameManager.Instance;
             
             AssignAnimationIDs();
+            photonView.RPC("GetPlayerStatsToOtherPlayer", RpcTarget.MasterClient);
 
             //Get Skill Path
             r_skillConfigPath = _randomSkill.skillConfigPath;
@@ -97,6 +100,31 @@ namespace GDD.PUN
         private void Update()
         {
             
+        }
+        
+        [PunRPC]
+        public void OnInitializeOtherPlayer(object[] datas, int OwnerNetID)
+        {
+            print($"{gameObject.name} | OnInitializeOtherPlayer");
+            
+            _playerSystem.SetHP((float)datas[0]);
+            _playerSystem.SetMaxHP((float)datas[1]);
+            _playerSystem.SetShield((float)datas[2]);
+        }
+
+        [PunRPC]
+        public void GetPlayerStatsToOtherPlayer()
+        {
+            print($"GetPlayerStatsToOtherPlayer : {gameObject.name}");
+
+            object[] datas = new object[]
+            {
+                _playerSystem.GetHP(),
+                _playerSystem.GetMaxHP(),
+                _playerSystem.GetShield(),
+            };
+            
+            photonView.RPC("OnInitializeOtherPlayer", RpcTarget.Others, datas, photonView.ViewID);
         }
         
         [PunRPC]
@@ -299,7 +327,6 @@ namespace GDD.PUN
         {
             object[] content = new object[]
             {
-                "Event!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
                 photonView.ViewID
             };
 
@@ -325,7 +352,7 @@ namespace GDD.PUN
                 object[] data = (object[])photonEvent.CustomData;
                 
                 //print("This View ID : " + photonView.ViewID + " :: Receive ID : " + (int)data[1]);
-                if ((int)data[1] == photonView.ViewID)
+                if ((int)data[0] == photonView.ViewID)
                 {
                     //print(data[0] + " : " + gameObject.name);
                     

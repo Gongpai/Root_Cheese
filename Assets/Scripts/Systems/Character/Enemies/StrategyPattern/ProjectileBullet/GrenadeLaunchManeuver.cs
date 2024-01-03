@@ -6,6 +6,11 @@ namespace GDD
 {
     public class GrenadeLaunchManeuver : BulletFireManeuver
     {
+        public override void Start()
+        {
+            base.Start();
+        }
+        
         public override void OnFire(IPawn enemy)
         {
             base.OnFire(enemy);

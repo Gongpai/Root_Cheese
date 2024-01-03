@@ -23,7 +23,13 @@ namespace GDD
         public override void Maneuver(EnemyState pawn)
         {
             base.Maneuver(pawn);
-            
+
+            if (_player == null)
+            {
+                Debug.LogError($"Enemy {gameObject.name} : target player is null");
+                return;
+            }
+
             OnFire(_player);
         }
 
@@ -36,7 +42,6 @@ namespace GDD
         {
             if (enemy == null)
             {
-                Debug.LogError($"Enemy {gameObject.name} : target player is null");
                 return;
             }
 
@@ -78,7 +83,7 @@ namespace GDD
                 }
 
                 time_count -= Time.deltaTime;
-                print("Time IEnumerator : " + time_count);
+                //print("Time IEnumerator : " + time_count);
                 
                 if (time_count <= 0)
                 {
@@ -91,7 +96,7 @@ namespace GDD
         
         public virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet)
         {
-            print("Fire!!!!!!!!!!!");
+            //print("Fire!!!!!!!!!!!");
         }
     }
 }

@@ -40,6 +40,9 @@ namespace GDD.PUN
                 PunNetworkManager.Instance.vCAm.Follow = _followCam.transform;
                 PunNetworkManager.Instance.vCAm.LookAt = _followCam.transform;
                 
+                //Set Player Client
+                GM.playerClient = LocalPlayerInstance.GetComponent<PlayerSystem>();
+                
                 // Reference Input on run-time
                 PlayerInput _pInput = GetComponent<PlayerInput>();
                 _pInput.actions = PunNetworkManager.Instance.inputActionAsset;
