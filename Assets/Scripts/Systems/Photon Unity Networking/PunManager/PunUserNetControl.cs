@@ -31,6 +31,7 @@ namespace GDD.PUN
             if (photonView.IsMine)
             {
                 LocalPlayerInstance = gameObject;
+                //GM.players.Add(GetComponent<PlayerSystem>());
                 //GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
                 // Reference Camera on run-time
                 GameObject followCamObject = new GameObject("FollowCamera");
@@ -46,6 +47,7 @@ namespace GDD.PUN
             else
             {
                 gameObject.name += $" [Other Player] [{photonView.ViewID}]";
+                //GM.players.Add(GetComponent<PlayerSystem>());
                 GetComponent<PlayerCharacterController>().enabled = false;
                 GetComponent<PlayerSystem>().IsOtherPlayer = true;
                 OnPlayerPropertiesUpdate(photonView.Owner, photonView.Owner.CustomProperties);

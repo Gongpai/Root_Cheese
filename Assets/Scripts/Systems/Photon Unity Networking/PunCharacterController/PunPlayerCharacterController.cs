@@ -38,6 +38,7 @@ namespace GDD.PUN
         private CharacterController _controller;
         private WeaponSystem _weaponSystem;
         private PlayerSpawnBullet _playerSpawnBullet;
+        private GameManager GM;
         
         //Skill
         private RandomSkill _randomSkill;
@@ -80,6 +81,8 @@ namespace GDD.PUN
 
         private void Start()
         {
+            GM = GameManager.Instance;
+            
             AssignAnimationIDs();
 
             //Get Skill Path
@@ -335,6 +338,7 @@ namespace GDD.PUN
         
         private void OnDisable()
         {
+            GM.players.Remove(GetComponent<PlayerSystem>());
             PhotonNetwork.RemoveCallbackTarget(this);
         }
     }

@@ -12,9 +12,10 @@ namespace GDD
         [Header("Player Stats Setting")]
         [SerializeField] private TextMeshProUGUI m_hp_text;
         [SerializeField] protected Slider m_hp_bar;
+        [SerializeField] protected Slider m_shield_bar;
         [SerializeField] protected float m_hp = 100;
         [SerializeField] private float m_max_HP = 100;
-        [SerializeField] protected float m_shield = 0;
+        [SerializeField] protected float m_shield = 100;
 
         public virtual void OnEnable()
         {
@@ -29,7 +30,10 @@ namespace GDD
         public virtual void Update()
         {
             m_hp_bar.value = m_hp / m_max_HP;
-            m_hp_text.text = "HP : " + m_hp +" / " + m_max_HP;
+            m_hp_text.text = "HP : " + m_hp +" / " + m_max_HP + $"|| SH : {GetShield()} / {GetMaxShield()}";
+
+            if (m_shield_bar != null)
+                m_shield_bar.value = GetShield() / GetMaxShield();
             
             if(m_hp <= 0)
                 Destroy(gameObject);

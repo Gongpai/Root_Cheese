@@ -34,13 +34,16 @@ namespace GDD
         
         public virtual void OnFire(IPawn enemy)
         {
-            if (enemy != null)
+            if (enemy == null)
             {
-                //print("On Maneuver");
-                _coroutines.Add(StartCoroutine(Waiting(
-                    () => { _coroutines.Add(StartCoroutine(Firing(m_enemyBulletConfig.rate))); },
-                    m_enemyBulletConfig.timedelay)));
+                Debug.LogError($"Enemy {gameObject.name} : target player is null");
+                return;
             }
+
+            print("On Maneuver");
+            _coroutines.Add(StartCoroutine(Waiting(
+                () => { _coroutines.Add(StartCoroutine(Firing(m_enemyBulletConfig.rate))); },
+                m_enemyBulletConfig.timedelay)));
         }
         
         protected IEnumerator Waiting(UnityAction action , float time)
@@ -88,7 +91,7 @@ namespace GDD
         
         public virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet)
         {
-            
+            print("Fire!!!!!!!!!!!");
         }
     }
 }

@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections;
 using GDD.ObjectPool;
+using GDD.PUN;
+using Photon.Pun;
 using UnityEngine;
 
 namespace GDD
 {
-    public class TakeDamage : MonoBehaviour
+    public class TakeDamage : MonoBehaviourPun
     {
         private GameObjectPool _bullet;
         private GameManager GM;
         private float _damage;
         private bool _is_undying = false;
         private Coroutine _coroutinereturnpool;
+        public int OwnerViewID = -1;
         
         //Character Owner
         private Transform _ownerLayer;
@@ -37,7 +40,8 @@ namespace GDD
         {
             GM = GameManager.Instance;
             _bullet = GetComponent<GameObjectPool>();
-
+            OwnerViewID = ownerLayer.GetComponent<MonoBehaviourPun>().photonView.ViewID;
+            
             _coroutinereturnpool = StartCoroutine(WaitReturnToPool(120));
         }
 
@@ -46,29 +50,27 @@ namespace GDD
             yield return new WaitForSeconds(time);
             ReturnToPool();
         }
-
+        
         private void OnTriggerEnter(Collider other)
         {
-            /*
-            if(_ownerLayer.parent == GM.enemy_layer)
-                print("Take Damage : " + other.name);
-            */
-            
             Transform layer = other.transform.parent;
-            CharacterSystem _characterSystem;
-            //print($"Other Layer : {layer == null} | GM E Layer : {GM.enemy_layer == null} | OwnerLayer : {ownerLayer.transform.parent} | GM P Layer : {GM.player_layer}");
+            PunCharacterHealth _punCharacterHealth;
+            bool has_punCharacterHealth = other.TryGetComponent<PunCharacterHealth>(out _punCharacterHealth);
+            
+            if(has_punCharacterHealth)
+                return;
+            
             if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
             {
-                //print("Enemy Take Damage");
-                _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
+                print("Enemy Take Damage");
+                CharacterSystem _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
                 OnTakeDamage(_characterSystem, _damage);
                 ReturnToPool();
             }
             else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
             {
-                //print("Character Take Damage");
-                _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
-                OnTakeDamage(_characterSystem, _damage);
+                print("Character Take Damage");
+                _punCharacterHealth.TakeDamage(_damage, OwnerViewID); 
                 ReturnToPool();
             }
             else

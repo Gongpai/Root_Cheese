@@ -1315,7 +1315,10 @@ MonoBehaviour:
   cellPos: {x: 0, y: 0}
   m_hp_text: {fileID: 4427849666340325751}
   m_hp_bar: {fileID: 271448741}
+  m_shield_bar: {fileID: 0}
   m_hp: 100
+  m_max_HP: 100
+  m_shield: 0
 --- !u!114 &549421544
 MonoBehaviour:
   m_ObjectHideFlags: 0

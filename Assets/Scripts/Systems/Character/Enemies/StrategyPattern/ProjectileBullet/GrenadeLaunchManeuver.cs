@@ -14,6 +14,8 @@ namespace GDD
         public override void ToggleFire(EnemySpawnBullet enemySpawnBullet)
         {
             base.ToggleFire(enemySpawnBullet);
+            
+            print("Fire!!!!!!!!!!!");
         }
 
         protected Coroutine KeepLaunching(float time)
