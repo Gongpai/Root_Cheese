@@ -1456,6 +1456,68 @@ MonoBehaviour:
   bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
   m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
     type: 2}
+--- !u!114 &4892013836798234585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963713794769125096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0de8227b56914baa9266c57c535eaff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 4
+  SpeedChangeRate: 10
+  RotationSmoothTime: 0.12
+  Gravity: -15
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  Grounded: 1
+  GroundedOffset: -0.14
+  GroundedRadius: 0.28
+  FallTimeout: 0.15
+  _footStepAudioClipLists: {fileID: 11400000, guid: 7c351ee28a3f5254984b60b0f7086382,
+    type: 2}
+  _isCharacterMove: 0
+  SprintSpeed: 10
+  Target: {fileID: 0}
+  Sprinting: 0
+  JumpTimeout: 0.5
+  JumpHeight: 1.2
+  Jump: 0
+--- !u!114 &7444348366244554470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963713794769125096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!114 &8856079723556138974
 MonoBehaviour:
   m_ObjectHideFlags: 0

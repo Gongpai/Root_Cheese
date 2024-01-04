@@ -19,7 +19,7 @@ namespace GDD
         [SerializeField] [Tooltip("Player vision to find enemy")]
         private Vector2 vision;
         
-        private PlayerCharacterController _playerController;
+        private CharacterControllerSystem _controllerSystem;
         private IState<PlayerSystem> _attackState, _moveState;
         private StateContext<PlayerSystem> _playerStateContext;
         private WeaponSystem _weaponSystem;
@@ -52,7 +52,7 @@ namespace GDD
             _weaponSystem = GetComponent<WeaponSystem>();
             
             if(isClient)
-                _playerController = GetComponent<PlayerCharacterController>();
+                _controllerSystem = GetComponent<CharacterControllerSystem>();
             
             _playerStateContext = new StateContext<PlayerSystem>(this);
             
@@ -98,7 +98,7 @@ namespace GDD
                 _randomSkillUI.OnCreate();
             }
             
-            if(_playerController.Get_Player_Move)
+            if(_controllerSystem.Get_Player_Move)
                 StartMove();
             else
                 StartAttack();

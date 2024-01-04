@@ -5,16 +5,17 @@ using StarterAssets;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace GDD
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(ThirdPersonControllerAI))]
+    [RequireComponent(typeof(MultiplayerEnemyController))]
     public class WaypointReachingState : MonoBehaviour
     {
         [SerializeField] protected int m_CurrentWaypointIndex = 0;
 
-        [SerializeField] protected ThirdPersonControllerAI m_3rdPersonControllerAI;
+        [SerializeField] protected MultiplayerEnemyController m_multiplayerEnemyController;
        
         [SerializeField] protected NavMeshAgent m_NavMeshAgent;
 
@@ -29,7 +30,7 @@ namespace GDD
         private void Start()
         {
             m_NavMeshAgent = GetComponent<NavMeshAgent>();
-            m_3rdPersonControllerAI = GetComponent<ThirdPersonControllerAI>();
+            m_multiplayerEnemyController = GetComponent<MultiplayerEnemyController>();
         }
 
         public void EnterState()
@@ -42,11 +43,11 @@ namespace GDD
             if (m_NavMeshAgent.remainingDistance > m_NavMeshAgent.stoppingDistance)
             {
                 //print("Moveeeeeeeeeee");
-                m_3rdPersonControllerAI.Move(m_NavMeshAgent.desiredVelocity);
+                m_multiplayerEnemyController.Move(m_NavMeshAgent.desiredVelocity);
             }
             else
             {
-                m_3rdPersonControllerAI.Move(Vector3.zero);
+                m_multiplayerEnemyController.Move(Vector3.zero);
 
                 if (m_CurrentWaypointIndex + 1 < m_Waypoints.Count)
                 {

@@ -1652,7 +1652,7 @@ MonoBehaviour:
   FallTimeout: 0.2
   _footStepAudioClipLists: {fileID: 11400000, guid: 7c351ee28a3f5254984b60b0f7086382,
     type: 2}
-  _is_player_move: 0
+  _isCharacterMove: 0
 --- !u!114 &3675794761281361112
 MonoBehaviour:
   m_ObjectHideFlags: 0
