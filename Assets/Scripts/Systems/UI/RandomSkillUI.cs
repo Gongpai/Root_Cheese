@@ -129,6 +129,7 @@ namespace GDD
                         
                         //Set Client
                         int[] skills = new int[2] { upgradeSkill.Item3, 2};
+                        print("Index In UI : " + skills[0]);
                         int OwnerNetID = _punPlayerController.photonView.ViewID;
                         _punPlayerController.SetSkill(skills, OwnerNetID);
                         

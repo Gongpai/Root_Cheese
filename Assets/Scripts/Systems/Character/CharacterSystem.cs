@@ -16,6 +16,13 @@ namespace GDD
         [SerializeField] protected float m_hp = 100;
         [SerializeField] private float m_max_HP = 100;
         [SerializeField] protected float m_shield = 100;
+        protected bool _isClient = true;
+
+        public bool isClient
+        {
+            get => _isClient;
+            set => _isClient = value;
+        }
 
         public virtual void OnEnable()
         {

@@ -20,6 +20,9 @@ namespace GDD
 
         private void Awake()
         {
+            if(!_isClient)
+                return;
+            
             _enemyStateContext = new StateContext<EnemySystem>(this);
             _moveState = gameObject.AddComponent<EnemyMoveState>();
             _attackState = gameObject.AddComponent<EnemyAttackState>();
@@ -36,6 +39,7 @@ namespace GDD
         {
             base.Start();
             GM = GameManager.Instance;
+            
             GM.enemies.Add(this);
             
             //Add this unit to the grid
@@ -51,6 +55,9 @@ namespace GDD
         {
             base.Update();
 
+            if(!_isClient)
+                return;
+            
             if (_currentState == null)
                 _currentState = _attackState;
             
@@ -75,6 +82,9 @@ namespace GDD
 
         protected void RandomWayPointPosition()
         {
+            if(!_isClient)
+                return;
+            
             if (_waypoint == null && this.enabled)
             {
                 _waypoint = new GameObject(gameObject.name + " WayPoint");

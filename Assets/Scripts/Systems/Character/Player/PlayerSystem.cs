@@ -27,13 +27,6 @@ namespace GDD
         private RandomSkillUI _randomSkillUI;
         private float _level;
         private GameManager GM;
-        private bool _isOtherPlayer = false;
-
-        public bool IsOtherPlayer
-        {
-            get => _isOtherPlayer;
-            set => _isOtherPlayer = value;
-        }
         
         public float delay_attack
         {
@@ -58,7 +51,7 @@ namespace GDD
 
             _weaponSystem = GetComponent<WeaponSystem>();
             
-            if(!IsOtherPlayer)
+            if(isClient)
                 _playerController = GetComponent<PlayerCharacterController>();
             
             _playerStateContext = new StateContext<PlayerSystem>(this);
@@ -94,7 +87,7 @@ namespace GDD
         {
             base.Update();
             
-            if(_isOtherPlayer)
+            if(!_isClient)
                 return;
             
             if (Input.GetKeyDown(KeyCode.Space))
@@ -118,7 +111,7 @@ namespace GDD
 
         private void OnGUI()
         {
-            if(!_isOtherPlayer)
+            if(_isClient)
                 return;
             
             GUI.contentColor = Color.magenta;

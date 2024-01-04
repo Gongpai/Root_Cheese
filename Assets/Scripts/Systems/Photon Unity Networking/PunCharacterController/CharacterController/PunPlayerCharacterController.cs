@@ -9,41 +9,18 @@ using Random = UnityEngine.Random;
 
 namespace GDD.PUN
 {
-    public class PunPlayerCharacterController : MonoBehaviourPun, IOnEventCallback
+    public class PunPlayerCharacterController : PunCharacterController
     {
-        [Header("Audio")]
-        [SerializeField] private CharacterFootStepAudioClipLists _footStepAudioClipLists;
-
         [Header("Skill Path")] 
-        [SerializeField] private string r_skillConfigPath;
-        [SerializeField] private string r_skillUpgradePath;
-        
-        //Setting
-        private float _moveSpeed = 2.0f;
-        private float SpeedChangeRate = 10.0f;
-        
-        //player
-        private float _speed;
-        private float _animationBlend;
-        private float inputMagnitude;
-        
-        // animation IDs
-        private int _animIDSpeed;
-        private int _animIDMotionSpeed;
+        [SerializeField] private ResourcesPath _skillConfigPath;
+        [SerializeField] private ResourcesPath _skillUpgradePath;
         
         // system
-        private Animator _animator;
-        private bool _hasAnimator;
-        private byte _punEventCode = 10;
-        private CharacterController _controller;
         private WeaponSystem _weaponSystem;
         private PlayerSpawnBullet _playerSpawnBullet;
-        private GameManager GM;
         
         //Skill
         private RandomSkill _randomSkill;
-        private ResourcesPath _skillConfigPath;
-        private ResourcesPath _skillUpgradePath;
         private ScriptableObject _skill;
         
         public PlayerSpawnBullet playerSpawnBullet
@@ -51,25 +28,19 @@ namespace GDD.PUN
             set => _playerSpawnBullet = value;
         }
 
-        public CharacterFootStepAudioClipLists footStepAudioClipLists
+        protected override void Awake()
         {
-            get => _footStepAudioClipLists;
-            set => _footStepAudioClipLists = value;
-        }
-
-        private void Awake()
-        {
+            base.Awake();
+            
             _weaponSystem = GetComponent<WeaponSystem>();
             _playerSpawnBullet = GetComponent<PlayerSpawnBullet>();
         }
-        
-        
 
-        private void OnEnable()
+
+        protected override void OnEnable()
         {
-            PhotonNetwork.AddCallbackTarget(this);
-            _hasAnimator = TryGetComponent(out _animator);
-            _controller = GetComponent<CharacterController>();
+            base.OnEnable();
+      
             _randomSkill = GetComponent<RandomSkill>();
             
             if (!photonView.IsMine)
@@ -79,29 +50,23 @@ namespace GDD.PUN
             }
         }
 
-        private void Start()
+        protected override void Start()
         {
-            GM = GameManager.Instance;
+            base.Start();
             
-            AssignAnimationIDs();
-
-            //Get Skill Path
-            r_skillConfigPath = _randomSkill.skillConfigPath;
-            r_skillUpgradePath = _randomSkill.skillUpgradePath;
-            
-            //Get ScriptObject
-            _skillConfigPath = Resources.Load<ResourcesPath>("Resources_Data/SkillConfigPath");
-            _skillUpgradePath = Resources.Load<ResourcesPath>("Resources_Data/SkillUpgradePath");
+            print($"Up is null : {_skillUpgradePath.paths.Count}");
         }
 
-        private void Update()
+        protected override void Update()
         {
-            
+            base.Update();
         }
-        
+
         [PunRPC]
-        private void OnGetCharacterData()
+        public override void OnGetCharacterData()
         {
+            base.OnGetCharacterData();
+        
             if (photonView.IsMine)
             {
                 print($"Get Datas {gameObject.name}");
@@ -127,10 +92,12 @@ namespace GDD.PUN
                 photonView.RPC("RPCInitializeCharacter", RpcTarget.Others, datas, photonView.ViewID);
             }
         }
-        
+
         [PunRPC]
-        public void RPCInitializeCharacter(object[] datas, int OwnerNetID)
+        public override void RPCInitializeCharacter(object[] datas, int OwnerNetID)
         {
+            base.RPCInitializeCharacter(datas, OwnerNetID);
+            
             if(photonView.IsMine)
                 return;
 
@@ -159,60 +126,10 @@ namespace GDD.PUN
             if(_weaponSystem.mainAttachment.Item1 != null || _weaponSystem.secondaryAttachment.Item1 != null)
                 _weaponSystem.Decorate();
         }
-        
-        private void AssignAnimationIDs()
-        {
-            _animIDSpeed = Animator.StringToHash("Speed");
-            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-        }
-        
-        protected virtual void OnFootstep(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f && !photonView.IsMine)
-            {
-                if (_footStepAudioClipLists.FootstepAudioClips.Length > 0)
-                {
-                    var index = Random.Range(0, _footStepAudioClipLists.FootstepAudioClips.Length);
-                    //print($"FootstepAudioVolume is null : {_footStepAudioClipLists.FootstepAudioVolume == null}");
-                    AudioSource.PlayClipAtPoint(_footStepAudioClipLists.FootstepAudioClips[index], transform.TransformPoint(_controller.center), _footStepAudioClipLists.FootstepAudioVolume);
-                }
-            }
-        }
-
-        public void SetSpeed(float[] amount, int OwnerNetID)
-        {
-            if (photonView != null && photonView.IsMine)
-            {
-                photonView.RPC("RPCApplyCharacterSpeed", RpcTarget.All, amount, OwnerNetID);
-                //print($"SendData {OwnerNetID}");
-            }
-            else 
-                print("photonView is NULL.");
-        }
-        
-        [PunRPC]
-        public void RPCApplyCharacterSpeed(float[] amount, int OwnerNetID)
-        {
-            _animationBlend = amount[0];
-            inputMagnitude = amount[1];
-            //print($"ReceiveData {OwnerNetID}");
-            photonView.RPC("OnMove", RpcTarget.Others);
-        }
-
-        [PunRPC]
-        private void OnMove()
-        {
-            if (_hasAnimator)
-            {
-                //print($"Anim Moveeeeeeeee {gameObject.name}");
-                //print($"Speed Data 1.AnimationBlend {_animationBlend} 2.InputMagnitude {inputMagnitude}");
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-            }
-        }
 
         public void SetSkill(int[] skills, int OwnerNetID)
         {
+            print($"ReceiveData [0] : {skills[0]} | [1] : {skills[1]}");
             if (photonView != null && photonView.IsMine)
             {
                 photonView.RPC("RPCApplySkill", RpcTarget.Others, skills, OwnerNetID);
@@ -225,7 +142,6 @@ namespace GDD.PUN
         [PunRPC]
         public void RPCApplySkill(int[] skills, int OwnerNetID)
         {
-            print($"ReceiveData {OwnerNetID}");
             if(photonView.IsMine)
                 return;
 
@@ -314,9 +230,11 @@ namespace GDD.PUN
 
             PhotonNetwork.RaiseEvent(_punEventCode, content, raiseEventOptions, sendOptions);
         }
-        
-        public void OnEvent(EventData photonEvent)
+
+        public override void OnEvent(EventData photonEvent)
         {
+            base.OnEvent(photonEvent);
+            
             byte eventCode = photonEvent.Code;
             
             if (eventCode == _punEventCode && !photonView.IsMine)
@@ -334,11 +252,10 @@ namespace GDD.PUN
                 }
             }
         }
-        
-        private void OnDisable()
+
+        protected override void OnDisable()
         {
-            GM.players.Remove(GetComponent<PlayerSystem>());
-            PhotonNetwork.RemoveCallbackTarget(this);
+            base.OnDisable();
         }
     }
 }

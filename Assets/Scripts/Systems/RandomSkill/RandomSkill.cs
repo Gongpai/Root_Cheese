@@ -173,7 +173,7 @@ namespace GDD
             
             //Copy Skill Paths
             skillpaths = _skillUpgradePath.paths.ToArray().Clone().ConvertTo<string[]>().ToList();
-            skillpaths_dontRemove = _skillConfigPath.paths.ToArray().Clone().ConvertTo<string[]>().ToList();
+            skillpaths_dontRemove = _skillUpgradePath.paths.ToArray().Clone().ConvertTo<string[]>().ToList();
             
             print($"OR : {skillpaths.Count} | CP : {skillpaths_dontRemove.Count}");
             
@@ -182,6 +182,9 @@ namespace GDD
                 int i_random = Random.Range(0, skillpaths.Count - 1);
                 string path = skillpaths[i_random];
                 int ir_path = skillpaths_dontRemove.IndexOf(skillpaths[i_random]);
+                
+                print($"UPSKILL Random : {i_random}");
+                print($"UPSKILL Index In Source Array : {ir_path}");
 
                 MainSkillUpgrade _upgrade = Resources.Load<MainSkillUpgrade>(path);
                 if (_upgrade == null)

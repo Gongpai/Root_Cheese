@@ -33,6 +33,7 @@ namespace GDD.PUN
             else
             {
                 gameObject.name += $" [Other Player] [{photonView.ViewID}]";
+                GetComponent<EnemySystem>().isClient = false;
                 
                 foreach (var component in m_hostComponents)
                 {
