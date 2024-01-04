@@ -77,6 +77,8 @@ namespace GDD
             _randomSkill.OnInitialize();
 
             GM = GameManager.Instance;
+            
+            //Add Player to GameManager
             GM.players.Add(this);
 
             /*
@@ -175,6 +177,12 @@ namespace GDD
         public override void SetPawnVision(Vector2 vision)
         {
             this.vision = vision;
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            GM.players.Remove(this);
         }
     }
 }

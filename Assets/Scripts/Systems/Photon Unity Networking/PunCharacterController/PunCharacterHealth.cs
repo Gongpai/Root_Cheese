@@ -11,6 +11,11 @@ namespace GDD.PUN
         private CharacterSystem _characterSystem;
         private byte _punEventCode = 10;
 
+        private void Awake()
+        {
+            _characterSystem = GetComponent<CharacterSystem>();
+        }
+
         private void OnEnable()
         {
             
@@ -18,7 +23,33 @@ namespace GDD.PUN
 
         private void Start()
         {
-            _characterSystem = GetComponent<CharacterSystem>();
+            //SyncPlayerStats
+            photonView.RPC("GetPlayerStatsToOtherPlayer", RpcTarget.MasterClient);
+        }
+        
+        [PunRPC]
+        public void OnInitializeOtherPlayer(object[] datas, int OwnerNetID)
+        {
+            print($"{gameObject.name} | OnInitializeOtherPlayer");
+            
+            _characterSystem.SetHP((float)datas[0]);
+            _characterSystem.SetMaxHP((float)datas[1]);
+            _characterSystem.SetShield((float)datas[2]);
+        }
+
+        [PunRPC]
+        public void GetPlayerStatsToOtherPlayer()
+        {
+            print($"GetPlayerStatsToOtherPlayer : {gameObject.name}");
+
+            object[] datas = new object[]
+            {
+                _characterSystem.GetHP(),
+                _characterSystem.GetMaxHP(),
+                _characterSystem.GetShield(),
+            };
+            
+            photonView.RPC("OnInitializeOtherPlayer", RpcTarget.Others, datas, photonView.ViewID);
         }
             
         public void TakeDamage(float amount, int OwnerNetID)

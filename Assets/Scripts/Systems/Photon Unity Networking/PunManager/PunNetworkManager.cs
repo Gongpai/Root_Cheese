@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cinemachine;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -16,6 +17,10 @@ namespace GDD.PUN
         [SerializeField] private CinemachineVirtualCamera _vCam;
         [SerializeField] private InputActionAsset _inputActionAsset;
         [SerializeField] private GameObject GamePlayerPrefab;
+        
+        [Header("AI Spawn Settings")]
+        [SerializeField] private GameObject GameAIPrefab;
+        [SerializeField] private List<Transform> m_AISpawnTransform = new List<Transform>();
         private PunGameState _currentGameState = PunGameState.GameStart;
         
         /// <summary>
@@ -121,6 +126,7 @@ namespace GDD.PUN
             // we're in a room. spawn a character for the local player.
             // it gets synced by using PhotonNetwork.Instantiate
             PhotonNetwork.Instantiate(GamePlayerPrefab.name, new Vector3(5f, 5f, 2f), Quaternion.identity, 0);
+            PhotonNetwork.InstantiateRoomObject(GameAIPrefab.name, new Vector3(7f, 0.1f, 5f), Quaternion.identity, 0);
         }
         
         public void gameStateUpdate(Hashtable propertiesThatChanged) {

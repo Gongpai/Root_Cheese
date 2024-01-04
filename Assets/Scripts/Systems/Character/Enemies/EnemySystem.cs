@@ -40,6 +40,9 @@ namespace GDD
             
             //Add this unit to the grid
             GM.grid.Add(this);
+            
+            //Add AI Enemy to GameManager
+            GM.enemies.Add(this);
 
             oldPos = transform.position;
         }
@@ -110,6 +113,8 @@ namespace GDD
         public override void OnDestroy()
         {
             base.OnDestroy();
+
+            GM.enemies.Remove(this);
             
             if(_waypoint != null)
                 Destroy(_waypoint);
