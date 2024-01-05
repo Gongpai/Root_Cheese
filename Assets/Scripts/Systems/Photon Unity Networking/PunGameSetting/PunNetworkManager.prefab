@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3566725102270905360}
   - component: {fileID: 3566725102270905363}
+  - component: {fileID: 5828947238371125034}
   m_Layer: 0
   m_Name: PunNetworkManager
   m_TagString: Untagged
@@ -56,3 +57,15 @@ MonoBehaviour:
   GameAIPrefab: {fileID: 628791750963113795, guid: c2dc80243855f344cb4991855d65dcc7,
     type: 3}
   m_AISpawnTransform: []
+--- !u!114 &5828947238371125034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566725102270905362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1579041286524344b57cd13bd8acc5bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

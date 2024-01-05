@@ -54,11 +54,13 @@ namespace GDD
         
         private void OnTriggerEnter(Collider other)
         {
+            /*
             if (ownerLayer != null && ownerLayer.transform.parent == GM.enemy_layer)
             {
                 print($"Layer Check {GM.player_layer.name}");
                 print($"Layer A : {other.transform.parent.name} || B : {ownerLayer.transform.parent.name}");
             }
+            */
             
             //Get PunCharacterHealth
             PunCharacterHealth _punCharacterHealth;
