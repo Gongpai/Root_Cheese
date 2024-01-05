@@ -55,12 +55,26 @@ namespace GDD.PUN
                 
                 if (PhotonNetwork.CurrentRoom == null)
                     return;
-
+                
                 Hashtable prop = new Hashtable()
                 {
-                    { PunGameSetting.GAMESTATE, _currentGameState.ToString() }
+                    { PunGameSetting.GAMESTATE, _currentGameState }
                 };
                 PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
+                /*
+                if (PhotonNetwork.CurrentRoom.CustomProperties == null)
+                {
+                    Hashtable prop = new Hashtable()
+                    {
+                        { PunGameSetting.GAMESTATE, _currentGameState }
+                    };
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
+                }
+                else
+                {
+                    PhotonNetwork.CurrentRoom.CustomProperties.Add(PunGameSetting.GAMESTATE, _currentGameState);
+                }
+                */
             }
         }
         public CinemachineVirtualCamera vCAm
@@ -77,8 +91,9 @@ namespace GDD.PUN
         {
             //Add Reference Method to Delegate Method
             OnGameStart += GameStartSetting;
+            OnGameOver += GameOverSetting;
         }
-
+        
         private void Update()
         {
             if (!PhotonNetwork.IsMasterClient)
@@ -92,13 +107,20 @@ namespace GDD.PUN
 
                 case PunGameState.GamePlay:
                     //Game Loop Logic
-
+                
+                    break;
+                case PunGameState.GameOver:
+                    OnGameOver();
                     break;
             }
         }
 
         private void GameStartSetting() {
             currentGameState = PunGameState.GamePlay;
+        }
+        
+        private void GameOverSetting() {
+            currentGameState = PunGameState.GameOver;
         }
         
         public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -133,8 +155,8 @@ namespace GDD.PUN
             object gameStateFromProps;
 
             if (propertiesThatChanged.TryGetValue(PunGameSetting.GAMESTATE, out gameStateFromProps)) {
-                Debug.Log("GetStartTime Prop is : " + gameStateFromProps);
-                _currentGameState = (PunGameState)Enum.Parse(typeof(PunGameState), (string)gameStateFromProps);
+                Debug.Log("GetStartTime Prop is : " + (PunGameState)gameStateFromProps);
+                _currentGameState = (PunGameState)gameStateFromProps;
             }
 
             if(_currentGameState == PunGameState.GameOver)
@@ -144,6 +166,11 @@ namespace GDD.PUN
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged) {
             base.OnRoomPropertiesUpdate(propertiesThatChanged);
             gameStateUpdate(propertiesThatChanged);
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace GDD.Util
 {
@@ -11,6 +12,19 @@ namespace GDD.Util
             result *= distance;
             result += b;
             return result;
+        }
+    }
+
+    [Serializable]
+    public struct floatMinMax
+    {
+        public float min;
+        public float max;
+
+        public floatMinMax(float _min, float _max)
+        {
+            min = _min;
+            max = _max;
         }
     }
 }

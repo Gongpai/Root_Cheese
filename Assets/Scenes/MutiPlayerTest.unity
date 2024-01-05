@@ -3097,6 +3097,70 @@ Transform:
   m_Father: {fileID: 1316329120}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1098155902
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1098155904}
+  - component: {fileID: 1098155903}
+  m_Layer: 0
+  m_Name: Status
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1098155903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098155902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62880f27e95abf2418fd79e9d9d568b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GuiOffset:
+    serializedVersion: 2
+    x: 150
+    y: 250
+    width: 400
+    height: 350
+  DontDestroy: 1
+  ServerTimestamp: 1
+  DetailedConnection: 1
+  Server: 1
+  AppVersion: 0
+  UserId: 0
+  Room: 1
+  RoomProps: 1
+  EventsIn: 0
+  LocalPlayer: 0
+  PlayerProps: 0
+  Others: 0
+  Buttons: 0
+  ExpectedUsers: 0
+--- !u!4 &1098155904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098155902}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1173151463
 Mesh:
   m_ObjectHideFlags: 0

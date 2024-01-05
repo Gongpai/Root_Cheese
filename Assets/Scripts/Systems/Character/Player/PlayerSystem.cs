@@ -106,6 +106,9 @@ namespace GDD
 
         public override float GetMaxShield()
         {
+            if (_weaponSystem.attachmentStats == null)
+                return 0;
+            
             return _weaponSystem.attachmentStats.shield * 100;
         }
 
