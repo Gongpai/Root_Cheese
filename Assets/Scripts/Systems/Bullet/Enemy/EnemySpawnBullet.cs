@@ -19,6 +19,7 @@ namespace GDD
             base.Start();
             
             _bulletObjectPool = gameObject.AddComponent<EnemyBulletObjectPool>();
+            
         }
 
         public override List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damage, BulletType type, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)

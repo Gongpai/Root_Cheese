@@ -12,7 +12,8 @@ namespace GDD
         private GameObjectPool _bullet;
         private GameManager GM;
         private float _damage;
-        private bool _is_undying = false;
+        private bool m_is_undying = false;
+        private bool is_Client = true;
         private Coroutine _coroutinereturnpool;
         public int OwnerViewID = -1;
         
@@ -32,7 +33,7 @@ namespace GDD
 
         public bool is_undying
         {
-            set => _is_undying = value;
+            set => m_is_undying = value;
         }
         
         // Start is called before the first frame update
@@ -53,29 +54,39 @@ namespace GDD
         
         private void OnTriggerEnter(Collider other)
         {
-            if (ownerLayer.transform.parent != null && ownerLayer.transform.parent == GM.enemy_layer)
+            if (ownerLayer != null && ownerLayer.transform.parent == GM.enemy_layer)
             {
                 print($"Layer Check {GM.player_layer.name}");
                 print($"Layer A : {other.transform.parent.name} || B : {ownerLayer.transform.parent.name}");
             }
-
-            Transform layer = other.transform.parent;
+            
+            //Get PunCharacterHealth
             PunCharacterHealth _punCharacterHealth;
             bool has_punCharacterHealth = other.TryGetComponent<PunCharacterHealth>(out _punCharacterHealth);
 
+            //Get Layer Target
+            Transform layer = other.transform.parent;
+
+            //Check PunCharacterHealth
             if (!has_punCharacterHealth)
             {
                 print($"{other.transform.name} : Pun is null!!!!!!!!!!!!!!!!!!");
                 return;
             }
+            
+            //Check Client
+            is_Client = _punCharacterHealth.CharacterSystem.isClient;
+            if(!is_Client)
+                return;
 
+            //Check Enemy Layer & Set HP / Shield
             if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
             {
                 print("Enemy Take Damage");
-                CharacterSystem _characterSystem = other.gameObject.GetComponent<CharacterSystem>();
-                OnTakeDamage(_characterSystem, _damage);
+                _punCharacterHealth.TakeDamage(_damage, OwnerViewID); 
                 ReturnToPool();
             }
+            //Check Player Layer & Set HP / Shield
             else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
             {
                 print("Character Take Damage");
@@ -87,13 +98,14 @@ namespace GDD
                 //Debug.LogError("Not Found HealthSystem Component");
             }
 
+            //If Not Player And Enemy Tag Return To Pool Only
             if(other.tag != "Enemy" && other.tag != "Player" && other.transform.parent != transform.parent)
                 ReturnToPool();
         }
 
         private void ReturnToPool()
         {
-            if (!_is_undying)
+            if (!m_is_undying)
             {
                 //print("Return TO Poooooollllll!!!!!!!!!!!!");
                 _bullet.ReturnToPool();
@@ -104,26 +116,6 @@ namespace GDD
         public void ReturnBulletToPool()
         {
             _bullet.ReturnToPool();
-        }
-
-        protected void OnTakeDamage(CharacterSystem characterSystem, float damage)
-        {
-            if (characterSystem.GetShield() > 0)
-            {
-                if (characterSystem.GetShield() - damage > 0)
-                    characterSystem.SetShield(characterSystem.GetShield() - damage);
-                else
-                    characterSystem.SetShield(0);
-            }
-            else
-            {
-                if (characterSystem.GetHP() - damage > 0)
-                    characterSystem.SetHP(characterSystem.GetHP() - damage);
-                else
-                    characterSystem.SetHP(0);
-            }
-
-            //print("Current Health : " + characterSystem.hp);
         }
     }
 }

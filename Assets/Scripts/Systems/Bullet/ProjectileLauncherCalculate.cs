@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine.Utility;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -130,6 +131,9 @@ namespace GDD
             Vector3 localVelocity = new Vector3(0f, Vy, Vz);
             Vector3 globalVelocity = grenade.transform.TransformDirection(localVelocity);
 
+            if(globalVelocity.IsNaN())
+                return;
+            
             rig.velocity = globalVelocity;
         }
 
