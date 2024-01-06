@@ -6,6 +6,7 @@ using GDD.Sinagleton;
 using GDD.Spatial_Partition;
 using GDD.Util;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Grid = GDD.Spatial_Partition.Grid;
 
 namespace GDD
@@ -32,7 +33,7 @@ namespace GDD
 
         [Header("Player Client")] 
         [SerializeField]
-        private PlayerSystem m_playerClient;
+        private PlayerSystem m_playerMasterClient;
 
         [Header("Play Mode")] 
         [SerializeField] 
@@ -71,10 +72,10 @@ namespace GDD
             set => m_players = value;
         }
 
-        public PlayerSystem playerClient
+        public PlayerSystem playerMasterClient
         {
-            get => m_playerClient;
-            set => m_playerClient = value;
+            get => m_playerMasterClient;
+            set => m_playerMasterClient = value;
         }
 
         public Transform player_layer

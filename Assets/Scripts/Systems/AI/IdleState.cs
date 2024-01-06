@@ -10,7 +10,6 @@ namespace GDD
     {
         protected float m_IdleTime;
         
-        
         public void EnterState()
         {
             RandomIdleTime();
@@ -20,13 +19,11 @@ namespace GDD
         {
             m_IdleTime = UnityEngine.Random.Range(2, 5);
         }
-
         
         public void UpdateState()
         {
             ReduceIdleTimer();
         }
-
 
         private void ReduceIdleTimer()
         {

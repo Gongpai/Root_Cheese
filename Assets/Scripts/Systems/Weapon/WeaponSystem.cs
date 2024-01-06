@@ -59,7 +59,12 @@ namespace GDD
             get => _attachmentStats;
             set => _attachmentStats = value;
         }
-        
+
+        private void OnEnable()
+        {
+            
+        }
+
         private void Start()
         {
             _characterSystem = GetComponent<CharacterSystem>();
@@ -83,6 +88,10 @@ namespace GDD
         public void ToggleFire(PlayerSpawnBullet playerSpawnBullet)
         {
             //print($"PlayerS is null : {playerSpawnBullet == null} | Weapon is null : {_weapon == null}");
+            
+            if(_weapon == null)
+                return;
+            
             playerSpawnBullet.bulletObjectPool.weapon = _weapon;
             playerSpawnBullet.bulletObjectPool.Set_GameObject = _weapon.bulletObject;
             playerSpawnBullet.OnSpawnBullet(

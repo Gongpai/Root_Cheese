@@ -30,6 +30,7 @@ namespace GDD.PUN
             // when levels are synchronized
             if (photonView.IsMine)
             {
+                gameObject.name += "[MasterClient]";
                 LocalPlayerInstance = gameObject;
                 //GM.players.Add(GetComponent<PlayerSystem>());
                 //GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
@@ -40,8 +41,8 @@ namespace GDD.PUN
                 PunNetworkManager.Instance.vCAm.Follow = _followCam.transform;
                 PunNetworkManager.Instance.vCAm.LookAt = _followCam.transform;
                 
-                //Set Player Client
-                GM.playerClient = LocalPlayerInstance.GetComponent<PlayerSystem>();
+                //Set Player Host
+                GM.playerMasterClient = LocalPlayerInstance.GetComponent<PlayerSystem>();
                 
                 // Reference Input on run-time
                 PlayerInput _pInput = GetComponent<PlayerInput>();
@@ -49,10 +50,10 @@ namespace GDD.PUN
             }
             else
             {
-                gameObject.name += $" [Other Player] [{photonView.ViewID}]";
+                gameObject.name += $" [Other] [{photonView.ViewID}]";
                 //GM.players.Add(GetComponent<PlayerSystem>());
                 GetComponent<CharacterControllerSystem>().enabled = false;
-                GetComponent<PlayerSystem>().isClient = false;
+                GetComponent<PlayerSystem>().isMasterClient = false;
                 OnPlayerPropertiesUpdate(photonView.Owner, photonView.Owner.CustomProperties);
                 
             }

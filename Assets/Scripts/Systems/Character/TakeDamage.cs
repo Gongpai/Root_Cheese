@@ -13,7 +13,7 @@ namespace GDD
         private GameManager GM;
         private float _damage;
         private bool m_is_undying = false;
-        private bool is_Client = true;
+        private bool is_MasterClient = true;
         private Coroutine _coroutinereturnpool;
         public int OwnerViewID = -1;
         
@@ -41,7 +41,7 @@ namespace GDD
         {
             GM = GameManager.Instance;
             _bullet = GetComponent<GameObjectPool>();
-            OwnerViewID = GM.playerClient.GetComponent<MonoBehaviourPun>().photonView.ViewID;
+            OwnerViewID = GM.playerMasterClient.GetComponent<MonoBehaviourPun>().photonView.ViewID;
             
             _coroutinereturnpool = StartCoroutine(WaitReturnToPool(120));
         }
@@ -77,8 +77,8 @@ namespace GDD
             }
             
             //Check Client
-            is_Client = _punCharacterHealth.CharacterSystem.isClient;
-            if(!is_Client)
+            is_MasterClient = _punCharacterHealth.CharacterSystem.isMasterClient;
+            if(!is_MasterClient)
                 return;
 
             //Check Enemy Layer & Set HP / Shield

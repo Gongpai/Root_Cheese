@@ -51,7 +51,7 @@ namespace GDD
 
             _weaponSystem = GetComponent<WeaponSystem>();
             
-            if(isClient)
+            if(isMasterClient)
                 _controllerSystem = GetComponent<CharacterControllerSystem>();
             
             _playerStateContext = new StateContext<PlayerSystem>(this);
@@ -87,7 +87,7 @@ namespace GDD
         {
             base.Update();
             
-            if(!_isClient)
+            if(!_isMasterClient)
                 return;
             
             if (Input.GetKeyDown(KeyCode.Space))
@@ -106,7 +106,7 @@ namespace GDD
 
         public override float GetMaxShield()
         {
-            if (_weaponSystem.attachmentStats == null)
+            if (_weaponSystem == null)
                 return 0;
             
             return _weaponSystem.attachmentStats.shield * 100;
@@ -114,7 +114,7 @@ namespace GDD
 
         private void OnGUI()
         {
-            if(_isClient)
+            if(_isMasterClient)
                 return;
             
             GUI.contentColor = Color.magenta;

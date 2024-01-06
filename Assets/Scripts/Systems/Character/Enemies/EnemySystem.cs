@@ -20,7 +20,11 @@ namespace GDD
 
         private void Awake()
         {
-            if(!_isClient)
+            //Add AI Enemy to GameManager
+            GM = GameManager.Instance;
+            GM.enemies.Add(this);
+            
+            if(!_isMasterClient)
                 return;
             
             _enemyStateContext = new StateContext<EnemySystem>(this);
@@ -38,15 +42,9 @@ namespace GDD
         public override void Start()
         {
             base.Start();
-            GM = GameManager.Instance;
-            
-            GM.enemies.Add(this);
             
             //Add this unit to the grid
             GM.grid.Add(this);
-            
-            //Add AI Enemy to GameManager
-            GM.enemies.Add(this);
 
             oldPos = transform.position;
         }
@@ -55,7 +53,7 @@ namespace GDD
         {
             base.Update();
 
-            if(!_isClient)
+            if(!_isMasterClient)
                 return;
             
             if (_currentState == null)
@@ -82,7 +80,7 @@ namespace GDD
 
         protected void RandomWayPointPosition()
         {
-            if(!_isClient)
+            if(!_isMasterClient)
                 return;
             
             if (_waypoint == null && this.enabled)
