@@ -1,12 +1,14 @@
-﻿using System;
-using GDD;
-using GDD.StrategyPattern;
+﻿using GDD.StrategyPattern;
+using Photon.Pun;
+using UnityEngine;
 
 namespace GDD
 {
     public class EnemyState : CharacterStateMachine<EnemySystem>
     {
         protected IManeuverBehaviour<EnemyState> strategy;
+        protected Transform target;
+        
         protected override void Start()
         {
             base.Start();

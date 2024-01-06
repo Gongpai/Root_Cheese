@@ -66,41 +66,41 @@ namespace GDD.PUN
         public override void OnGetCharacterData()
         {
             base.OnGetCharacterData();
-        
-            if (photonView.IsMine)
-            {
-                print($"Get Datas {gameObject.name}");
 
-                object[] datas = new object[5];
-                
-                if(_weaponSystem.weaponConfig != null)
-                    datas[0] = _weaponSystem.weaponConfig.Item2;
-                
-                if (_weaponSystem.mainAttachment.Item1 != null)
-                    datas[1] = _weaponSystem.mainAttachment.Item2;
-                else
-                    datas[1] = -1;
-                
-                if (_weaponSystem.secondaryAttachment.Item1 != null)
-                    datas[2] = _weaponSystem.secondaryAttachment.Item2;
-                else
-                    datas[2] = -1;
-                
-                datas[3] = JsonConvert.SerializeObject(_weaponSystem.weaponConfigStats);
-                datas[4] = JsonConvert.SerializeObject(_weaponSystem.attachmentStats);
-                
-                photonView.RPC("RPCInitializeCharacter", RpcTarget.Others, datas, photonView.ViewID);
-            }
+            if (!photonView.IsMine)
+                return;
+            
+            print($"Get Datas {gameObject.name}");
+
+            object[] datas = new object[5];
+
+            if (_weaponSystem.weaponConfig != null)
+                datas[0] = _weaponSystem.weaponConfig.Item2;
+
+            if (_weaponSystem.mainAttachment.Item1 != null)
+                datas[1] = _weaponSystem.mainAttachment.Item2;
+            else
+                datas[1] = -1;
+
+            if (_weaponSystem.secondaryAttachment.Item1 != null)
+                datas[2] = _weaponSystem.secondaryAttachment.Item2;
+            else
+                datas[2] = -1;
+
+            datas[3] = JsonConvert.SerializeObject(_weaponSystem.weaponConfigStats);
+            datas[4] = JsonConvert.SerializeObject(_weaponSystem.attachmentStats);
+
+            photonView.RPC("RPCInitializeCharacter", RpcTarget.Others, datas, photonView.ViewID);
         }
 
         [PunRPC]
         public override void RPCInitializeCharacter(object[] datas, int OwnerNetID)
         {
             base.RPCInitializeCharacter(datas, OwnerNetID);
-            
+
             if(photonView.IsMine)
                 return;
-
+            
             print($"Initialize Datas {datas[0]}, {datas[1]}, {datas[2]}");
             _weaponSystem.weaponConfig = new Tuple<WeaponConfig, int>(
                 Resources.Load<WeaponConfig>(_skillConfigPath.paths[(int)datas[0]]),

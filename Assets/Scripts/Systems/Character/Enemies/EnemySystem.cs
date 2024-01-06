@@ -1,6 +1,8 @@
 using System;
+using GDD.PUN;
 using GDD.Spatial_Partition;
 using GDD.StateMachine;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -16,13 +18,22 @@ namespace GDD
         private IState<EnemySystem> _currentState;
         private StateContext<EnemySystem> _enemyStateContext;
         private WaypointReachingState _waypointReaching;
+        private PunEnemyCharacterController _punECC;
         private GameObject _waypoint;
+        private int _targetID = 0;
 
+        public int targetID
+        {
+            get => _targetID;
+            set => _targetID = value;
+        }
+        
         private void Awake()
         {
             //Add AI Enemy to GameManager
             GM = GameManager.Instance;
             GM.enemies.Add(this);
+            _punECC = GetComponent<PunEnemyCharacterController>();
             
             if(!_isMasterClient)
                 return;
@@ -76,6 +87,29 @@ namespace GDD
         {
             RandomWayPointPosition();
             _currentState = _moveState;
+        }
+
+        public int SetTargetRandom()
+        {
+            if (GM.playMode == PlayMode.Singleplayer)
+            {
+                _targetID = Random.Range(0, GM.players.Count - 1);
+                return _targetID;
+            }
+            else
+            {
+                int i;
+                if (GM.players.Count > 1)
+                    i = Mathf.FloorToInt(Random.Range(0.0f, GM.players.Count * 200.0f) / 200.0f);
+                else
+                    i = 0;
+                print($"I Random : ({i}) || Player Count : {GM.players.Count}");
+                MonoBehaviourPun _monoBehaviourPun = GM.players[i].GetComponent<MonoBehaviourPun>();
+                
+                _targetID = _monoBehaviourPun.photonView.ViewID;
+                _punECC.OnUpdateTargetID(_targetID);
+                return targetID;
+            }
         }
 
         protected void RandomWayPointPosition()

@@ -10,18 +10,26 @@ namespace GDD.PUN
         // System
         protected BulletFireManeuver _bulletFireManeuver;
         protected EnemySpawnBullet _enemySpawnBullet;
+        protected EnemySystem _enemySystem;
         
         protected override void Awake()
         {
             base.Awake();
 
             _bulletFireManeuver = GetComponent<BulletFireManeuver>();
+            _enemySystem = GetComponent<EnemySystem>();
             _enemySpawnBullet = _bulletFireManeuver.enemySpawnBullet;
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
+            
+            if (!photonView.IsMine)
+            {
+                photonView.RPC("OnGetCharacterData", RpcTarget.MasterClient);
+                print($"Awake {gameObject.name}");
+            }
         }
 
         protected override void Start()
@@ -38,12 +46,38 @@ namespace GDD.PUN
         public override void OnGetCharacterData()
         {
             base.OnGetCharacterData();
+
+            if(!photonView.IsMine)
+                return;
+            
+            object[] datas = new object[]
+            {
+                _enemySystem.targetID
+            };
+            
+            photonView.RPC("RPCInitializeCharacter", RpcTarget.Others, datas, photonView.ViewID);
         }
 
         [PunRPC]
         public override void RPCInitializeCharacter(object[] datas, int OwnerNetID)
         {
             base.RPCInitializeCharacter(datas, OwnerNetID);
+
+            if(photonView.IsMine)
+                return;
+            
+            _enemySystem.targetID = (int)datas[0];
+        }
+
+        public void OnUpdateTargetID(int id)
+        {
+            photonView.RPC("RPCUpdateTargetID", RpcTarget.Others, _enemySystem.targetID);
+        }
+
+        [PunRPC]
+        public void RPCUpdateTargetID(int id)
+        {
+            _enemySystem.targetID = id;
         }
 
         public void CallRaiseToggleFireEvent(BulletType type, int[] posIndex = default)

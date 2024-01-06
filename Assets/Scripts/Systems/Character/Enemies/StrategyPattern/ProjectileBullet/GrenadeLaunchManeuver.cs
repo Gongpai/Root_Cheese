@@ -51,7 +51,7 @@ namespace GDD
         {
             base.ToggleFire(enemySpawnBullet);
             
-            print($"Fire us null {enemySpawnBullet == null}!");
+            print($"Fire us null {enemySpawnBullet.bulletObjectPool == null}!");
             
             enemySpawnBullet.bulletObjectPool.Set_GameObject = bullet;
             

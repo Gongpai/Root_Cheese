@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using GDD.Spatial_Partition;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,8 +16,22 @@ namespace GDD
         public override void OnStart(EnemySystem contrller)
         {
             base.OnStart(contrller);
-
+            
+            //Get New Target
+            GetNewTarget(contrller.SetTargetRandom());
+            
             ApplyEnemyStrategy();
+        }
+
+        protected void GetNewTarget(int targetID)
+        {
+            if(GM.playMode == PlayMode.Singleplayer)
+                target = GM.players[targetID].transform;
+            else
+            {
+                print($"ID is : {targetID}");
+                target = PhotonNetwork.GetPhotonView(targetID).transform;
+            }
         }
         
         public override void Handle(EnemySystem contrller)
@@ -25,7 +40,7 @@ namespace GDD
             
             //print("Handleeeeeee");
             if(GM.players.Count > 0)
-                transform.LookAt(GM.players[0].transform);
+                transform.LookAt(target);
         }
 
         public override void OnExit()

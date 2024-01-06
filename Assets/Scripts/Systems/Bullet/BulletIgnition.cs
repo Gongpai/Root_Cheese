@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GDD.ObjectPool;
 using GDD.PUN;
 using GDD.Util;
+using Photon.Pun;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -24,11 +25,14 @@ namespace GDD
         {
             get => m_spawnPoint;
         }
-        
-        public virtual void Start()
+
+        private void Awake()
         {
             GM = GameManager.Instance;
-            
+        }
+
+        public virtual void Start()
+        {
             string sb = " ␆ ␈ ␇ ␘ ␍ ␐ ␡ ␔ ␑ ␓ ␒ ␙ ␃ ␄ ␗ ␅ ␛ ␜ ␌ ␝ ␉ ␊ ␕ ␤ ␀ ␞ ␏ ␎ ␠ ␁ ␂ ␚ ␖ ␟ ␋";
             //print(sb);
         }
@@ -246,6 +250,8 @@ namespace GDD
 
         public void OnProjectileLaunch(ObjectPoolBuilder builder, Transform spawnPoint, int shot, float damage, int[] posIndex = default)
         {
+            EnemySystem _enemySystem = builder.GetComponent<EnemySystem>();
+            
             if (_projectileLaunchers.Count <= 0)
             {
                 GameObject group_launcher_point = new GameObject(gameObject.name + " | Group Launcher Point");
@@ -280,7 +286,17 @@ namespace GDD
             Transform player_target = null;
             if (_projectileLaunchers.Count > 0)
             {
-                player_target = GameManager.Instance.players[0].transform;
+                if(GM.playMode == PlayMode.Singleplayer)
+                    player_target = GM.players[_enemySystem.targetID].transform;
+                else
+                {
+                    PhotonView PtvTarget = PhotonNetwork.GetPhotonView(_enemySystem.targetID);
+                    
+                    if(PtvTarget == null)
+                        return;
+                    else
+                        player_target = PtvTarget.transform;
+                }
 
                 for (int i = 0; i < _projectileLaunchers.Count; i++)
                 {
