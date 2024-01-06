@@ -16,6 +16,10 @@ namespace GDD
         [SerializeField] private float m_bullet_power = 5;
         
         [SerializeField]private float m_timedelay = 0.25f;
+
+        [SerializeField] private int m_shot = 1;
+
+        [SerializeField] private BulletType m_bulletType;
         
         public float damage
         {
@@ -35,6 +39,16 @@ namespace GDD
         public float timedelay
         {
             get => m_timedelay;
+        }
+
+        public int shot
+        {
+            get => m_shot;
+        }
+
+        public BulletType bulletType
+        {
+            get => m_bulletType;
         }
     }
 }

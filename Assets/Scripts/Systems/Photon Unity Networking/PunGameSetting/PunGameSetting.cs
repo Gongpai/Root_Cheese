@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using GDD.Util;
 
 namespace GDD.PUN
 {
@@ -7,8 +7,10 @@ namespace GDD.PUN
         //Keys
         public const string GAMESTATE = "GameState";
         public const string PRE_RANDOMTARGETPOSITION = "PreRandomTargetPosition";
+        public const string RANDOMPOSITIONTARGETCOUNT = "RandomPositionTargetCount";
 
         //Values
-        public static float[] Pre_RandomTargetPosition;
+        public static float2D[] Pre_RandomTargetPosition;
+        public static int RandomPositionTargetCount;
     }
 }

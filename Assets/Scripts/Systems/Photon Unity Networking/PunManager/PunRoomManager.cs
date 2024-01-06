@@ -3,6 +3,7 @@ using ExitGames.Client.Photon;
 using GDD.Util;
 using Newtonsoft.Json;
 using Photon.Pun;
+using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,42 +21,68 @@ namespace GDD.PUN
         {
             get => m_impactPointArea;
         }
-
+        
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
-
+            
+            //Check Is Other Will Return
             Hashtable CustomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
             object propDatas;
-            if(CustomProperties != null && CustomProperties.TryGetValue(PunGameSetting.PRE_RANDOMTARGETPOSITION, out propDatas))
+            if (CustomProperties != null &&
+                CustomProperties.TryGetValue(PunGameSetting.PRE_RANDOMTARGETPOSITION, out propDatas))
+            {
+                OnRoomInitializedForOtherClient(CustomProperties);
                 return;
+            }
+
+            //Random Position Target Count
+            CreateRandomPositionTargetCountHashtable(m_randomPositionTargetCount);
             
-            float[] positions = PreRandomPosition(m_randomPositionTargetCount, m_impactPointArea.min, m_impactPointArea.max);
+            //Pre-Random Position
+            float2D[] positions = PreRandomPosition(m_randomPositionTargetCount, m_impactPointArea.min, m_impactPointArea.max);
+            PunGameSetting.Pre_RandomTargetPosition = positions;
             CreatePreRandomPositionHashtable(positions);
         }
 
-        private float[] PreRandomPosition(int count, float min, float max)
+        private void OnRoomInitializedForOtherClient(Hashtable customProperties)
         {
-            float[] positions = new float[count];
+            print($"CCC : {customProperties.Count}");
+            
+            //Random Position Target Count
+            OnRandomPositionTargetCountUpdate(customProperties);
+            
+            //Pre-Random Position
+            OnPreRandomPositionUpdate(customProperties);
+        }
+
+        private float2D[] PreRandomPosition(int count, float min, float max)
+        {
+            float2D[] positions = new float2D[count];
 
             for (int i = 0; i < positions.Length; i++)
             {
-                positions[i] = Random.Range(min, max);
+                positions[i] = new float2D(Random.Range(min, max), Random.Range(min, max));
             }
 
             return positions;
         }
-
+        
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
             base.OnRoomPropertiesUpdate(propertiesThatChanged);
-            print($"CCC : {propertiesThatChanged.Count}");
+
+            //Random Position Target Count
+            OnRandomPositionTargetCountUpdate(propertiesThatChanged);
+            
+            //Pre-Random Position
             OnPreRandomPositionUpdate(propertiesThatChanged);
         }
 
-        private void CreatePreRandomPositionHashtable(float[] positions)
+        private void CreatePreRandomPositionHashtable(float2D[] positions)
         {
             string json_positions = JsonConvert.SerializeObject(positions);
+            Debug.Log($"Pre-Random Prop is : {json_positions}");
 
             Hashtable prop = new Hashtable()
             {
@@ -66,15 +93,19 @@ namespace GDD.PUN
             };
                 
             PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
-            
-            /*
-            if (PhotonNetwork.CurrentRoom.CustomProperties == null)
+        }
+
+        private void CreateRandomPositionTargetCountHashtable(int count)
+        {
+            Hashtable prop = new Hashtable()
             {
+                { 
+                    PunGameSetting.RANDOMPOSITIONTARGETCOUNT, 
+                    count
+                }
+            };
                 
-            }
-            else
-                PhotonNetwork.CurrentRoom.CustomProperties.Add(PunGameSetting.PRE_RANDOMTARGETPOSITION, json_positions);
-                */
+            PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
         }
 
         private void OnPreRandomPositionUpdate(Hashtable propertiesChanged)
@@ -82,10 +113,20 @@ namespace GDD.PUN
             object preRandomFromProps;
 
             if (propertiesChanged.TryGetValue(PunGameSetting.PRE_RANDOMTARGETPOSITION, out preRandomFromProps)) {
-                Debug.Log($"GetStartTime Prop is : {(string)preRandomFromProps}");
+                Debug.Log($"Update Pre-Random Prop is : {(string)preRandomFromProps}");
 
-                float[] positions = JsonConvert.DeserializeObject<float[]>((string)preRandomFromProps);
+                float2D[] positions = JsonConvert.DeserializeObject<float2D[]>((string)preRandomFromProps);
                 PunGameSetting.Pre_RandomTargetPosition = positions;
+            }
+        }
+
+        private void OnRandomPositionTargetCountUpdate(Hashtable propertiesChanged)
+        {
+            object countFromProps;
+
+            if (propertiesChanged.TryGetValue(PunGameSetting.RANDOMPOSITIONTARGETCOUNT, out countFromProps)) {
+                Debug.Log($"Update Random Count Prop is : {(int)countFromProps}");
+                PunGameSetting.RandomPositionTargetCount = (int)countFromProps;
             }
         }
     }

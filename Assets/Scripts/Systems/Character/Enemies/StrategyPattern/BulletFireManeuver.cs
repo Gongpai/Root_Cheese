@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using GDD.PUN;
 using GDD.Spatial_Partition;
 using GDD.StrategyPattern;
 using UnityEngine;
@@ -12,12 +13,43 @@ namespace GDD
         [SerializeField] protected GameObject bullet;
         [SerializeField] protected EnemyBulletConfig m_enemyBulletConfig;
         protected EnemySpawnBullet _enemySpawnBullet;
+        protected PunEnemyCharacterController _punECC;
+        protected bool _haspunECC;
+
+        protected UnityAction OnFireEvent;
+
+        public EnemySpawnBullet enemySpawnBullet
+        {
+            get => _enemySpawnBullet;
+        }
+
+        protected virtual void Awake()
+        {
+            _enemySpawnBullet = GetComponent<EnemySpawnBullet>();
+            _haspunECC = TryGetComponent(out _punECC);
+            
+            ToggleFireToEvent();
+        }
+
+        protected virtual void ToggleFireToEvent()
+        {
+            if (!_haspunECC)
+            {
+                OnFireEvent = () => { ToggleFire(_enemySpawnBullet); };
+            }
+            else
+            {
+                OnFireEvent = () =>
+                {
+                    OnFireEvent = () => { ToggleFire(_enemySpawnBullet); };
+                    _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType);
+                };
+            }
+        }
 
         public override void Start()
         {
             base.Start();
-            
-            _enemySpawnBullet = GetComponent<EnemySpawnBullet>();
         }
 
         public override void Maneuver(EnemyState pawn)
@@ -79,7 +111,7 @@ namespace GDD
             {
                 if (time_count == time)
                 {
-                    ToggleFire(_enemySpawnBullet);
+                    OnFireEvent?.Invoke();
                 }
 
                 time_count -= Time.deltaTime;
@@ -94,7 +126,7 @@ namespace GDD
             }
         }
         
-        public virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet)
+        public virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
         {
             //print("Fire!!!!!!!!!!!");
         }

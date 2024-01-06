@@ -7,9 +7,9 @@
             base.Start();
         }
         
-        public override void ToggleFire(EnemySpawnBullet enemySpawnBullet)
+        public override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
         {
-            base.ToggleFire(enemySpawnBullet);
+            base.ToggleFire(enemySpawnBullet, posIndex);
             
             enemySpawnBullet.bulletObjectPool.Set_GameObject = bullet;
 
@@ -17,9 +17,9 @@
             enemySpawnBullet.OnSpawnBullet(
                 m_bulletSpawnDistance,
                 _enemyBulletConfig.bullet_power,
-                8,
+                _enemyBulletConfig.shot,
                 _enemyBulletConfig.damage,
-                BulletType.Rectilinear,
+                _enemyBulletConfig.bulletType,
                 BulletShotSurroundMode.Surround,
                 BulletShotMode.SurroundMode
             );

@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace GDD.Util
@@ -25,6 +26,18 @@ namespace GDD.Util
         {
             min = _min;
             max = _max;
+        }
+    }
+
+    public struct float2D
+    {
+        public float x;
+        public float y;
+        
+        public float2D(float _x, float _y)
+        {
+            x = _x;
+            y = _y;
         }
     }
 }

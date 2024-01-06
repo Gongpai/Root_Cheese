@@ -15,7 +15,7 @@ namespace GDD
             if (GetComponent<SpawnerProjectileReflectionBulletCalculate>() == null)
             {
                 _spawnerPRBC = gameObject.AddComponent<SpawnerProjectileReflectionBulletCalculate>();
-                _spawnerPRBC.shot = 1;
+                _spawnerPRBC.shot = m_enemyBulletConfig.shot;
                 _spawnerPRBC.Set_spawnPoint = _enemySpawnBullet.spawnPoint.gameObject;
                 _spawnerPRBC.surroundMode = BulletShotSurroundMode.Front;
                 _spawnerPRBC.OnStart();
@@ -48,9 +48,9 @@ namespace GDD
             }
         }
 
-        public override void ToggleFire(EnemySpawnBullet enemySpawnBullet)
+        public override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
         {
-            base.ToggleFire(enemySpawnBullet);
+            base.ToggleFire(enemySpawnBullet, posIndex);
             
             enemySpawnBullet.bulletObjectPool.Set_GameObject = bullet;
             
@@ -58,9 +58,9 @@ namespace GDD
             enemySpawnBullet.OnSpawnBullet(
                 m_bulletSpawnDistance,
                 _enemyBulletConfig.bullet_power,
-                1,
+                _enemyBulletConfig.shot,
                 _enemyBulletConfig.damage,
-                BulletType.ProjectileReflection,
+                _enemyBulletConfig.bulletType,
                 BulletShotSurroundMode.Front,
                 BulletShotMode.SurroundMode
             );

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using GDD.ObjectPool;
+using GDD.PUN;
+using GDD.Util;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -15,6 +18,7 @@ namespace GDD
         private SpawnerProjectileReflectionBulletCalculate _SPRBC;
         private List<GameObject> _projectileLaunchers = new List<GameObject>();
         private List<Quaternion> rots_random = new List<Quaternion>();
+        private GameManager GM;
 
         public Transform spawnPoint
         {
@@ -23,6 +27,8 @@ namespace GDD
         
         public virtual void Start()
         {
+            GM = GameManager.Instance;
+            
             string sb = " ␆ ␈ ␇ ␘ ␍ ␐ ␡ ␔ ␑ ␓ ␒ ␙ ␃ ␄ ␗ ␅ ␛ ␜ ␌ ␝ ␉ ␊ ␕ ␤ ␀ ␞ ␏ ␎ ␠ ␁ ␂ ␚ ␖ ␟ ␋";
             //print(sb);
         }
@@ -31,28 +37,27 @@ namespace GDD
         {
             
         }
-        
+
         public virtual List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damge, BulletType type, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)
         {
-            if (type != BulletType.Projectile)
-            {
-                if (shotMode == BulletShotMode.SurroundMode)
-                    return OnIgnitionBulletSurround(builder,
-                        m_spawnPoint,
-                        type,
-                        distance,
-                        power,
-                        shot,
-                        damge,
-                        surroundMode);
-                else
-                    return OnIgnitionBulletRandom(builder, m_spawnPoint, distance, power, shot, damge);
-            }
+            if (shotMode == BulletShotMode.SurroundMode)
+                return OnIgnitionBulletSurround(builder,
+                    m_spawnPoint,
+                    type,
+                    distance,
+                    power,
+                    shot,
+                    damge,
+                    surroundMode);
             else
-            {
-                OnProjectileLaunch(builder, m_spawnPoint, shot, damge);
-                return null;
-            }
+                return OnIgnitionBulletRandom(builder, m_spawnPoint, distance, power, shot, damge);
+        }
+
+        public virtual void OnSpawnGrenade(int shot, float damge, int[] posIndex = default, ObjectPoolBuilder builder = null)
+        {
+            print($"builder : {builder == null} | m_spawnPoint : {m_spawnPoint == null} | shot : {shot} | damge : {damge} | posIndex : {posIndex == null}");
+            
+            OnProjectileLaunch(builder, m_spawnPoint, shot, damge, posIndex);
         }
 
         public List<GameObject> OnIgnitionBulletSurround(ObjectPoolBuilder builder, Transform spawnPoint, BulletType _type, float distance, float power, int shot, float damage, BulletShotSurroundMode surroundMode)
@@ -239,7 +244,7 @@ namespace GDD
             bullets.Add(bullet);
         }
 
-        public void OnProjectileLaunch(ObjectPoolBuilder builder, Transform spawnPoint, int shot, float damage)
+        public void OnProjectileLaunch(ObjectPoolBuilder builder, Transform spawnPoint, int shot, float damage, int[] posIndex = default)
         {
             if (_projectileLaunchers.Count <= 0)
             {
@@ -283,10 +288,11 @@ namespace GDD
 
                     if(i > 0)
                     {
-                        Vector2 vector_random = Random.insideUnitCircle * 5f;
-                        Vector3 player_random = new Vector3(vector_random.x, 0, vector_random.y);
-                        Vector3 random_pos = player_random + player_target.position;
-                        _PLC.target.position = random_pos;
+                        if (GM.playMode == PlayMode.Singleplayer)
+                            _PLC.target.position = RandomPositionTargetProjectileLaunch(player_target);
+                        else
+                            _PLC.target.position =
+                                RandomPositionTargetProjectileLaunchCustomProperties(player_target, posIndex[i]);
                     }
                     else
                     {
@@ -309,6 +315,21 @@ namespace GDD
                     _PLC.Launch(grenade);
                 }
             }
+        }
+
+        private Vector3 RandomPositionTargetProjectileLaunch(Transform playerTarget)
+        {
+            Vector2 vector_random = Random.insideUnitCircle * 5f;
+            Vector3 player_random = new Vector3(vector_random.x, 0, vector_random.y);
+            return player_random + playerTarget.position;
+        }
+
+        private Vector3 RandomPositionTargetProjectileLaunchCustomProperties(Transform playerTarget, int posIndex)
+        {
+            float2D vector_random = PunGameSetting.Pre_RandomTargetPosition[posIndex];
+            
+            Vector3 player_random = new Vector3(vector_random.x, 0, vector_random.y);
+            return player_random + playerTarget.position;
         }
     }
 }

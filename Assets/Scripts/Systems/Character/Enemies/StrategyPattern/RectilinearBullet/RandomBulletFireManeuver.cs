@@ -56,9 +56,9 @@ namespace GDD
             }
         }
         
-        public override void ToggleFire(EnemySpawnBullet enemySpawnBullet)
+        public override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
         {
-            base.ToggleFire(enemySpawnBullet);
+            base.ToggleFire(enemySpawnBullet, posIndex);
             
             enemySpawnBullet.bulletObjectPool.Set_GameObject = bullet;
 
@@ -66,9 +66,9 @@ namespace GDD
             enemySpawnBullet.OnSpawnBullet(
                 m_bulletSpawnDistance,
                 _enemyBulletConfig.bullet_power,
-                12,
+                _enemyBulletConfig.shot,
                 _enemyBulletConfig.damage,
-                BulletType.Rectilinear,
+                _enemyBulletConfig.bulletType,
                 BulletShotSurroundMode.Back,
                 BulletShotMode.RandomMode
             );

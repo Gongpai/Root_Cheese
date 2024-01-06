@@ -239,10 +239,10 @@ namespace GDD.PUN
             
             if (eventCode == _punEventCode && !photonView.IsMine)
             {
-                object[] data = (object[])photonEvent.CustomData;
+                object[] datas = (object[])photonEvent.CustomData;
                 
                 //print("This View ID : " + photonView.ViewID + " :: Receive ID : " + (int)data[1]);
-                if ((int)data[0] == photonView.ViewID)
+                if ((int)datas[0] == photonView.ViewID)
                 {
                     //print(data[0] + " : " + gameObject.name);
                     

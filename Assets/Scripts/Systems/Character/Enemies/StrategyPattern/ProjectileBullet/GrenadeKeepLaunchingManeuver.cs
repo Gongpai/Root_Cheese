@@ -9,22 +9,9 @@ namespace GDD
             base.Start();
         }
         
-        public override void ToggleFire(EnemySpawnBullet enemySpawnBullet)
+        public override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
         {
-            base.ToggleFire(enemySpawnBullet);
-            
-            enemySpawnBullet.bulletObjectPool.Set_GameObject = bullet;
-
-            EnemyBulletConfig _enemyBulletConfig = m_enemyBulletConfig;
-            enemySpawnBullet.OnSpawnBullet(
-                m_bulletSpawnDistance,
-                _enemyBulletConfig.bullet_power,
-                3,
-                _enemyBulletConfig.damage,
-                BulletType.Projectile,
-                BulletShotSurroundMode.Surround,
-                BulletShotMode.SurroundMode
-            );
+            base.ToggleFire(enemySpawnBullet, posIndex);
         }
     }
 }
