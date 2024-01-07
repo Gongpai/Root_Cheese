@@ -10,11 +10,11 @@ namespace GDD
     public abstract class CharacterSystem : Pawn, ICharacter
     {
         [Header("Player Stats Setting")]
-        [SerializeField] private TextMeshProUGUI m_hp_text;
+        [SerializeField] protected TextMeshProUGUI m_hp_text;
         [SerializeField] protected Slider m_hp_bar;
         [SerializeField] protected Slider m_shield_bar;
         [SerializeField] protected float m_hp = 100;
-        [SerializeField] private float m_max_HP = 100;
+        [SerializeField] protected float m_max_HP = 100;
         [SerializeField] protected float m_shield = 100;
         protected bool _isMasterClient = true;
 
@@ -37,11 +37,13 @@ namespace GDD
         public virtual void Update()
         {
             m_hp_bar.value = m_hp / m_max_HP;
-            m_hp_text.text = "HP : " + m_hp +" / " + m_max_HP + $"|| SH : {GetShield()} / {GetMaxShield()}";
+            m_hp_text.text = $"HP : {m_hp} / {m_max_HP} || Shield : {GetShield()} / {GetMaxShield()}";
 
-            if (m_shield_bar != null)
+            if (m_shield_bar != null && (GetShield() / GetMaxShield()) > 0)
                 m_shield_bar.value = GetShield() / GetMaxShield();
-            
+            else
+                m_shield_bar.value = 0;
+                    
             if(m_hp <= 0)
                 Destroy(gameObject);
         }

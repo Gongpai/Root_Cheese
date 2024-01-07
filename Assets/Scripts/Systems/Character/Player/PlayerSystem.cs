@@ -106,10 +106,25 @@ namespace GDD
 
         public override float GetMaxShield()
         {
-            if (_weaponSystem == null)
-                return 0;
+            if(_weaponSystem.mainAttachment.Item1 != null && _weaponSystem.mainAttachment.Item1.shield != 0)
+                return _weaponSystem.attachmentStats.shield * 100 + _weaponSystem.mainAttachment.Item1.shield;
+            if(_weaponSystem.secondaryAttachment.Item1 != null && _weaponSystem.secondaryAttachment.Item1.shield != 0)
+                return _weaponSystem.attachmentStats.shield * 100 + _weaponSystem.secondaryAttachment.Item1.shield;
             
-            return _weaponSystem.attachmentStats.shield * 100;
+            if (_weaponSystem == null || _weaponSystem.mainAttachment.Item1 == null || _weaponSystem.secondaryAttachment.Item1 == null)
+                return 0.0f;
+
+            return 0.0f;
+        }
+
+        public override float GetShield()
+        {
+            if(_weaponSystem != null)
+                if (_weaponSystem.mainAttachment.Item1 != null || _weaponSystem.secondaryAttachment.Item1 != null)
+                    if(_weaponSystem.mainAttachment.Item1.shield > 0 || _weaponSystem.secondaryAttachment.Item1.shield > 0)
+                        return base.GetShield();
+
+            return 0.0f;
         }
 
         private void OnGUI()

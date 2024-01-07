@@ -4,7 +4,7 @@ namespace GDD
 {
     public class WeaponAttachmentStats
     {
-        private float _shield = 1;
+        private float _shield = 0;
         private float _effect_health = 1;
         private float _attachmentSpinSpeed = 1;
         private float _attachmentDamage = 1;
