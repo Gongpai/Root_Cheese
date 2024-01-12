@@ -625,6 +625,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraRoot: {fileID: 5509665787452780490}
+  m_statusUI: {fileID: 5825938031019873916, guid: a814269ff4c6fc442a255976deb331c6,
+    type: 3}
 --- !u!114 &3687693191306519284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,9 +707,10 @@ MonoBehaviour:
   m_hp: 100
   m_max_HP: 100
   m_shield: 100
+  _maxEXP: 100
+  m_levelUp: 1.1
   m_skillRandomUI: {fileID: 2005608045575106628, guid: dd27f74880ca05948922fe56b975edce,
     type: 3}
-  m_maxLevel: 100
   m_delay_attack: 0.25
   vision: {x: 10, y: 10}
 --- !u!4 &705807638788262956 stripped

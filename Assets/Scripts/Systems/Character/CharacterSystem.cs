@@ -9,14 +9,18 @@ namespace GDD
 {
     public abstract class CharacterSystem : Pawn, ICharacter
     {
-        [Header("Player Stats Setting")]
+        [Header("Player Stats Setting")] 
         [SerializeField] protected TextMeshProUGUI m_hp_text;
         [SerializeField] protected Slider m_hp_bar;
         [SerializeField] protected Slider m_shield_bar;
         [SerializeField] protected float m_hp = 100;
         [SerializeField] protected float m_max_HP = 100;
         [SerializeField] protected float m_shield = 100;
+        [SerializeField] protected int _maxEXP = 100;
+        [SerializeField] protected float m_levelUp = 1.1f;
         protected bool _isMasterClient = true;
+        private int _EXP;
+        private int _level;
 
         public bool isMasterClient
         {
@@ -46,8 +50,20 @@ namespace GDD
                     
             if(m_hp <= 0)
                 Destroy(gameObject);
+
+            LevelProgress();
         }
 
+        protected void LevelProgress()
+        {
+            if (_EXP >= _maxEXP)
+            {
+                _level++;
+                _maxEXP = (int)(_maxEXP * m_levelUp);
+                _EXP = 0;
+            }
+        }
+        
         public virtual void OnDisable()
         {
             
@@ -92,6 +108,31 @@ namespace GDD
                 shield = GetMaxShield();
             else
                 m_shield = shield;
+        }
+
+        public void SetMaxEXP(int maxEXP)
+        {
+            _maxEXP = maxEXP;
+        }
+
+        public int GetMaxEXP()
+        {
+            return _maxEXP;
+        }
+
+        public void SetEXP(int EXP)
+        {
+            _EXP = EXP;
+        }
+
+        public int GetEXP()
+        {
+            return _EXP;
+        }
+
+        public int GetLevel()
+        {
+            return _level;
         }
 
         public override Transform GetPawnTransform()

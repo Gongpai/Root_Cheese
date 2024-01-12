@@ -9,5 +9,10 @@
         public float GetMaxShield();
         public float GetShield();
         public void SetShield(float shield);
+        public int GetMaxEXP();
+        public void SetMaxEXP(int maxEXP);
+        public int GetEXP();
+        public void SetEXP(int EXP);
+        public int GetLevel();
     }
 }

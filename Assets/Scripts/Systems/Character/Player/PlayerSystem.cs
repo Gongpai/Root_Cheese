@@ -10,7 +10,6 @@ namespace GDD
     {
         [Header("Level")] 
         [SerializeField] private GameObject m_skillRandomUI;
-        [SerializeField] private float m_maxLevel;
         
         [Header("Player Attack Setting")]
         [SerializeField][Tooltip("Time For Delay Enter Attack State")] 
@@ -25,7 +24,6 @@ namespace GDD
         private WeaponSystem _weaponSystem;
         private RandomSkill _randomSkill;
         private RandomSkillUI _randomSkillUI;
-        private float _level;
         private GameManager GM;
         
         public float delay_attack

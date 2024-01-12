@@ -22,6 +22,17 @@ namespace GDD.PUN
         [SerializeField] private GameObject GameAIPrefab;
         [SerializeField] private List<Transform> m_AISpawnTransform = new List<Transform>();
         private PunGameState _currentGameState = PunGameState.GameStart;
+
+        [Header("Status UI")] 
+        [SerializeField] private GameObject m_characterStatusUI;
+
+        private GameObject _characterStatusUI;
+        private Canvas_Element_List _canvasElementList;
+
+        public GameObject characterStatusUI
+        {
+            get => _characterStatusUI;
+        }
         
         /// <summary>
         /// Create delegate Method
@@ -92,10 +103,18 @@ namespace GDD.PUN
             //Add Reference Method to Delegate Method
             OnGameStart += GameStartSetting;
             OnGameOver += GameOverSetting;
+            
+            //Create Character Status UI
+            _characterStatusUI = Instantiate(m_characterStatusUI);
+            _characterStatusUI.transform.position = Vector3.zero;
+            _canvasElementList = _characterStatusUI.GetComponent<Canvas_Element_List>();
         }
         
         private void Update()
         {
+            if(_characterStatusUI != null)
+                _canvasElementList.texts[0].enabled = !PhotonNetwork.InRoom;
+            
             if (!PhotonNetwork.IsMasterClient)
                 return;
 

@@ -57,6 +57,8 @@ MonoBehaviour:
   GameAIPrefab: {fileID: 628791750963113795, guid: c2dc80243855f344cb4991855d65dcc7,
     type: 3}
   m_AISpawnTransform: []
+  m_characterStatusUI: {fileID: 2546062400728472275, guid: 8eabd7f9f4607c149ab25db722e2227a,
+    type: 3}
 --- !u!114 &2754148097277268331
 MonoBehaviour:
   m_ObjectHideFlags: 0

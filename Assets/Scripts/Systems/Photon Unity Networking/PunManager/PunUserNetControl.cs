@@ -10,17 +10,26 @@ namespace GDD.PUN
     [RequireComponent(typeof(PhotonTransformView))]
     public class PunUserNetControl : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
     {
+        [Header("Camera")]
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         [SerializeField]private Transform CameraRoot;
+
+        [Header("Status UI")] 
+        [SerializeField] private GameObject m_statusUI;
+        
         public static GameObject LocalPlayerInstance;
         private GameManager GM;
         private PlayerCameraFollow _followCam;
+        private GameObject _statusUI;
         
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             //Game Manager
             GM = GameManager.Instance;
             transform.parent = GM.player_layer;
+            
+            //Add Status Character UI
+            AddStatusUI(GetComponent<CharacterSystem>());
             
             Debug.Log(info.photonView.Owner.ToString());
             Debug.Log(info.photonView.ViewID.ToString());
@@ -58,6 +67,25 @@ namespace GDD.PUN
                 
             }
         }
+
+        public void AddStatusUI(CharacterSystem characterSystem)
+        {
+            PunNetworkManager PNM = PunNetworkManager.Instance;
+            _statusUI = Instantiate(m_statusUI, PNM.characterStatusUI.GetComponent<Canvas_Element_List>().canvas_gameObjects[0].transform);
+            _statusUI.transform.localPosition = Vector3.zero;
+            _statusUI.GetComponent<CharacterStatusUI>().characterSystem = characterSystem;
+        }
+
+        public void OnDestroy()
+        {
+            RemoveStatusUI();
+        }
+
+        public void RemoveStatusUI()
+        {
+            Destroy(_statusUI);
+        }
+        
         public override void OnPlayerPropertiesUpdate(Player target, Hashtable changedProps) {
             base.OnPlayerPropertiesUpdate(target, changedProps);
         }
