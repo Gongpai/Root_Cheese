@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cinemachine.Utility;
 using GDD.ObjectPool;
 using GDD.PUN;
 using GDD.Util;
@@ -253,7 +254,6 @@ namespace GDD
             int[] posIndex = default)
         {
             EnemySystem _enemySystem = builder.GetComponent<EnemySystem>();
-            Transform player_target = null;
 
             if (_PLC == null)
             {
@@ -265,83 +265,71 @@ namespace GDD
                 _PLC.transform.localPosition = Vector3.zero;
                 _PLC.launchAngle = 70f;
             }
-            
-            if (GM.playMode == PlayMode.Singleplayer)
-                player_target = GM.players[_enemySystem.targetID].transform;
-            else
-            {
-                PhotonView PtvTarget = PhotonNetwork.GetPhotonView(_enemySystem.targetID);
-
-                if (PtvTarget == null)
-                    return;
-                else
-                    player_target = PtvTarget.transform;
-            }
 
             for (int i = 0; i < shot; i++)
             {
-                GameObject launchPoint = new GameObject("launchPoint");
-                launchPoint.transform.parent = group_launcher_point.transform;
-                launchPoint.transform.localPosition = Vector3.zero;
-
-                GameObject shooting_point = new GameObject("Shooting Target");
-                shooting_point.transform.parent = launchPoint.transform;
-                shooting_point.transform.localPosition = Vector3.zero + new Vector3(0, 0.01f, 0);
-                shooting_point.AddComponent<SpriteRenderer>().sprite =
-                    Resources.Load<Sprite>("Images/Weapon/ShootingTarget");
-                shooting_point.GetComponent<SpriteRenderer>().color = Color.red;
-                shooting_point.transform.localRotation = Quaternion.Euler(new Vector3(90, 0, 0));
-                shooting_point.transform.localScale = Vector3.one * 0.1f;
+                ShootingTargetObjectPool _shootingTarget = _PLC.GetComponent<ShootingTargetObjectPool>();
+                if (_shootingTarget == null)
+                    _shootingTarget = _PLC.gameObject.AddComponent<ShootingTargetObjectPool>();
                 
-                _PLC.SetNewTarget(launchPoint.transform);
-
-                if (i > 0)
-                {
-                    if (GM.playMode == PlayMode.Singleplayer)
-                        _PLC.target.position = RandomPositionTargetProjectileLaunch(player_target);
-                    else
-                        _PLC.target.position =
-                            RandomPositionTargetProjectileLaunchCustomProperties(player_target, posIndex[i]);
-                }
-                else
-                {
-                    _PLC.target.position = player_target.position;
-                }
+                GameObject shooting_point = _shootingTarget.OnSpawn();
+                shooting_point.transform.parent = group_launcher_point.transform;
+                shooting_point.transform.localPosition = Vector3.zero + new Vector3(0, 0.1f, 0);
+                shooting_point.GetComponent<Target_Point>().OnStart(2f);
 
                 GameObject grenade = builder.OnSpawn();
                 grenade.GetComponent<TakeDamage>().damage = damage;
                 grenade.GetComponent<Collider>().isTrigger = true;
 
-                GameObject targetObject = _PLC.target.GetChild(0).gameObject;
-                targetObject.SetActive(true);
-                Target_Point targetPoint = targetObject.GetComponent<Target_Point>();
-                if (targetPoint == null)
-                {
-                    targetPoint = targetObject.AddComponent<Target_Point>();
-                }
-
-                targetPoint.OnStart(2f);
-
                 grenade.transform.position = _PLC.transform.position;
                 Rigidbody rig = grenade.GetComponent<Rigidbody>();
                 rig.velocity = Vector3.zero;
-                rig.velocity = _PLC.GetVelocityProjectile(transform.position);
+
+                Vector3 posToTarget;
+                if (GM.playMode == PlayMode.Singleplayer)
+                    posToTarget = GM.players[_enemySystem.targetID].transform.position;
+                else
+                {
+                    PhotonView PtvTarget = PhotonNetwork.GetPhotonView(_enemySystem.targetID);
+
+                    if (PtvTarget == null)
+                        return;
+                    else
+                        posToTarget = PtvTarget.transform.position;
+                }
+                if (i > 0)
+                {
+                    if (GM.playMode == PlayMode.Singleplayer)
+                        posToTarget = RandomPositionTargetProjectileLaunch(posToTarget);
+                    else
+                        posToTarget =
+                            RandomPositionTargetProjectileLaunchCustomProperties(posToTarget, posIndex[i]);
+                }
+
+                shooting_point.transform.position = new Vector3(posToTarget.x, shooting_point.transform.position.y, posToTarget.z);
+                
+                Vector3 _velocity = _PLC.GetVelocityProjectile(transform.position, posToTarget, 0.1f);
+                
+                if(_velocity.IsNaN())
+                    return;
+
+                rig.velocity = _velocity;
             }
         }
 
-        private Vector3 RandomPositionTargetProjectileLaunch(Transform playerTarget)
+        private Vector3 RandomPositionTargetProjectileLaunch(Vector3 playerTarget)
         {
             Vector2 vector_random = Random.insideUnitCircle * 5f;
             Vector3 player_random = new Vector3(vector_random.x, 0, vector_random.y);
-            return player_random + playerTarget.position;
+            return player_random + playerTarget;
         }
 
-        private Vector3 RandomPositionTargetProjectileLaunchCustomProperties(Transform playerTarget, int posIndex)
+        private Vector3 RandomPositionTargetProjectileLaunchCustomProperties(Vector3 playerTarget, int posIndex)
         {
             float2D vector_random = PunGameSetting.Pre_RandomTargetPosition[posIndex];
             
             Vector3 player_random = new Vector3(vector_random.x, 0, vector_random.y);
-            return player_random + playerTarget.position;
+            return player_random + playerTarget;
         }
     }
 }

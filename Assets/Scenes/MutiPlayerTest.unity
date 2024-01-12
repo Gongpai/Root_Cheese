@@ -3947,7 +3947,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294112747}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.1561916, y: 4.044041, z: 5.775716}
+  m_LocalPosition: {x: 3.25, y: 0.25, z: 4.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3970,6 +3970,10 @@ MonoBehaviour:
   _stackDefaultCapacity: 5
   m_object: {fileID: 2020503386803439219, guid: 79e21b1424338804387946ff823e33ed,
     type: 3}
+  m_spawnCount: 10
+  m_radius:
+    min: 0
+    max: 0
   m_isUseCustomPositions: 1
 --- !u!114 &1294112750
 MonoBehaviour:

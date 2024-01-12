@@ -96,26 +96,26 @@ namespace GDD
             return platformOffset;
         }
 
-        public Vector3 GetVelocityProjectile(Vector3 projectileXZPos)
+        public Vector3 GetVelocityProjectile(Vector3 origin, Vector3 target, float platformOffset = 0.0f)
         {
-            Vector3 targetXZPos = new Vector3(_target.position.x, transform.position.y, _target.position.z);
+            Vector3 targetXZPos = new Vector3(target.x, transform.position.y, target.z);
             
             transform.LookAt(targetXZPos);
-            float R = Vector3.Distance(projectileXZPos, targetXZPos);
+            float R = Vector3.Distance(origin, targetXZPos);
             float G = Physics.gravity.y;
             float tanAlpha = Mathf.Tan(_launchAngle * Mathf.Deg2Rad);
-            float H = (_target.position.y + GetPlatformOffset()) - transform.position.y;
+            float H = (target.y + platformOffset) - transform.position.y;
 
             float Vz = Mathf.Sqrt(G * R * R / (2.0f * (H - R * tanAlpha)));
             float Vy = tanAlpha * Vz;
 
             Vector3 localVelocity = new Vector3(0f, Vy, Vz);
             Vector3 globalVelocity = transform.TransformDirection(localVelocity);
-
+            
             return globalVelocity;
         }
         
-        public void Launch(GameObject grenade)
+        public void LaunchGameObject(GameObject grenade)
         {
             grenade.transform.position = transform.position;
             
@@ -153,9 +153,6 @@ namespace GDD
 
             if(globalVelocity.IsNaN())
                 return;
-            
-            
-            print($"GlobalVelocity Old = {globalVelocity} | New = {GetVelocityProjectile(transform.position)}");
             
             rig.velocity = globalVelocity;
         }

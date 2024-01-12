@@ -24,6 +24,9 @@ namespace GDD
 
         public override void OnReturnToPool(GameObjectPool bullet)
         {
+            Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
+            rigidbody.velocity = Vector3.zero;
+            
             base.OnReturnToPool(bullet);
         }
 

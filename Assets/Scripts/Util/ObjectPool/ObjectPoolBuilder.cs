@@ -61,11 +61,9 @@ namespace GDD.ObjectPool
             return null;
         }
 
-        public virtual void OnReturnToPool(GameObjectPool bullet)
+        public virtual void OnReturnToPool(GameObjectPool gObject)
         {
-            bullet.gameObject.SetActive(false);
-            Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
-            rigidbody.velocity = Vector3.zero;
+            gObject.gameObject.SetActive(false);
         }
         
         public virtual void OnTakeFromPool(GameObjectPool bullet)

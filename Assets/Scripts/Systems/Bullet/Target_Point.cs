@@ -1,9 +1,10 @@
 ﻿using System;
+using GDD.ObjectPool;
 using UnityEngine;
 
 namespace GDD
 {
-    public class Target_Point : MonoBehaviour
+    public class Target_Point : GameObjectPool
     {
         private float time = 0;
         private float max_time = 0;
@@ -15,7 +16,7 @@ namespace GDD
             {
                 if (time >= max_time)
                 {
-                    gameObject.SetActive(false);
+                    ReturnToPool();
                 }
                 else
                 {
