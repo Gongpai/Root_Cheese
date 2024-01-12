@@ -96,8 +96,10 @@ namespace GDD
             return platformOffset;
         }
 
-        public Vector3 GetVelocityProjectile(Vector3 projectileXZPos, Vector3 targetXZPos)
+        public Vector3 GetVelocityProjectile(Vector3 projectileXZPos)
         {
+            Vector3 targetXZPos = new Vector3(_target.position.x, transform.position.y, _target.position.z);
+            
             transform.LookAt(targetXZPos);
             float R = Vector3.Distance(projectileXZPos, targetXZPos);
             float G = Physics.gravity.y;
@@ -153,7 +155,7 @@ namespace GDD
                 return;
             
             
-            print($"GlobalVelocity Old = {globalVelocity} | New = {GetVelocityProjectile(transform.position, targetXZPos)}");
+            print($"GlobalVelocity Old = {globalVelocity} | New = {GetVelocityProjectile(transform.position)}");
             
             rig.velocity = globalVelocity;
         }

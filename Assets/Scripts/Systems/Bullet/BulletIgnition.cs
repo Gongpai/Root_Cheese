@@ -17,9 +17,10 @@ namespace GDD
         private GameObject bullet_rot_spawn;
         protected List<GameObject> bullets;
         private SpawnerProjectileReflectionBulletCalculate _SPRBC;
-        private List<GameObject> _projectileLaunchers = new List<GameObject>();
+        private ProjectileLauncherCalculate _PLC;
         private List<Quaternion> rots_random = new List<Quaternion>();
         private GameManager GM;
+        private GameObject group_launcher_point;
 
         public Transform spawnPoint
         {
@@ -248,89 +249,83 @@ namespace GDD
             bullets.Add(bullet);
         }
 
-        public void OnProjectileLaunch(ObjectPoolBuilder builder, Transform spawnPoint, int shot, float damage, int[] posIndex = default)
+        public void OnProjectileLaunch(ObjectPoolBuilder builder, Transform spawnPoint, int shot, float damage,
+            int[] posIndex = default)
         {
             EnemySystem _enemySystem = builder.GetComponent<EnemySystem>();
-            
-            if (_projectileLaunchers.Count <= 0)
+            Transform player_target = null;
+
+            if (_PLC == null)
             {
-                GameObject group_launcher_point = new GameObject(gameObject.name + " | Group Launcher Point");
+                group_launcher_point = new GameObject(gameObject.name + " | Group Launcher Point");
                 group_launcher_point.transform.parent = transform.parent;
                 group_launcher_point.transform.localPosition = Vector3.zero;
-                GameObject launcher = new GameObject("launcher");
-                _projectileLaunchers.Add(launcher);
-                
-                for (int i = 0; i < shot; i++)
-                {
-                    launcher.transform.parent = spawnPoint;
-                    launcher.transform.localPosition = Vector3.zero;
-                    ProjectileLauncherCalculate _PLC = launcher.AddComponent<ProjectileLauncherCalculate>();
-                    _PLC.launchAngle = 70f;
+                _PLC = new GameObject("launcher").AddComponent<ProjectileLauncherCalculate>();
+                _PLC.transform.parent = spawnPoint;
+                _PLC.transform.localPosition = Vector3.zero;
+                _PLC.launchAngle = 70f;
+            }
+            
+            if (GM.playMode == PlayMode.Singleplayer)
+                player_target = GM.players[_enemySystem.targetID].transform;
+            else
+            {
+                PhotonView PtvTarget = PhotonNetwork.GetPhotonView(_enemySystem.targetID);
 
-                    GameObject launchPoint = new GameObject("launchPoint");
-                    launchPoint.transform.parent = group_launcher_point.transform;
-                    launchPoint.transform.localPosition = Vector3.zero;
-
-                    GameObject shooting_point = new GameObject("Shooting Target");
-                    shooting_point.transform.parent = launchPoint.transform;
-                    shooting_point.transform.localPosition = Vector3.zero + new Vector3(0, 0.01f, 0);
-                    shooting_point.AddComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Weapon/ShootingTarget");
-                    shooting_point.GetComponent<SpriteRenderer>().color = Color.red;
-                    shooting_point.transform.localRotation = Quaternion.Euler(new Vector3(90, 0, 0));
-                    shooting_point.transform.localScale = Vector3.one * 0.1f;
-                    _PLC.SetNewTarget(launchPoint.transform);
-
-                    
-                }
+                if (PtvTarget == null)
+                    return;
+                else
+                    player_target = PtvTarget.transform;
             }
 
-            Transform player_target = null;
-            if (_projectileLaunchers.Count > 0)
+            for (int i = 0; i < shot; i++)
             {
-                if(GM.playMode == PlayMode.Singleplayer)
-                    player_target = GM.players[_enemySystem.targetID].transform;
+                GameObject launchPoint = new GameObject("launchPoint");
+                launchPoint.transform.parent = group_launcher_point.transform;
+                launchPoint.transform.localPosition = Vector3.zero;
+
+                GameObject shooting_point = new GameObject("Shooting Target");
+                shooting_point.transform.parent = launchPoint.transform;
+                shooting_point.transform.localPosition = Vector3.zero + new Vector3(0, 0.01f, 0);
+                shooting_point.AddComponent<SpriteRenderer>().sprite =
+                    Resources.Load<Sprite>("Images/Weapon/ShootingTarget");
+                shooting_point.GetComponent<SpriteRenderer>().color = Color.red;
+                shooting_point.transform.localRotation = Quaternion.Euler(new Vector3(90, 0, 0));
+                shooting_point.transform.localScale = Vector3.one * 0.1f;
+                
+                _PLC.SetNewTarget(launchPoint.transform);
+
+                if (i > 0)
+                {
+                    if (GM.playMode == PlayMode.Singleplayer)
+                        _PLC.target.position = RandomPositionTargetProjectileLaunch(player_target);
+                    else
+                        _PLC.target.position =
+                            RandomPositionTargetProjectileLaunchCustomProperties(player_target, posIndex[i]);
+                }
                 else
                 {
-                    PhotonView PtvTarget = PhotonNetwork.GetPhotonView(_enemySystem.targetID);
-                    
-                    if(PtvTarget == null)
-                        return;
-                    else
-                        player_target = PtvTarget.transform;
+                    _PLC.target.position = player_target.position;
                 }
 
-                for (int i = 0; i < _projectileLaunchers.Count; i++)
+                GameObject grenade = builder.OnSpawn();
+                grenade.GetComponent<TakeDamage>().damage = damage;
+                grenade.GetComponent<Collider>().isTrigger = true;
+
+                GameObject targetObject = _PLC.target.GetChild(0).gameObject;
+                targetObject.SetActive(true);
+                Target_Point targetPoint = targetObject.GetComponent<Target_Point>();
+                if (targetPoint == null)
                 {
-                    ProjectileLauncherCalculate _PLC = _projectileLaunchers[i].GetComponent<ProjectileLauncherCalculate>();
-
-                    if(i > 0)
-                    {
-                        if (GM.playMode == PlayMode.Singleplayer)
-                            _PLC.target.position = RandomPositionTargetProjectileLaunch(player_target);
-                        else
-                            _PLC.target.position =
-                                RandomPositionTargetProjectileLaunchCustomProperties(player_target, posIndex[i]);
-                    }
-                    else
-                    {
-                        _PLC.target.position = player_target.position;
-                    }
-
-                    GameObject grenade = builder.OnSpawn();
-                    grenade.GetComponent<TakeDamage>().damage = damage;
-                    grenade.GetComponent<Collider>().isTrigger = true;
-
-                    GameObject targetObject = _PLC.target.GetChild(0).gameObject;
-                    targetObject.SetActive(true);
-                    Target_Point targetPoint = targetObject.GetComponent<Target_Point>();
-                    if (targetPoint == null)
-                    {
-                        targetPoint = targetObject.AddComponent<Target_Point>();
-                    }
-                    targetPoint.OnStart(2f);
-                    
-                    _PLC.Launch(grenade);
+                    targetPoint = targetObject.AddComponent<Target_Point>();
                 }
+
+                targetPoint.OnStart(2f);
+
+                grenade.transform.position = _PLC.transform.position;
+                Rigidbody rig = grenade.GetComponent<Rigidbody>();
+                rig.velocity = Vector3.zero;
+                rig.velocity = _PLC.GetVelocityProjectile(transform.position);
             }
         }
 
