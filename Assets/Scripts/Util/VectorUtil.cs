@@ -40,4 +40,18 @@ namespace GDD.Util
             y = _y;
         }
     }
+    
+    public struct float3D
+    {
+        public float x;
+        public float y;
+        public float z;
+        
+        public float3D(float _x, float _y, float _z)
+        {
+            x = _x;
+            y = _y;
+            z = _z;
+        }
+    }
 }

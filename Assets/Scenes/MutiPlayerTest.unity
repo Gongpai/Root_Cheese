@@ -3921,6 +3921,37 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1294112747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1294112748}
+  m_Layer: 0
+  m_Name: Particle System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1294112748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294112747}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 2.1561916, y: 4.044041, z: 5.775716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1295766589
 GameObject:
   m_ObjectHideFlags: 0
@@ -7066,6 +7097,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2754148097277268331, guid: eb40bb094f636f1409fff4e42a9a2dfd,
+        type: 3}
+      propertyPath: m_impactPointArea.max
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
         type: 3}
       propertyPath: m_RootOrder

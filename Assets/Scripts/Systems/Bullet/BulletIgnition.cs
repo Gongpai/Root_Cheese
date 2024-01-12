@@ -257,10 +257,11 @@ namespace GDD
                 GameObject group_launcher_point = new GameObject(gameObject.name + " | Group Launcher Point");
                 group_launcher_point.transform.parent = transform.parent;
                 group_launcher_point.transform.localPosition = Vector3.zero;
+                GameObject launcher = new GameObject("launcher");
+                _projectileLaunchers.Add(launcher);
                 
                 for (int i = 0; i < shot; i++)
                 {
-                    GameObject launcher = new GameObject("lanucher [" + i + "]");
                     launcher.transform.parent = spawnPoint;
                     launcher.transform.localPosition = Vector3.zero;
                     ProjectileLauncherCalculate _PLC = launcher.AddComponent<ProjectileLauncherCalculate>();
@@ -279,7 +280,7 @@ namespace GDD
                     shooting_point.transform.localScale = Vector3.one * 0.1f;
                     _PLC.SetNewTarget(launchPoint.transform);
 
-                    _projectileLaunchers.Add(launcher);
+                    
                 }
             }
 
