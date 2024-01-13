@@ -13,11 +13,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_hp
-      value: 500
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_max_HP
-      value: 500
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 549421544, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_3rdPersonControllerAI
@@ -313,6 +313,30 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &-6021925161184453995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628791750963113795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c36bb5bb434de8bb98a8a4fcd679a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxPoolSize: 8
+  _stackDefaultCapacity: 4
+  m_guiOffset: 20
+  m_object: {fileID: 2020503386803439219, guid: 79e21b1424338804387946ff823e33ed,
+    type: 3}
+  m_spawnCount: 8
+  m_radius:
+    min: 0
+    max: 0
+  m_isUseCustomPositions: 1
+  m_showGUI: 0
+  m_spawnPoint: {fileID: 6906947594196193478}
 --- !u!114 &-2257365325397426985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,6 +416,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de8227b56914baa9266c57c535eaff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &6906947594196193478 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4172384370893570413, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
+    type: 3}
+  m_PrefabInstance: {fileID: 7367081144338960811}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7367081143796158530 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 549421545, guid: 262e3c1c20ec64b4ab5beb8d78568e61,

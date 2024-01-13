@@ -260,8 +260,20 @@ namespace GDD
                 group_launcher_point = new GameObject(gameObject.name + " | Group Launcher Point");
                 group_launcher_point.transform.parent = transform.parent;
                 group_launcher_point.transform.localPosition = Vector3.zero;
-                _PLC = new GameObject("launcher").AddComponent<ProjectileLauncherCalculate>();
-                _PLC.transform.parent = spawnPoint;
+
+                Transform launcher = null;
+                if(spawnPoint.childCount > 0) 
+                    launcher = spawnPoint.GetChild(0);
+                if (spawnPoint.childCount <= 0 || launcher == null && launcher.name != "launcher")
+                {
+                    _PLC = new GameObject("launcher").AddComponent<ProjectileLauncherCalculate>();
+                    _PLC.transform.parent = spawnPoint;
+                }
+                else
+                {
+                    _PLC = launcher.GetComponent<ProjectileLauncherCalculate>();
+                }
+
                 _PLC.transform.localPosition = Vector3.zero;
                 _PLC.launchAngle = 70f;
             }

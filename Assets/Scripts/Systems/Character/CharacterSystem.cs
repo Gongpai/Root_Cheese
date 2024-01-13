@@ -49,7 +49,7 @@ namespace GDD
                 m_shield_bar.value = 0;
                     
             if(m_hp <= 0)
-                Destroy(gameObject);
+                OnCharacterDead();
 
             LevelProgress();
         }
@@ -62,6 +62,11 @@ namespace GDD
                 _maxEXP = (int)(_maxEXP * m_levelUp);
                 _EXP = 0;
             }
+        }
+
+        public virtual void OnCharacterDead()
+        {
+            gameObject.SetActive(false);
         }
         
         public virtual void OnDisable()

@@ -19,6 +19,7 @@ namespace GDD
         private StateContext<EnemySystem> _enemyStateContext;
         private WaypointReachingState _waypointReaching;
         private PunEnemyCharacterController _punECC;
+        private DropItemObjectPool _dropItemObject;
         private GameObject _waypoint;
         private int _targetID = 0;
 
@@ -41,6 +42,7 @@ namespace GDD
             _enemyStateContext = new StateContext<EnemySystem>(this);
             _moveState = gameObject.AddComponent<EnemyMoveState>();
             _attackState = gameObject.AddComponent<EnemyAttackState>();
+            _dropItemObject = GetComponent<DropItemObjectPool>();
         }
 
         public override void OnEnable()
@@ -140,7 +142,14 @@ namespace GDD
             //Init the old pos
             oldPos = transform.position;
         }
-        
+
+        public override void OnCharacterDead()
+        {
+            base.OnCharacterDead();
+            
+            _dropItemObject.OnCreateObject();
+        }
+
         public override void OnDisable()
         {
             base.OnDisable();
