@@ -19,7 +19,14 @@ namespace GDD
             _itemObject.delay = 10.0f;
             return _itemObject;
         }
-        
+
+        public override void OnTakeFromPool(GameObjectPool gObject)
+        {
+            GameObjectPool ggObject = gObject;
+            
+            base.OnTakeFromPool(ggObject);
+        }
+
         public override void OnCreateObject()
         {
             base.OnCreateObject();

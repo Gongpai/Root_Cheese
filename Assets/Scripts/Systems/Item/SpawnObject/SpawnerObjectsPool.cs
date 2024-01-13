@@ -12,12 +12,12 @@ namespace GDD.Spawner
     [RequireComponent(typeof(ProjectileLauncherCalculate))]
     public class SpawnerObjectsPool : ObjectPoolBuilder
     {
+        [SerializeField] private float m_guiOffset = 20.0f;
         [SerializeField] protected GameObject m_object;
         [SerializeField] protected int m_spawnCount;
         [SerializeField] protected floatMinMax m_radius;
         [SerializeField] protected bool m_isUseCustomPositions = false;
         protected ProjectileLauncherCalculate _PLC;
-        protected List<GameObject> _spawnObject = new List<GameObject>();
         protected GameObject _objectPoolGroup;
         protected string objectPoolName = "ObjectPool";
         protected Vector2[] _randomPosition;
@@ -53,7 +53,7 @@ namespace GDD.Spawner
 
         private void OnGUI()
         {
-            if(GUI.Button(new Rect(20, 20, 150, 35), "Create Object"))
+            if(GUI.Button(new Rect(20, m_guiOffset, 150, 35), "Create Object"))
                 OnCreateObject();
         }
 
@@ -72,29 +72,42 @@ namespace GDD.Spawner
         {
             for (int i = 0; i < m_spawnCount; i++)
             {
-                GameObject spawnObject = OnSpawn();;
+                //GetObjectFromPool
+                GameObject spawnObject = OnSpawn();
+                
+                //Set Position To Origin
                 spawnObject.transform.position = transform.position;
 
+                //Get Rigidbody
                 Rigidbody _rig = spawnObject.GetComponent<Rigidbody>();
                 if (_rig == null)
                     _rig = spawnObject.AddComponent<Rigidbody>();
-
                 _rig.velocity = Vector3.zero;
                 
+                //Check PunGameSetting Pre_RandomTargetPosition
                 if(PunGameSetting.Pre_RandomTargetPosition == null)
                     return;
                 
-                Vector3 posTarget = new Vector3(PunGameSetting.Pre_RandomTargetPosition[i].x, 0.1f,
-                    PunGameSetting.Pre_RandomTargetPosition[i].y);
+                //Set Pos Target
+                Vector2 preTarget = new Vector2(PunGameSetting.Pre_RandomTargetPosition[i].x, PunGameSetting.Pre_RandomTargetPosition[i].y);
+                if (i > m_spawnCount / 2)
+                {
+                    preTarget *= -1;
+                }
+                Vector3 posTarget = new Vector3(preTarget.x, 0.1f, preTarget.y);
                 posTarget *= 0.75f;
 
+                //Set Angle
                 _PLC.launchAngle = 85f;
-                Vector3 _velocity =
-                    _PLC.GetVelocityProjectile(transform.position, posTarget + transform.position);
+                
+                //Get Calculate Projectile
+                Vector3 _velocity = _PLC.GetVelocityProjectile(transform.position, posTarget + transform.position);
 
+                //Check Vector is NAN
                 if (_velocity.IsNaN())
                     _velocity = Vector3.one * Random.Range(0.01f, 0.95f);
                 
+                //Set Start Velocity
                 _rig.velocity = _velocity;
                 _rig.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             }
@@ -102,7 +115,6 @@ namespace GDD.Spawner
         
         public override GameObject OnSpawn()
         {
-            _spawnObject = new List<GameObject>();
             GameObject spawnObject = base.OnSpawn();
 
             if (spawnObject.transform.parent != _objectPoolGroup.transform)
@@ -110,8 +122,6 @@ namespace GDD.Spawner
                 spawnObject.transform.parent = _objectPoolGroup.transform;
                 spawnObject.transform.position = Vector3.zero;
             }
-            
-            _spawnObject.Add(spawnObject);
 
             return spawnObject;
         }

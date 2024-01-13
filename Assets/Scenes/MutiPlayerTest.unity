@@ -3966,11 +3966,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c36bb5bb434de8bb98a8a4fcd679a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxPoolSize: 10
-  _stackDefaultCapacity: 5
+  _maxPoolSize: 20
+  _stackDefaultCapacity: 10
+  m_guiOffset: 20
   m_object: {fileID: 2020503386803439219, guid: 79e21b1424338804387946ff823e33ed,
     type: 3}
-  m_spawnCount: 10
+  m_spawnCount: 20
   m_radius:
     min: 0
     max: 0
@@ -7137,6 +7138,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_impactPointArea.max
       value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2754148097277268331, guid: eb40bb094f636f1409fff4e42a9a2dfd,
+        type: 3}
+      propertyPath: m_randomPositionTargetCount
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
         type: 3}

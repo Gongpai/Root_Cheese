@@ -30,9 +30,9 @@ namespace GDD
             base.OnReturnToPool(bullet);
         }
 
-        public override void OnTakeFromPool(GameObjectPool bullet)
+        public override void OnTakeFromPool(GameObjectPool gObject)
         {
-            base.OnTakeFromPool(bullet);
+            base.OnTakeFromPool(gObject);
         }
 
         public override void OnDestroyPoolObject(GameObjectPool bullet)

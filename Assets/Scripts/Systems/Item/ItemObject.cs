@@ -13,7 +13,11 @@ namespace GDD
 
         public float delay
         {
-            set => _delay = value;
+            set
+            {
+                _delay = value;
+                _currentTime = value;
+            }
         }
         
         private void OnEnable()
@@ -35,7 +39,13 @@ namespace GDD
 
         public override void ReturnToPool()
         {
+            print($"Return to pool : |{gameObject.name}|");
             base.ReturnToPool();
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
         }
     }
 }

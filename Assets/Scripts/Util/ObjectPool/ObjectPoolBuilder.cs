@@ -66,9 +66,9 @@ namespace GDD.ObjectPool
             gObject.gameObject.SetActive(false);
         }
         
-        public virtual void OnTakeFromPool(GameObjectPool bullet)
+        public virtual void OnTakeFromPool(GameObjectPool gObject)
         {
-            bullet.gameObject.SetActive(true);
+            gObject.gameObject.SetActive(true);
         }
 
         public virtual void OnDestroyPoolObject(GameObjectPool bullet)
