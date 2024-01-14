@@ -26,6 +26,7 @@ namespace GDD
         protected int _currentUpdateEXP;
         protected int _updateEXP;
         protected int _level;
+        protected int _idPhotonView;
         protected AwaitTimer updateEXPTimer;
         protected AwaitTimer timer;
 
@@ -98,6 +99,12 @@ namespace GDD
             {
                 _currentUpdateEXP = _updateEXP;
             }
+        }
+
+        public int idPhotonView
+        {
+            get => _idPhotonView;
+            set => _idPhotonView = value;
         }
 
         protected virtual void OnGUI()

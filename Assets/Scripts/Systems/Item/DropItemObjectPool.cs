@@ -48,7 +48,7 @@ namespace GDD
 
             if (i > m_spawnCount / 2 && GM.playMode == PlayMode.Multiplayer && GM.players.Count > 1)
             {
-                gObject.GetComponent<ItemObject>().target = GM.players.Keys.ElementAt(0).transform;
+                gObject.GetComponent<ItemObject>().target = GM.players.Keys.ElementAt(1).transform;
             }
             else
             {

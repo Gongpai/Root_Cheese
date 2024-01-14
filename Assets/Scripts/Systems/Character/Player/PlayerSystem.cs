@@ -1,4 +1,5 @@
 ﻿using System;
+using GDD.PUN;
 using GDD.Spatial_Partition;
 using GDD.StateMachine;
 using UnityEngine;
@@ -118,17 +119,30 @@ namespace GDD
 
         private void ReadyButton()
         {
+            if(GM.enemies.Count > 0)
+                return;
+            
             if (_isEnterRoom)
             {
                 GM.players[this] = !GM.players[this];
                 _readyCheck.ready = GM.players[this];
                 
                 GM.OnReady();
+                PunRoomManager.Instance.CreateUpdateReadyNextLevelPlayer();
             }
+        }
+
+        public void UpdateReadyCheckUI()
+        {
+            _readyCheck.ready = GM.players[this];
+            GM.OnReady();
         }
         
         public void OnDoorEnter(string _tag)
         {
+            if(GM != null && GM.enemies.Count > 0)
+                return;
+            
             if (_tag == "Door")
             {
                 _readyCheck.gameObject.SetActive(true);

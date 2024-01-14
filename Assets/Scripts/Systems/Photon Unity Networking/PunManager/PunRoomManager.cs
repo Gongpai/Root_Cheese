@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ExitGames.Client.Photon;
 using GDD.Util;
 using Newtonsoft.Json;
@@ -16,15 +17,32 @@ namespace GDD.PUN
         private int m_randomPositionTargetCount;
         [SerializeField]
         private floatMinMax m_impactPointArea;
+        private GameManager GM;
+        
+        //Singleton
+        protected static PunRoomManager _instance;
 
+        public static PunRoomManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = FindObjectOfType<PunRoomManager>();
+
+                return _instance;
+            }
+        }
+        
         public floatMinMax impactPointArea
         {
             get => m_impactPointArea;
         }
-        
+
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
+            
+            GM = GameManager.Instance;
             
             //Check Is Other Will Return
             Hashtable CustomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -77,6 +95,9 @@ namespace GDD.PUN
             
             //Pre-Random Position
             OnPreRandomPositionUpdate(propertiesThatChanged);
+            
+            //Update Player Ready Next Level
+            OnUpdateReadyNextLevelPlayer(propertiesThatChanged);
         }
 
         private void CreatePreRandomPositionHashtable(float2D[] positions)
@@ -107,6 +128,34 @@ namespace GDD.PUN
                 
             PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
         }
+        
+        public void CreateUpdateReadyNextLevelPlayer()
+        {
+            object[] readyPlayer = new object[GM.players.Count];
+            for (int i = 0; i < GM.players.Count; i++)
+            {
+                readyPlayer[i] = new object[]
+                {
+                    GM.players.Values.ElementAt(i),
+                    GM.players.Keys.ElementAt(i).idPhotonView
+                };
+                
+                print($"Ready is VA = {GM.players.Values.ElementAt(i)}");
+                print($"Ready is Keys = {GM.players.Keys.ElementAt(i).idPhotonView}");
+            }
+            
+            
+            
+            Hashtable prop = new Hashtable()
+            {
+                { 
+                    PunGameSetting.PLAYERREADYNEXTLEVEL, 
+                    readyPlayer
+                }
+            };
+                
+            PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
+        }
 
         private void OnPreRandomPositionUpdate(Hashtable propertiesChanged)
         {
@@ -127,6 +176,27 @@ namespace GDD.PUN
             if (propertiesChanged.TryGetValue(PunGameSetting.RANDOMPOSITIONTARGETCOUNT, out countFromProps)) {
                 Debug.Log($"Update Random Count Prop is : {(int)countFromProps}");
                 PunGameSetting.RandomPositionTargetCount = (int)countFromProps;
+            }
+        }
+
+        private void OnUpdateReadyNextLevelPlayer(Hashtable propertiesChanged)
+        {
+            object playerReadyStates;
+
+            if (propertiesChanged.TryGetValue(PunGameSetting.PLAYERREADYNEXTLEVEL, out playerReadyStates)) 
+            {
+                for (int i = 0; i < GM.players.Count; i++)
+                {
+                    if (GM.players.Keys.ElementAt(i).isMasterClient)
+                    {
+                        object[] data = (object[])playerReadyStates;
+                        PhotonView photonView = PhotonNetwork.GetPhotonView((int)((object[])data[i])[1]);
+                        print($"{photonView.gameObject.name} Ready is [F] = {(int)((object[])data[i])[1]} || [R] = {(bool)((object[])data[i])[0]}");
+                        PlayerSystem player = photonView.gameObject.GetComponent<PlayerSystem>();
+                        GM.players[player] = (bool)((object[])data[i])[0];
+                        player.UpdateReadyCheckUI();
+                    }
+                }
             }
         }
     }

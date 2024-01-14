@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
+using GDD.PUN;
 using GDD.Sinagleton;
 using GDD.Timer;
 using UnityEngine;
@@ -85,7 +87,6 @@ namespace GDD
         public Transform player_layer
         {
             get => m_player_layer;
-            set => m_player_layer = value;
         }
 
         public List<EnemySystem> enemies
@@ -97,7 +98,6 @@ namespace GDD
         public Transform enemy_layer
         {
             get => m_enemy_layer;
-            set => m_enemy_layer = value;
         }
 
         public float mapWidth
@@ -122,7 +122,8 @@ namespace GDD
         {
             readyTimer = new AwaitTimer(5.0f, () =>
             {
-                SceneManager.LoadScene("MutiPlayerTest");
+                SceneManager.UnloadSceneAsync("MutiPlayerTest");
+                SceneManager.LoadSceneAsync("MutiPlayerTest");
             }, arg0 =>
             {
 
@@ -134,24 +135,23 @@ namespace GDD
         {
             
         }
-
-        private void AddNewPlayer()
-        {
-            
-        }
-
+        
         public void OnReady()
         {
             bool readyPlayer = false;
+            
             foreach (var player in players)
             {
-                if(!player.Value)
+                if (!player.Value)
+                {
+                    readyPlayer = false;
                     break;
-                
+                }
+
                 readyPlayer = player.Key;
             }
 
-            if (readyPlayer)
+            if (readyPlayer && enemies.Count <= 0)
                 readyTimer.Start();
             else
                 readyTimer.Stop();

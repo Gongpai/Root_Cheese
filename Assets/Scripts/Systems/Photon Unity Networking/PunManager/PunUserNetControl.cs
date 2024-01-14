@@ -27,9 +27,8 @@ namespace GDD.PUN
             //Game Manager
             GM = GameManager.Instance;
             
-            if (GM.player_layer == null)
-                GM.player_layer = transform.parent;
             transform.parent = GM.player_layer;
+            GetComponent<PlayerSystem>().idPhotonView = photonView.ViewID;
             
             //Add Status Character UI
             AddStatusUI(GetComponent<CharacterSystem>());

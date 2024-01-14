@@ -176,6 +176,7 @@ namespace GDD
                 GM.grid.Remove(cellPos, this);
                 //print("Cell Pos : " + cellPos);
             }
+            GM.enemies.Remove(this);
         }
 
         public override void OnDestroy()

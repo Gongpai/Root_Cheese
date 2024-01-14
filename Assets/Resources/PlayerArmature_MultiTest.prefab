@@ -451,6 +451,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
+      propertyPath: m_triggerStayEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
+      propertyPath: m_triggerEnterEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
       propertyPath: m_triggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
@@ -466,13 +476,28 @@ PrefabInstance:
       objectReference: {fileID: 8095716035511171481}
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
+      propertyPath: m_triggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8095716035511171481}
+    - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
       propertyPath: m_triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8095716035511171481}
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
+      propertyPath: m_triggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
       propertyPath: m_triggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnDoorExit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
+      propertyPath: m_triggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDoorEnter
       objectReference: {fileID: 0}
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
@@ -486,12 +511,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
+      propertyPath: m_triggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GDD.PlayerSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
       propertyPath: m_triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: GDD.PlayerSystem, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
       propertyPath: m_triggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
+      propertyPath: m_triggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
