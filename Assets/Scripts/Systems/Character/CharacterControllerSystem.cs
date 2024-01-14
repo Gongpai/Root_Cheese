@@ -79,6 +79,11 @@ namespace GDD
             get => _isCharacterMove;
         }
 
+        public AssetsInputsSystem input
+        {
+            get => _input;
+        }
+        
         protected virtual void Awake()
         {
             // get a reference to our main camera

@@ -11,6 +11,9 @@ namespace GDD
         [Header("Level")] 
         [SerializeField] private GameObject m_skillRandomUI;
         
+        [Header("UI")]
+        [SerializeField] private ReadyCheckUI _readyCheck;
+        
         [Header("Player Attack Setting")]
         [SerializeField][Tooltip("Time For Delay Enter Attack State")] 
         private float m_delay_attack = 0.5f;
@@ -25,6 +28,8 @@ namespace GDD
         private RandomSkill _randomSkill;
         private RandomSkillUI _randomSkillUI;
         private GameManager GM;
+        private bool _isReady;
+        private bool _isEnterRoom;
         
         public float delay_attack
         {
@@ -48,10 +53,14 @@ namespace GDD
             base.Start();
 
             _weaponSystem = GetComponent<WeaponSystem>();
-            
-            if(isMasterClient)
+
+            if (isMasterClient)
+            {
                 _controllerSystem = GetComponent<CharacterControllerSystem>();
+                _controllerSystem.input.Ready = ReadyButton;
+            }
             
+            _readyCheck.gameObject.SetActive(false);
             _playerStateContext = new StateContext<PlayerSystem>(this);
             
             //SinglePlayer AttackState
@@ -88,18 +97,48 @@ namespace GDD
             if(!_isMasterClient)
                 return;
             
+            /*
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 GameObject r_skill_ui = Instantiate(m_skillRandomUI);
                 _randomSkillUI = r_skill_ui.transform.GetChild(0).GetComponent<RandomSkillUI>();
                 _randomSkillUI.randomSkill = _randomSkill;
                 _randomSkillUI.OnCreate();
-            }
+            }*/
             
             if(_controllerSystem.Get_Player_Move)
                 StartMove();
             else
                 StartAttack();
+        }
+
+        private void ReadyButton()
+        {
+            if (_isEnterRoom)
+            {
+                _isReady = !_isReady;
+                _readyCheck.ready = _isReady;
+            }
+        }
+        
+        public void OnDoorEnter(string _tag)
+        {
+            if (_tag == "Door")
+            {
+                _readyCheck.gameObject.SetActive(true);
+                _isEnterRoom = true;
+                _readyCheck.ready = _isReady;
+            }
+        }
+
+        public void OnDoorExit(string _tag)
+        {
+            if (_tag == "Door")
+            {
+                _isEnterRoom = false;
+                _isReady = false;
+                _readyCheck.gameObject.SetActive(false);
+            }
         }
 
         public override float GetMaxShield()
