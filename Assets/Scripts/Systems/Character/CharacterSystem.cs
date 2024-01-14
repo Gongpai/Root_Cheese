@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using GDD.Spatial_Partition;
+using GDD.Timer;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -19,8 +21,12 @@ namespace GDD
         [SerializeField] protected int _maxEXP = 100;
         [SerializeField] protected float m_levelUp = 1.1f;
         protected bool _isMasterClient = true;
-        private int _EXP;
-        private int _level;
+        protected int _EXP;
+        protected int _currentUpdateEXP;
+        protected int _updateEXP;
+        protected int _level;
+        protected AwaitTimer updateEXPTimer;
+        protected AwaitTimer timer;
 
         public bool isMasterClient
         {
@@ -35,7 +41,23 @@ namespace GDD
         
         public virtual void Start()
         {
-            
+            updateEXPTimer = new AwaitTimer(1.0f,
+                () =>
+                {
+                    _updateEXP = _EXP;
+                    _currentUpdateEXP = _EXP;
+                },
+                time =>
+                {
+                    _updateEXP = (int)Mathf.Lerp(_currentUpdateEXP, _EXP, time);
+                    //print($"Time : {time} || EXP : {_currentUpdateEXP} || Update : {_updateEXP}");
+                });
+            timer = new AwaitTimer(5.9f,
+                () =>
+                {
+                    updateEXPTimer.Start();
+                },
+                time => { });
         }
 
         public virtual void Update()
@@ -59,9 +81,27 @@ namespace GDD
             if (_EXP >= _maxEXP)
             {
                 _level++;
+                _EXP -= _maxEXP;
                 _maxEXP = (int)(_maxEXP * m_levelUp);
-                _EXP = 0;
+                
             }
+        }
+
+        protected void OnEXPAdd()
+        {
+            if (_updateEXP != _EXP)
+            {
+                timer.Start();
+            }
+            else
+            {
+                _currentUpdateEXP = _updateEXP;
+            }
+        }
+
+        protected virtual void OnGUI()
+        {
+            
         }
 
         public virtual void OnCharacterDead()
@@ -125,6 +165,13 @@ namespace GDD
             return _maxEXP;
         }
 
+        public void AddEXP(int EXP)
+        {
+            _EXP += EXP;
+            
+            OnEXPAdd();
+        }
+        
         public void SetEXP(int EXP)
         {
             _EXP = EXP;
@@ -132,7 +179,7 @@ namespace GDD
 
         public int GetEXP()
         {
-            return _EXP;
+            return _updateEXP;
         }
 
         public int GetLevel()

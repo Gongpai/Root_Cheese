@@ -125,8 +125,14 @@ namespace GDD
             return 0.0f;
         }
 
-        private void OnGUI()
+        protected override void OnGUI()
         {
+            base.OnGUI();
+            
+            /*
+            if(GUI.Button(new Rect(20,20,150, 50), "Add EXP"))
+                SetEXP(_EXP + 25);*/
+            
             if(_isMasterClient)
                 return;
             

@@ -11,6 +11,9 @@ namespace GDD
 {
     public class EnemySystem : CharacterSystem
     {
+        [Header("Drop Item")] 
+        [SerializeField] private int _dropEXP = 30;
+        
         private GameManager GM;
         private Vector3 oldPos;
         
@@ -148,6 +151,18 @@ namespace GDD
             base.OnCharacterDead();
             
             _dropItemObject.OnCreateObject();
+            AddEXPToPlayer();
+        }
+
+        protected void AddEXPToPlayer()
+        {
+            if(GM.playMode == PlayMode.Singleplayer || GM.players.Count <= 1)
+                GM.players[0].AddEXP(_dropEXP);
+            else
+            {
+                GM.players[0].AddEXP(_dropEXP / 2);
+                GM.players[1].AddEXP(_dropEXP / 2);
+            }
         }
 
         public override void OnDisable()

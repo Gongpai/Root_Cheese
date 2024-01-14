@@ -21,17 +21,7 @@ namespace GDD.Spawner
         protected GameObject _objectPoolGroup;
         protected string objectPoolName = "ObjectPool";
         protected Vector2[] _randomPosition;
-
-        private ProjectileLauncherCalculate SetPLC
-        {
-            set => _PLC = value;
-        }
         
-        public Vector2[] randomPosition
-        {
-            set => _randomPosition = value;
-        }
-
         protected virtual void OnEnable()
         {
              
