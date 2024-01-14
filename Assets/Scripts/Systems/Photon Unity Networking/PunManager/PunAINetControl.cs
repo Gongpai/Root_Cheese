@@ -21,6 +21,9 @@ namespace GDD.PUN
         {
             //Game Manager
             GM = GameManager.Instance;
+            
+            if (GM.enemy_layer == null)
+                GM.enemy_layer = transform.parent;
             transform.parent = GM.enemy_layer;
             isMine = photonView.IsMine;
             gameObjectName = gameObject.name;

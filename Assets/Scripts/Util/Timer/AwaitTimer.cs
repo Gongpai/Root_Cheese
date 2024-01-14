@@ -61,7 +61,6 @@ namespace GDD.Timer
                 if (isStop)
                 {
                     _isRunning = false;
-                    _actionEnd?.Invoke();
                     return;
                 }
             }

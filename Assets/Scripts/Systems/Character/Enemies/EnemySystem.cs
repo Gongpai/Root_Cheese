@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using GDD.PUN;
 using GDD.Spatial_Partition;
 using GDD.StateMachine;
 using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -109,7 +111,7 @@ namespace GDD
                 else
                     i = 0;
                 print($"I Random : ({i}) || Player Count : {GM.players.Count}");
-                MonoBehaviourPun _monoBehaviourPun = GM.players[i].GetComponent<MonoBehaviourPun>();
+                MonoBehaviourPun _monoBehaviourPun = GM.players.Keys.ElementAt(i).GetComponent<MonoBehaviourPun>();
                 
                 _targetID = _monoBehaviourPun.photonView.ViewID;
                 _punECC.OnUpdateTargetID(_targetID);
@@ -157,11 +159,11 @@ namespace GDD
         protected void AddEXPToPlayer()
         {
             if(GM.playMode == PlayMode.Singleplayer || GM.players.Count <= 1)
-                GM.players[0].AddEXP(_dropEXP);
+                GM.players.Keys.ElementAt(0).AddEXP(_dropEXP);
             else
             {
-                GM.players[0].AddEXP(_dropEXP / 2);
-                GM.players[1].AddEXP(_dropEXP / 2);
+                GM.players.Keys.ElementAt(0).AddEXP(_dropEXP / 2);
+                GM.players.Keys.ElementAt(1).AddEXP(_dropEXP / 2);
             }
         }
 

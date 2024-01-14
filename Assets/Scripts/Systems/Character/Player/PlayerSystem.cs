@@ -28,7 +28,6 @@ namespace GDD
         private RandomSkill _randomSkill;
         private RandomSkillUI _randomSkillUI;
         private GameManager GM;
-        private bool _isReady;
         private bool _isEnterRoom;
         
         public float delay_attack
@@ -46,7 +45,12 @@ namespace GDD
             get => m_shield;
             set => m_shield = value;
         }
-        
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+        }
+
         // Start is called before the first frame update
         public override void Start()
         {
@@ -79,7 +83,7 @@ namespace GDD
             GM = GameManager.Instance;
             
             //Add Player to GameManager
-            GM.players.Add(this);
+            GM.players.Add(this, false);
 
             /*
             GameObject r_skill_ui = Instantiate(m_skillRandomUI);
@@ -116,8 +120,10 @@ namespace GDD
         {
             if (_isEnterRoom)
             {
-                _isReady = !_isReady;
-                _readyCheck.ready = _isReady;
+                GM.players[this] = !GM.players[this];
+                _readyCheck.ready = GM.players[this];
+                
+                GM.OnReady();
             }
         }
         
@@ -127,7 +133,7 @@ namespace GDD
             {
                 _readyCheck.gameObject.SetActive(true);
                 _isEnterRoom = true;
-                _readyCheck.ready = _isReady;
+                _readyCheck.ready = GM.players[this];
             }
         }
 
@@ -136,8 +142,9 @@ namespace GDD
             if (_tag == "Door")
             {
                 _isEnterRoom = false;
-                _isReady = false;
+                GM.players[this] = false;
                 _readyCheck.gameObject.SetActive(false);
+                GM.OnReady();
             }
         }
 

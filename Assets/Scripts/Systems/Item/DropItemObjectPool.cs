@@ -1,4 +1,5 @@
-﻿using GDD.ObjectPool;
+﻿using System.Linq;
+using GDD.ObjectPool;
 using GDD.Spawner;
 using UnityEngine;
 
@@ -47,11 +48,11 @@ namespace GDD
 
             if (i > m_spawnCount / 2 && GM.playMode == PlayMode.Multiplayer && GM.players.Count > 1)
             {
-                gObject.GetComponent<ItemObject>().target = GM.players[1].transform;
+                gObject.GetComponent<ItemObject>().target = GM.players.Keys.ElementAt(0).transform;
             }
             else
             {
-                gObject.GetComponent<ItemObject>().target = GM.players[0].transform;
+                gObject.GetComponent<ItemObject>().target = GM.players.Keys.ElementAt(0).transform;
             }
         }
 

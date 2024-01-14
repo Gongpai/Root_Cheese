@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AYellowpaper.SerializedCollections;
 using GDD.Sinagleton;
-using GDD.Spatial_Partition;
-using GDD.Util;
+using GDD.Timer;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 using Grid = GDD.Spatial_Partition.Grid;
 
 namespace GDD
@@ -19,15 +17,20 @@ namespace GDD
         //Game Setting
         [Header("Finding System")] 
         [SerializeField]
-        private List<PlayerSystem> m_players = new List<PlayerSystem>();
+        private SerializedDictionary<PlayerSystem, bool> m_players = new SerializedDictionary<PlayerSystem, bool>();
+        
         [SerializeField]
         private Transform m_player_layer;
+        
         [SerializeField]
         private List<EnemySystem> m_enemies = new List<EnemySystem>();
+        
         [SerializeField]
         private Transform m_enemy_layer;
+        
         [SerializeField]
         private float m_mapWidth = 50f;
+        
         [SerializeField]
         private int m_cellSize = 10;
 
@@ -41,6 +44,7 @@ namespace GDD
         
         private GameObject _bullet_pool;
         private Grid _grid;
+        private AwaitTimer readyTimer;
 
         public GameInstance GI
         {
@@ -66,7 +70,7 @@ namespace GDD
             get => _grid;
         }
         
-        public List<PlayerSystem> players
+        public SerializedDictionary<PlayerSystem, bool> players
         {
             get => m_players;
             set => m_players = value;
@@ -81,6 +85,7 @@ namespace GDD
         public Transform player_layer
         {
             get => m_player_layer;
+            set => m_player_layer = value;
         }
 
         public List<EnemySystem> enemies
@@ -92,6 +97,7 @@ namespace GDD
         public Transform enemy_layer
         {
             get => m_enemy_layer;
+            set => m_enemy_layer = value;
         }
 
         public float mapWidth
@@ -114,7 +120,13 @@ namespace GDD
         // Start is called before the first frame update
         void Start()
         {
-            
+            readyTimer = new AwaitTimer(5.0f, () =>
+            {
+                SceneManager.LoadScene("MutiPlayerTest");
+            }, arg0 =>
+            {
+
+            });
         }
 
         // Update is called once per frame
@@ -127,15 +139,32 @@ namespace GDD
         {
             
         }
+
+        public void OnReady()
+        {
+            bool readyPlayer = false;
+            foreach (var player in players)
+            {
+                if(!player.Value)
+                    break;
+                
+                readyPlayer = player.Key;
+            }
+
+            if (readyPlayer)
+                readyTimer.Start();
+            else
+                readyTimer.Stop();
+        }
         
         void OnDrawGizmosSelected()
         {
             foreach (var _player in players)
             {
-                Vector2 p_vision = _player.GetComponent<PlayerSystem>().Get_Vision / 2;
+                Vector2 p_vision = _player.Key.GetComponent<PlayerSystem>().Get_Vision / 2;
                 //Determine which grid cell the friendly soldier is in
-                float cellX = _player.GetPawnTransform().position.x;
-                float cellZ = _player.GetPawnTransform().position.z;
+                float cellX = _player.Key.GetPawnTransform().position.x;
+                float cellZ = _player.Key.GetPawnTransform().position.z;
                 Vector2[] cells_pos = new Vector2[4];
                 cells_pos[0] = new Vector2(cellX + p_vision.x, cellZ - p_vision.y);
                 cells_pos[1] = new Vector2(cellX + p_vision.x, cellZ + p_vision.y);
@@ -143,7 +172,7 @@ namespace GDD
                 cells_pos[3] = new Vector2(cellX - p_vision.x, cellZ - p_vision.y);
                 
                 Gizmos.color = new Color(0, 1, 0, 0.5f);
-                Gizmos.DrawCube(_player.GetPawnTransform().position, new Vector3(_player.Get_Vision.x, 1, _player.Get_Vision.y));
+                Gizmos.DrawCube(_player.Key.GetPawnTransform().position, new Vector3(_player.Key.Get_Vision.x, 1, _player.Key.Get_Vision.y));
                 
                 
                 int[,] cells_pos_map = new int[4, 2]

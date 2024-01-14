@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine.Utility;
 using GDD.ObjectPool;
 using GDD.PUN;
@@ -299,7 +300,7 @@ namespace GDD
 
                 Vector3 posToTarget;
                 if (GM.playMode == PlayMode.Singleplayer)
-                    posToTarget = GM.players[_enemySystem.targetID].transform.position;
+                    posToTarget = GM.players.Keys.ElementAt(_enemySystem.targetID).transform.position;
                 else
                 {
                     PhotonView PtvTarget = PhotonNetwork.GetPhotonView(_enemySystem.targetID);

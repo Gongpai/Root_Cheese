@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using GDD.Spatial_Partition;
 using Photon.Pun;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace GDD
         protected void GetNewTarget(int targetID)
         {
             if(GM.playMode == PlayMode.Singleplayer)
-                target = GM.players[targetID].transform;
+                target = GM.players.Keys.ElementAt(targetID).transform;
             else
             {
                 print($"ID is : {targetID}");

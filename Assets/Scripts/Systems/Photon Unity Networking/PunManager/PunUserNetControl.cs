@@ -26,6 +26,9 @@ namespace GDD.PUN
         {
             //Game Manager
             GM = GameManager.Instance;
+            
+            if (GM.player_layer == null)
+                GM.player_layer = transform.parent;
             transform.parent = GM.player_layer;
             
             //Add Status Character UI

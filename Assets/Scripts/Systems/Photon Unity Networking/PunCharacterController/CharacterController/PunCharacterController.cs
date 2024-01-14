@@ -133,7 +133,6 @@ namespace GDD.PUN
         
         protected virtual void OnDisable()
         {
-            GM.players.Remove(GetComponent<PlayerSystem>());
             PhotonNetwork.RemoveCallbackTarget(this);
         }
     }
