@@ -72,7 +72,7 @@ namespace GDD
             //Check PunCharacterHealth
             if (!has_punCharacterHealth)
             {
-                print($"{other.transform.name} : Pun is null!!!!!!!!!!!!!!!!!!");
+                //print($"{other.transform.name} : Pun is null!!!!!!!!!!!!!!!!!!");
                 return;
             }
             
@@ -84,14 +84,14 @@ namespace GDD
             //Check Enemy Layer & Set HP / Shield
             if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
             {
-                print("Enemy Take Damage");
+                //print("Enemy Take Damage");
                 _punCharacterHealth.TakeDamage(_damage, OwnerViewID); 
                 ReturnToPool();
             }
             //Check Player Layer & Set HP / Shield
             else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
             {
-                print("Character Take Damage");
+                //print("Character Take Damage");
                 _punCharacterHealth.TakeDamage(_damage, OwnerViewID); 
                 ReturnToPool();
             }

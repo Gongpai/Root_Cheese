@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using GDD.PUN;
 using GDD.Spatial_Partition;
 using GDD.Timer;
 using TMPro;
@@ -175,6 +176,7 @@ namespace GDD
         public void SetEXP(int EXP)
         {
             _EXP = EXP;
+            _updateEXP = EXP;
         }
 
         public int GetEXP()
@@ -185,6 +187,11 @@ namespace GDD
         public int GetLevel()
         {
             return _level;
+        }
+
+        public void SetLevel(int level)
+        {
+            _level = level;
         }
 
         public override Transform GetPawnTransform()

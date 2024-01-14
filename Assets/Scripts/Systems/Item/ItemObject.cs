@@ -77,7 +77,7 @@ namespace GDD
         
         public override void ReturnToPool()
         {
-            print($"Return to pool : |{gameObject.name}|");
+            //print($"Return to pool : |{gameObject.name}|");
             _currentTransitionTime = 0;
             base.ReturnToPool();
         }

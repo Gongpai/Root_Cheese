@@ -31,7 +31,7 @@ namespace GDD
             m_textHP.text = $"HP : {_characterSystem.GetHP()}";
             m_HPProgress.fillAmount = _characterSystem.GetHP() / _characterSystem.GetMaxHP();
             m_textEXPLevel.text = $"Level : {_characterSystem.GetLevel()} | EXP : {_characterSystem.GetEXP()} / {_characterSystem.GetMaxEXP()}";
-            m_EXPProgress.fillAmount = _characterSystem.GetEXP() / _characterSystem.GetMaxEXP();
+            m_EXPProgress.fillAmount = (float)_characterSystem.GetEXP() / (float)_characterSystem.GetMaxEXP();
         }
     }
 }

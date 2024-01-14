@@ -31,7 +31,12 @@ namespace GDD.PUN
             //SyncPlayerStats
             photonView.RPC("GetPlayerStatsToOtherPlayer", RpcTarget.MasterClient);
         }
-        
+
+        protected virtual void Update()
+        {
+            
+        }
+
         [PunRPC]
         public virtual void OnInitializeOtherPlayer(object[] datas, int OwnerNetID)
         {
@@ -40,6 +45,7 @@ namespace GDD.PUN
             _characterSystem.SetHP((float)datas[0]);
             _characterSystem.SetMaxHP((float)datas[1]);
             _characterSystem.SetShield((float)datas[2]);
+            _characterSystem.SetEXP((int)datas[3]);
         }
 
         [PunRPC]
@@ -52,6 +58,7 @@ namespace GDD.PUN
                 _characterSystem.GetHP(),
                 _characterSystem.GetMaxHP(),
                 _characterSystem.GetShield(),
+                _characterSystem.GetEXP()
             };
             
             photonView.RPC("OnInitializeOtherPlayer", RpcTarget.Others, datas, photonView.ViewID);

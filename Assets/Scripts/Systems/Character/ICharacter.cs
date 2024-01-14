@@ -15,5 +15,6 @@
         public void AddEXP(int EXP);
         public void SetEXP(int EXP);
         public int GetLevel();
+        public void SetLevel(int level);
     }
 }

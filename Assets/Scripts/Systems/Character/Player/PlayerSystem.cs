@@ -131,7 +131,7 @@ namespace GDD
             
             /*
             if(GUI.Button(new Rect(20,20,150, 50), "Add EXP"))
-                SetEXP(_EXP + 25);*/
+                AddEXP(25);*/
             
             if(_isMasterClient)
                 return;
