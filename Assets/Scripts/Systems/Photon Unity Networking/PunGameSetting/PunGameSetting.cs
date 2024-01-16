@@ -9,9 +9,11 @@ namespace GDD.PUN
         public const string PRE_RANDOMTARGETPOSITION = "PreRandomTargetPosition";
         public const string RANDOMPOSITIONTARGETCOUNT = "RandomPositionTargetCount";
         public const string PLAYERREADYNEXTLEVEL = "PlayerReadyNextLevel";
+        public const string ROOMNAME = "RoomName";
 
         //Values
         public static float2D[] Pre_RandomTargetPosition;
         public static int RandomPositionTargetCount;
+        public static string roomName = "";
     }
 }

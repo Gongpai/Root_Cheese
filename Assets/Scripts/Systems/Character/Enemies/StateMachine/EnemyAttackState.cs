@@ -30,7 +30,7 @@ namespace GDD
                 target = GM.players.Keys.ElementAt(targetID).transform;
             else
             {
-                print($"ID is : {targetID}");
+                //print($"ID is : {targetID}");
                 target = PhotonNetwork.GetPhotonView(targetID).transform;
             }
         }

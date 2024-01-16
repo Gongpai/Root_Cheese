@@ -41,7 +41,7 @@ namespace GDD.Sinagleton
             }
             else
             {
-                Destroy(gameObject);
+                DontDestroyOnLoad(gameObject);
             }
         }
     }

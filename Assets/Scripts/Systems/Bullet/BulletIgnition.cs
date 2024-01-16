@@ -62,7 +62,7 @@ namespace GDD
 
         public virtual void OnSpawnGrenade(int shot, float damge, int[] posIndex = default, ObjectPoolBuilder builder = null)
         {
-            print($"builder : {builder == null} | m_spawnPoint : {m_spawnPoint == null} | shot : {shot} | damge : {damge} | posIndex : {posIndex == null}");
+            //print($"builder : {builder == null} | m_spawnPoint : {m_spawnPoint == null} | shot : {shot} | damge : {damge} | posIndex : {posIndex == null}");
             
             OnProjectileLaunch(builder, m_spawnPoint, shot, damge, posIndex);
         }
@@ -161,7 +161,7 @@ namespace GDD
             }
             
             float random_rot = Random.Range(-30, 30);
-            print("Random Rot : " + random_rot);
+            //print("Random Rot : " + random_rot);
                     
             foreach (var rot in rots_random)
             {

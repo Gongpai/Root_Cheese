@@ -59,15 +59,15 @@ namespace GDD
             {
                 _rig.useGravity = false;
                 _currentTransitionTime += Time.deltaTime;
-                print($"{_currentTransitionTime} | Transitionnnnnnnnnnnnnnnnnn");
-                print($"Item Pos : {_itemPos} | Target Pos {_target.position}");
+                //print($"{_currentTransitionTime} | Transitionnnnnnnnnnnnnnnnnn");
+                //print($"Item Pos : {_itemPos} | Target Pos {_target.position}");
 
                 Vector3 PosLerp = Vector3.Lerp(_itemPos, _target.position + new Vector3(0, 1, 0), _currentTransitionTime);
 
                 if (_target != null)
                     _rig.position = PosLerp;
                 
-                print($"Pos Lerp {PosLerp}");
+                //print($"Pos Lerp {PosLerp}");
             }
             else if(_currentTransitionTime >= 1.0f)
             {

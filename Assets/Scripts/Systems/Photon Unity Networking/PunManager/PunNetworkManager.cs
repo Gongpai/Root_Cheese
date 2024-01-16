@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
 using Cinemachine;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -7,6 +8,7 @@ using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace GDD.PUN
 {
@@ -28,10 +30,23 @@ namespace GDD.PUN
 
         private GameObject _characterStatusUI;
         private Canvas_Element_List _canvasElementList;
+        private bool _isLoadLevel;
+
+        public bool isLoadLevel
+        {
+            get => _isLoadLevel;
+            set => _isLoadLevel = value;
+        }
 
         public GameObject characterStatusUI
         {
             get => _characterStatusUI;
+        }
+
+        public CinemachineVirtualCamera vCam
+        {
+            get => _vCam;
+            set => _vCam = value;
         }
         
         /// <summary>
@@ -41,6 +56,8 @@ namespace GDD.PUN
         public static event GameStartCallback OnGameStart;
         public delegate void GameOverCallback();
         public static event GameOverCallback OnGameOver;
+        public delegate void JoinLevelCallback();
+        public static event JoinLevelCallback OnJoinLevel;
         
         //Singleton
         protected static PunNetworkManager _instance;
@@ -100,14 +117,17 @@ namespace GDD.PUN
 
         private void Awake()
         {
+            //Dont Destroy
+            DontDestroyOnLoad(gameObject);
+            
+            //Scene Level
+            SceneManager.sceneLoaded += OnLevelLoad;
+            
             //Add Reference Method to Delegate Method
             OnGameStart += GameStartSetting;
             OnGameOver += GameOverSetting;
-            
-            //Create Character Status UI
-            _characterStatusUI = Instantiate(m_characterStatusUI);
-            _characterStatusUI.transform.position = Vector3.zero;
-            _canvasElementList = _characterStatusUI.GetComponent<Canvas_Element_List>();
+
+            OnCreateCharacterUI();
         }
         
         private void Update()
@@ -148,6 +168,13 @@ namespace GDD.PUN
             Debug.Log("New Player. " + newPlayer.ToString());
         }
 
+        public override void OnJoinedLobby()
+        {
+            base.OnJoinedLobby();
+            
+            OnJoinLevel?.Invoke();
+        }
+
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
@@ -168,6 +195,47 @@ namespace GDD.PUN
             // it gets synced by using PhotonNetwork.Instantiate
             PhotonNetwork.Instantiate(GamePlayerPrefab.name, new Vector3(5f, 5f, 2f), Quaternion.identity, 0);
             PhotonNetwork.InstantiateRoomObject(GameAIPrefab.name, new Vector3(7f, 0.1f, 5f), Quaternion.identity, 0);
+        }
+
+        private void OnCreateCharacterUI()
+        {
+            _characterStatusUI = Instantiate(m_characterStatusUI);
+            _characterStatusUI.transform.position = Vector3.zero;
+            _canvasElementList = _characterStatusUI.GetComponent<Canvas_Element_List>();
+        }
+
+        private void OnLevelLoad(Scene scene, LoadSceneMode loadSceneMode)
+        {
+            PunLevelManager PLM = PunLevelManager.Instance;
+            PLM.sceneLoaded = () =>
+            {
+                if(_characterStatusUI == null)
+                    OnCreateCharacterUI();
+                
+                if (PhotonNetwork.InRoom && _isLoadLevel && PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.DestroyAll();
+                    GameManager.Instance.players = new SerializedDictionary<PlayerSystem, bool>();
+                    _currentGameState = PunGameState.GameOver;
+                    PunNetworkManager.Instance.SpawnPlayer();
+                }else if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.LeaveRoom();
+
+                    if (PunGameSetting.roomName != "")
+                    {
+                        OnJoinLevel = () =>
+                        {
+                            PhotonNetwork.JoinRoom(PunGameSetting.roomName);
+
+                            OnJoinLevel -= OnJoinLevel;
+                        };
+                    }
+
+                    GameManager.Instance.players = new SerializedDictionary<PlayerSystem, bool>();
+                    PunNetworkManager.Instance.SpawnPlayer();
+                }
+            };
         }
         
         public void gameStateUpdate(Hashtable propertiesThatChanged) {

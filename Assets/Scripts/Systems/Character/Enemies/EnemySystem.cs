@@ -110,7 +110,7 @@ namespace GDD
                     i = Mathf.FloorToInt(Random.Range(0.0f, GM.players.Count * 200.0f) / 200.0f);
                 else
                     i = 0;
-                print($"I Random : ({i}) || Player Count : {GM.players.Count}");
+                //print($"I Random : ({i}) || Player Count : {GM.players.Count}");
                 MonoBehaviourPun _monoBehaviourPun = GM.players.Keys.ElementAt(i).GetComponent<MonoBehaviourPun>();
                 
                 _targetID = _monoBehaviourPun.photonView.ViewID;
@@ -174,7 +174,6 @@ namespace GDD
             if (Application.isPlaying)
             {
                 GM.grid.Remove(cellPos, this);
-                //print("Cell Pos : " + cellPos);
             }
             GM.enemies.Remove(this);
         }

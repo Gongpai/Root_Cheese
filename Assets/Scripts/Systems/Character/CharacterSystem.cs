@@ -22,6 +22,7 @@ namespace GDD
         [SerializeField] protected int _maxEXP = 100;
         [SerializeField] protected float m_levelUp = 1.1f;
         protected bool _isMasterClient = true;
+        protected bool _isDead;
         protected int _EXP;
         protected int _currentUpdateEXP;
         protected int _updateEXP;
@@ -119,7 +120,7 @@ namespace GDD
         
         public virtual void OnDisable()
         {
-            
+            _isDead = true;
         }
 
         public virtual float GetHP()

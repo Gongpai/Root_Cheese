@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MutiPlayerTest.unity
     guid: 217296cf5726fb243bd2d54e14ee443c
+  - enabled: 1
+    path: Assets/Scenes/Level/RandomSkill_Level.unity
+    guid: 762f940691aaa32429fa1e75d9b32b23
   - enabled: 0
     path: Assets/Scenes/AITest.unity
     guid: 8b98134cac4cdc04d9add275c80d94ff

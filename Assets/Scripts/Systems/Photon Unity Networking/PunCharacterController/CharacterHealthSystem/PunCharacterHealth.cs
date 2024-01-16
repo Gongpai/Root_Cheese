@@ -40,7 +40,7 @@ namespace GDD.PUN
         [PunRPC]
         public virtual void OnInitializeOtherPlayer(object[] datas, int OwnerNetID)
         {
-            print($"{gameObject.name} | OnInitializeOtherPlayer");
+            //print($"{gameObject.name} | OnInitializeOtherPlayer");
             
             _characterSystem.SetHP((float)datas[0]);
             _characterSystem.SetMaxHP((float)datas[1]);
@@ -51,7 +51,7 @@ namespace GDD.PUN
         [PunRPC]
         public virtual void GetPlayerStatsToOtherPlayer()
         {
-            print($"GetPlayerStatsToOtherPlayer : {gameObject.name}");
+            //print($"GetPlayerStatsToOtherPlayer : {gameObject.name}");
 
             object[] datas = new object[]
             {
@@ -83,8 +83,7 @@ namespace GDD.PUN
         [PunRPC]
         public virtual void PunRPCApplyHealth(float amount, int OwnerNetID)
         {
-            Debug.Log("Update @" + PhotonNetwork.LocalPlayer.ActorNumber + " Apply Health : " + amount + " form : " +
-                      OwnerNetID);
+            //Debug.Log("Update @" + PhotonNetwork.LocalPlayer.ActorNumber + " Apply Health : " + amount + " form : " + OwnerNetID);
             
             if (_characterSystem.GetShield() > 0 && amount < 0)
             {
@@ -102,7 +101,7 @@ namespace GDD.PUN
             
             if (_characterSystem.GetHP() <= 0)
             {
-                Debug.Log("NetID : " + OwnerNetID.ToString() + " Killed " + photonView.ViewID);
+                //Debug.Log("NetID : " + OwnerNetID.ToString() + " Killed " + photonView.ViewID);
                 photonView.RPC("PunResetCharacter", RpcTarget.All);
             }
         }
@@ -115,7 +114,7 @@ namespace GDD.PUN
             else
                 _characterSystem.SetShield(0);
             
-            print($"Shield {gameObject.name} is : {_characterSystem.GetShield()}");
+            //print($"Shield {gameObject.name} is : {_characterSystem.GetShield()}");
         }
 
         [PunRPC]
@@ -126,7 +125,7 @@ namespace GDD.PUN
             else
                 _characterSystem.SetHP(0);
             
-            print($"Health {gameObject.name} is : {_characterSystem.GetHP()}");
+            //print($"Health {gameObject.name} is : {_characterSystem.GetHP()}");
         }
 
         [PunRPC]

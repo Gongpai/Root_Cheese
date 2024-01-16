@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -87,6 +88,7 @@ namespace GDD
         public Transform player_layer
         {
             get => m_player_layer;
+            set => m_player_layer = value;
         }
 
         public List<EnemySystem> enemies
@@ -98,6 +100,7 @@ namespace GDD
         public Transform enemy_layer
         {
             get => m_enemy_layer;
+            set => m_enemy_layer = value;
         }
 
         public float mapWidth
@@ -113,7 +116,10 @@ namespace GDD
         public override void OnAwake()
         {
             base.OnAwake();
-            
+        }
+
+        private void OnEnable()
+        {
             _grid = new Grid((int)m_mapWidth, m_cellSize, enemies.Count);
         }
 
@@ -122,11 +128,13 @@ namespace GDD
         {
             readyTimer = new AwaitTimer(5.0f, () =>
             {
-                SceneManager.UnloadSceneAsync("MutiPlayerTest");
-                SceneManager.LoadSceneAsync("MutiPlayerTest");
-            }, arg0 =>
+                print("Next Level");
+                SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+                SceneManager.LoadSceneAsync("RandomSkill_Level");
+                PunNetworkManager.Instance.isLoadLevel = true;
+            }, time =>
             {
-
+                print($"Time is = {time}");
             });
         }
 
@@ -152,9 +160,14 @@ namespace GDD
             }
 
             if (readyPlayer && enemies.Count <= 0)
+            {
                 readyTimer.Start();
+            }
             else
+            {
+                print("Wait Other Player");
                 readyTimer.Stop();
+            }
         }
         
         void OnDrawGizmosSelected()

@@ -65,7 +65,8 @@ namespace GDD.Spatial_Partition
                 UnlinkCell(pawn);
             }
             
-            cells[cell.x, cell.y].Remove(cells[cell.x, cell.y][cells[cell.x, cell.y].IndexOf(pawn)]);
+            if(cells[cell.x, cell.y].Count > 0)
+                cells[cell.x, cell.y].Remove(cells[cell.x, cell.y][cells[cell.x, cell.y].IndexOf(pawn)]);
         }
         
         //Get the closest enemy from the grid in player vision
@@ -198,6 +199,7 @@ namespace GDD.Spatial_Partition
 
             //Unlink it from the list of its old cell
             Remove(new Vector2Int(oldCellX, oldCellZ), pawn);
+            Debug.Log("Cell Pos : " + oldPos);
 
             //If it's the head of a list, remove it
             for (int i = 0; i < cells[oldCellX, oldCellZ].Count; i++)

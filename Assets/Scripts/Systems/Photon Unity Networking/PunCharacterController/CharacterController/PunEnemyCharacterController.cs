@@ -28,7 +28,7 @@ namespace GDD.PUN
             if (!photonView.IsMine)
             {
                 photonView.RPC("OnGetCharacterData", RpcTarget.MasterClient);
-                print($"Awake {gameObject.name}");
+                //print($"Awake {gameObject.name}");
             }
         }
 
@@ -82,7 +82,7 @@ namespace GDD.PUN
 
         public void CallRaiseToggleFireEvent(BulletType type, int[] posIndex = default)
         {
-            print("Fire To Online");
+            //print("Fire To Online");
             
             object[] content;
 

@@ -254,10 +254,17 @@ namespace GDD
             this.vision = vision;
         }
 
+        public override void OnDisable()
+        {
+            base.OnDisable();
+        }
+
         public override void OnDestroy()
         {
             base.OnDestroy();
-            GM.players.Remove(this);
+            
+            if(GM != null)
+                GM.players.Remove(this);
         }
     }
 }

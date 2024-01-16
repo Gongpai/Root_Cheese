@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,6 +13,8 @@ namespace GDD.Timer
         private int _delayTime = 1;
         private UnityAction _actionEnd;
         private UnityAction<float> _actionElapsed;
+        private Task _task;
+        private CancellationTokenSource cts;
         private bool isStop = false;
         private bool isStart = false;
         private bool _isRunning;
@@ -35,45 +39,63 @@ namespace GDD.Timer
         public async Task Start()
         {
             isStop = false;
-            if(!isStart)
-                await Timer();
+            isStart = true;
+
+            if (cts != null)
+                cts.Cancel();
+            
+            cts = new CancellationTokenSource();
+            
+            _task = Timer(cts.Token);
+            await _task;
         }
         
-        public async Task Timer()
+        public async Task Timer(CancellationToken ct)
         {
             float _currentTime = 0;
-            isStart = true;
             _isRunning = true;
-            
-            while (_currentTime <= _time)
+
+            try
             {
-                _currentTime += Time.deltaTime;
-                _actionElapsed?.Invoke(_currentTime);
-                await Task.Delay(_delayTime);
-
-                if (!Application.isPlaying)
+                while (_currentTime <= _time)
                 {
-                    _isRunning = false;
-                    _actionEnd?.Invoke();
-                    return;
-                }
+                    _currentTime += Time.deltaTime;
+                    _actionElapsed?.Invoke(_currentTime);
+                    await Task.Delay(_delayTime);
+                    ct.ThrowIfCancellationRequested();
+
+                    if (!Application.isPlaying)
+                    {
+                        _isRunning = false;
+                        _actionEnd?.Invoke();
+                        return;
+                    }
                 
-                if (isStop)
-                {
-                    _isRunning = false;
-                    return;
+                    if (isStop)
+                    {
+                        _isRunning = false;
+                        return;
+                    }
                 }
-            }
 
-            _isRunning = false;
-            _actionEnd?.Invoke();
-            Stop();
+                _isRunning = false;
+                _actionEnd?.Invoke();
+                Stop();
+            }
+            catch (OperationCanceledException e)
+            {
+                Debug.Log(e);
+                throw;
+            }
         }
 
         public void Stop()
         {
             isStop = true;
             isStart = false;
+            
+            if(cts != null)
+                cts.Cancel();
         }
     }
 }

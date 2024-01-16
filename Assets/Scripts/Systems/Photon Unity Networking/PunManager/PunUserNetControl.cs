@@ -33,8 +33,8 @@ namespace GDD.PUN
             //Add Status Character UI
             AddStatusUI(GetComponent<CharacterSystem>());
             
-            Debug.Log(info.photonView.Owner.ToString());
-            Debug.Log(info.photonView.ViewID.ToString());
+            //Debug.Log(info.photonView.Owner.ToString());
+            //Debug.Log(info.photonView.ViewID.ToString());
             // #Important
             // used in PunNetworkManager.cs
             // : we keep track of the localPlayer instance to prevent instanciation

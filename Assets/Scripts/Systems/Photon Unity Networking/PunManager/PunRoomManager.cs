@@ -41,6 +41,7 @@ namespace GDD.PUN
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
+            CreateRoomName(PhotonNetwork.CurrentRoom.Name);
             
             GM = GameManager.Instance;
             
@@ -98,12 +99,15 @@ namespace GDD.PUN
             
             //Update Player Ready Next Level
             OnUpdateReadyNextLevelPlayer(propertiesThatChanged);
+            
+            //RoomNameUpdate
+            OnRoomNameUpdate(propertiesThatChanged);
         }
 
         private void CreatePreRandomPositionHashtable(float2D[] positions)
         {
             string json_positions = JsonConvert.SerializeObject(positions);
-            Debug.Log($"Pre-Random Prop is : {json_positions}");
+            //Debug.Log($"Pre-Random Prop is : {json_positions}");
 
             Hashtable prop = new Hashtable()
             {
@@ -140,8 +144,8 @@ namespace GDD.PUN
                     GM.players.Keys.ElementAt(i).idPhotonView
                 };
                 
-                print($"Ready is VA = {GM.players.Values.ElementAt(i)}");
-                print($"Ready is Keys = {GM.players.Keys.ElementAt(i).idPhotonView}");
+                //print($"Ready is VA = {GM.players.Values.ElementAt(i)}");
+                //print($"Ready is Keys = {GM.players.Keys.ElementAt(i).idPhotonView}");
             }
             
             
@@ -156,13 +160,26 @@ namespace GDD.PUN
                 
             PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
         }
+        
+        private void CreateRoomName(string roomName)
+        {
+            Hashtable prop = new Hashtable()
+            {
+                { 
+                    PunGameSetting.ROOMNAME, 
+                    roomName
+                }
+            };
+                
+            PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
+        }
 
         private void OnPreRandomPositionUpdate(Hashtable propertiesChanged)
         {
             object preRandomFromProps;
 
             if (propertiesChanged.TryGetValue(PunGameSetting.PRE_RANDOMTARGETPOSITION, out preRandomFromProps)) {
-                Debug.Log($"Update Pre-Random Prop is : {(string)preRandomFromProps}");
+                //Debug.Log($"Update Pre-Random Prop is : {(string)preRandomFromProps}");
 
                 float2D[] positions = JsonConvert.DeserializeObject<float2D[]>((string)preRandomFromProps);
                 PunGameSetting.Pre_RandomTargetPosition = positions;
@@ -174,7 +191,7 @@ namespace GDD.PUN
             object countFromProps;
 
             if (propertiesChanged.TryGetValue(PunGameSetting.RANDOMPOSITIONTARGETCOUNT, out countFromProps)) {
-                Debug.Log($"Update Random Count Prop is : {(int)countFromProps}");
+                //Debug.Log($"Update Random Count Prop is : {(int)countFromProps}");
                 PunGameSetting.RandomPositionTargetCount = (int)countFromProps;
             }
         }
@@ -191,12 +208,21 @@ namespace GDD.PUN
                     {
                         object[] data = (object[])playerReadyStates;
                         PhotonView photonView = PhotonNetwork.GetPhotonView((int)((object[])data[i])[1]);
-                        print($"{photonView.gameObject.name} Ready is [F] = {(int)((object[])data[i])[1]} || [R] = {(bool)((object[])data[i])[0]}");
+                        //print($"{photonView.gameObject.name} Ready is [F] = {(int)((object[])data[i])[1]} || [R] = {(bool)((object[])data[i])[0]}");
                         PlayerSystem player = photonView.gameObject.GetComponent<PlayerSystem>();
                         GM.players[player] = (bool)((object[])data[i])[0];
                         player.UpdateReadyCheckUI();
                     }
                 }
+            }
+        }
+
+        private void OnRoomNameUpdate(Hashtable propertiesChanged)
+        {
+            if (propertiesChanged.TryGetValue(PunGameSetting.ROOMNAME, out object nameFromProps))
+            {
+                //Debug.Log($"Update Random Count Prop is : {(int)countFromProps}");
+                PunGameSetting.roomName = (string)nameFromProps;
             }
         }
     }

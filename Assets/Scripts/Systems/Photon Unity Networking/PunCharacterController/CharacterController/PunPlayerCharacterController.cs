@@ -54,7 +54,7 @@ namespace GDD.PUN
         {
             base.Start();
             
-            print($"Up is null : {_skillUpgradePath.paths.Count}");
+            //print($"Up is null : {_skillUpgradePath.paths.Count}");
         }
 
         protected override void Update()
