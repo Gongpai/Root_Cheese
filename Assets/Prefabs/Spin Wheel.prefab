@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 2929183365096216226}
   - component: {fileID: 8943693884777879132}
   m_Layer: 0
-  m_Name: Prize Wheel
+  m_Name: Spin Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

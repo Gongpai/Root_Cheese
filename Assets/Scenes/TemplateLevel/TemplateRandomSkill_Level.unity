@@ -7658,7 +7658,7 @@ PrefabInstance:
     - target: {fileID: 7563112897782549800, guid: 9798c31e7aab80045a8fa7e9f00adbbc,
         type: 3}
       propertyPath: m_Name
-      value: Prize Wheel
+      value: Spin Wheel
       objectReference: {fileID: 0}
     - target: {fileID: 7716411837854682025, guid: 9798c31e7aab80045a8fa7e9f00adbbc,
         type: 3}
