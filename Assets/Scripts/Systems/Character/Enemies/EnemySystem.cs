@@ -154,6 +154,12 @@ namespace GDD
             
             _dropItemObject.OnCreateObject();
             AddEXPToPlayer();
+            
+            if (Application.isPlaying)
+            {
+                GM.grid.Remove(cellPos, this);
+            }
+            GM.enemies.Remove(this);
         }
 
         protected void AddEXPToPlayer()
@@ -170,12 +176,6 @@ namespace GDD
         public override void OnDisable()
         {
             base.OnDisable();
-            
-            if (Application.isPlaying)
-            {
-                GM.grid.Remove(cellPos, this);
-            }
-            GM.enemies.Remove(this);
         }
 
         public override void OnDestroy()

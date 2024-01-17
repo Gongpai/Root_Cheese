@@ -27,6 +27,7 @@ namespace GDD
         protected int _currentUpdateEXP;
         protected int _updateEXP;
         protected int _level;
+        protected int _skillUpgradeCount;
         protected int _idPhotonView;
         protected AwaitTimer updateEXPTimer;
         protected AwaitTimer timer;
@@ -86,8 +87,15 @@ namespace GDD
                 _level++;
                 _EXP -= _maxEXP;
                 _maxEXP = (int)(_maxEXP * m_levelUp);
+                _skillUpgradeCount++;
                 
+                OnLevelUP();
             }
+        }
+
+        protected virtual void OnLevelUP()
+        {
+            
         }
 
         protected void OnEXPAdd()

@@ -2,6 +2,7 @@
 using GDD.PUN;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GDD
@@ -29,10 +30,19 @@ namespace GDD
 
         //Pun System
         private PunPlayerCharacterController _punPlayerController;
+        
+        //Event
+        private UnityAction _reOpenUIAction;
 
         public RandomSkill randomSkill
         {
             set => _randomSkill = value;
+        }
+
+        public UnityAction reOpenUIAction
+        {
+            get => _reOpenUIAction;
+            set => _reOpenUIAction = value;
         }
         
         public void OnCreate()
@@ -75,6 +85,9 @@ namespace GDD
                         int OwnerNetID = _punPlayerController.photonView.ViewID;
                         _punPlayerController.SetSkill(skills, OwnerNetID);
                         
+                        //ReOpenUI
+                        _reOpenUIAction?.Invoke();
+                        
                         Destroy(transform.parent.gameObject);
                     }));
                 }
@@ -92,6 +105,9 @@ namespace GDD
                         int[] skills = new int[2] { baseSkill.Item3, 1};
                         int OwnerNetID = _punPlayerController.photonView.ViewID;
                         _punPlayerController.SetSkill(skills, OwnerNetID);
+                        
+                        //ReOpenUI
+                        _reOpenUIAction?.Invoke();
                         
                         Destroy(transform.parent.gameObject);
                     }));
@@ -133,6 +149,9 @@ namespace GDD
                         int OwnerNetID = _punPlayerController.photonView.ViewID;
                         _punPlayerController.SetSkill(skills, OwnerNetID);
                         
+                        //ReOpenUI
+                        _reOpenUIAction?.Invoke();
+                        
                         Destroy(transform.parent.gameObject);
                     }));
                 }
@@ -150,6 +169,9 @@ namespace GDD
                         int[] skills = new int[2] { upgradeSkill.Item3, 3};
                         int OwnerNetID = _punPlayerController.photonView.ViewID;
                         _punPlayerController.SetSkill(skills, OwnerNetID);
+                        
+                        //ReOpenUI
+                        _reOpenUIAction?.Invoke();
                         
                         Destroy(transform.parent.gameObject);
                     }));

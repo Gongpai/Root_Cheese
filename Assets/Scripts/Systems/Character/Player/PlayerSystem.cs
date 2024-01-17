@@ -162,6 +162,31 @@ namespace GDD
             }
         }
 
+        protected override void OnLevelUP()
+        {
+            base.OnLevelUP();
+            
+            OpenRandomSkillUI();
+        }
+
+        public void OpenRandomSkillUI()
+        {
+            if (_skillUpgradeCount > 0 && GM.enemies.Count <= 0)
+            {
+                print("OnRandomSkillPlayers");
+                _skillUpgradeCount--;
+                
+                GameObject r_skill_ui = Instantiate(m_skillRandomUI);
+                _randomSkillUI = r_skill_ui.transform.GetChild(0).GetComponent<RandomSkillUI>();
+                _randomSkillUI.randomSkill = _randomSkill;
+
+                if (_skillUpgradeCount > 1)
+                    _randomSkillUI.reOpenUIAction = OpenRandomSkillUI;
+                
+                _randomSkillUI.OnCreate();
+            }
+        }
+
         public override float GetMaxShield()
         {
             if(_weaponSystem.mainAttachment.Item1 != null && _weaponSystem.mainAttachment.Item1.shield != 0)
@@ -189,9 +214,8 @@ namespace GDD
         {
             base.OnGUI();
             
-            /*
             if(GUI.Button(new Rect(20,20,150, 50), "Add EXP"))
-                AddEXP(25);*/
+                AddEXP(25);
             
             if(_isMasterClient)
                 return;

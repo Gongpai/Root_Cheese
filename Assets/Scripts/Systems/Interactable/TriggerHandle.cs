@@ -6,6 +6,9 @@ namespace GDD
 {
     public class TriggerHandle<T> : MonoBehaviour
     {
+        [Header("ID")] 
+        [SerializeField] protected T checkID;
+        
         [Header("On Trigger Enter")] 
         [SerializeField] protected UnityEvent<T> m_triggerEnterEvent;
         

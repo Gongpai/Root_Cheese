@@ -130,7 +130,7 @@ namespace GDD
             {
                 print("Next Level");
                 SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-                SceneManager.LoadSceneAsync("RandomSkill_Level");
+                SceneManager.LoadSceneAsync("TemplateRandomSkill_Level");
                 PunNetworkManager.Instance.isLoadLevel = true;
             }, time =>
             {
