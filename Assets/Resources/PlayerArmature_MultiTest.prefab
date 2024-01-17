@@ -263,6 +263,21 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2646027910677788185, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
+      propertyPath: m_triggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8095716035511171481}
+    - target: {fileID: 2646027910677788185, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
+      propertyPath: m_triggerStayEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8095716035511171481}
+    - target: {fileID: 2646027910677788185, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
+      propertyPath: m_triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8095716035511171481}
     - target: {fileID: 3017739333236746691, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
       propertyPath: m_triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -456,11 +471,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
-      propertyPath: m_triggerEnterEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
-        type: 3}
       propertyPath: m_triggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
@@ -502,7 +512,7 @@ PrefabInstance:
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
       propertyPath: m_triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDoorEnter
+      value: OnEnterSpinWheel
       objectReference: {fileID: 0}
     - target: {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
@@ -738,6 +748,7 @@ PrefabInstance:
     - {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
     - {fileID: 135756642000475821, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
     - {fileID: 3017739333236746691, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+    - {fileID: 5186346912361957551, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
 --- !u!1 &180241714106799766 stripped
 GameObject:
@@ -935,6 +946,8 @@ MonoBehaviour:
   _maxEXP: 100
   m_levelUp: 1.1
   m_skillRandomUI: {fileID: 2005608045575106628, guid: dd27f74880ca05948922fe56b975edce,
+    type: 3}
+  m_randomSpinWheel: {fileID: 7748829778939500841, guid: 5b551d98d27fd9949abd1c7c6f72bfff,
     type: 3}
   _readyCheck: {fileID: 291524276705014652}
   m_delay_attack: 0.25

@@ -75,7 +75,15 @@ namespace GDD.PUN
         public virtual void HealingPoint(float amount, int OwnerNetID)
         {
             if (photonView != null) 
-                photonView.RPC("PunRPCApplyHealth", photonView.Owner, amount, OwnerNetID);
+                photonView.RPC("PunRPCSetHealth", RpcTarget.All, amount, OwnerNetID);
+            else 
+                print("photonView is NULL.");
+        }
+        
+        public virtual void ShieldPoint(float amount, int OwnerNetID)
+        {
+            if (photonView != null) 
+                photonView.RPC("PunRPCSetShield", RpcTarget.All, amount, OwnerNetID);
             else 
                 print("photonView is NULL.");
         }
@@ -96,7 +104,6 @@ namespace GDD.PUN
             else
             {
                 photonView.RPC("PunRPCSetHealth", RpcTarget.All, amount, OwnerNetID);
-
             }
             
             if (_characterSystem.GetHP() <= 0)
@@ -114,7 +121,7 @@ namespace GDD.PUN
             else
                 _characterSystem.SetShield(0);
             
-            //print($"Shield {gameObject.name} is : {_characterSystem.GetShield()}");
+            print($"Shield {gameObject.name} is : {_characterSystem.GetShield()}");
         }
 
         [PunRPC]
@@ -125,7 +132,7 @@ namespace GDD.PUN
             else
                 _characterSystem.SetHP(0);
             
-            //print($"Health {gameObject.name} is : {_characterSystem.GetHP()}");
+            print($"Health {gameObject.name} is : {_characterSystem.GetHP()}");
         }
 
         [PunRPC]

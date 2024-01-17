@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7332b7d943a743c48a34bdfd9b641fca, type: 3}
+  m_Name: CharacterStatusPicker
+  m_EditorClassIdentifier: 
+  m_Picker:
+    _serializedList:
+    - Key: No Reward
+      Value:
+        _serializedList:
+        - Key: 0
+          Value: 0
+    - Key: +HP 25%
+      Value:
+        _serializedList:
+        - Key: 25
+          Value: 0
+    - Key: +HP 50%
+      Value:
+        _serializedList:
+        - Key: 50
+          Value: 0
+    - Key: +HP 75%
+      Value:
+        _serializedList:
+        - Key: 75
+          Value: 0
+    - Key: +HP 100%
+      Value:
+        _serializedList:
+        - Key: 100
+          Value: 0
+    - Key: +Shield 50% / +HP 25%
+      Value:
+        _serializedList:
+        - Key: 50
+          Value: 25
+    - Key: +Shield 100% / +HP 50%
+      Value:
+        _serializedList:
+        - Key: 100
+          Value: 50
+    - Key: +Shield 100% / +HP 100%
+      Value:
+        _serializedList:
+        - Key: 100
+          Value: 100
+    - Key: +EXP 50%
+      Value:
+        _serializedList:
+        - Key: 50
+          Value: 0
+    - Key: +EXP 100%
+      Value:
+        _serializedList:
+        - Key: 100
+          Value: 0

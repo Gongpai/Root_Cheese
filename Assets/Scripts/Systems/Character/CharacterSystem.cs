@@ -149,7 +149,7 @@ namespace GDD
         public virtual void SetHP(float hp)
         {
             if (hp >= m_max_HP)
-                hp = m_max_HP;
+                m_hp = m_max_HP;
             else
                 m_hp = hp;
         }
@@ -167,7 +167,7 @@ namespace GDD
         public virtual void SetShield(float shield)
         {
             if (shield >= GetMaxShield())
-                shield = GetMaxShield();
+                m_shield = GetMaxShield();
             else
                 m_shield = shield;
         }

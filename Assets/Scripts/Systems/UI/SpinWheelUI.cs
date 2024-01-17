@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using GDD.Timer;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using FontStyles = TMPro.FontStyles;
@@ -12,32 +14,49 @@ namespace GDD
     public class SpinWheelUI : MonoBehaviour
     {
         [Header("Text")] 
-        [SerializeField] private TMP_FontAsset m_fontAsset;
-        [SerializeField] private FontStyles m_fontStyles;
-        [SerializeField] private FontWeight m_fontWeight;
-        [SerializeField] private int m_fontSize;
-        [SerializeField] private Color m_fontColor;
-        [SerializeField] private TextAlignmentOptions m_textAlignment;
+        [SerializeField] protected TMP_FontAsset m_fontAsset;
+        [SerializeField] protected FontStyles m_fontStyles;
+        [SerializeField] protected FontWeight m_fontWeight;
+        [SerializeField] protected float m_fontSize;
+        [SerializeField] protected Color m_fontColor;
+        [SerializeField] protected TextAlignmentOptions m_textAlignment;
+        [SerializeField] protected float m_line = -60;
+        [SerializeField] protected Vector2 textSize = new Vector2(100, 200);
 
         [Header("Picker")] 
-        [SerializeField] private GameObject m_pickerResult;
-        [SerializeField] private TextMeshProUGUI m_pickerTextResult;
-        [SerializeField] private int m_count;
-        private Image m_image;
-        private RectTransform _rectTransform;
-        private float _randomRot;
-        private bool _isShowResult;
-        private RectTransform m_textGroup;
-        private List<string> m_pickerText = new List<string>();
+        [SerializeField] protected GameObject m_pickerResult;
+        [SerializeField] protected TextMeshProUGUI m_pickerTextResult;
+        [SerializeField] protected UnityEvent m_OnEnd;
+        [SerializeField] protected int m_count;
+        protected Image m_image;
+        protected RectTransform _rectTransform;
+        protected float _randomRot;
+        protected bool _isShowResult;
+        protected RectTransform m_textGroup;
+        protected List<string> m_pickerText = new List<string>();
 
         public float rotationZ;
 
-        private void Start()
+        protected virtual void Start()
         {
             _rectTransform = GetComponent<RectTransform>();
+            
+            CreateSpinWheel();
+            GetComponent<Animator>().enabled = true;
+
+            AwaitTimer timer = new AwaitTimer(10.0f, () =>
+            {
+                m_pickerResult.GetComponent<Animator>().SetBool("Revert", true);
+                m_OnEnd?.Invoke();
+            }, time =>
+            {
+                print($"Time = {time}");
+            });
+
+            timer.Start();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             _rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 1) * (rotationZ * _randomRot));
             
@@ -47,16 +66,23 @@ namespace GDD
             if(rotationZ >= 1.0f)
             {
                 _isShowResult = true;
+                
+                if(!m_pickerResult.activeSelf)
+                    ShowResult();
+                
                 m_pickerResult.SetActive(true);
-
-                float indexRot = m_count + (_randomRot - 90) % -360 / (360 / m_count);
-                print($"Random : {_randomRot - 90}");
-                print($"Index : {indexRot}");
-                m_pickerTextResult.text = m_pickerText[Mathf.FloorToInt(indexRot)];
             }
         }
 
-        private void CreatSpinWheel()
+        protected virtual void ShowResult()
+        {
+            float indexRot = m_count + (_randomRot) % -360 / (360 / m_count);
+            print($"Random : {_randomRot}");
+            print($"Index : {indexRot}");
+            m_pickerTextResult.text = m_pickerText[Mathf.FloorToInt(indexRot)];
+        }
+        
+        protected virtual void CreateSpinWheel()
         {
             foreach (Transform picker in transform)
             {
@@ -77,16 +103,21 @@ namespace GDD
             float degree = 360.0f;
             for (int i = 0; i < m_count; i++)
             {
-                Image picker = CreatePicker($"Picker {i + 1}", out TextMeshProUGUI _pickerText);
+                Image picker = CreatePicker(GetPickerName(i), out TextMeshProUGUI _pickerText);
                 picker.fillAmount = (degree / m_count) / degree;
-                _pickerText.rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, (degree / m_count) * -i)  - new Vector3(0, 0, 22.5f));
+                _pickerText.rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, (degree / m_count) * -i)  - new Vector3(0, 0, (degree / m_count) / 2 - 90));
                 
-                print($"Rotation : {(degree / m_count) * (i + 1 / m_count)}");
+                print($"Rotation : {new Vector3(0, 0, (degree / m_count) * -i)  - new Vector3(0, 0, (degree / m_count) / 2)}");
                 picker.rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, (degree / m_count) * (i + 1 / m_count)));
             }
         }
 
-        private Image CreatePicker(string namePicker, out TextMeshProUGUI pickerText)
+        protected virtual string GetPickerName(int i = 0)
+        {
+            return $"Picker {i + 1}";
+        }
+
+        protected virtual Image CreatePicker(string namePicker, out TextMeshProUGUI pickerText)
         {
             GameObject picker = new GameObject(namePicker);
             picker.transform.parent = transform;
@@ -103,7 +134,7 @@ namespace GDD
                 m_textGroup = new GameObject("Text Picker Spin Wheel Group").AddComponent<RectTransform>();
                 m_textGroup.transform.position = Vector3.zero;
                 m_textGroup.transform.parent = transform.parent;
-                m_textGroup.transform.SetSiblingIndex(99);
+                m_textGroup.transform.SetSiblingIndex(m_pickerResult.transform.GetSiblingIndex() - 1);
                 m_textGroup.transform.localPosition = Vector3.zero;
                 m_textGroup.anchorMin = Vector2.one * 0.5f;
                 m_textGroup.anchorMax = Vector2.one * 0.5f;
@@ -115,16 +146,17 @@ namespace GDD
             pickerNameText.font = m_fontAsset;
             pickerNameText.fontStyle = m_fontStyles;
             pickerNameText.fontSize = m_fontSize;
+            pickerNameText.lineSpacing = m_line;
             pickerNameText.color = m_fontColor;
             pickerNameText.alignment = m_textAlignment;
             
             pickerNameText.rectTransform.anchorMin = new Vector2(0, 0.5f);
             pickerNameText.rectTransform.anchorMax = new Vector2(0, 0.5f);
-            pickerNameText.rectTransform.pivot = new Vector2(0, 0.5f);
+            pickerNameText.rectTransform.pivot = new Vector2(-0.38f, 0.5f);
             pickerNameText.transform.parent = m_textGroup.transform;
             pickerNameText.transform.position = Vector3.zero;
             pickerNameText.rectTransform.anchoredPosition = new Vector2(100, 0);
-            pickerNameText.rectTransform.sizeDelta = new Vector2(100, 200);
+            pickerNameText.rectTransform.sizeDelta = textSize;
             m_pickerText.Add(pickerNameText.text);
             pickerText = pickerNameText;
 
@@ -141,8 +173,9 @@ namespace GDD
             return _imagePicker;
         }
 
-        private void OnGUI()
+        protected virtual void OnGUI()
         {
+            /*
             if (GUI.Button(new Rect(20, 20, 150, 50), "Create Spin Wheel"))
                 CreatSpinWheel();
 
@@ -154,6 +187,7 @@ namespace GDD
             
             if (GUI.Button(new Rect(20, 160, 150, 50), "Reset Spin"))
                 GetComponent<Animator>().SetBool("IsReset", true);
+                */
         }
     }
 }
