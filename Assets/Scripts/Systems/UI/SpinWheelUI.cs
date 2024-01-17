@@ -49,7 +49,9 @@ namespace GDD
                 _isShowResult = true;
                 m_pickerResult.SetActive(true);
 
-                float indexRot = (_randomRot - 90) % 360 / (360 / m_count);
+                float indexRot = m_count + (_randomRot - 90) % -360 / (360 / m_count);
+                print($"Random : {_randomRot - 90}");
+                print($"Index : {indexRot}");
                 m_pickerTextResult.text = m_pickerText[Mathf.FloorToInt(indexRot)];
             }
         }
@@ -69,7 +71,7 @@ namespace GDD
 
             m_pickerText = new List<string>();
             
-            _randomRot = Random.Range(580.0f, 1360.0f);
+            _randomRot = -Random.Range(580.0f, 1360.0f);
             _rectTransform.rotation = Quaternion.Euler(Vector3.zero);
             
             float degree = 360.0f;
@@ -141,7 +143,7 @@ namespace GDD
 
         private void OnGUI()
         {
-            if (GUI.Button(new Rect(20, 20, 150, 50), "Create Pin Wheel"))
+            if (GUI.Button(new Rect(20, 20, 150, 50), "Create Spin Wheel"))
                 CreatSpinWheel();
 
             if (GUI.Button(new Rect(20, 90, 150, 50), "Play Spin"))
