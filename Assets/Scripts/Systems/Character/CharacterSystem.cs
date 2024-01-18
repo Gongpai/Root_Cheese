@@ -48,12 +48,12 @@ namespace GDD
             updateEXPTimer = new AwaitTimer(1.0f,
                 () =>
                 {
-                    _updateEXP = _EXP;
-                    _currentUpdateEXP = _EXP;
+                    SetUpdateEXP(GetEXP());
+                    _currentUpdateEXP = GetEXP();
                 },
                 time =>
                 {
-                    _updateEXP = (int)Mathf.Lerp(_currentUpdateEXP, _EXP, time);
+                    SetUpdateEXP((int)Mathf.Lerp(_currentUpdateEXP, GetEXP(), time));
                     //print($"Time : {time} || EXP : {_currentUpdateEXP} || Update : {_updateEXP}");
                 });
             timer = new AwaitTimer(5.9f,
@@ -66,15 +66,15 @@ namespace GDD
 
         public virtual void Update()
         {
-            m_hp_bar.value = m_hp / m_max_HP;
-            m_hp_text.text = $"HP : {m_hp} / {m_max_HP} || Shield : {GetShield()} / {GetMaxShield()}";
+            m_hp_bar.value = GetHP() / GetMaxHP();
+            m_hp_text.text = $"HP : {GetHP()} / {GetMaxHP()} || Shield : {GetShield()} / {GetMaxShield()}";
 
             if (m_shield_bar != null && (GetShield() / GetMaxShield()) > 0)
                 m_shield_bar.value = GetShield() / GetMaxShield();
             else
                 m_shield_bar.value = 0;
                     
-            if(m_hp <= 0)
+            if(GetHP() <= 0)
                 OnCharacterDead();
 
             LevelProgress();
@@ -82,11 +82,11 @@ namespace GDD
 
         protected void LevelProgress()
         {
-            if (_EXP >= _maxEXP)
+            if (GetEXP() >= GetMaxEXP())
             {
-                _level++;
-                _EXP -= _maxEXP;
-                _maxEXP = (int)(_maxEXP * m_levelUp);
+                SetLevel(GetLevel() + 1);
+                SetEXP(GetEXP() - GetMaxEXP());
+                SetMaxEXP((int)(GetMaxEXP() * m_levelUp));
                 _skillUpgradeCount++;
                 
                 OnLevelUP();
@@ -100,13 +100,13 @@ namespace GDD
 
         protected void OnEXPAdd()
         {
-            if (_updateEXP != _EXP)
+            if (GetUpdateEXP() != GetEXP())
             {
                 timer.Start();
             }
             else
             {
-                _currentUpdateEXP = _updateEXP;
+                _currentUpdateEXP = GetUpdateEXP();
             }
         }
 
@@ -148,8 +148,8 @@ namespace GDD
 
         public virtual void SetHP(float hp)
         {
-            if (hp >= m_max_HP)
-                m_hp = m_max_HP;
+            if (hp >= GetMaxHP())
+                m_hp = GetMaxHP();
             else
                 m_hp = hp;
         }
@@ -172,40 +172,48 @@ namespace GDD
                 m_shield = shield;
         }
 
-        public void SetMaxEXP(int maxEXP)
+        public virtual void SetMaxEXP(int maxEXP)
         {
             _maxEXP = maxEXP;
         }
 
-        public int GetMaxEXP()
+        public virtual int GetMaxEXP()
         {
             return _maxEXP;
         }
 
-        public void AddEXP(int EXP)
+        public virtual void AddEXP(int EXP)
         {
-            _EXP += EXP;
-            
+            SetEXP(GetEXP() + EXP);
             OnEXPAdd();
         }
         
-        public void SetEXP(int EXP)
+        public virtual void SetUpdateEXP(int EXP)
         {
-            _EXP = EXP;
             _updateEXP = EXP;
         }
 
-        public int GetEXP()
+        public virtual void SetEXP(int EXP)
+        {
+            _EXP = EXP;
+        }
+
+        public virtual int GetEXP()
+        {
+            return _EXP;
+        }
+
+        public virtual int GetUpdateEXP()
         {
             return _updateEXP;
         }
 
-        public int GetLevel()
+        public virtual int GetLevel()
         {
             return _level;
         }
 
-        public void SetLevel(int level)
+        public virtual void SetLevel(int level)
         {
             _level = level;
         }

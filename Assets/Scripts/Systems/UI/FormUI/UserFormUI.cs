@@ -34,11 +34,11 @@ namespace GDD
             print($"Age : {m_age.text} | Birthday : {m_birthday.text}");
             if (m_age.text != "" && m_birthday.text != "" && m_name.text != "")
             {
-                GameInstance gameInstance = new GameInstance();
-                gameInstance.playerName = m_name.text;
-                gameInstance.age = int.Parse(m_age.text);
-                gameInstance.date = m_birthday.text;
-                await _dataBaseController.OnUpdate(gameInstance);
+                PlayerInfo playerinfo = new PlayerInfo();
+                playerinfo.playerName = m_name.text;
+                playerinfo.age = int.Parse(m_age.text);
+                playerinfo.date = m_birthday.text;
+                await _dataBaseController.OnUpdate(playerinfo, GM.gameInstance);
                 
                 print("Login!");
                 
@@ -54,10 +54,10 @@ namespace GDD
         {
             await _dataBaseController.OnSync();
             
-            m_age.text = GM.GI.age.ToString();
-            m_birthday.text = GM.GI.date;
-            m_name.text = GM.GI.playerName;
-            m_username.text = "Username : " + GM.GI.playerName;
+            m_age.text = GM.playerInfo.age.ToString();
+            m_birthday.text = GM.playerInfo.date;
+            m_name.text = GM.playerInfo.playerName;
+            m_username.text = "Username : " + GM.playerInfo.playerName;
         }
         
         public async void OnClose()

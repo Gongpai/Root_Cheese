@@ -39,17 +39,17 @@ namespace GDD.DataBase
             _dataBaseManager.CreateClient(m_supaBaseURL, m_supaBaseKey);
         }
 
-        public async Task SingUp(string email, string password, GameInstance instance)
+        public async Task SingUp(string email, string password, PlayerInfo playerInfo)
         {
             //Error Action
             _dataBaseManager.errorAction -= SignInOnErrorAction;
             _dataBaseManager.errorAction -= SignUpOnErrorAction;
             _dataBaseManager.errorAction += SignUpOnErrorAction;
             
-            JObject data = JsonHelperScript.CreateJsonObject<GameInstance>(instance);
-            await _dataBaseManager.SingUp(email, password, data);
+            JObject jObject = JsonHelperScript.CreateJsonObject<PlayerInfo>(playerInfo);
+            await _dataBaseManager.SingUp(email, password, jObject);
             await OnSync();
-            GM.GI = _dataBaseManager.GetData<GameInstance>();
+            GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
         }
 
         private void SignUpOnErrorAction()
@@ -64,7 +64,7 @@ namespace GDD.DataBase
             _dataBaseManager.errorAction -= SignInOnErrorAction;
             _dataBaseManager.errorAction += SignInOnErrorAction;
             await _dataBaseManager.SignIn(email, password);
-            GM.GI = _dataBaseManager.GetData<GameInstance>();
+            GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
         }
         
         private void SignInOnErrorAction()
@@ -76,20 +76,26 @@ namespace GDD.DataBase
         public async Task SignOut()
         {
             await _dataBaseManager.SignOut();
-            GM.GI = _dataBaseManager.GetData<GameInstance>();
+            GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
         }
 
-        public async Task OnUpdate(GameInstance instance)
+        public async Task OnUpdate(PlayerInfo playerInfo, GameInstance gameInstance)
         {
-            JObject data = JsonHelperScript.CreateJsonObject<GameInstance>(instance);
+            JObject[] data = new JObject[]
+            {
+                JsonHelperScript.CreateJsonObject<PlayerInfo>(playerInfo),
+                JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)
+            };
             await _dataBaseManager.Update(data);
-            GM.GI = _dataBaseManager.GetData<GameInstance>();
+            GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
+            GM.gameInstance = _dataBaseManager.GetData<GameInstance>(_dataBaseManager.data.gameSave);
         }
 
         public async Task OnSync()
         {
             await _dataBaseManager.SyncClientData();
-            GM.GI = _dataBaseManager.GetData<GameInstance>();
+            GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
+            GM.gameInstance = _dataBaseManager.GetData<GameInstance>(_dataBaseManager.data.gameSave);
         }
 
         public float GetProgress()

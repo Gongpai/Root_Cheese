@@ -9,9 +9,11 @@ namespace GDD.DataBase
     {
         [PrimaryKey("user_id", false)]
         public string user_id { get; set; }
+        [Column("playerInfo")]
+        public object playerInfo { get; set; }
         
-        [Column("savedata")]
-        public object savedata { get; set; }
+        [Column("gameSave")]
+        public object gameSave { get; set; }
         
         [Column("created_at")]
         public DateTime created_at { get; set; }

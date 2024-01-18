@@ -12,8 +12,10 @@
         public int GetMaxEXP();
         public void SetMaxEXP(int maxEXP);
         public int GetEXP();
+        public int GetUpdateEXP();
         public void AddEXP(int EXP);
         public void SetEXP(int EXP);
+        public void SetUpdateEXP(int EXP);
         public int GetLevel();
         public void SetLevel(int level);
     }

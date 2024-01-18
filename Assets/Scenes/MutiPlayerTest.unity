@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.11768, g: 324.74365, b: 429.81006, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6085,6 +6085,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
+      propertyPath: _GI.HP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
+      propertyPath: _GI.maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
+      propertyPath: _GI.maxEXP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
+      propertyPath: _GI.shield
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
         type: 3}
       propertyPath: m_cellSize

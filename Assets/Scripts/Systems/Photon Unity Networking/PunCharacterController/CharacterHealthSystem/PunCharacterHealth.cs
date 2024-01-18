@@ -45,6 +45,7 @@ namespace GDD.PUN
             _characterSystem.SetHP((float)datas[0]);
             _characterSystem.SetMaxHP((float)datas[1]);
             _characterSystem.SetShield((float)datas[2]);
+            _characterSystem.SetUpdateEXP((int)datas[3]);
             _characterSystem.SetEXP((int)datas[3]);
         }
 
@@ -58,7 +59,7 @@ namespace GDD.PUN
                 _characterSystem.GetHP(),
                 _characterSystem.GetMaxHP(),
                 _characterSystem.GetShield(),
-                _characterSystem.GetEXP()
+                _characterSystem.GetUpdateEXP()
             };
             
             photonView.RPC("OnInitializeOtherPlayer", RpcTarget.Others, datas, photonView.ViewID);
@@ -127,6 +128,9 @@ namespace GDD.PUN
         [PunRPC]
         public virtual void PunRPCSetHealth(float amount, int OwnerNetID)
         {
+            print($"HP Amount = {amount}");
+            print($"Total HP = {_characterSystem.GetHP() + amount} || Char HP = {_characterSystem.GetHP()}");
+            
             if (_characterSystem.GetHP() + amount > 0)
                 _characterSystem.SetHP(_characterSystem.GetHP() + amount);
             else

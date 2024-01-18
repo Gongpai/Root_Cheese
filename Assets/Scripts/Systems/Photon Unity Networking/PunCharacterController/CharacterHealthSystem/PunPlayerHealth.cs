@@ -32,7 +32,7 @@ namespace GDD.PUN
         {
             int[] amount = new[]
             {
-                _characterSystem.GetEXP(),
+                _characterSystem.GetUpdateEXP(),
                 _characterSystem.GetMaxEXP(),
                 _characterSystem.GetLevel()
             };
@@ -43,6 +43,7 @@ namespace GDD.PUN
         [PunRPC]
         public virtual void PunRPCSetEXPAndLevel(int[] amount)
         {
+            _characterSystem.SetUpdateEXP(amount[0]);
             _characterSystem.SetEXP(amount[0]);
             _characterSystem.SetMaxEXP(amount[1]);
             _characterSystem.SetLevel(amount[2]);

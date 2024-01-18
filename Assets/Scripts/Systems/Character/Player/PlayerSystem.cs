@@ -45,15 +45,10 @@ namespace GDD
         {
             get => vision;
         }
-        
-        public float shield
-        {
-            get => m_shield;
-            set => m_shield = value;
-        }
 
         public override void OnEnable()
         {
+            GM = GameManager.Instance;
             base.OnEnable();
         }
 
@@ -88,8 +83,6 @@ namespace GDD
             _randomSkill = GetComponent<RandomSkill>();
             _randomSkill.weaponSystem = _weaponSystem;
             _randomSkill.OnInitialize();
-
-            GM = GameManager.Instance;
             
             //Add Player to GameManager
             GM.players.Add(this, false);
@@ -252,7 +245,6 @@ namespace GDD
         {
             print($"Set HP Amount = {GetHP() + GetMaxHP() * (amount / 100)}");
             float hpAmount = GetMaxHP() * (amount / 100);
-            SetHP(GetHP() + hpAmount); 
             _punCharacterHealth.HealingPoint(hpAmount, _idPhotonView);
         }
         
@@ -266,7 +258,6 @@ namespace GDD
         { 
             print($"Set Shield Amount = {GetShield() + GetMaxShield() * (amount / 100)}");
             float shieldAmount = GetMaxShield() * (amount / 100);
-            SetShield(GetShield() + shieldAmount);
             _punCharacterHealth.ShieldPoint(shieldAmount, _idPhotonView);
         }
         
@@ -283,14 +274,135 @@ namespace GDD
             return 0.0f;
         }
 
+        public override float GetMaxHP()
+        {
+            if (isMasterClient)
+                return GM.gameInstance.maxHP;
+            else
+                return base.GetMaxHP();
+        }
+        
+        public override void SetMaxHP(float maxHP)
+        {
+            if (isMasterClient)
+                GM.gameInstance.maxHP = maxHP;
+            else
+                base.SetMaxHP(maxHP);
+        }
+
+        public override float GetHP()
+        {
+            if (isMasterClient)
+                return GM.gameInstance.HP;
+            else
+                return base.GetHP();
+        }
+
+        public override void SetHP(float hp)
+        {
+            if (isMasterClient)
+            {
+                if (hp >= GetMaxHP())
+                    GM.gameInstance.HP = GetMaxHP();
+                else
+                    GM.gameInstance.HP = hp;
+            }
+            else
+                base.SetHP(hp);
+        }
+
         public override float GetShield()
         {
             if(_weaponSystem != null)
                 if (_weaponSystem.mainAttachment.Item1 != null || _weaponSystem.secondaryAttachment.Item1 != null)
                     if(_weaponSystem.mainAttachment.Item1.shield > 0 || _weaponSystem.secondaryAttachment.Item1.shield > 0)
-                        return base.GetShield();
+                        if (isMasterClient)
+                            return GM.gameInstance.shield;
+                        else
+                            return base.GetShield();
 
             return 0.0f;
+        }
+
+        public override void SetShield(float shield)
+        {
+            if (isMasterClient)
+            {
+                if (shield >= GetMaxShield())
+                    GM.gameInstance.shield = GetMaxShield();
+                else
+                    GM.gameInstance.shield = shield;
+            }
+            else
+            {
+                base.SetShield(shield);
+            }
+        }
+
+        public override void SetMaxEXP(int maxEXP)
+        {
+            if (isMasterClient) 
+                GM.gameInstance.maxEXP = maxEXP;
+            else
+                base.SetMaxEXP(maxEXP);
+        }
+
+        public override int GetMaxEXP()
+        {
+            if (isMasterClient) 
+                return GM.gameInstance.maxEXP;
+            else
+                return base.GetMaxEXP();
+        }
+
+        public override void SetUpdateEXP(int EXP)
+        {
+            if (isMasterClient)
+            {
+                GM.gameInstance.updateEXP = EXP;
+            }
+            else
+                base.SetUpdateEXP(EXP);
+        }
+
+        public override void SetEXP(int EXP)
+        {
+            if (isMasterClient) 
+                GM.gameInstance.EXP = EXP;
+            else
+                base.SetEXP(EXP);
+        }
+
+        public override int GetEXP()
+        {
+            if (isMasterClient) 
+                return GM.gameInstance.EXP;
+            else
+                return base.GetEXP();
+        }
+
+        public override int GetUpdateEXP()
+        {
+            if (isMasterClient) 
+                return GM.gameInstance.updateEXP;
+            else
+                return base.GetUpdateEXP();
+        }
+
+        public override int GetLevel()
+        {
+            if (isMasterClient) 
+                return GM.gameInstance.level;
+            else
+                return base.GetLevel();
+        }
+
+        public override void SetLevel(int level)
+        {
+            if (isMasterClient) 
+                GM.gameInstance.level = level;
+            else
+                base.SetLevel(level);
         }
 
         protected override void OnGUI()

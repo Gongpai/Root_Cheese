@@ -18,12 +18,61 @@ namespace GDD
         private Tuple<WeaponAttachment, int> _mainAttachment;
         private Tuple<WeaponAttachment, int> _secondaryAttachment;
 
-        private WeaponConfigStats _weaponConfigStats;
-        private WeaponAttachmentStats _attachmentStats;
+        private GameManager GM;
+        private WeaponConfigStats _weaponConfigStatsClient;
+        private WeaponAttachmentStats _attachmentStatsClient;
         private CharacterSystem _characterSystem;
         private IWeapon _weapon;
         private bool _isFiring;
         private bool _isDecorated;
+
+        private WeaponConfigStats _weaponConfigStats
+        {
+            get
+            {
+                if (GM == null)
+                    GM = GameManager.Instance;
+
+                if (_characterSystem.isMasterClient)
+                    return GM.gameInstance.weaponConfigStats;
+                else
+                    return _weaponConfigStatsClient;
+            }
+            set
+            {
+                if (GM == null)
+                    GM = GameManager.Instance;
+
+                if (_characterSystem.isMasterClient)
+                    GM.gameInstance.weaponConfigStats = value;
+                else
+                    _weaponConfigStatsClient = value;
+            }
+        }
+
+        private WeaponAttachmentStats _attachmentStats
+        {
+            get
+            {
+                if (GM == null)
+                    GM = GameManager.Instance;
+
+                if (_characterSystem.isMasterClient)
+                    return GM.gameInstance.weaponAttachmentStats;
+                else
+                    return _attachmentStatsClient;
+            }
+            set
+            {
+                if (GM == null)
+                    GM = GameManager.Instance;
+
+                if (_characterSystem.isMasterClient)
+                    GM.gameInstance.weaponAttachmentStats = value;
+                else
+                    _attachmentStatsClient = value;
+            }
+        }
 
         public IWeapon weapon
         {

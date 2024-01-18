@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
+using GDD.JsonHelper;
 using GDD.PUN;
 using GDD.Sinagleton;
 using GDD.Timer;
@@ -15,7 +16,8 @@ namespace GDD
     public class GameManager : DontDestroy_Singleton<GameManager>
     {
         //GameInstance
-        private GameInstance _GI = new GameInstance();
+        [SerializeField] private GameInstance _GI = new GameInstance();
+        private PlayerInfo _playerInfo = new PlayerInfo();
         
         //Game Setting
         [Header("Finding System")] 
@@ -49,11 +51,18 @@ namespace GDD
         private Grid _grid;
         private AwaitTimer readyTimer;
 
-        public GameInstance GI
+        public GameInstance gameInstance
         {
             get => _GI;
             set => _GI = value;
         }
+
+        public PlayerInfo playerInfo
+        {
+            get => _playerInfo;
+            set => _playerInfo = value;
+        }
+        
         public GameObject Get_Bullet_Pool
         {
             get
@@ -132,6 +141,7 @@ namespace GDD
                 SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
                 SceneManager.LoadSceneAsync("TemplateRandomSkill_Level");
                 PunNetworkManager.Instance.isLoadLevel = true;
+                print($"GameInstance : {JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)}");
             }, time =>
             {
                 print($"Time is = {time}");

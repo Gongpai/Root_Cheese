@@ -139,7 +139,8 @@ namespace GDD.DataBase
                 InsertRowData rowData = new InsertRowData();
                 rowData.created_at = DateTime.Now;
                 rowData.user_id = _session.User.Id;
-                rowData.savedata = jObject;
+                rowData.playerInfo = jObject;
+                rowData.gameSave = "{}";
                 await _client.From<InsertRowData>().Insert(rowData);
                 
                 //Get Data From DataBase
@@ -204,7 +205,7 @@ namespace GDD.DataBase
         }
 
         //Update row
-        public async Task Update(JObject jObject)
+        public async Task Update(JObject[] jObject)
         {
             if (_client == null)
             {
@@ -218,12 +219,13 @@ namespace GDD.DataBase
                 .Single();
             
             //Set model
-            update_model.savedata = jObject;
+            update_model.playerInfo = jObject[0];
+            update_model.gameSave = jObject[1];
             
             await update_model.Update<UpdateRowData>();
             
-            _result = ($"SaveData : {update_model.savedata}");
-            Debug.Log($"SaveData : {update_model.savedata}");
+            _result = $"playerInfo : {update_model.playerInfo} / {update_model.gameSave}";
+            Debug.Log($"playerInfo : {update_model.playerInfo} / {update_model.gameSave}");
         }
 
         //SyncData
@@ -246,9 +248,9 @@ namespace GDD.DataBase
             _data = data;
         }
 
-        public T GetData<T>()
+        public T GetData<T>(object data)
         {
-            return JsonHelperScript.ConvertTo<T>(_data.savedata);
+            return JsonHelperScript.ConvertTo<T>(data);
         }
         
         //SignOut

@@ -50,11 +50,11 @@ namespace GDD
             print($"E-mail : {m_e_mail.text} | Password : {m_password.text}");
             if (m_e_mail.text != "" && m_password.text != "" && m_age.text != "" && m_birthday.text != "" && m_name.text != "")
             {
-                GameInstance gameInstance = new GameInstance();
-                gameInstance.playerName = m_name.text;
-                gameInstance.age = int.Parse(m_age.text);
-                gameInstance.date = m_birthday.text;
-                await _dataBaseController.SingUp(m_e_mail.text, m_password.text, gameInstance);
+                PlayerInfo playerinfo = new PlayerInfo();
+                playerinfo.playerName = m_name.text;
+                playerinfo.age = int.Parse(m_age.text);
+                playerinfo.date = m_birthday.text;
+                await _dataBaseController.SingUp(m_e_mail.text, m_password.text, playerinfo);
 
                 print($"Connect State : {_dataBaseController.dataBase.state}");
                 if (_dataBaseController.dataBase.state == ConnectionState.Successfully)
