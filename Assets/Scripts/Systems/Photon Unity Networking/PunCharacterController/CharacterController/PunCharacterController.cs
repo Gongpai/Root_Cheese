@@ -64,7 +64,7 @@ namespace GDD.PUN
         }
         
         [PunRPC]
-        public virtual void OnGetCharacterData()
+        public virtual void OnGetCharacterData(object OwnerNetID)
         {
             
         }

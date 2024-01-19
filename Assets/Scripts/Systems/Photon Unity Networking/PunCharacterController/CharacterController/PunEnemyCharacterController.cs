@@ -27,7 +27,7 @@ namespace GDD.PUN
             
             if (!photonView.IsMine)
             {
-                photonView.RPC("OnGetCharacterData", RpcTarget.MasterClient);
+                photonView.RPC("OnGetCharacterData", photonView.Owner, photonView.ViewID);
                 //print($"Awake {gameObject.name}");
             }
         }
@@ -43,9 +43,9 @@ namespace GDD.PUN
         }
 
         [PunRPC]
-        public override void OnGetCharacterData()
+        public override void OnGetCharacterData(object OwnerNetID)
         {
-            base.OnGetCharacterData();
+            base.OnGetCharacterData(OwnerNetID);
 
             if(!photonView.IsMine)
                 return;

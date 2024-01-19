@@ -31,11 +31,28 @@ namespace GDD
         protected int _idPhotonView;
         protected AwaitTimer updateEXPTimer;
         protected AwaitTimer timer;
+        protected PunCharacterHealth _punCharacterHealth;
 
         public bool isMasterClient
         {
             get => _isMasterClient;
             set => _isMasterClient = value;
+        }
+
+        public PunCharacterHealth punCharacterHealth
+        {
+            get
+            {
+                if (_punCharacterHealth == null)
+                    _punCharacterHealth = GetComponent<PunCharacterHealth>();
+                
+                return _punCharacterHealth;
+            }
+        }
+
+        public virtual void Awake()
+        {
+            
         }
 
         public virtual void OnEnable()
@@ -45,6 +62,11 @@ namespace GDD
         
         public virtual void Start()
         {
+            if (isMasterClient)
+            {
+                _punCharacterHealth = GetComponent<PunCharacterHealth>();
+            }
+
             updateEXPTimer = new AwaitTimer(1.0f,
                 () =>
                 {
@@ -156,7 +178,7 @@ namespace GDD
 
         public virtual float GetMaxShield()
         {
-            return 0;
+            return 100;
         }
 
         public virtual float GetShield()

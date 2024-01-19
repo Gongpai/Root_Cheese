@@ -32,7 +32,6 @@ namespace GDD
         private RandomSkill _randomSkill;
         private RandomSkillUI _randomSkillUI;
         private GameManager GM;
-        private PunCharacterHealth _punCharacterHealth;
         private bool _isEnterRoom;
         List<UnityAction<float, float>> _spinWheelActions = new List<UnityAction<float, float>>();
         
@@ -46,6 +45,13 @@ namespace GDD
             get => vision;
         }
 
+        public override void Awake()
+        {
+            base.Awake();
+            
+            _weaponSystem = GetComponent<WeaponSystem>();
+        }
+
         public override void OnEnable()
         {
             GM = GameManager.Instance;
@@ -56,8 +62,6 @@ namespace GDD
         public override void Start()
         {
             base.Start();
-
-            _weaponSystem = GetComponent<WeaponSystem>();
 
             if (isMasterClient)
             {
@@ -245,7 +249,7 @@ namespace GDD
         {
             print($"Set HP Amount = {GetHP() + GetMaxHP() * (amount / 100)}");
             float hpAmount = GetMaxHP() * (amount / 100);
-            _punCharacterHealth.HealingPoint(hpAmount, _idPhotonView);
+            _punCharacterHealth.HealingPoint(hpAmount);
         }
         
         private void SetEXPFromSpinWheel(float amount)
@@ -258,7 +262,7 @@ namespace GDD
         { 
             print($"Set Shield Amount = {GetShield() + GetMaxShield() * (amount / 100)}");
             float shieldAmount = GetMaxShield() * (amount / 100);
-            _punCharacterHealth.ShieldPoint(shieldAmount, _idPhotonView);
+            _punCharacterHealth.ShieldPoint(shieldAmount);
         }
         
         public override float GetMaxShield()
@@ -269,14 +273,14 @@ namespace GDD
                 return _weaponSystem.attachmentStats.shield * 100 + _weaponSystem.secondaryAttachment.Item1.shield;
             
             if (_weaponSystem == null || _weaponSystem.mainAttachment.Item1 == null || _weaponSystem.secondaryAttachment.Item1 == null)
-                return 0.0f;
+                return base.GetMaxShield();
 
-            return 0.0f;
+            return base.GetMaxShield();
         }
 
         public override float GetMaxHP()
         {
-            if (isMasterClient)
+            if (punCharacterHealth.photonView.IsMine)
                 return GM.gameInstance.maxHP;
             else
                 return base.GetMaxHP();
@@ -284,7 +288,7 @@ namespace GDD
         
         public override void SetMaxHP(float maxHP)
         {
-            if (isMasterClient)
+            if (punCharacterHealth.photonView.IsMine)
                 GM.gameInstance.maxHP = maxHP;
             else
                 base.SetMaxHP(maxHP);
@@ -292,7 +296,7 @@ namespace GDD
 
         public override float GetHP()
         {
-            if (isMasterClient)
+            if (punCharacterHealth.photonView.IsMine)
                 return GM.gameInstance.HP;
             else
                 return base.GetHP();
@@ -300,7 +304,7 @@ namespace GDD
 
         public override void SetHP(float hp)
         {
-            if (isMasterClient)
+            if (punCharacterHealth.photonView.IsMine)
             {
                 if (hp >= GetMaxHP())
                     GM.gameInstance.HP = GetMaxHP();
@@ -316,17 +320,24 @@ namespace GDD
             if(_weaponSystem != null)
                 if (_weaponSystem.mainAttachment.Item1 != null || _weaponSystem.secondaryAttachment.Item1 != null)
                     if(_weaponSystem.mainAttachment.Item1.shield > 0 || _weaponSystem.secondaryAttachment.Item1.shield > 0)
-                        if (isMasterClient)
+                        if (punCharacterHealth.photonView.IsMine)
+                        {
+                            //print($"IsMind : {gameObject.name}");
                             return GM.gameInstance.shield;
+                        }
                         else
+                        {
+                            //print($"IsNotMind : {gameObject.name}");
                             return base.GetShield();
+                        }
 
+            //print($"Error : {gameObject.name}");
             return 0.0f;
         }
 
         public override void SetShield(float shield)
         {
-            if (isMasterClient)
+            if (punCharacterHealth.photonView.IsMine)
             {
                 if (shield >= GetMaxShield())
                     GM.gameInstance.shield = GetMaxShield();
@@ -341,7 +352,7 @@ namespace GDD
 
         public override void SetMaxEXP(int maxEXP)
         {
-            if (isMasterClient) 
+            if (punCharacterHealth.photonView.IsMine) 
                 GM.gameInstance.maxEXP = maxEXP;
             else
                 base.SetMaxEXP(maxEXP);
@@ -349,7 +360,7 @@ namespace GDD
 
         public override int GetMaxEXP()
         {
-            if (isMasterClient) 
+            if (punCharacterHealth.photonView.IsMine) 
                 return GM.gameInstance.maxEXP;
             else
                 return base.GetMaxEXP();
@@ -357,7 +368,7 @@ namespace GDD
 
         public override void SetUpdateEXP(int EXP)
         {
-            if (isMasterClient)
+            if (punCharacterHealth.photonView.IsMine)
             {
                 GM.gameInstance.updateEXP = EXP;
             }
@@ -367,7 +378,7 @@ namespace GDD
 
         public override void SetEXP(int EXP)
         {
-            if (isMasterClient) 
+            if (punCharacterHealth.photonView.IsMine) 
                 GM.gameInstance.EXP = EXP;
             else
                 base.SetEXP(EXP);
@@ -375,7 +386,7 @@ namespace GDD
 
         public override int GetEXP()
         {
-            if (isMasterClient) 
+            if (punCharacterHealth.photonView.IsMine) 
                 return GM.gameInstance.EXP;
             else
                 return base.GetEXP();
@@ -383,7 +394,7 @@ namespace GDD
 
         public override int GetUpdateEXP()
         {
-            if (isMasterClient) 
+            if (punCharacterHealth.photonView.IsMine) 
                 return GM.gameInstance.updateEXP;
             else
                 return base.GetUpdateEXP();
@@ -391,7 +402,7 @@ namespace GDD
 
         public override int GetLevel()
         {
-            if (isMasterClient) 
+            if (punCharacterHealth.photonView.IsMine) 
                 return GM.gameInstance.level;
             else
                 return base.GetLevel();
@@ -399,7 +410,7 @@ namespace GDD
 
         public override void SetLevel(int level)
         {
-            if (isMasterClient) 
+            if (punCharacterHealth.photonView.IsMine) 
                 GM.gameInstance.level = level;
             else
                 base.SetLevel(level);

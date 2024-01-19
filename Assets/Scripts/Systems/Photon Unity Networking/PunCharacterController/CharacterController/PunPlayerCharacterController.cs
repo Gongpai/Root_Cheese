@@ -37,7 +37,7 @@ namespace GDD.PUN
             _playerSpawnBullet = GetComponent<PlayerSpawnBullet>();
 
             _skillPath = new SkillPath();
-            _skillPath._skillConfigPath = _skillUpgradePath;
+            _skillPath._skillConfigPath = _skillConfigPath;
             _skillPath._skillUpgradePath = _skillUpgradePath;
         }
 
@@ -47,18 +47,16 @@ namespace GDD.PUN
             base.OnEnable();
       
             _randomSkill = GetComponent<RandomSkill>();
-            
-            if (!photonView.IsMine)
-            {
-                photonView.RPC("OnGetCharacterData", RpcTarget.MasterClient);
-                print($"Awake {gameObject.name}");
-            }
         }
 
         protected override void Start()
         {
             base.Start();
-            
+            if (!photonView.IsMine)
+            {
+                photonView.RPC("OnGetCharacterData", photonView.Owner, photonView.ViewID);
+                print($"Awake {gameObject.name}");
+            } 
             //print($"Up is null : {_skillUpgradePath.paths.Count}");
         }
 
@@ -68,11 +66,9 @@ namespace GDD.PUN
         }
 
         [PunRPC]
-        public override void OnGetCharacterData()
+        public override void OnGetCharacterData(object OwnerNetID)
         {
-            base.OnGetCharacterData();
-
-            if (!photonView.IsMine)
+            if((int)OwnerNetID != photonView.ViewID)
                 return;
             
             print($"Get Datas {gameObject.name}");
@@ -101,9 +97,7 @@ namespace GDD.PUN
         [PunRPC]
         public override void RPCInitializeCharacter(object[] datas, int OwnerNetID)
         {
-            base.RPCInitializeCharacter(datas, OwnerNetID);
-
-            if(photonView.IsMine)
+            if(OwnerNetID != photonView.ViewID || photonView.IsMine)
                 return;
             
             print($"Initialize Datas {datas[0]}, {datas[1]}, {datas[2]}");

@@ -34,8 +34,10 @@ namespace GDD
             set => _targetID = value;
         }
         
-        private void Awake()
+        public override void Awake()
         {
+            base.Awake();
+            
             //Add AI Enemy to GameManager
             GM = GameManager.Instance;
             GM.enemies.Add(this);

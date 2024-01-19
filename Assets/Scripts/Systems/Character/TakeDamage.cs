@@ -85,14 +85,14 @@ namespace GDD
             if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
             {
                 //print("Enemy Take Damage");
-                _punCharacterHealth.TakeDamage(_damage, OwnerViewID); 
+                _punCharacterHealth.TakeDamage(_damage); 
                 ReturnToPool();
             }
             //Check Player Layer & Set HP / Shield
             else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
             {
                 //print("Character Take Damage");
-                _punCharacterHealth.TakeDamage(_damage, OwnerViewID); 
+                _punCharacterHealth.TakeDamage(_damage); 
                 ReturnToPool();
             }
             else

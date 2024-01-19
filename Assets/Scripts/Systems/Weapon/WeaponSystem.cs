@@ -39,7 +39,7 @@ namespace GDD
                 if (GM == null)
                     GM = GameManager.Instance;
 
-                if (_characterSystem.isMasterClient)
+                if (_characterSystem.punCharacterHealth.photonView.IsMine)
                     return GM.gameInstance.weaponConfigStats;
                 else
                     return _weaponConfigStatsClient;
@@ -49,7 +49,7 @@ namespace GDD
                 if (GM == null)
                     GM = GameManager.Instance;
 
-                if (_characterSystem.isMasterClient)
+                if (_characterSystem.punCharacterHealth.photonView.IsMine)
                     GM.gameInstance.weaponConfigStats = value;
                 else
                     _weaponConfigStatsClient = value;
@@ -63,7 +63,7 @@ namespace GDD
                 if (GM == null)
                     GM = GameManager.Instance;
 
-                if (_characterSystem.isMasterClient)
+                if (_characterSystem.punCharacterHealth.photonView.IsMine)
                     return GM.gameInstance.weaponAttachmentStats;
                 else
                     return _attachmentStatsClient;
@@ -73,7 +73,7 @@ namespace GDD
                 if (GM == null)
                     GM = GameManager.Instance;
 
-                if (_characterSystem.isMasterClient)
+                if (_characterSystem.punCharacterHealth.photonView.IsMine)
                     GM.gameInstance.weaponAttachmentStats = value;
                 else
                     _attachmentStatsClient = value;
@@ -120,6 +120,10 @@ namespace GDD
             _skillPath = new SkillPath();
             _skillPath._skillConfigPath = _skillConfigPath;
             _skillPath._skillUpgradePath = _skillUpgradePath;
+            
+            _weaponConfig = new Tuple<WeaponConfig, int>(m_weaponConfig, m_weaponConfigPathIndex);
+            _mainAttachment = new Tuple<WeaponAttachment, int>(m_mainAttachment, m_mainAttachmentPathIndex);
+            _secondaryAttachment = new Tuple<WeaponAttachment, int>(m_secondaryAttachment, m_secondaryAttachmentPathIndex);
         }
 
         private void OnEnable()
@@ -136,11 +140,16 @@ namespace GDD
             if(!_characterSystem.enabled)
                 return;
             
-            _weaponConfig = new Tuple<WeaponConfig, int>(m_weaponConfig, m_weaponConfigPathIndex);
-            _mainAttachment = new Tuple<WeaponAttachment, int>(m_mainAttachment, m_mainAttachmentPathIndex);
-            _secondaryAttachment = new Tuple<WeaponAttachment, int>(m_secondaryAttachment, m_secondaryAttachmentPathIndex);
             SetWeaponConfig();
-            OnInitializeWeapon();
+            
+            if(_characterSystem.punCharacterHealth.photonView.IsMine)
+                OnInitializeWeapon();
+        }
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Y) && _characterSystem.punCharacterHealth.photonView.IsMine)
+                SetAttachment((WeaponAttachment)_skillPath.GetSkillFromPath(1, 1), 1);
         }
 
         private void OnInitializeWeapon()
@@ -152,10 +161,12 @@ namespace GDD
                 GM.gameInstance.mainSkill = m_weaponConfigPathIndex;
             
             int iMainAttachment = GM.gameInstance.mainAttachmentSkill;
+            print($"IMAINATT {gameObject.name}");
             if(iMainAttachment >= 0)
                 SetAttachment((WeaponAttachment)_skillPath.GetSkillFromPath(1, iMainAttachment), iMainAttachment);
             
             int iSecondaryAttachment = GM.gameInstance.secondaryAttachmentSkill;
+            print($"ISEC {gameObject.name}");
             if(iSecondaryAttachment >= 0)
                 SetAttachment((WeaponAttachment)_skillPath.GetSkillFromPath(1, iSecondaryAttachment), iSecondaryAttachment);
         }
@@ -192,7 +203,9 @@ namespace GDD
             _weaponConfig = new Tuple<WeaponConfig, int>(weaponConfig, index);
             _weapon = new WeaponDecorator(_weaponConfig.Item1, null, _weaponConfigStats, _attachmentStats);
             Debug.Log(_weapon.mainName + $" Player Name {gameObject.name} SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-            GM.gameInstance.mainSkill = index;
+            
+            if(_characterSystem.punCharacterHealth.photonView.IsMine)
+                GM.gameInstance.mainSkill = index;
             Decorate();
         }
 
@@ -202,13 +215,17 @@ namespace GDD
             {
                 _mainAttachment = new Tuple<WeaponAttachment, int>(weaponAttachment, index);
                 Debug.Log($"Main Attachment {weaponAttachment.attachmentName} | Player Name {gameObject.name}");
-                GM.gameInstance.mainAttachmentSkill = index;
+                
+                if(_characterSystem.punCharacterHealth.photonView.IsMine)
+                    GM.gameInstance.mainAttachmentSkill = index;
             }
             else
             {
                 _secondaryAttachment = new Tuple<WeaponAttachment, int>(weaponAttachment, index);
                 Debug.Log($"Secondary Attachment {weaponAttachment.attachmentName} | Player Name {gameObject.name}");
-                GM.gameInstance.secondaryAttachmentSkill = index;
+                
+                if(_characterSystem.punCharacterHealth.photonView.IsMine)
+                    GM.gameInstance.secondaryAttachmentSkill = index;
             }
 
             Decorate();

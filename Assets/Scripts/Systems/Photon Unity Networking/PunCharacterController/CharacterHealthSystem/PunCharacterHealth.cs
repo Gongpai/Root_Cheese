@@ -29,7 +29,8 @@ namespace GDD.PUN
         protected virtual void Start()
         {
             //SyncPlayerStats
-            photonView.RPC("GetPlayerStatsToOtherPlayer", RpcTarget.MasterClient);
+            if(!photonView.IsMine)
+                photonView.RPC("GetPlayerStatsToOtherPlayer", photonView.Owner, photonView.ViewID);
         }
 
         protected virtual void Update()
@@ -40,7 +41,11 @@ namespace GDD.PUN
         [PunRPC]
         public virtual void OnInitializeOtherPlayer(object[] datas, int OwnerNetID)
         {
-            //print($"{gameObject.name} | OnInitializeOtherPlayer");
+            if(OwnerNetID != photonView.ViewID || photonView.IsMine)
+                return;
+            
+            print($"{gameObject.name} | OnInitializeOtherPlayer || Shield = {(float)datas[2]}");
+            print($"Shield = {(float)datas[2]}");
             
             _characterSystem.SetHP((float)datas[0]);
             _characterSystem.SetMaxHP((float)datas[1]);
@@ -50,41 +55,52 @@ namespace GDD.PUN
         }
 
         [PunRPC]
-        public virtual void GetPlayerStatsToOtherPlayer()
+        public virtual void GetPlayerStatsToOtherPlayer(object OwnerNetID)
         {
-            //print($"GetPlayerStatsToOtherPlayer : {gameObject.name}");
+            if((int)OwnerNetID != photonView.ViewID)
+                return;
+            
+            print($"GetPlayerStatsToOtherPlayer : {gameObject.name} || ID : {OwnerNetID} = {photonView}");
 
+            float shield;
+            if (photonView.IsMine)
+                shield = GameManager.Instance.gameInstance.shield;
+            else
+                shield = _characterSystem.GetShield();
+            
+            print($"Shieldddddddddd ::::: {shield}");
+            
             object[] datas = new object[]
             {
                 _characterSystem.GetHP(),
                 _characterSystem.GetMaxHP(),
-                _characterSystem.GetShield(),
+                shield,
                 _characterSystem.GetUpdateEXP()
             };
             
-            photonView.RPC("OnInitializeOtherPlayer", RpcTarget.Others, datas, photonView.ViewID);
+            photonView.RPC("OnInitializeOtherPlayer", RpcTarget.All, datas, OwnerNetID);
         }
             
-        public virtual void TakeDamage(float amount, int OwnerNetID)
+        public virtual void TakeDamage(float amount)
         {
             if (photonView != null)
-                photonView.RPC("PunRPCApplyHealth", photonView.Owner, -amount, OwnerNetID);
+                photonView.RPC("PunRPCApplyHealth", photonView.Owner, -amount, photonView.ViewID);
             else 
                 print("photonView is NULL.");
         }
 
-        public virtual void HealingPoint(float amount, int OwnerNetID)
+        public virtual void HealingPoint(float amount)
         {
             if (photonView != null) 
-                photonView.RPC("PunRPCSetHealth", RpcTarget.All, amount, OwnerNetID);
+                photonView.RPC("PunRPCSetHealth", photonView.Owner, amount, photonView.ViewID);
             else 
                 print("photonView is NULL.");
         }
         
-        public virtual void ShieldPoint(float amount, int OwnerNetID)
+        public virtual void ShieldPoint(float amount)
         {
             if (photonView != null) 
-                photonView.RPC("PunRPCSetShield", RpcTarget.All, amount, OwnerNetID);
+                photonView.RPC("PunRPCSetShield", photonView.Owner, amount, photonView.ViewID);
             else 
                 print("photonView is NULL.");
         }
@@ -92,6 +108,9 @@ namespace GDD.PUN
         [PunRPC]
         public virtual void PunRPCApplyHealth(float amount, int OwnerNetID)
         {
+            if(OwnerNetID != photonView.ViewID)
+                return;
+            
             //Debug.Log("Update @" + PhotonNetwork.LocalPlayer.ActorNumber + " Apply Health : " + amount + " form : " + OwnerNetID);
             
             if (_characterSystem.GetShield() > 0 && amount < 0)
@@ -117,17 +136,22 @@ namespace GDD.PUN
         [PunRPC]
         public virtual void PunRPCSetShield(float amount, int OwnerNetID)
         {
+            print($"Shield {gameObject.name} is : {amount}");
+            if(OwnerNetID != photonView.ViewID)
+                return;
+            
             if (_characterSystem.GetShield() + amount > 0)
                 _characterSystem.SetShield(_characterSystem.GetShield() + amount);
             else
                 _characterSystem.SetShield(0);
-            
-            print($"Shield {gameObject.name} is : {_characterSystem.GetShield()}");
         }
 
         [PunRPC]
         public virtual void PunRPCSetHealth(float amount, int OwnerNetID)
         {
+            if(OwnerNetID != photonView.ViewID)
+                return;
+            
             print($"HP Amount = {amount}");
             print($"Total HP = {_characterSystem.GetHP() + amount} || Char HP = {_characterSystem.GetHP()}");
             
