@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.11768, g: 324.74365, b: 429.81006, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6122,6 +6122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
         type: 3}
+      propertyPath: _GI.mainSkill
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
       propertyPath: m_enemy_layer
       value: 
       objectReference: {fileID: 1812264061}
@@ -6130,6 +6135,16 @@ PrefabInstance:
       propertyPath: m_player_layer
       value: 
       objectReference: {fileID: 1231242136}
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
+      propertyPath: _GI.mainAttachmentSkill
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
+        type: 3}
+      propertyPath: _GI.secondaryAttachmentSkill
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 1659570200318343430, guid: c6525255d3471a540a2d08ab5ff1e386,
         type: 3}
       propertyPath: m_Name

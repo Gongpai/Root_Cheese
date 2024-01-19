@@ -14,6 +14,12 @@ namespace GDD
         [SerializeField] private int m_mainAttachmentPathIndex;
         [SerializeField] private WeaponAttachment m_secondaryAttachment;
         [SerializeField] private int m_secondaryAttachmentPathIndex;
+        
+        [Header("Skill Path")] 
+        [SerializeField] private ResourcesPath _skillConfigPath;
+        [SerializeField] private ResourcesPath _skillUpgradePath;
+        private SkillPath _skillPath;
+        
         private Tuple<WeaponConfig, int> _weaponConfig;
         private Tuple<WeaponAttachment, int> _mainAttachment;
         private Tuple<WeaponAttachment, int> _secondaryAttachment;
@@ -109,6 +115,13 @@ namespace GDD
             set => _attachmentStats = value;
         }
 
+        private void Awake()
+        {
+            _skillPath = new SkillPath();
+            _skillPath._skillConfigPath = _skillConfigPath;
+            _skillPath._skillUpgradePath = _skillUpgradePath;
+        }
+
         private void OnEnable()
         {
             
@@ -127,6 +140,24 @@ namespace GDD
             _mainAttachment = new Tuple<WeaponAttachment, int>(m_mainAttachment, m_mainAttachmentPathIndex);
             _secondaryAttachment = new Tuple<WeaponAttachment, int>(m_secondaryAttachment, m_secondaryAttachmentPathIndex);
             SetWeaponConfig();
+            OnInitializeWeapon();
+        }
+
+        private void OnInitializeWeapon()
+        {
+            int iMain = GM.gameInstance.mainSkill;
+            if (iMain >= 0)
+                SetMainSkill((WeaponConfig)_skillPath.GetSkillFromPath(0, iMain), iMain);
+            else
+                GM.gameInstance.mainSkill = m_weaponConfigPathIndex;
+            
+            int iMainAttachment = GM.gameInstance.mainAttachmentSkill;
+            if(iMainAttachment >= 0)
+                SetAttachment((WeaponAttachment)_skillPath.GetSkillFromPath(1, iMainAttachment), iMainAttachment);
+            
+            int iSecondaryAttachment = GM.gameInstance.secondaryAttachmentSkill;
+            if(iSecondaryAttachment >= 0)
+                SetAttachment((WeaponAttachment)_skillPath.GetSkillFromPath(1, iSecondaryAttachment), iSecondaryAttachment);
         }
 
         public void SetWeaponConfig()
@@ -160,7 +191,8 @@ namespace GDD
             print("Index Set Skill : " + index);
             _weaponConfig = new Tuple<WeaponConfig, int>(weaponConfig, index);
             _weapon = new WeaponDecorator(_weaponConfig.Item1, null, _weaponConfigStats, _attachmentStats);
-            Debug.Log(weapon.mainName + $" Player Name {gameObject.name} SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+            Debug.Log(_weapon.mainName + $" Player Name {gameObject.name} SETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+            GM.gameInstance.mainSkill = index;
             Decorate();
         }
 
@@ -170,11 +202,13 @@ namespace GDD
             {
                 _mainAttachment = new Tuple<WeaponAttachment, int>(weaponAttachment, index);
                 Debug.Log($"Main Attachment {weaponAttachment.attachmentName} | Player Name {gameObject.name}");
+                GM.gameInstance.mainAttachmentSkill = index;
             }
             else
             {
                 _secondaryAttachment = new Tuple<WeaponAttachment, int>(weaponAttachment, index);
                 Debug.Log($"Secondary Attachment {weaponAttachment.attachmentName} | Player Name {gameObject.name}");
+                GM.gameInstance.secondaryAttachmentSkill = index;
             }
 
             Decorate();

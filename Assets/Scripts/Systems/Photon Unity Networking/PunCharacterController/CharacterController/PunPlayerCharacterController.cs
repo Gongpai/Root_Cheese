@@ -20,6 +20,7 @@ namespace GDD.PUN
         private PlayerSpawnBullet _playerSpawnBullet;
         
         //Skill
+        private SkillPath _skillPath;
         private RandomSkill _randomSkill;
         private ScriptableObject _skill;
         
@@ -34,6 +35,10 @@ namespace GDD.PUN
             
             _weaponSystem = GetComponent<WeaponSystem>();
             _playerSpawnBullet = GetComponent<PlayerSpawnBullet>();
+
+            _skillPath = new SkillPath();
+            _skillPath._skillConfigPath = _skillUpgradePath;
+            _skillPath._skillUpgradePath = _skillUpgradePath;
         }
 
 
@@ -102,20 +107,17 @@ namespace GDD.PUN
                 return;
             
             print($"Initialize Datas {datas[0]}, {datas[1]}, {datas[2]}");
-            _weaponSystem.weaponConfig = new Tuple<WeaponConfig, int>(
-                Resources.Load<WeaponConfig>(_skillConfigPath.paths[(int)datas[0]]),
+            _weaponSystem.weaponConfig = new Tuple<WeaponConfig, int>((WeaponConfig)_skillPath.GetSkillFromPath(0, (int)datas[0]),
                 (int)datas[0]);
 
             if ((int)datas[1] != -1)
-                _weaponSystem.mainAttachment = new Tuple<WeaponAttachment, int>(
-                    Resources.Load<WeaponAttachment>(_skillConfigPath.paths[(int)datas[1]]),
-                    (int)datas[1]);
+                _weaponSystem.mainAttachment = new Tuple<WeaponAttachment, int>((WeaponAttachment)_skillPath.GetSkillFromPath(1, (int)datas[1]),
+                (int)datas[1]);
             else
                 _weaponSystem.mainAttachment = new Tuple<WeaponAttachment, int>(null, 0);
             if((int)datas[2] != -1)
-                _weaponSystem.secondaryAttachment = new Tuple<WeaponAttachment, int>(
-                    Resources.Load<WeaponAttachment>(_skillConfigPath.paths[(int)datas[2]]),
-                    (int)datas[2]);
+                _weaponSystem.secondaryAttachment = new Tuple<WeaponAttachment, int>((WeaponAttachment)_skillPath.GetSkillFromPath(1, (int)datas[2]),
+                (int)datas[2]);
             else
                 _weaponSystem.secondaryAttachment = new Tuple<WeaponAttachment, int>(null, 0);
             
@@ -150,25 +152,25 @@ namespace GDD.PUN
                 case 0:
                     print($"Path is : {_skillConfigPath.paths[skills[0]]}");
                     print("Index In UI : " + skills[0]);
-                    _skill = Resources.Load<WeaponConfig>(_skillConfigPath.paths[skills[0]]);
+                    _skill = (WeaponConfig)_skillPath.GetSkillFromPath(0, skills[0]);
                     print($"Skill is null {_skill == null}");
                     photonView.RPC("OnApplyMainSkill", RpcTarget.All, skills[0]);
                     break;
                 case 1:
                     print($"Path is : {_skillConfigPath.paths[skills[0]]}");
-                    _skill = Resources.Load<WeaponAttachment>(_skillConfigPath.paths[skills[0]]);
+                    _skill = (WeaponAttachment)_skillPath.GetSkillFromPath(1, skills[0]);
                     print($"Skill is null {_skill == null}");
                     photonView.RPC("OnApplyAttachmentSkill", RpcTarget.All, skills[0]);
                     break;
                 case 2:
                     print($"Path is : {_skillUpgradePath.paths[skills[0]]}");
-                    _skill = Resources.Load<MainSkillUpgrade>(_skillUpgradePath.paths[skills[0]]);
+                    _skill = (MainSkillUpgrade)_skillPath.GetSkillFromPath(2, skills[0]);
                     print($"Skill is null {_skill == null}");
                     photonView.RPC("OnUpgradeMainSkill", RpcTarget.All);
                     break;
                 case 3:
                     print($"Path is : {_skillUpgradePath.paths[skills[0]]}");
-                    _skill = Resources.Load<AttachmentSkillUpgrade>(_skillUpgradePath.paths[skills[0]]);
+                    _skill = (AttachmentSkillUpgrade)_skillPath.GetSkillFromPath(3, skills[0]);
                     print($"Skill is null {_skill == null}");
                     photonView.RPC("OnUpgradeAttachmentSkill", RpcTarget.All);
                     break;

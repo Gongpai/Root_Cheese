@@ -12,6 +12,7 @@ namespace GDD
     [Serializable]
     public class GameInstance
     {
+        //Character State
         public float HP;
         public float maxHP;
         public float shield;
@@ -19,7 +20,11 @@ namespace GDD
         public int maxEXP;
         public int updateEXP;
         public int level;
-
+        
+        //Skill
+        public int mainSkill = -1;
+        public int mainAttachmentSkill = -1;
+        public int secondaryAttachmentSkill = -1;
         public WeaponAttachmentStats weaponAttachmentStats = new WeaponAttachmentStats();
         public WeaponConfigStats weaponConfigStats = new WeaponConfigStats();
     }
