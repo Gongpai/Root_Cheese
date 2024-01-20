@@ -45,10 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091cc3ca4cdf48448746731d452305fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoConnect: 1
-  Version: 1
-  MaxPlayers: 2
-  playerTTL: -1
   _vCam: {fileID: 0}
   _inputActionAsset: {fileID: -944628639613478452, guid: 8cd9df4f1c4ad3f43950522d95aea448,
     type: 3}

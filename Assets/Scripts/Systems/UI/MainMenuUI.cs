@@ -1,4 +1,6 @@
 ﻿using System;
+using GDD.DataBase;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,10 +19,26 @@ namespace GDD
         [SerializeField] private TextMeshProUGUI m_playerName;
 
         private GameManager GM;
-
+        DataBaseController _dataBaseController;
+        
         private void Start()
         {
+            _dataBaseController = DataBaseController.Instance;
             GM = GameManager.Instance;
+            UpdateInfo();
+        }
+        
+        public void OnPlay()
+        {
+            if(!PhotonNetwork.InLobby)
+                PhotonNetwork.JoinLobby();
+        }
+        
+        private async void UpdateInfo()
+        {
+            m_playerName.text = "Loading...";
+            await _dataBaseController.OnSync();
+            
             m_playerName.text = GM.playerInfo.playerName;
         }
     }

@@ -21,13 +21,13 @@ namespace GDD
         private GameManager GM;
         private void OnEnable()
         {
+            _dataBaseController = DataBaseController.Instance;
             UpdateInfo();
         }
 
         private void Start()
         {
             GM = GameManager.Instance;
-            _dataBaseController = DataBaseController.Instance;
         }
 
         public async void OnUpdateSave()
@@ -53,6 +53,7 @@ namespace GDD
 
         private async void UpdateInfo()
         {
+            print($"DataBase Is Null : {_dataBaseController == null}");
             await _dataBaseController.OnSync();
             
             m_age.text = GM.playerInfo.age.ToString();

@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using Cinemachine;
 using ExitGames.Client.Photon;
+using GDD.DataBase;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace GDD.PUN
 {
-    public class PunNetworkManager : ConnectAndJoinRandom
+    public class PunNetworkManager : MonoBehaviourPunCallbacks
     {
         //Field
         [Header("Player Spawn Settings")] [Tooltip("The prefab to use for representing the player")] 
@@ -31,7 +33,8 @@ namespace GDD.PUN
         private GameObject _characterStatusUI;
         private Canvas_Element_List _canvasElementList;
         private bool _isLoadLevel;
-
+        DataBaseController _dataBaseController;
+        
         public bool isLoadLevel
         {
             get => _isLoadLevel;
@@ -58,6 +61,20 @@ namespace GDD.PUN
         public static event GameOverCallback OnGameOver;
         public delegate void JoinLevelCallback();
         public static event JoinLevelCallback OnJoinLevel;
+        private UnityAction _onJoinLobbyAction;
+        private UnityAction<List<RoomInfo>> _onRoomListUpdate;
+
+        public UnityAction OnJoinLobbyAction
+        {
+            get => _onJoinLobbyAction;
+            set => _onJoinLobbyAction = value;
+        }
+
+        public UnityAction<List<RoomInfo>> OnRoomListUpdateAction
+        {
+            get => _onRoomListUpdate;
+            set => _onRoomListUpdate = value;
+        }
         
         //Singleton
         protected static PunNetworkManager _instance;
@@ -127,7 +144,10 @@ namespace GDD.PUN
             OnGameStart += GameStartSetting;
             OnGameOver += GameOverSetting;
 
-            OnCreateCharacterUI();
+            PhotonNetwork.ConnectUsingSettings();
+            _dataBaseController = DataBaseController.Instance;
+            UpdateInfo();
+            //OnCreateCharacterUI();
         }
         
         private void Update()
@@ -154,6 +174,12 @@ namespace GDD.PUN
             }
         }
 
+        private async void UpdateInfo()
+        {
+            await _dataBaseController.OnSync();
+            PhotonNetwork.LocalPlayer.NickName = GameManager.Instance.playerInfo.playerName;
+        }
+        
         private void GameStartSetting() {
             currentGameState = PunGameState.GamePlay;
         }
@@ -161,7 +187,13 @@ namespace GDD.PUN
         private void GameOverSetting() {
             currentGameState = PunGameState.GameOver;
         }
-        
+
+        public override void OnRoomListUpdate(List<RoomInfo> roomList)
+        {
+            base.OnRoomListUpdate(roomList);
+            _onRoomListUpdate?.Invoke(roomList);
+        }
+
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             base.OnPlayerEnteredRoom(newPlayer);
@@ -171,7 +203,7 @@ namespace GDD.PUN
         public override void OnJoinedLobby()
         {
             base.OnJoinedLobby();
-            
+            _onJoinLobbyAction?.Invoke();
             OnJoinLevel?.Invoke();
         }
 
