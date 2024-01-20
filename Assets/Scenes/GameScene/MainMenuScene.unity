@@ -1001,17 +1001,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3313817974593724722}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 570085543}
+        m_TargetAssemblyTypeName: GDD.FindRoomUI, Assembly-CSharp
+        m_MethodName: OpenRoomUIAndLeaveRoom
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &463361342
 MonoBehaviour:
@@ -1174,13 +1174,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9458e7c4ee4ca4a44ec7464a6b659d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_roomButton: {fileID: 890391521}
+  m_createRoomButton: {fileID: 890391521}
   _createRoomText: {fileID: 1893709924}
   m_roomName: {fileID: 455093687}
   m_playerInfo: {fileID: 5458126547347751693, guid: 66912f7dee46d554a9475cfb2b43a66d,
     type: 3}
   m_scrollViewContent: {fileID: 1341099962}
   m_loadingUI: {fileID: 550189145}
+  m_maxPlayer: 2
+  m_OpenCreateRoomUIEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3313817974593724722}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &582894485
 GameObject:
   m_ObjectHideFlags: 0
@@ -1889,7 +1905,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 570085543}
         m_TargetAssemblyTypeName: GDD.FindRoomUI, Assembly-CSharp
-        m_MethodName: JoinRoomButton
+        m_MethodName: CreateRoomButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

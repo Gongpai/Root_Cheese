@@ -5,29 +5,42 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GDD
 {
     public class FindRoomUI : MonoBehaviour
     {
-        [SerializeField] private Button m_roomButton;
+        [SerializeField] private Button m_createRoomButton;
         [SerializeField] private TextMeshProUGUI _createRoomText;
         [SerializeField] private TextMeshProUGUI m_roomName;
         [SerializeField] private GameObject m_playerInfo;
         [SerializeField] private GameObject m_scrollViewContent;
         [SerializeField] private GameObject m_loadingUI;
+        [SerializeField] private int m_maxPlayer = 2;
+        [SerializeField] private UnityEvent m_OpenCreateRoomUIEvent;
 
         private PunNetworkManager PNM;
         private List<GameObject> _rooms = new List<GameObject>();
+        private List<RoomInfo> _roomList = new List<RoomInfo>();
+        private Tuple<RoomInfo, GameObject> currentRoomInfo;
         private string _roomName;
+
+        private void OnEnable()
+        {
+            PNM = PunNetworkManager.Instance;
+            PNM.OnRoomListUpdateAction += OnRoomListUpdate;
+            PNM.OnJoinLobbyAction += OnJoinLobby;
+            PNM.OnJoinConnectToMasterAction += OnJoinConnectedToMaster;
+            PNM.OnJoinRoomAction += OnJoinRoomCallBack;
+            PNM.OnJoinRoomFailedAction += OnJoinRoomFailedCallBack;
+            PNM.OnPlayerEnteredRoomAction += OnPlayerEnteredRoomCallBack;
+        }
 
         private void Start()
         {
-            PNM = PunNetworkManager.Instance;
-            PNM.OnRoomListUpdateAction = OnRoomListUpdate;
-            PNM.OnJoinLobbyAction = OnJoinLobby;
-            
             if(PhotonNetwork.InLobby)
                 m_loadingUI.SetActive(false);
         }
@@ -38,13 +51,15 @@ namespace GDD
                 _createRoomText.text = "Leave Room";
             else
                 _createRoomText.text = "Create Room";
+            
+            /*
+            if(currentRoomInfo != null)
+                print($"Room Info = {currentRoomInfo.PlayerCount}/{currentRoomInfo.MaxPlayers}");*/
         }
 
         private void OnJoinLobby()
         {
             m_loadingUI.SetActive(false);
-            
-            
         }
 
         private void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -58,58 +73,114 @@ namespace GDD
 
                 _rooms = new List<GameObject>();
             }
-            
-            foreach (var roomInfo in roomList)
+
+            _roomList = roomList;
+            for (int i = 0; i < roomList.Count; i++)
             {
+                RoomInfo roomInfo = roomList[i];
                 Canvas_Element_List f_object = Instantiate(m_playerInfo).GetComponent<Canvas_Element_List>();
                 f_object.transform.parent = m_scrollViewContent.transform;
                 f_object.transform.localScale = Vector3.one;
                 f_object.transform.localPosition = Vector3.zero;
-
-                if (roomInfo.Name == _roomName)
-                    f_object.texts[0].text = $"{roomInfo.Name} - You";
-                else
-                    f_object.texts[0].text = roomInfo.Name;
                 
                 RoomInfoSlot f_slot = f_object.GetComponent<RoomInfoSlot>();
+                if (roomInfo.Name == _roomName)
+                {
+                    f_object.texts[0].text = $"{roomInfo.Name} - You";
+                    f_slot.isRoomFull = true;
+                }
+                else
+                {
+                    f_object.texts[0].text = roomInfo.Name;
+                    f_slot.isRoomFull = false;
+                }
+
                 f_slot.roomInfo = roomInfo;
-                f_slot.buttonAction = OnJoinRoom;
+                f_slot.buttonAction = _name =>
+                {
+                    OnJoinRoom(_name);
+                };
                 _rooms.Add(f_object.gameObject);
             }
         }
 
+        private void OnJoinConnectedToMaster()
+        {
+            m_loadingUI.SetActive(false);
+        }
+        
+        private void OnJoinRoomCallBack()
+        {
+            m_loadingUI.SetActive(false);
+            OnRoomListUpdate(_roomList);
+        }
+
+        void OnPlayerEnteredRoomCallBack(Room _room)
+        {
+            
+        }
+        
         public void EnterRoomName(string name)
         {
             _roomName = name;
         }
 
-        public void JoinRoomButton()
+        public void OpenRoomUIAndLeaveRoom()
         {
             if (PhotonNetwork.InRoom)
             {
+                print($"Leave Room!");
                 PhotonNetwork.LeaveRoom();
                 m_roomName.text = "CreateRoom ->";
+                _roomName = "";
+                
+                OnRoomListUpdate(_roomList);
             }
             else
             {
-                PhotonNetwork.CreateRoom(_roomName);
-                OnJoinRoom(_roomName);
+                m_OpenCreateRoomUIEvent?.Invoke();
             }
         }
-        
-        public void OnJoinRoom(string name)
+
+        public void CreateRoomButton()
         {
-            m_roomName.text = name;
+            print($"Join Room!");
+            RoomOptions _roomOptions = new RoomOptions();
+            _roomOptions.MaxPlayers = m_maxPlayer;
+            PhotonNetwork.CreateRoom(_roomName, _roomOptions, TypedLobby.Default);
+            m_roomName.text = _roomName;
+            m_loadingUI.SetActive(true);
+            OnRoomListUpdate(_roomList);
+        }
+
+        private void OnJoinRoom(string name)
+        {
+            if (!PhotonNetwork.IsConnectedAndReady)
+                return;
+
+            m_loadingUI.SetActive(true);
             
-            if (PhotonNetwork.InRoom)
-            {
-                PhotonNetwork.LeaveRoom();
-                PhotonNetwork.JoinRoom(name);
-            }
-            else
-            {
-                PhotonNetwork.JoinRoom(name);
-            }
+            m_roomName.text = name;
+            _roomName = name;
+            
+            PhotonNetwork.JoinRoom(name);
+            OnRoomListUpdate(_roomList);
+        }
+
+        private void OnJoinRoomFailedCallBack(short returnCode, string message)
+        {
+            m_loadingUI.SetActive(false);
+        }
+
+        private void OnDisable()
+        {
+            PNM.OnRoomListUpdateAction -= OnRoomListUpdate;
+            PNM.OnJoinLobbyAction -= OnJoinLobby;
+            PNM.OnJoinConnectToMasterAction -= OnJoinConnectedToMaster;
+            PNM.OnJoinRoomAction -= OnJoinRoomCallBack;
+            PNM.OnJoinRoomFailedAction -= OnJoinRoomFailedCallBack;
+            PNM.OnPlayerEnteredRoomAction -= OnPlayerEnteredRoomCallBack;
+            m_loadingUI.SetActive(false);
         }
     }
 }

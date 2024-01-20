@@ -13,6 +13,7 @@ namespace GDD
         private RoomInfo _roomInfo;
         private Button _button;
         private UnityAction<string> _buttonAction;
+        private bool _isRoomFull;
 
         public UnityAction<string> buttonAction
         {
@@ -26,8 +27,15 @@ namespace GDD
             set => _roomInfo = value;
         }
 
+        public bool isRoomFull
+        {
+            get => _isRoomFull;
+            set => _isRoomFull = value;
+        }
+
         private void Start()
         {
+            _button = GetComponent<Button>();
             _button.onClick.AddListener(() =>
             {
                 _buttonAction.Invoke(_roomInfo.Name);
@@ -36,7 +44,7 @@ namespace GDD
 
         private void Update()
         {
-            if (!_roomInfo.IsOpen)
+            if (_isRoomFull)
                 m_status.color = new Color(1, 0.5f, 0, 1);
             else
                 m_status.color = Color.green;

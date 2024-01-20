@@ -62,7 +62,11 @@ namespace GDD.PUN
         public delegate void JoinLevelCallback();
         public static event JoinLevelCallback OnJoinLevel;
         private UnityAction _onJoinLobbyAction;
+        private UnityAction _onJoinConnectToMasterAction;
         private UnityAction<List<RoomInfo>> _onRoomListUpdate;
+        private UnityAction _onJoinRoomAction;
+        private UnityAction<short, string> _onJoinRoomFailedAction;
+        private UnityAction<Room> _onPlayerEnteredRoomAction;
 
         public UnityAction OnJoinLobbyAction
         {
@@ -70,10 +74,32 @@ namespace GDD.PUN
             set => _onJoinLobbyAction = value;
         }
 
+        public UnityAction OnJoinConnectToMasterAction
+        {
+            get => _onJoinConnectToMasterAction;
+            set => _onJoinConnectToMasterAction = value;
+        }
+
         public UnityAction<List<RoomInfo>> OnRoomListUpdateAction
         {
             get => _onRoomListUpdate;
             set => _onRoomListUpdate = value;
+        }
+        
+        public UnityAction OnJoinRoomAction
+        {
+            get => _onJoinRoomAction;
+            set => _onJoinRoomAction = value;
+        }
+        public UnityAction<Room> OnPlayerEnteredRoomAction
+        {
+            get => _onPlayerEnteredRoomAction;
+            set => _onPlayerEnteredRoomAction = value;
+        }
+        public UnityAction<short, string> OnJoinRoomFailedAction
+        {
+            get => _onJoinRoomFailedAction;
+            set => _onJoinRoomFailedAction = value;
         }
         
         //Singleton
@@ -192,12 +218,26 @@ namespace GDD.PUN
         {
             base.OnRoomListUpdate(roomList);
             _onRoomListUpdate?.Invoke(roomList);
+            
+            print($"Update Room List");
+        }
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            base.OnPlayerLeftRoom(otherPlayer);
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             base.OnPlayerEnteredRoom(newPlayer);
+            _onPlayerEnteredRoomAction?.Invoke(PhotonNetwork.CurrentRoom);
             Debug.Log("New Player. " + newPlayer.ToString());
+        }
+
+        public override void OnConnectedToMaster()
+        {
+            base.OnConnectedToMaster();
+            _onJoinConnectToMasterAction?.Invoke();
         }
 
         public override void OnJoinedLobby()
@@ -210,6 +250,10 @@ namespace GDD.PUN
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
+            
+            _onJoinRoomAction?.Invoke();
+            
+            /*
             if (PunUserNetControl.LocalPlayerInstance == null)
             {
                 Debug.Log("We are Instantiating LocalPlayer from " + SceneManagerHelper.ActiveSceneName);
@@ -218,7 +262,19 @@ namespace GDD.PUN
             else
             {
                 Debug.Log("Ignoring scene load for " + SceneManagerHelper.ActiveSceneName);
-            }
+            }*/
+        }
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            base.OnJoinRoomFailed(returnCode, message);
+            _onJoinRoomFailedAction?.Invoke(returnCode, message);
+            
+        }
+
+        public override void OnLeftRoom()
+        {
+            base.OnLeftRoom();
         }
 
         public void SpawnPlayer()
@@ -281,7 +337,7 @@ namespace GDD.PUN
             if(_currentGameState == PunGameState.GameOver)
                 OnGameOver();
         }
-
+        
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged) {
             base.OnRoomPropertiesUpdate(propertiesThatChanged);
             gameStateUpdate(propertiesThatChanged);
