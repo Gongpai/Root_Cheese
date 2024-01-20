@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1659570200318343430
+--- !u!1 &2316184244125851360
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,61 +8,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5689099466844601774}
-  - component: {fileID: 423250219549192737}
+  - component: {fileID: 2316184244125851362}
+  - component: {fileID: 2316184244125851365}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: DataBaseConnect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5689099466844601774
+--- !u!4 &2316184244125851362
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659570200318343430}
+  m_GameObject: {fileID: 2316184244125851360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.447102, y: -22.381027, z: 19.338009}
+  m_LocalPosition: {x: -7.688965, y: -1.5221312, z: -8.882963}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &423250219549192737
+--- !u!114 &2316184244125851365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659570200318343430}
+  m_GameObject: {fileID: 2316184244125851360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 185568953d2da6a45bdcef8fd149faaa, type: 3}
+  m_Script: {fileID: 11500000, guid: 565c3babe9514613bfb23f1feca13638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _GI:
-    HP: 100
-    maxHP: 100
-    shield: 100
-    EXP: 0
-    maxEXP: 100
-    updateEXP: 0
-    level: 0
-    sceneLevel: 0
-    chapter: 0
-    mainSkill: -1
-    mainAttachmentSkill: -1
-    secondaryAttachmentSkill: -1
-  m_players:
-    _serializedList: []
-  m_player_layer: {fileID: 0}
-  m_enemies: []
-  m_enemy_layer: {fileID: 0}
-  m_mapWidth: 20
-  m_cellSize: 10
-  m_playerMasterClient: {fileID: 0}
-  m_playMode: 1
+  m_supaBaseURL: https://cevgbpclgngixiswbzsx.supabase.co
+  m_supaBaseKey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNldmdicGNsZ25naXhpc3dienN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI4MTUwMzksImV4cCI6MjAxODM5MTAzOX0.hmyg57-RqIKgYzv5Xrk7p9fMslXz4xlU1Pzn8vJUo6I

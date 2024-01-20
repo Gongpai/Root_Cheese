@@ -21,6 +21,10 @@ namespace GDD
         public int updateEXP;
         public int level;
         
+        //Game Level
+        public int sceneLevel;
+        public int chapter;
+        
         //Skill
         public int mainSkill = -1;
         public int mainAttachmentSkill = -1;

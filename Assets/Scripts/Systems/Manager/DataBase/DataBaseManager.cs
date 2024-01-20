@@ -88,7 +88,7 @@ namespace GDD.DataBase
         }
 
         //SignUp
-        public async Task SingUp(string email, string password, JObject jObject)
+        public async Task SingUp(string email, string password, JObject[] jObjects)
         {
             if (_client != null)
                 await _client.InitializeAsync();
@@ -137,10 +137,10 @@ namespace GDD.DataBase
 
                 //Insert Data
                 InsertRowData rowData = new InsertRowData();
-                rowData.created_at = DateTime.Now;
+                rowData.created_at = DateTime.Now.ToUniversalTime();
                 rowData.user_id = _session.User.Id;
-                rowData.playerInfo = jObject;
-                rowData.gameSave = "{}";
+                rowData.playerInfo = jObjects[0];
+                rowData.gameSave = jObjects[1];
                 await _client.From<InsertRowData>().Insert(rowData);
                 
                 //Get Data From DataBase

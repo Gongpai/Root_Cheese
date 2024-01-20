@@ -2,6 +2,7 @@
 using GDD.DataBase;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ namespace GDD
 {
     public class SignUpFormUI : FormUI
     {
+        [Header("SignUp Setting")] 
         [SerializeField] private TMP_InputField m_e_mail;
         [SerializeField] private TMP_InputField m_password;
         [SerializeField] private TMP_InputField m_name;
@@ -16,6 +18,9 @@ namespace GDD
         [SerializeField] private TMP_InputField m_birthday;
         [SerializeField] private Button m_login;
         [SerializeField] private Button m_register;
+        
+        [Header("SignIn Action")] 
+        [SerializeField] private UnityEvent OnUserSignUpSuccess;
         
         protected override void OnStopProcess()
         {
@@ -59,6 +64,7 @@ namespace GDD
                 print($"Connect State : {_dataBaseController.dataBase.state}");
                 if (_dataBaseController.dataBase.state == ConnectionState.Successfully)
                 {
+                    OnUserSignUpSuccess?.Invoke();
                     OnClose();
                     print("Login!");
                 }

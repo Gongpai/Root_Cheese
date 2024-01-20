@@ -1,17 +1,25 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GDD
 {
     public class SignInFormUI : FormUI
     {
+        [Header("Login Setting")]
         [SerializeField] protected TMP_InputField m_e_mail;
         [SerializeField] protected TMP_InputField m_password;
         [SerializeField] protected Button m_login;
         [SerializeField] protected Button m_register;
+        
+        [Header("User Info")]
         [SerializeField] protected GameObject m_userForm;
         [SerializeField] protected GameObject m_signUp;
+
+        [Header("Login Action")] 
+        [SerializeField] private UnityEvent OnUserSignIn;
+        [SerializeField] private UnityEvent OnUserSignUp;
 
         protected override void OnStopProcess()
         {
@@ -27,7 +35,7 @@ namespace GDD
         protected override void OnEndProcess()
         {
             base.OnEndProcess();
-            m_userForm.SetActive(true);
+            OnUserSignIn?.Invoke();
         }
 
         public override void OnErrorAction()
@@ -55,6 +63,7 @@ namespace GDD
         public override void OnSignUp()
         {
             m_errorText.text = "";
+            OnUserSignUp?.Invoke();
             m_signUp.SetActive(true);
         }
     }

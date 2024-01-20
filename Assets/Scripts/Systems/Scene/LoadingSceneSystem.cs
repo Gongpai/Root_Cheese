@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LoadingSceneSystem : MonoBehaviour
 {
     [SerializeField] private GameObject LoadingScreen;
-    [SerializeField] private UnityEvent _loading_event;
+    [SerializeField] private UnityEvent _startLoadingEvent;
     [SerializeField] private Image LoadingBarfill;
 
     private float progressValue;
@@ -63,15 +64,16 @@ public class LoadingSceneSystem : MonoBehaviour
         if(_action_loading != null)
             _action_loading.Invoke();
         
-        if(_loading_event != null)
-            _loading_event.Invoke();
-        
+        if(_startLoadingEvent != null)
+            _startLoadingEvent.Invoke();
+
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         StartCoroutine(LoadSceneAsync(Scene_ID));
     }
-
-    IEnumerator LoadSceneAsync(string SceneID)
+    
+    IEnumerator LoadSceneAsync(string SceneName)
     {
-        operation = SceneManager.LoadSceneAsync(SceneID);
+        operation = SceneManager.LoadSceneAsync(SceneName);
         operation.allowSceneActivation = false;
 
         print("PRRR : " + operation);

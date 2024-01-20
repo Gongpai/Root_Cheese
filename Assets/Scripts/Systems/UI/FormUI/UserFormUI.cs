@@ -27,6 +27,7 @@ namespace GDD
         private void Start()
         {
             GM = GameManager.Instance;
+            _dataBaseController = DataBaseController.Instance;
         }
 
         public async void OnUpdateSave()

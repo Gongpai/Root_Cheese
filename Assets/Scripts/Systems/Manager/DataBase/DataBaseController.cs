@@ -45,9 +45,13 @@ namespace GDD.DataBase
             _dataBaseManager.errorAction -= SignInOnErrorAction;
             _dataBaseManager.errorAction -= SignUpOnErrorAction;
             _dataBaseManager.errorAction += SignUpOnErrorAction;
-            
-            JObject jObject = JsonHelperScript.CreateJsonObject<PlayerInfo>(playerInfo);
-            await _dataBaseManager.SingUp(email, password, jObject);
+
+            JObject[] jObjects = new JObject[]
+            {
+                JsonHelperScript.CreateJsonObject<PlayerInfo>(playerInfo),
+                JsonHelperScript.CreateJsonObject<GameInstance>(GM.gameInstance)
+            };
+            await _dataBaseManager.SingUp(email, password, jObjects);
             await OnSync();
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
         }
