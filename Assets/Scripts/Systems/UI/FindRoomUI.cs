@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GDD.PUN;
 using Photon.Pun;
 using Photon.Realtime;
@@ -130,8 +131,10 @@ namespace GDD
             if (PhotonNetwork.InRoom)
             {
                 print($"Leave Room!");
+                PNM.OnPlayerListUpdateAction?.Invoke(new List<Player>());
+                
                 PhotonNetwork.LeaveRoom();
-                m_roomName.text = "CreateRoom ->";
+                m_roomName.text = "Room :";
                 _roomName = "";
                 
                 OnRoomListUpdate(_roomList);
@@ -148,7 +151,7 @@ namespace GDD
             RoomOptions _roomOptions = new RoomOptions();
             _roomOptions.MaxPlayers = m_maxPlayer;
             PhotonNetwork.CreateRoom(_roomName, _roomOptions, TypedLobby.Default);
-            m_roomName.text = _roomName;
+            m_roomName.text = $"Room : {_roomName}";
             m_loadingUI.SetActive(true);
             OnRoomListUpdate(_roomList);
         }
@@ -160,7 +163,7 @@ namespace GDD
 
             m_loadingUI.SetActive(true);
             
-            m_roomName.text = name;
+            m_roomName.text = $"Room : {name}";
             _roomName = name;
             
             PhotonNetwork.JoinRoom(name);

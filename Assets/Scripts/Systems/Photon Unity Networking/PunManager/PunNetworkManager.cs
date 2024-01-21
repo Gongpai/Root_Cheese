@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Cinemachine;
 using ExitGames.Client.Photon;
@@ -20,10 +21,8 @@ namespace GDD.PUN
         [Header("Player Spawn Settings")] [Tooltip("The prefab to use for representing the player")] 
         [SerializeField] private CinemachineVirtualCamera _vCam;
         [SerializeField] private InputActionAsset _inputActionAsset;
-        [SerializeField] private GameObject GamePlayerPrefab;
         
         [Header("AI Spawn Settings")]
-        [SerializeField] private GameObject GameAIPrefab;
         [SerializeField] private List<Transform> m_AISpawnTransform = new List<Transform>();
         private PunGameState _currentGameState = PunGameState.GameStart;
 
@@ -34,6 +33,7 @@ namespace GDD.PUN
         private Canvas_Element_List _canvasElementList;
         private bool _isLoadLevel;
         DataBaseController _dataBaseController;
+        private PunLevelManager PLM;
         
         public bool isLoadLevel
         {
@@ -61,12 +61,16 @@ namespace GDD.PUN
         public static event GameOverCallback OnGameOver;
         public delegate void JoinLevelCallback();
         public static event JoinLevelCallback OnJoinLevel;
+        public delegate void JoinLeftLevelCallback();
+        public static event JoinLeftLevelCallback OnLeftLevel;
         private UnityAction _onJoinLobbyAction;
         private UnityAction _onJoinConnectToMasterAction;
         private UnityAction<List<RoomInfo>> _onRoomListUpdate;
         private UnityAction _onJoinRoomAction;
         private UnityAction<short, string> _onJoinRoomFailedAction;
         private UnityAction<Room> _onPlayerEnteredRoomAction;
+        private UnityAction<List<FriendInfo>> _onFriendListUpdateAction;
+        private UnityAction<List<Player>> _onPlayerListUpdateAction;
 
         public UnityAction OnJoinLobbyAction
         {
@@ -100,6 +104,18 @@ namespace GDD.PUN
         {
             get => _onJoinRoomFailedAction;
             set => _onJoinRoomFailedAction = value;
+        }
+        
+        public UnityAction<List<FriendInfo>> OnFriendListUpdateAction
+        {
+            get => _onFriendListUpdateAction;
+            set => _onFriendListUpdateAction = value;
+        }
+            
+        public UnityAction<List<Player>> OnPlayerListUpdateAction
+        {
+            get => _onPlayerListUpdateAction;
+            set => _onPlayerListUpdateAction = value;
         }
         
         //Singleton
@@ -163,9 +179,6 @@ namespace GDD.PUN
             //Dont Destroy
             DontDestroyOnLoad(gameObject);
             
-            //Scene Level
-            SceneManager.sceneLoaded += OnLevelLoad;
-            
             //Add Reference Method to Delegate Method
             OnGameStart += GameStartSetting;
             OnGameOver += GameOverSetting;
@@ -175,7 +188,16 @@ namespace GDD.PUN
             UpdateInfo();
             //OnCreateCharacterUI();
         }
-        
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            
+            //Scene Level
+            SceneManager.sceneLoaded += OnLevelLoad;
+            SceneManager.sceneUnloaded += OnLevelUnLoad;
+        }
+
         private void Update()
         {
             if(_characterStatusUI != null)
@@ -221,23 +243,43 @@ namespace GDD.PUN
             
             print($"Update Room List");
         }
-
-        public override void OnPlayerLeftRoom(Player otherPlayer)
+        
+        public override void OnFriendListUpdate(List<FriendInfo> friendList)
         {
-            base.OnPlayerLeftRoom(otherPlayer);
+            base.OnFriendListUpdate(friendList);
+            _onFriendListUpdateAction?.Invoke(friendList);
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             base.OnPlayerEnteredRoom(newPlayer);
             _onPlayerEnteredRoomAction?.Invoke(PhotonNetwork.CurrentRoom);
+            _onPlayerListUpdateAction?.Invoke(PhotonNetwork.CurrentRoom.Players.Values.ToList());
             Debug.Log("New Player. " + newPlayer.ToString());
+        }
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            base.OnPlayerLeftRoom(otherPlayer);
+            _onPlayerListUpdateAction?.Invoke(PhotonNetwork.CurrentRoom.Players.Values.ToList());
         }
 
         public override void OnConnectedToMaster()
         {
             base.OnConnectedToMaster();
             _onJoinConnectToMasterAction?.Invoke();
+            print("OnConnectedToMaster !!!!!!!!!");
+            
+            if(!PLM.isReJoinLobbyOrRoom)
+                return;
+            
+            OnLeftLevel?.Invoke();
+            OnJoinLevel = () =>
+            {
+                PhotonNetwork.JoinRoom(PunGameSetting.roomName);
+
+                OnJoinLevel -= OnJoinLevel;
+            };
         }
 
         public override void OnJoinedLobby()
@@ -245,15 +287,16 @@ namespace GDD.PUN
             base.OnJoinedLobby();
             _onJoinLobbyAction?.Invoke();
             OnJoinLevel?.Invoke();
+            print("Join Lobby!!!!!!!!!");
         }
 
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
-            
+            print("Join Roommmm!!!!!!!!!");
             _onJoinRoomAction?.Invoke();
+            _onPlayerListUpdateAction?.Invoke(PhotonNetwork.CurrentRoom.Players.Values.ToList());
             
-            /*
             if (PunUserNetControl.LocalPlayerInstance == null)
             {
                 Debug.Log("We are Instantiating LocalPlayer from " + SceneManagerHelper.ActiveSceneName);
@@ -262,12 +305,13 @@ namespace GDD.PUN
             else
             {
                 Debug.Log("Ignoring scene load for " + SceneManagerHelper.ActiveSceneName);
-            }*/
+            }
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
             base.OnJoinRoomFailed(returnCode, message);
+            Debug.LogError(message);
             _onJoinRoomFailedAction?.Invoke(returnCode, message);
             
         }
@@ -275,14 +319,26 @@ namespace GDD.PUN
         public override void OnLeftRoom()
         {
             base.OnLeftRoom();
+            print("Left Room!!!!!!");
+        }
+
+        public override void OnLeftLobby()
+        {
+            base.OnLeftLobby();
+            print("Left Lobby!!!!!!!!!!!!!!");
         }
 
         public void SpawnPlayer()
         {
             // we're in a room. spawn a character for the local player.
             // it gets synced by using PhotonNetwork.Instantiate
-            PhotonNetwork.Instantiate(GamePlayerPrefab.name, new Vector3(5f, 5f, 2f), Quaternion.identity, 0);
-            PhotonNetwork.InstantiateRoomObject(GameAIPrefab.name, new Vector3(7f, 0.1f, 5f), Quaternion.identity, 0);
+            
+            PLM = PunLevelManager.Instance;
+            _vCam = PLM.vCam;
+            if(PLM.GamePlayerPrefab != null)
+                PhotonNetwork.Instantiate(PLM.GamePlayerPrefab.name, new Vector3(5f, 5f, 2f), Quaternion.identity, 0);
+            if(PLM.GameAIPrefab != null)
+                PhotonNetwork.InstantiateRoomObject(PLM.GameAIPrefab.name, new Vector3(7f, 0.1f, 5f), Quaternion.identity, 0);
         }
 
         private void OnCreateCharacterUI()
@@ -294,7 +350,10 @@ namespace GDD.PUN
 
         private void OnLevelLoad(Scene scene, LoadSceneMode loadSceneMode)
         {
-            PunLevelManager PLM = PunLevelManager.Instance;
+            PLM = PunLevelManager.Instance;
+            if(!PLM.isReJoinLobbyOrRoom)
+                return;
+            
             PLM.sceneLoaded = () =>
             {
                 if(_characterStatusUI == null)
@@ -306,24 +365,35 @@ namespace GDD.PUN
                     GameManager.Instance.players = new SerializedDictionary<PlayerSystem, bool>();
                     _currentGameState = PunGameState.GameOver;
                     PunNetworkManager.Instance.SpawnPlayer();
-                }else if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
+                }
+                else
                 {
-                    PhotonNetwork.LeaveRoom();
-
+                    print($"2 Room in pun = {PunGameSetting.roomName}");
                     if (PunGameSetting.roomName != "")
                     {
-                        OnJoinLevel = () =>
+                        print($"Joinnnnnnnnnnnn!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        PhotonNetwork.JoinLobby();
+                        OnLeftLevel = () =>
                         {
-                            PhotonNetwork.JoinRoom(PunGameSetting.roomName);
+                            PhotonNetwork.JoinLobby();
 
-                            OnJoinLevel -= OnJoinLevel;
+                            OnLeftLevel -= OnLeftLevel;
                         };
+
                     }
 
                     GameManager.Instance.players = new SerializedDictionary<PlayerSystem, bool>();
                     PunNetworkManager.Instance.SpawnPlayer();
                 }
             };
+        }
+
+        public void OnLevelUnLoad(Scene scene)
+        {
+            if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LeaveRoom();
+            }
         }
         
         public void gameStateUpdate(Hashtable propertiesThatChanged) {
@@ -346,6 +416,10 @@ namespace GDD.PUN
         public override void OnDisable()
         {
             base.OnDisable();
+            
+            //Scene Level
+            SceneManager.sceneLoaded -= OnLevelLoad;
+            SceneManager.sceneUnloaded -= OnLevelUnLoad;
         }
     }
 }

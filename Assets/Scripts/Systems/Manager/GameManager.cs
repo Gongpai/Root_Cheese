@@ -154,7 +154,7 @@ namespace GDD
             
         }
         
-        public void OnReady()
+        public void OnReady(bool isLobby = false)
         {
             bool readyPlayer = false;
             
@@ -169,7 +169,7 @@ namespace GDD
                 readyPlayer = player.Key;
             }
 
-            if (readyPlayer && enemies.Count <= 0)
+            if (readyPlayer && (enemies.Count <= 0 || isLobby))
             {
                 readyTimer.Start();
             }

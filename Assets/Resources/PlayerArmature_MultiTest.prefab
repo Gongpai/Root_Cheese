@@ -954,6 +954,7 @@ MonoBehaviour:
   _readyCheck: {fileID: 291524276705014652}
   m_delay_attack: 0.25
   vision: {x: 10, y: 10}
+  isLobbyMode: 0
 --- !u!4 &705807638788262956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544,

@@ -18,11 +18,11 @@ namespace GDD.PUN
         [SerializeField] private GameObject m_statusUI;
         
         public static GameObject LocalPlayerInstance;
-        private GameManager GM;
+        protected GameManager GM;
         private PlayerCameraFollow _followCam;
         private GameObject _statusUI;
         
-        public void OnPhotonInstantiate(PhotonMessageInfo info)
+        public virtual void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             //Game Manager
             GM = GameManager.Instance;

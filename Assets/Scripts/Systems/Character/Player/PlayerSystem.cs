@@ -24,6 +24,9 @@ namespace GDD
 
         [SerializeField] [Tooltip("Player vision to find enemy")]
         private Vector2 vision;
+
+        [Header("Player In Lobby Mode")] 
+        [SerializeField] protected bool isLobbyMode = false;
         
         private CharacterControllerSystem _controllerSystem;
         private IState<PlayerSystem> _attackState, _moveState;
@@ -61,8 +64,14 @@ namespace GDD
         // Start is called before the first frame update
         public override void Start()
         {
+            //Add Player to GameManager
+            GM.players.Add(this, false);
+            
+            if(isLobbyMode)
+                return;
+            
             base.Start();
-
+            
             if (isMasterClient)
             {
                 _controllerSystem = GetComponent<CharacterControllerSystem>();
@@ -87,9 +96,6 @@ namespace GDD
             _randomSkill = GetComponent<RandomSkill>();
             _randomSkill.weaponSystem = _weaponSystem;
             _randomSkill.OnInitialize();
-            
-            //Add Player to GameManager
-            GM.players.Add(this, false);
 
             /*
             GameObject r_skill_ui = Instantiate(m_skillRandomUI);
@@ -102,6 +108,9 @@ namespace GDD
         // Update is called once per frame
         public override void Update()
         {
+            if(isLobbyMode)
+                return;
+            
             base.Update();
             
             if(!_isMasterClient)
@@ -122,15 +131,17 @@ namespace GDD
                 StartAttack();
         }
 
-        private void ReadyButton()
+        public void ReadyButton()
         {
-            if(GM.enemies.Count > 0)
+            if(GM.enemies.Count > 0 && !isLobbyMode)
                 return;
             
-            if (_isEnterRoom)
+            if (_isEnterRoom || isLobbyMode)
             {
                 GM.players[this] = !GM.players[this];
-                _readyCheck.ready = GM.players[this];
+                
+                if(!isLobbyMode)
+                    _readyCheck.ready = GM.players[this];
                 
                 GM.OnReady();
                 PunRoomManager.Instance.CreateUpdateReadyNextLevelPlayer();
@@ -139,12 +150,19 @@ namespace GDD
 
         public void UpdateReadyCheckUI()
         {
-            _readyCheck.ready = GM.players[this];
             GM.OnReady();
+            
+            if(isLobbyMode)
+                return;
+            
+            _readyCheck.ready = GM.players[this];
         }
 
         private void SetSpinWheelAction()
         {
+            if(isLobbyMode)
+                return;
+            
             //Reward
             for (int i = 0; i < 5; i++)
             {
@@ -267,6 +285,9 @@ namespace GDD
         
         public override float GetMaxShield()
         {
+            if(isLobbyMode)
+                return base.GetMaxShield();
+            
             if(_weaponSystem.mainAttachment.Item1 != null && _weaponSystem.mainAttachment.Item1.shield != 0)
                 return _weaponSystem.attachmentStats.shield * 100 + _weaponSystem.mainAttachment.Item1.shield;
             if(_weaponSystem.secondaryAttachment.Item1 != null && _weaponSystem.secondaryAttachment.Item1.shield != 0)
@@ -280,6 +301,9 @@ namespace GDD
 
         public override float GetMaxHP()
         {
+            if(isLobbyMode)
+                return GM.gameInstance.maxHP;
+            
             if (punCharacterHealth.photonView.IsMine)
                 return GM.gameInstance.maxHP;
             else
@@ -288,6 +312,9 @@ namespace GDD
         
         public override void SetMaxHP(float maxHP)
         {
+            if(isLobbyMode)
+                GM.gameInstance.maxHP = maxHP;
+            
             if (punCharacterHealth.photonView.IsMine)
                 GM.gameInstance.maxHP = maxHP;
             else
@@ -296,6 +323,9 @@ namespace GDD
 
         public override float GetHP()
         {
+            if(isLobbyMode)
+                return GM.gameInstance.HP;
+            
             if (punCharacterHealth.photonView.IsMine)
                 return GM.gameInstance.HP;
             else
@@ -304,6 +334,9 @@ namespace GDD
 
         public override void SetHP(float hp)
         {
+            if(isLobbyMode)
+                GM.gameInstance.HP = hp;
+            
             if (punCharacterHealth.photonView.IsMine)
             {
                 if (hp >= GetMaxHP())
@@ -317,6 +350,9 @@ namespace GDD
 
         public override float GetShield()
         {
+            if(isLobbyMode)
+                return GM.gameInstance.shield;
+            
             if(_weaponSystem != null)
                 if (_weaponSystem.mainAttachment.Item1 != null || _weaponSystem.secondaryAttachment.Item1 != null)
                     if(_weaponSystem.mainAttachment.Item1.shield > 0 || _weaponSystem.secondaryAttachment.Item1.shield > 0)
@@ -337,6 +373,9 @@ namespace GDD
 
         public override void SetShield(float shield)
         {
+            if(isLobbyMode)
+                GM.gameInstance.shield = shield;
+            
             if (punCharacterHealth.photonView.IsMine)
             {
                 if (shield >= GetMaxShield())
@@ -352,6 +391,9 @@ namespace GDD
 
         public override void SetMaxEXP(int maxEXP)
         {
+            if(isLobbyMode)
+                GM.gameInstance.maxEXP = maxEXP;
+            
             if (punCharacterHealth.photonView.IsMine) 
                 GM.gameInstance.maxEXP = maxEXP;
             else
@@ -360,6 +402,9 @@ namespace GDD
 
         public override int GetMaxEXP()
         {
+            if(isLobbyMode)
+                return GM.gameInstance.maxEXP;
+            
             if (punCharacterHealth.photonView.IsMine) 
                 return GM.gameInstance.maxEXP;
             else
@@ -368,6 +413,9 @@ namespace GDD
 
         public override void SetUpdateEXP(int EXP)
         {
+            if(isLobbyMode)
+                GM.gameInstance.updateEXP = EXP;
+            
             if (punCharacterHealth.photonView.IsMine)
             {
                 GM.gameInstance.updateEXP = EXP;
@@ -378,6 +426,9 @@ namespace GDD
 
         public override void SetEXP(int EXP)
         {
+            if(isLobbyMode)
+                GM.gameInstance.EXP = EXP;
+            
             if (punCharacterHealth.photonView.IsMine) 
                 GM.gameInstance.EXP = EXP;
             else
@@ -386,6 +437,9 @@ namespace GDD
 
         public override int GetEXP()
         {
+            if(isLobbyMode)
+                return GM.gameInstance.EXP;
+            
             if (punCharacterHealth.photonView.IsMine) 
                 return GM.gameInstance.EXP;
             else
@@ -394,6 +448,9 @@ namespace GDD
 
         public override int GetUpdateEXP()
         {
+            if(isLobbyMode)
+                return GM.gameInstance.updateEXP;
+            
             if (punCharacterHealth.photonView.IsMine) 
                 return GM.gameInstance.updateEXP;
             else
@@ -402,6 +459,9 @@ namespace GDD
 
         public override int GetLevel()
         {
+            if(isLobbyMode)
+                return GM.gameInstance.level;
+            
             if (punCharacterHealth.photonView.IsMine) 
                 return GM.gameInstance.level;
             else
@@ -410,6 +470,9 @@ namespace GDD
 
         public override void SetLevel(int level)
         {
+            if(isLobbyMode)
+                GM.gameInstance.level = level;
+            
             if (punCharacterHealth.photonView.IsMine) 
                 GM.gameInstance.level = level;
             else
