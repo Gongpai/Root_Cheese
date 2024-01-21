@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.11768, g: 324.74365, b: 429.81006, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -971,6 +971,11 @@ PrefabInstance:
       propertyPath: _vCam
       value: 
       objectReference: {fileID: 2065554178}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_openLevel
+      value: TemplateRandomSkill_Level
+      objectReference: {fileID: 0}
     - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
         type: 3}
       propertyPath: m_enemyLevel

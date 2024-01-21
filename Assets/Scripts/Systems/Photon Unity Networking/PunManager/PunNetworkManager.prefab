@@ -48,10 +48,6 @@ MonoBehaviour:
   _vCam: {fileID: 0}
   _inputActionAsset: {fileID: -944628639613478452, guid: 8cd9df4f1c4ad3f43950522d95aea448,
     type: 3}
-  GamePlayerPrefab: {fileID: 180241714106799766, guid: 642f8036421daf7459574ed7d7f0b1b5,
-    type: 3}
-  GameAIPrefab: {fileID: 628791750963113795, guid: c2dc80243855f344cb4991855d65dcc7,
-    type: 3}
   m_AISpawnTransform: []
   m_characterStatusUI: {fileID: 2546062400728472275, guid: 8eabd7f9f4607c149ab25db722e2227a,
     type: 3}
@@ -67,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d080d91396484f0d9111406607883152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_randomPositionTargetCount: 10
+  m_randomPositionTargetCount: 20
   m_impactPointArea:
     min: 0.25
-    max: 5
+    max: 2.5

@@ -7,6 +7,7 @@ using GDD.JsonHelper;
 using GDD.PUN;
 using GDD.Sinagleton;
 using GDD.Timer;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Grid = GDD.Spatial_Partition.Grid;
@@ -138,13 +139,17 @@ namespace GDD
             readyTimer = new AwaitTimer(5.0f, () =>
             {
                 print("Next Level");
+                if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.LeaveRoom();
+                }
                 SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-                SceneManager.LoadSceneAsync("TemplateRandomSkill_Level");
+                SceneManager.LoadSceneAsync(PunLevelManager.Instance.openLevel);
                 PunNetworkManager.Instance.isLoadLevel = true;
                 print($"GameInstance : {JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)}");
             }, time =>
             {
-                print($"Time is = {time}");
+                //print($"Time is = {time}");
             });
         }
 

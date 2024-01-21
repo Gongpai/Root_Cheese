@@ -3329,7 +3329,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1173151463
 Mesh:
@@ -7225,7 +7225,7 @@ PrefabInstance:
     - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
         type: 3}
@@ -7282,6 +7282,11 @@ PrefabInstance:
       propertyPath: _vCam
       value: 
       objectReference: {fileID: 2065554178}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_openLevel
+      value: TemplateRandomSkill_Level
+      objectReference: {fileID: 0}
     - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
         type: 3}
       propertyPath: m_enemyLevel
@@ -7383,90 +7388,6 @@ PrefabInstance:
       objectReference: {fileID: 149052375}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cfe2bdbc2f23234ca7820ac1a3dc9e4, type: 3}
---- !u!1001 &3566725101244859078
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2754148097277268331, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_impactPointArea.max
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2754148097277268331, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_randomPositionTargetCount
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905360, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905362, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: m_Name
-      value: PunNetworkManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 3566725102270905363, guid: eb40bb094f636f1409fff4e42a9a2dfd,
-        type: 3}
-      propertyPath: _vCam
-      value: 
-      objectReference: {fileID: 2065554178}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: eb40bb094f636f1409fff4e42a9a2dfd, type: 3}
 --- !u!1001 &7367081144185002352
 PrefabInstance:
   m_ObjectHideFlags: 0

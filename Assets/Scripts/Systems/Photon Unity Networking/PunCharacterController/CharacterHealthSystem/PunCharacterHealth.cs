@@ -92,7 +92,7 @@ namespace GDD.PUN
         public virtual void HealingPoint(float amount)
         {
             if (photonView != null) 
-                photonView.RPC("PunRPCSetHealth", photonView.Owner, amount, photonView.ViewID);
+                photonView.RPC("PunRPCSetHealth", RpcTarget.All, amount, photonView.ViewID);
             else 
                 print("photonView is NULL.");
         }
@@ -100,7 +100,7 @@ namespace GDD.PUN
         public virtual void ShieldPoint(float amount)
         {
             if (photonView != null) 
-                photonView.RPC("PunRPCSetShield", photonView.Owner, amount, photonView.ViewID);
+                photonView.RPC("PunRPCSetShield", RpcTarget.All, amount, photonView.ViewID);
             else 
                 print("photonView is NULL.");
         }

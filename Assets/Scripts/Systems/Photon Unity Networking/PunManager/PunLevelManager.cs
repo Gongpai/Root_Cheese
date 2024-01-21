@@ -14,6 +14,7 @@ namespace GDD.PUN
         [SerializeField] private GameObject m_GameAIPrefab;
         [SerializeField] private Transform m_playerLevel;
         [SerializeField] private Transform m_enemyLevel;
+        [SerializeField] private string m_openLevel;
         [SerializeField] private CinemachineVirtualCamera _vCam;
         [SerializeField] private bool _isReJoinLobbyOrRoom = true;
         private GameManager GM;
@@ -27,6 +28,11 @@ namespace GDD.PUN
         public GameObject GameAIPrefab
         {
             get => m_GameAIPrefab;
+        }
+
+        public string openLevel
+        {
+            get => m_openLevel;
         }
         
         public Transform playerLevel
@@ -76,7 +82,7 @@ namespace GDD.PUN
             if(PhotonNetwork.IsMasterClient)
                 PunNetworkManager.Instance.currentGameState = PunGameState.GamePlay;
         }
-
+/*
         private void OnGUI()
         {
             if(GUI.Button(new Rect(20,20,250,50), "Joint Lobby"))
@@ -84,7 +90,7 @@ namespace GDD.PUN
             
             if(GUI.Button(new Rect(20,80,250,50), "Joint Lobby"))
                 PhotonNetwork.JoinRoom(PunGameSetting.roomName);
-        }
+        }*/
 
         private void OnDisable()
         {

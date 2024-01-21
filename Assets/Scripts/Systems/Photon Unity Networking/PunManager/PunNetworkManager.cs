@@ -390,10 +390,7 @@ namespace GDD.PUN
 
         public void OnLevelUnLoad(Scene scene)
         {
-            if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LeaveRoom();
-            }
+            
         }
         
         public void gameStateUpdate(Hashtable propertiesThatChanged) {
