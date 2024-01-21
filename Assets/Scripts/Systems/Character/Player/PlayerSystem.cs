@@ -419,6 +419,7 @@ namespace GDD
             if (punCharacterHealth.photonView.IsMine)
             {
                 GM.gameInstance.updateEXP = EXP;
+                _currentUpdateEXP = EXP;
             }
             else
                 base.SetUpdateEXP(EXP);
@@ -481,6 +482,9 @@ namespace GDD
 
         protected override void OnGUI()
         {
+            if(isLobbyMode)
+                return;
+            
             base.OnGUI();
             
             if(GUI.Button(new Rect(20,20,150, 50), "Add EXP"))

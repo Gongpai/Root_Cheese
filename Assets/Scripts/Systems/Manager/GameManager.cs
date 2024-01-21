@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AYellowpaper.SerializedCollections;
+using GDD.DataBase;
 using GDD.JsonHelper;
 using GDD.PUN;
 using GDD.Sinagleton;
@@ -51,6 +52,7 @@ namespace GDD
         private GameObject _bullet_pool;
         private Grid _grid;
         private AwaitTimer readyTimer;
+        private DataBaseController DBC;
 
         public GameInstance gameInstance
         {
@@ -126,6 +128,7 @@ namespace GDD
         public override void OnAwake()
         {
             base.OnAwake();
+            DBC = DataBaseController.Instance;
         }
 
         private void OnEnable()
@@ -138,15 +141,10 @@ namespace GDD
         {
             readyTimer = new AwaitTimer(5.0f, () =>
             {
-                print("Next Level");
-                if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
-                {
-                    PhotonNetwork.LeaveRoom();
-                }
-                SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-                SceneManager.LoadSceneAsync(PunLevelManager.Instance.openLevel);
-                PunNetworkManager.Instance.isLoadLevel = true;
-                print($"GameInstance : {JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)}");
+                print("Update SaveGame To Server");
+                //Update Save
+                DBC.OnUpdate(playerInfo, gameInstance);
+                DBC.OnUpdateSucceed += UpdateSaveGameServer;
             }, time =>
             {
                 //print($"Time is = {time}");
@@ -183,6 +181,31 @@ namespace GDD
                 print("Wait Other Player");
                 readyTimer.Stop();
             }
+        }
+
+        private void UpdateSaveGameServer()
+        {
+            print("Sync Save Game");
+            DBC.OnSync();
+            DBC.OnSyncSucceed += PunLoadLevel;
+            DBC.OnUpdateSucceed -= UpdateSaveGameServer;
+        }
+        
+        private void PunLoadLevel()
+        {
+            //Pun System
+            print("Next Level");
+            
+            if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LeaveRoom();
+            }
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+            SceneManager.LoadSceneAsync(PunLevelManager.Instance.openLevel);
+            PunNetworkManager.Instance.isLoadLevel = true;
+            print($"GameInstance : {JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)}");
+            
+            DBC.OnSyncSucceed -= PunLoadLevel;
         }
         
         void OnDrawGizmosSelected()

@@ -76,6 +76,7 @@ namespace GDD.PUN
             _statusUI = Instantiate(m_statusUI, PNM.characterStatusUI.GetComponent<Canvas_Element_List>().canvas_gameObjects[0].transform);
             _statusUI.transform.localPosition = Vector3.zero;
             _statusUI.GetComponent<CharacterStatusUI>().characterSystem = characterSystem;
+            _statusUI.GetComponent<Canvas_Element_List>().texts[0].text = photonView.Owner.NickName;
         }
 
         public void OnDestroy()

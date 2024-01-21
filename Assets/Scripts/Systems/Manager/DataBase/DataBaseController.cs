@@ -6,6 +6,7 @@ using GDD.JsonHelper;
 using GDD.Sinagleton;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GDD.DataBase
 {
@@ -21,6 +22,11 @@ namespace GDD.DataBase
         private GameManager GM;
         private DataBaseManager _dataBaseManager = new DataBaseManager();
         private IConnectionError _connectionError;
+        private UnityAction _onSignUpSucceed;
+        private UnityAction _onSignInSucceed;
+        private UnityAction _onSignOutSucceed;
+        private UnityAction _onUpdateSucceed;
+        private UnityAction _onSyncSucceed;
 
         public DataBaseManager dataBase
         {
@@ -31,6 +37,34 @@ namespace GDD.DataBase
         {
             get => _connectionError;
             set => _connectionError = value;
+        }
+
+        public UnityAction OnSignUpSucceed
+        {
+            get => _onSignUpSucceed;
+            set => _onSignUpSucceed = value;
+        }
+
+        public UnityAction OnSignInSucceed
+        {
+            get => _onSignInSucceed;
+            set => _onSignInSucceed = value;
+        }
+        
+        public UnityAction OnSignOutSucceed
+        {
+            get => _onSignOutSucceed;
+            set => _onSignOutSucceed = value;
+        }
+        public UnityAction OnUpdateSucceed
+        {
+            get =>  _onUpdateSucceed;
+            set => _onUpdateSucceed = value;
+        }
+        public UnityAction OnSyncSucceed
+        {
+            get =>  _onSyncSucceed;
+            set => _onSyncSucceed = value;
         }
         
         private void Start()
@@ -52,6 +86,7 @@ namespace GDD.DataBase
                 JsonHelperScript.CreateJsonObject<GameInstance>(GM.gameInstance)
             };
             await _dataBaseManager.SingUp(email, password, jObjects);
+            _onSignUpSucceed?.Invoke();
             await OnSync();
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
         }
@@ -68,6 +103,7 @@ namespace GDD.DataBase
             _dataBaseManager.errorAction -= SignInOnErrorAction;
             _dataBaseManager.errorAction += SignInOnErrorAction;
             await _dataBaseManager.SignIn(email, password);
+            _onSignInSucceed?.Invoke();
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
         }
         
@@ -80,6 +116,7 @@ namespace GDD.DataBase
         public async Task SignOut()
         {
             await _dataBaseManager.SignOut();
+            _onSignOutSucceed?.Invoke();
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
         }
 
@@ -91,13 +128,17 @@ namespace GDD.DataBase
                 JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)
             };
             await _dataBaseManager.Update(data);
+            _onUpdateSucceed?.Invoke();
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
             GM.gameInstance = _dataBaseManager.GetData<GameInstance>(_dataBaseManager.data.gameSave);
         }
 
         public async Task OnSync()
         {
+            print("Begin Sync...");
             await _dataBaseManager.SyncClientData();
+            print("Sync End...");
+            _onSyncSucceed?.Invoke();
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
             GM.gameInstance = _dataBaseManager.GetData<GameInstance>(_dataBaseManager.data.gameSave);
         }

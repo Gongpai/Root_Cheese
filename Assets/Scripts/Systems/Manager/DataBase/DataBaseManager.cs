@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using GDD.JsonHelper;
 using Newtonsoft.Json;
@@ -137,7 +138,7 @@ namespace GDD.DataBase
 
                 //Insert Data
                 InsertRowData rowData = new InsertRowData();
-                rowData.created_at = DateTime.Now.ToUniversalTime();
+                rowData.created_at = DateTime.Now;
                 rowData.user_id = _session.User.Id;
                 rowData.playerInfo = jObjects[0];
                 rowData.gameSave = jObjects[1];
@@ -221,6 +222,9 @@ namespace GDD.DataBase
             //Set model
             update_model.playerInfo = jObject[0];
             update_model.gameSave = jObject[1];
+            ThaiBuddhistCalendar thaiBuddhistCalendar = new ThaiBuddhistCalendar();
+            DateTime currentDateTime = data.created_at;
+            update_model.created_at = thaiBuddhistCalendar.ToDateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, currentDateTime.Hour, currentDateTime.Minute, currentDateTime.Second, currentDateTime.Millisecond);
             
             await update_model.Update<UpdateRowData>();
             

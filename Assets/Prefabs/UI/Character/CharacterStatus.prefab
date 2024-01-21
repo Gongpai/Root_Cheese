@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 5825938031019873914}
   - component: {fileID: 473040647216832039}
   - component: {fileID: 4046300898804406663}
+  - component: {fileID: 8910124535595774818}
   m_Layer: 5
   m_Name: CharacterStatus
   m_TagString: Untagged
@@ -176,7 +177,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 450, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5825938031019873912
 CanvasRenderer:
@@ -265,6 +266,27 @@ MonoBehaviour:
   m_HPProgress: {fileID: 7236731501791783930}
   m_textEXPLevel: {fileID: 5825938032015083461}
   m_EXPProgress: {fileID: 859298254391012612}
+--- !u!114 &8910124535595774818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5825938031019873916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1285f219438a0144693b448998b6fe35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_buttons: []
+  m_texts:
+  - {fileID: 5825938030638492104}
+  m_tmp_inputfields: []
+  m_sliders: []
+  m_images: []
+  m_animators: []
+  m_audioSources: []
+  m_canvas_gameObjects: []
 --- !u!1 &5825938031353813387
 GameObject:
   m_ObjectHideFlags: 0
