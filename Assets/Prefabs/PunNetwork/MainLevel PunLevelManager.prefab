@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &982449374054153
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.8305235
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.3749828
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15.67464
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562821, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: _vCam
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_openLevel
+      value: TemplateRandomSkill_Level
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_enemyLevel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_playerLevel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[0].Key
+      value: 
+      objectReference: {fileID: 628791750963113795, guid: 9f0a2e2523935e84f93df6b76558805e,
+        type: 3}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[1].Key
+      value: 
+      objectReference: {fileID: 628791750963113795, guid: f683f5746a67f3f4cbca076db4795701,
+        type: 3}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[2].Key
+      value: 
+      objectReference: {fileID: 628791750963113795, guid: 3878c7c3106e6204781c5698067e3c49,
+        type: 3}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[0].Value.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[1].Value.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[2].Value.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[0].Value.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[0].Value.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[0].Value.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[1].Value.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[2].Value.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562823, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_Name
+      value: PunLevelManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 18459ef613073b74881e10a73369226e, type: 3}

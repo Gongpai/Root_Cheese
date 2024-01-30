@@ -19,6 +19,7 @@ namespace GDD.PUN
             _bulletFireManeuver = GetComponent<BulletFireManeuver>();
             _enemySystem = GetComponent<EnemySystem>();
             _enemySpawnBullet = _bulletFireManeuver.enemySpawnBullet;
+            _punEventCode = 20;
         }
 
         protected override void OnEnable()
@@ -82,7 +83,7 @@ namespace GDD.PUN
 
         public void CallRaiseToggleFireEvent(BulletType type, int[] posIndex = default)
         {
-            //print("Fire To Online");
+            print("Fire To Online");
             
             object[] content;
 
@@ -106,12 +107,13 @@ namespace GDD.PUN
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions()
             {
-                Receivers = ReceiverGroup.All
+                Receivers = ReceiverGroup.Others
             };
             SendOptions sendOptions = new SendOptions()
             {
                 Reliability = true,
-                Encrypt = true
+                Encrypt = true,
+                DeliveryMode = DeliveryMode.Reliable
             };
 
             PhotonNetwork.RaiseEvent(_punEventCode, content, raiseEventOptions, sendOptions);
@@ -127,7 +129,7 @@ namespace GDD.PUN
             {
                 object[] datas = (object[])photonEvent.CustomData;
                 
-                //print("This View ID : " + photonView.ViewID + " :: Receive ID : " + (int)data[1]);
+                //print("This View ID : " + photonView.ViewID + " :: Receive ID : " + (int)datas[0]);
                 if ((int)datas[0] == photonView.ViewID)
                 {
                     if((BulletType)datas[1] != BulletType.Projectile)
@@ -135,6 +137,10 @@ namespace GDD.PUN
                     else
                         _bulletFireManeuver.ToggleFire(_enemySpawnBullet, (int[])datas[2]);
                 }
+            }
+            else
+            {
+                //print($"Event Code [{eventCode} == {_punEventCode}] | Is Mine = {photonView.IsMine}");
             }
         }
 

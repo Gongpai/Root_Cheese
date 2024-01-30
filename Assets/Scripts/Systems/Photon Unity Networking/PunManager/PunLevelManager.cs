@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
 using Cinemachine;
 using GDD.Sinagleton;
 using Photon.Pun;
@@ -11,7 +13,8 @@ namespace GDD.PUN
     public class PunLevelManager : CanDestroy_Sinagleton<PunLevelManager>
     {
         [SerializeField] private GameObject m_GamePlayerPrefab;
-        [SerializeField] private GameObject m_GameAIPrefab;
+        [SerializedDictionary("AIPrefab", "Position")]
+        [SerializeField] private SerializedDictionary<GameObject, List<Transform>> m_GameAIPrefab;
         [SerializeField] private Transform m_playerLevel;
         [SerializeField] private Transform m_enemyLevel;
         [SerializeField] private string m_openLevel;
@@ -25,7 +28,7 @@ namespace GDD.PUN
             get => m_GamePlayerPrefab;
         }
 
-        public GameObject GameAIPrefab
+        public SerializedDictionary<GameObject, List<Transform>>  GameAIPrefab
         {
             get => m_GameAIPrefab;
         }

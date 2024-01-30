@@ -840,7 +840,7 @@ MonoBehaviour:
   Gravity: -15
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1073741824
   Grounded: 1
   GroundedOffset: 0
   GroundedRadius: 0.25

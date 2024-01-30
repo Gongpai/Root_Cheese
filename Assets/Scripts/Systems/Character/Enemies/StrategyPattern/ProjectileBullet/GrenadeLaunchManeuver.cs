@@ -25,14 +25,8 @@ namespace GDD
                 {
                     int[] posIndex = RandomPositionTargetFromCustomProperties(m_enemyBulletConfig.shot);
 
-                    ToggleFire(
-                        _enemySpawnBullet,
-                        posIndex
-                    );
-                    _punECC.CallRaiseToggleFireEvent(
-                        m_enemyBulletConfig.bulletType,
-                        posIndex
-                    );
+                    ToggleFire(_enemySpawnBullet, posIndex);
+                    _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType, posIndex);
                 };
             }
         }

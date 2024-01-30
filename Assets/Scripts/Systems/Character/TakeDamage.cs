@@ -2,6 +2,7 @@
 using System.Collections;
 using GDD.ObjectPool;
 using GDD.PUN;
+using GDD.Timer;
 using Photon.Pun;
 using UnityEngine;
 
@@ -35,15 +36,24 @@ namespace GDD
         {
             set => m_is_undying = value;
         }
-        
+
+        private void Awake()
+        {
+            _bullet = GetComponent<GameObjectPool>();
+            
+            if(!m_is_undying)
+                _coroutinereturnpool = StartCoroutine(WaitReturnToPool(5));
+        }
+
+        private void OnEnable()
+        {
+            GM = GameManager.Instance;
+        }
+
         // Start is called before the first frame update
         void Start()
         {
-            GM = GameManager.Instance;
-            _bullet = GetComponent<GameObjectPool>();
             OwnerViewID = GM.playerMasterClient.GetComponent<MonoBehaviourPun>().photonView.ViewID;
-            
-            _coroutinereturnpool = StartCoroutine(WaitReturnToPool(120));
         }
 
         IEnumerator WaitReturnToPool(float time)
@@ -55,12 +65,12 @@ namespace GDD
         private void OnTriggerEnter(Collider other)
         {
             /*
-            if (ownerLayer != null && ownerLayer.transform.parent == GM.enemy_layer)
+            if (ownerLayer != null || ownerLayer.transform.parent == GM.enemy_layer)
             {
-                print($"Layer Check {GM.player_layer.name}");
+                print($"OwnerLayer : {ownerLayer.name}");
+                print($"P/E Layer Check {GM.player_layer.name}");
                 print($"Layer A : {other.transform.parent.name} || B : {ownerLayer.transform.parent.name}");
-            }
-            */
+            }*/
             
             //Get PunCharacterHealth
             PunCharacterHealth _punCharacterHealth;
@@ -68,40 +78,50 @@ namespace GDD
 
             //Get Layer Target
             Transform layer = other.transform.parent;
-
-            //Check PunCharacterHealth
-            if (!has_punCharacterHealth)
-            {
-                //print($"{other.transform.name} : Pun is null!!!!!!!!!!!!!!!!!!");
-                return;
-            }
+                
             
-            //Check Client
-            is_MasterClient = _punCharacterHealth.CharacterSystem.isMasterClient;
-            if(!is_MasterClient)
-                return;
+            /*
+            print($"Hit Object Layer Null = {layer == null}");
+            print($"Owner Layer Null = {ownerLayer == null}");
+            print($"GM = {GM.name}");
+            
+            if(GM.enemy_layer == null)
+                print($"Enemy Layer Null = {GM.enemy_layer == null}");
+            
+            print($"Player Layer Null = {GM.player_layer == null}");
+            */
+            
+            //Check PunCharacterHealth
+            if (has_punCharacterHealth)
+            {
+                //Check Client
+                is_MasterClient = _punCharacterHealth.CharacterSystem.isMasterClient;
+                if (!is_MasterClient)
+                {
+                    return;
+                }
 
-            //Check Enemy Layer & Set HP / Shield
-            if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
-            {
-                //print("Enemy Take Damage");
-                _punCharacterHealth.TakeDamage(_damage); 
-                ReturnToPool();
-            }
-            //Check Player Layer & Set HP / Shield
-            else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
-            {
-                //print("Character Take Damage");
-                _punCharacterHealth.TakeDamage(_damage); 
-                ReturnToPool();
-            }
-            else
-            {
-                //Debug.LogError("Not Found HealthSystem Component");
+                //Check Enemy Layer & Set HP / Shield
+                if (layer == GM.enemy_layer && ownerLayer.transform.parent == GM.player_layer)
+                {
+                    //print("Enemy Take Damage");
+                    _punCharacterHealth.TakeDamage(_damage);
+                    ReturnToPool();
+                }
+                //Check Player Layer & Set HP / Shield
+                else if (layer == GM.player_layer && ownerLayer.transform.parent == GM.enemy_layer)
+                {
+                    //print("Character Take Damage");
+                    _punCharacterHealth.TakeDamage(_damage);
+                    ReturnToPool();
+                }
+                else
+                {
+                    //Debug.LogError("Not Found HealthSystem Component");
+                }
             }
 
-            //If Not Player And Enemy Tag Return To Pool Only
-            if(other.tag != "Enemy" && other.tag != "Player" && other.transform.parent != transform.parent)
+            if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
                 ReturnToPool();
         }
 

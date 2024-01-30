@@ -276,7 +276,7 @@ namespace GDD.PUN
             OnLeftLevel?.Invoke();
             OnJoinLevel = () =>
             {
-                PhotonNetwork.JoinRoom(PunGameSetting.roomName);
+                PhotonNetwork.AutomaticallySyncScene = true;
 
                 OnJoinLevel -= OnJoinLevel;
             };
@@ -337,8 +337,18 @@ namespace GDD.PUN
             _vCam = PLM.vCam;
             if(PLM.GamePlayerPrefab != null)
                 PhotonNetwork.Instantiate(PLM.GamePlayerPrefab.name, new Vector3(5f, 5f, 2f), Quaternion.identity, 0);
-            if(PLM.GameAIPrefab != null)
-                PhotonNetwork.InstantiateRoomObject(PLM.GameAIPrefab.name, new Vector3(7f, 0.1f, 5f), Quaternion.identity, 0);
+            if (PLM.GameAIPrefab != null)
+            {
+                for (int i = 0; i < PLM.GameAIPrefab.Count; i++)
+                {
+                    GameObject objectPrefab = PLM.GameAIPrefab.Keys.ElementAt(i);
+                    for (int j = 0; j < PLM.GameAIPrefab[objectPrefab].Count; j++)
+                    {
+                        Transform transformSpawn = PLM.GameAIPrefab[objectPrefab][j];
+                        PhotonNetwork.InstantiateRoomObject(objectPrefab.name, transformSpawn.position, transformSpawn.rotation);
+                    }
+                }
+            }
         }
 
         private void OnCreateCharacterUI()
@@ -358,7 +368,16 @@ namespace GDD.PUN
             {
                 if(_characterStatusUI == null)
                     OnCreateCharacterUI();
+
+                if (PhotonNetwork.InRoom)
+                {
+                    GameManager.Instance.players = new SerializedDictionary<PlayerSystem, bool>();
+                    _currentGameState = PunGameState.GameOver;
+                    PunNetworkManager.Instance.SpawnPlayer();
+                }
                 
+                /*
+
                 if (PhotonNetwork.InRoom && _isLoadLevel && PhotonNetwork.IsMasterClient)
                 {
                     PhotonNetwork.DestroyAll();
@@ -385,6 +404,7 @@ namespace GDD.PUN
                     GameManager.Instance.players = new SerializedDictionary<PlayerSystem, bool>();
                     PunNetworkManager.Instance.SpawnPlayer();
                 }
+                */
             };
         }
 

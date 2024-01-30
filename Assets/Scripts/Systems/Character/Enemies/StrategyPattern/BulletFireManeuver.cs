@@ -41,7 +41,7 @@ namespace GDD
             {
                 OnFireEvent = () =>
                 {
-                    OnFireEvent = () => { ToggleFire(_enemySpawnBullet); };
+                    ToggleFire(_enemySpawnBullet);
                     _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType);
                 };
             }

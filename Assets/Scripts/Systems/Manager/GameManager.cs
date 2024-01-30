@@ -196,12 +196,7 @@ namespace GDD
             //Pun System
             print("Next Level");
             
-            if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LeaveRoom();
-            }
-            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-            SceneManager.LoadSceneAsync(PunLevelManager.Instance.openLevel);
+            PhotonNetwork.LoadLevel(PunLevelManager.Instance.openLevel);
             PunNetworkManager.Instance.isLoadLevel = true;
             print($"GameInstance : {JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)}");
             

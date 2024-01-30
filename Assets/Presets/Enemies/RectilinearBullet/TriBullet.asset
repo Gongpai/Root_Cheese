@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TriBullet
   m_EditorClassIdentifier: 
   m_damage: 10
-  m_rate: 0.5
+  m_rate: 2
   m_bullet_power: 5
   m_timedelay: 0.25
   m_shot: 3

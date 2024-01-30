@@ -199,7 +199,7 @@ namespace GDD.Spatial_Partition
 
             //Unlink it from the list of its old cell
             Remove(new Vector2Int(oldCellX, oldCellZ), pawn);
-            Debug.Log("Cell Pos : " + oldPos);
+            //Debug.Log("Cell Pos : " + oldPos);
 
             //If it's the head of a list, remove it
             for (int i = 0; i < cells[oldCellX, oldCellZ].Count; i++)

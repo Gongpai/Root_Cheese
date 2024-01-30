@@ -83,8 +83,8 @@ namespace GDD.PUN
         {
             base.OnLeftRoom();
             
-            print($"Character Left Room : {gameObject.name}");
-            print($"Photon is mine : {photonView.IsMine}");
+            //print($"Character Left Room : {gameObject.name}");
+            //print($"Photon is mine : {photonView.IsMine}");
         }
     }
 }
