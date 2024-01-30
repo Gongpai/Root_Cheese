@@ -44,6 +44,8 @@ namespace GDD
         [Header("Player Client")] 
         [SerializeField]
         private PlayerSystem m_playerMasterClient;
+        [SerializeField] 
+        private GameObject m_warningUI;
 
         [Header("Play Mode")] 
         [SerializeField] 
@@ -53,6 +55,7 @@ namespace GDD
         private Grid _grid;
         private AwaitTimer readyTimer;
         private DataBaseController DBC;
+        private GameObject _warningUI;
 
         public GameInstance gameInstance
         {
@@ -142,12 +145,15 @@ namespace GDD
             readyTimer = new AwaitTimer(5.0f, () =>
             {
                 print("Update SaveGame To Server");
+                HideWarningUI();
                 //Update Save
                 DBC.OnUpdate(playerInfo, gameInstance);
                 DBC.OnUpdateSucceed += UpdateSaveGameServer;
             }, time =>
             {
-                //print($"Time is = {time}");
+                Canvas_Element_List canvasElementList = _warningUI.GetComponent<Canvas_Element_List>();
+                canvasElementList.images[0].fillAmount = 5.0f - time / 5.0f;
+                canvasElementList.texts[0].text = ((int)(5.0f - time)).ToString();
             });
         }
 
@@ -175,14 +181,46 @@ namespace GDD
             if (readyPlayer && (enemies.Count <= 0 || isLobby))
             {
                 readyTimer.Start();
+                Canvas_Element_List canvasElementList = CreateWarningUI();
+                canvasElementList.texts[1].text = $"Entering to {PunLevelManager.Instance.openLevel}";
             }
             else
             {
                 print("Wait Other Player");
+                HideWarningUI();
                 readyTimer.Stop();
             }
         }
 
+        private Canvas_Element_List CreateWarningUI()
+        {
+            if (_warningUI == null)
+            {
+                _warningUI = Instantiate(m_warningUI);
+                _warningUI.transform.position = Vector3.zero;
+
+                return _warningUI.GetComponent<Canvas_Element_List>();
+            }
+            else
+            {
+                Canvas_Element_List canvasElementList = _warningUI.GetComponent<Canvas_Element_List>();
+                canvasElementList.animators[1].enabled = true;
+                canvasElementList.animators[0].SetBool("IsPlay", true);
+                
+                return canvasElementList;
+            }
+        }
+
+        private void HideWarningUI()
+        {
+            if(_warningUI == null)
+                return;
+            
+            Canvas_Element_List canvasElementList = _warningUI.GetComponent<Canvas_Element_List>();
+            canvasElementList.animators[1].enabled = false;
+            canvasElementList.animators[0].SetBool("IsPlay", false);
+        }
+        
         private void UpdateSaveGameServer()
         {
             print("Sync Save Game");

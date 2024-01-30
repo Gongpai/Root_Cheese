@@ -662,7 +662,7 @@ MonoBehaviour:
   GroundedRadius: 0.28
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1073741824
   Target: {fileID: 0}
   Sprinting: 0
   Jump: 0
@@ -707,6 +707,9 @@ MonoBehaviour:
   m_hp: 100
   m_max_HP: 100
   m_shield: 0
+  _maxEXP: 100
+  m_levelUp: 1.1
+  _dropEXP: 30
 --- !u!114 &549421544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,7 +865,7 @@ MonoBehaviour:
   Gravity: -15
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1073741824
   Grounded: 1
   GroundedOffset: -0.14
   GroundedRadius: 0.28
