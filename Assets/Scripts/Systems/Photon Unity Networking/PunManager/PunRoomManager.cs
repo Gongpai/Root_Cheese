@@ -47,9 +47,8 @@ namespace GDD.PUN
             
             //Check Is Other Will Return
             Hashtable CustomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-            object propDatas;
             if (CustomProperties != null &&
-                CustomProperties.TryGetValue(PunGameSetting.PRE_RANDOMTARGETPOSITION, out propDatas))
+                CustomProperties.TryGetValue(PunGameSetting.PRE_RANDOMTARGETPOSITION, out object propDatas))
             {
                 OnRoomInitializedForOtherClient(CustomProperties);
                 return;
@@ -176,9 +175,7 @@ namespace GDD.PUN
 
         private void OnPreRandomPositionUpdate(Hashtable propertiesChanged)
         {
-            object preRandomFromProps;
-
-            if (propertiesChanged.TryGetValue(PunGameSetting.PRE_RANDOMTARGETPOSITION, out preRandomFromProps)) {
+            if (propertiesChanged.TryGetValue(PunGameSetting.PRE_RANDOMTARGETPOSITION, out object preRandomFromProps)) {
                 //Debug.Log($"Update Pre-Random Prop is : {(string)preRandomFromProps}");
 
                 float2D[] positions = JsonConvert.DeserializeObject<float2D[]>((string)preRandomFromProps);
@@ -188,9 +185,7 @@ namespace GDD.PUN
 
         private void OnRandomPositionTargetCountUpdate(Hashtable propertiesChanged)
         {
-            object countFromProps;
-
-            if (propertiesChanged.TryGetValue(PunGameSetting.RANDOMPOSITIONTARGETCOUNT, out countFromProps)) {
+            if (propertiesChanged.TryGetValue(PunGameSetting.RANDOMPOSITIONTARGETCOUNT, out object countFromProps)) {
                 //Debug.Log($"Update Random Count Prop is : {(int)countFromProps}");
                 PunGameSetting.RandomPositionTargetCount = (int)countFromProps;
             }
@@ -198,9 +193,7 @@ namespace GDD.PUN
 
         private void OnUpdateReadyNextLevelPlayer(Hashtable propertiesChanged)
         {
-            object playerReadyStates;
-
-            if (propertiesChanged.TryGetValue(PunGameSetting.PLAYERREADYNEXTLEVEL, out playerReadyStates)) 
+            if (propertiesChanged.TryGetValue(PunGameSetting.PLAYERREADYNEXTLEVEL, out object playerReadyStates)) 
             {
                 for (int i = 0; i < GM.players.Count; i++)
                 {

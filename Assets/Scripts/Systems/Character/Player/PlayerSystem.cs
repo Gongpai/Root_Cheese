@@ -133,19 +133,16 @@ namespace GDD
 
         public void ReadyButton()
         {
-            if(GM.enemies.Count > 0 && !isLobbyMode)
+            if (GM.enemies.Count > 0 && !isLobbyMode)
                 return;
             
-            if (_isEnterRoom || isLobbyMode)
-            {
-                GM.players[this] = !GM.players[this];
-                
-                if(!isLobbyMode)
-                    _readyCheck.ready = GM.players[this];
-                
-                GM.OnReady();
-                PunRoomManager.Instance.CreateUpdateReadyNextLevelPlayer();
-            }
+            GM.players[this] = !GM.players[this];
+
+            if (!isLobbyMode)
+                _readyCheck.ready = GM.players[this];
+
+            GM.OnReady();
+            PunRoomManager.Instance.CreateUpdateReadyNextLevelPlayer();
         }
 
         public void UpdateReadyCheckUI()
@@ -398,6 +395,8 @@ namespace GDD
                 GM.gameInstance.maxEXP = maxEXP;
             else
                 base.SetMaxEXP(maxEXP);
+            
+            ((PunPlayerHealth)_punCharacterHealth).UpdateEXPAndLevelPoint();
         }
 
         public override int GetMaxEXP()
@@ -423,6 +422,8 @@ namespace GDD
             }
             else
                 base.SetUpdateEXP(EXP);
+            
+            ((PunPlayerHealth)_punCharacterHealth).UpdateEXPAndLevelPoint();
         }
 
         public override void SetEXP(int EXP)
@@ -434,6 +435,8 @@ namespace GDD
                 GM.gameInstance.EXP = EXP;
             else
                 base.SetEXP(EXP);
+            
+            ((PunPlayerHealth)_punCharacterHealth).UpdateEXPAndLevelPoint();
         }
 
         public override int GetEXP()
@@ -480,6 +483,7 @@ namespace GDD
                 base.SetLevel(level);
         }
 
+        /*
         protected override void OnGUI()
         {
             if(isLobbyMode)
@@ -529,7 +533,7 @@ namespace GDD
             GUI.Label(new Rect(10, 340, 600, 20), "Main Damage = " + _weaponSystem.weaponConfigStats.damage);
             GUI.Label(new Rect(10, 370, 600, 20), "Main Power = " + _weaponSystem.weaponConfigStats.power);
             GUI.Label(new Rect(10, 400, 600, 20), "Main Rate = " + _weaponSystem.weaponConfigStats.rate);
-        }
+        }*/
 
         public void StartAttack()
         {

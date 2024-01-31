@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3566725102270905360}
   - component: {fileID: 3566725102270905363}
   - component: {fileID: 2754148097277268331}
+  - component: {fileID: 1575848546695234081}
   m_Layer: 0
   m_Name: PunNetworkManager
   m_TagString: Untagged
@@ -67,3 +68,35 @@ MonoBehaviour:
   m_impactPointArea:
     min: 0.25
     max: 2.5
+--- !u!114 &1575848546695234081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566725102270905362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62880f27e95abf2418fd79e9d9d568b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GuiOffset:
+    serializedVersion: 2
+    x: 250
+    y: 75
+    width: 300
+    height: 300
+  DontDestroy: 1
+  ServerTimestamp: 0
+  DetailedConnection: 1
+  Server: 1
+  AppVersion: 0
+  UserId: 1
+  Room: 1
+  RoomProps: 1
+  EventsIn: 0
+  LocalPlayer: 1
+  PlayerProps: 1
+  Others: 0
+  Buttons: 0
+  ExpectedUsers: 0

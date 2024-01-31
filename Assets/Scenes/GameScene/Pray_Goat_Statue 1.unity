@@ -974,7 +974,7 @@ PrefabInstance:
     - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
         type: 3}
       propertyPath: m_openLevel
-      value: Template_Level
+      value: Enemy_Reflection_Level
       objectReference: {fileID: 0}
     - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
         type: 3}

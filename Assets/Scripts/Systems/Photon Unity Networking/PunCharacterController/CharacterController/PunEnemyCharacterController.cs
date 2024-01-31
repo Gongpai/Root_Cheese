@@ -19,7 +19,7 @@ namespace GDD.PUN
             _bulletFireManeuver = GetComponent<BulletFireManeuver>();
             _enemySystem = GetComponent<EnemySystem>();
             _enemySpawnBullet = _bulletFireManeuver.enemySpawnBullet;
-            _punEventCode = 20;
+            _punEventCode = 10;
         }
 
         protected override void OnEnable()

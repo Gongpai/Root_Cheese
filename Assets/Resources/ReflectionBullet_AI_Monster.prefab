@@ -294,7 +294,7 @@ PrefabInstance:
     - target: {fileID: 7963713794769125096, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
         type: 3}
       propertyPath: m_Name
-      value: AI_Monster_Template 1
+      value: ReflectionBullet_AI_Monster
       objectReference: {fileID: 0}
     - target: {fileID: 7963713794769125096, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
         type: 3}

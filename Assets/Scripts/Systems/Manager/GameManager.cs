@@ -177,6 +177,8 @@ namespace GDD
 
                 readyPlayer = player.Key;
             }
+            
+            print("Ready Check !!!");
 
             if (readyPlayer && (enemies.Count <= 0 || isLobby))
             {

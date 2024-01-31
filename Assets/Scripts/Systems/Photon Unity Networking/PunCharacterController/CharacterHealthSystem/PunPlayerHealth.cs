@@ -22,10 +22,6 @@ namespace GDD.PUN
         protected override void Update()
         {
             base.Update();
-            
-            if(!photonView.IsMine)
-                return;
-            UpdateEXPAndLevelPoint();
         }
 
         public virtual void UpdateEXPAndLevelPoint()
