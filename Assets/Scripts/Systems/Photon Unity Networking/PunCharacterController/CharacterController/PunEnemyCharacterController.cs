@@ -144,6 +144,11 @@ namespace GDD.PUN
             }
         }
 
+        public override void SetSpeed(float[] amount, int OwnerNetID)
+        {
+            
+        }
+
         protected override void OnDisable()
         {
             base.OnDisable();

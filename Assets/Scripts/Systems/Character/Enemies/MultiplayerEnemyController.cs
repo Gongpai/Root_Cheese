@@ -25,8 +25,10 @@ namespace GDD
 
             float[] speedData = new float[]{_animationBlend, inputMagnitude};
             
+            /*
             if(_haspunEnemyController)
                 _punEnemyController.SetSpeed(speedData, _punEnemyController.photonView.ViewID);
+            */
             return inputMagnitude;
         }
     }

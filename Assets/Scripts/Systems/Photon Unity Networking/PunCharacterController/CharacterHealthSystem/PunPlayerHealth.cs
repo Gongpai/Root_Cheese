@@ -39,6 +39,9 @@ namespace GDD.PUN
         [PunRPC]
         public virtual void PunRPCSetEXPAndLevel(int[] amount)
         {
+            if(photonView.IsMine)
+                return;
+            
             _characterSystem.SetUpdateEXP(amount[0]);
             _characterSystem.SetEXP(amount[0]);
             _characterSystem.SetMaxEXP(amount[1]);

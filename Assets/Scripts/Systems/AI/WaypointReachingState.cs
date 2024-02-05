@@ -33,11 +33,15 @@ namespace GDD
             m_multiplayerEnemyController = GetComponent<MultiplayerEnemyController>();
         }
 
-        public void EnterState()
+        public Vector3 EnterState()
         {
-            m_NavMeshAgent.SetDestination(m_Waypoints[m_CurrentWaypointIndex].position);
+            Vector3 pos;
+            pos = m_Waypoints[m_CurrentWaypointIndex].position;
+            m_NavMeshAgent.SetDestination(pos);
+
+            return pos;
         }
-        
+
         public void UpdateState()
         {
             if (m_NavMeshAgent.remainingDistance > m_NavMeshAgent.stoppingDistance)
