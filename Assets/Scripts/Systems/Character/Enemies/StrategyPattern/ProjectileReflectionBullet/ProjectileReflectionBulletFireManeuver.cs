@@ -8,6 +8,12 @@ namespace GDD
     public class ProjectileReflectionBulletFireManeuver : BulletFireManeuver
     {
         private SpawnerProjectileReflectionBulletCalculate _spawnerPRBC;
+
+        public SpawnerProjectileReflectionBulletCalculate spawnerPRBC
+        {
+            get => _spawnerPRBC;
+        }
+        
         public override void Start()
         {
             base.Start();
@@ -20,17 +26,13 @@ namespace GDD
                 _spawnerPRBC.surroundMode = BulletShotSurroundMode.Front;
                 _spawnerPRBC.OnStart();
             }
+            _punECC.OnProjectileReflectionLinesEnable(true);
         }
 
         public override void Maneuver(EnemyState pawn)
         {
-            if (_spawnerPRBC != null)
-            {
-                foreach (var PRBC in _spawnerPRBC.PRBCs)
-                {
-                    PRBC.OnStart();
-                }
-            }
+            _punECC.OnProjectileReflectionLinesEnable(true);
+            OnShowProjectileReflectionLines();
             
             base.Maneuver(pawn);
         }
@@ -38,14 +40,16 @@ namespace GDD
         public override void Truce()
         {
             base.Truce();
+
+            _enemyAttackState.isLockRot = false;
+        }
+
+        protected override IEnumerator Firing(float time)
+        {
+            _punECC.OnProjectileReflectionLinesEnable(false);
+            OnHideProjectileReflectionLines();
             
-            if (_spawnerPRBC != null)
-            {
-                foreach (var PRBC in _spawnerPRBC.PRBCs)
-                {
-                    PRBC.OnStop();
-                }
-            }
+            return base.Firing(time);
         }
 
         public override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
@@ -64,6 +68,36 @@ namespace GDD
                 BulletShotSurroundMode.Front,
                 BulletShotMode.SurroundMode
             );
+        }
+
+        public void OnHideProjectileReflectionLines()
+        {
+            if (_enemyAttackState == null)
+                _enemyAttackState = GetComponent<EnemyAttackState>();
+            
+            _enemyAttackState.isLockRot = true;
+            if (_spawnerPRBC != null)
+            {
+                foreach (var PRBC in _spawnerPRBC.PRBCs)
+                {
+                    PRBC.OnStop();
+                }
+            }
+        }
+
+        public void OnShowProjectileReflectionLines()
+        {
+            if (_enemyAttackState == null)
+                _enemyAttackState = GetComponent<EnemyAttackState>();
+            
+            _enemyAttackState.isLockRot = false;
+            if (_spawnerPRBC != null)
+            {
+                foreach (var PRBC in _spawnerPRBC.PRBCs)
+                {
+                    PRBC.OnStart();
+                }
+            }
         }
     }
 }

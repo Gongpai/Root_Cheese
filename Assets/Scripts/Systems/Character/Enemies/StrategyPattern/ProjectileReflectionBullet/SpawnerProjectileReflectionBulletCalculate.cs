@@ -37,7 +37,8 @@ namespace GDD
 
         public void OnStart()
         {
-            print("OnStarttttttttttttttttttt");
+            //print("OnStarttttttttttttttttttt");
+            transform.rotation = Quaternion.identity;
             
             if (_surroundMode == BulletShotSurroundMode.Surround)
             {
@@ -70,6 +71,7 @@ namespace GDD
 
         private void CreateParentProjectileReflectionBullet(int index)
         {
+            //print($"Rot Dir :{rot_dir} || Index : {index}");
             GameObject PPR = new GameObject((index + 1) + " Spawn Projectile Reflection Point");
             PPR.transform.parent = transform;
             PPR.transform.localPosition = Vector3.zero;

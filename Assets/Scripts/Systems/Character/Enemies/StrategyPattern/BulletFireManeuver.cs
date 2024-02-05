@@ -18,12 +18,17 @@ namespace GDD
 
         protected UnityAction OnFireEvent;
 
+        public float timeDelay
+        {
+            get => m_enemyBulletConfig.timedelay;
+        }
+
         public EnemySpawnBullet enemySpawnBullet
         {
             get => _enemySpawnBullet;
         }
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
             _enemySpawnBullet = GetComponent<EnemySpawnBullet>();
             _haspunECC = TryGetComponent(out _punECC);
@@ -102,7 +107,7 @@ namespace GDD
             }
         }
         
-        protected IEnumerator Firing(float time)
+        protected virtual IEnumerator Firing(float time)
         {
             var instruction = new WaitForEndOfFrame();
             float time_count = time;

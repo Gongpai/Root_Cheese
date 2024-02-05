@@ -81,9 +81,23 @@ namespace GDD.PUN
             _enemySystem.targetID = id;
         }
 
+        public void OnProjectileReflectionLinesEnable(bool isEnable)
+        {
+            photonView.RPC("RPCProjectileReflectionLinesEnable", RpcTarget.Others, isEnable);
+        }
+        
+        [PunRPC]
+        public void RPCProjectileReflectionLinesEnable(bool isEnable)
+        {
+            if(isEnable)
+                ((ProjectileReflectionBulletFireManeuver)_bulletFireManeuver).OnShowProjectileReflectionLines();
+            else
+                ((ProjectileReflectionBulletFireManeuver)_bulletFireManeuver). OnHideProjectileReflectionLines();
+        }
+
         public void CallRaiseToggleFireEvent(BulletType type, int[] posIndex = default)
         {
-            print("Fire To Online");
+            print($"Fire To Online : {gameObject.name}");
             
             object[] content;
 

@@ -24,6 +24,8 @@ namespace GDD
         private int L_Bullet;
         private int L_Character;
         private int L_Enemy;
+        private int L_Floor;
+        private int L_Obstacle;
 
         private void Awake()
         {
@@ -36,6 +38,8 @@ namespace GDD
             L_Bullet = LayerMask.NameToLayer("Bullet");
             L_Character = LayerMask.NameToLayer("Character");
             L_Enemy = LayerMask.NameToLayer("Enemy");
+            L_Floor = LayerMask.NameToLayer("Floor");
+            L_Obstacle = LayerMask.NameToLayer("Obstacle");
         }
 
         private void Update()
@@ -70,7 +74,7 @@ namespace GDD
                 Vector3 startPos = pos;
                 Ray ray = new Ray(pos, dir);
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, maxStepDistance, 1<<L_Default|0<<L_Bullet|0<<L_Character|0<<L_Enemy))
+                if (Physics.Raycast(ray, out hit, maxStepDistance, 1<<L_Default|1<<L_Floor|1<<L_Obstacle|0<<L_Bullet|0<<L_Character|0<<L_Enemy))
                 {
                     dir = Vector3.Reflect(dir, hit.normal);
                     //print("OffSet" + reflex_offset);

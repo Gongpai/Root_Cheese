@@ -16,6 +16,7 @@ namespace GDD.PUN
         [SerializeField] protected NavMeshAgent m_NavMeshAgent;
         private WaypointReachingState _waypointReachingState;
         private bool isEnterState = true;
+        private bool ismove;
         
         private void Start()
         {
@@ -41,13 +42,7 @@ namespace GDD.PUN
         {
             print("Call Raise Event : Ai Exit State");
             
-            object[] content;
-            content = new object[]
-            {
-                photonView.ViewID
-            };
-
-            photonView.RPC("PunExitState", RpcTarget.Others, content);
+            photonView.RPC("PunExitState", RpcTarget.Others, photonView.ViewID);
         }
 
         private void Update()
@@ -62,12 +57,20 @@ namespace GDD.PUN
         {
             if (m_NavMeshAgent.remainingDistance > m_NavMeshAgent.stoppingDistance)
             {
-                print("Moveeeeeeeeeee");
+                if (!ismove)
+                {
+                    ismove = true;
+                    print("Moveeeeeeeeeee");
+                }
+
                 m_multiplayerEnemyController.Move(m_NavMeshAgent.desiredVelocity);
             }
             else
             {
-                m_multiplayerEnemyController.Move(Vector3.zero);
+                if(ismove)
+                    print("Stoppppppppppppp");
+                
+                ismove = false;
                 isEnterState = false;
             }
         }
@@ -88,15 +91,18 @@ namespace GDD.PUN
             }
         }
         
-        public void PunExitState(object[] data)
+        [PunRPC]
+        public void PunExitState(int viewID)
         {
             if (!photonView.IsMine)
             {
-                if ((int)data[0] == photonView.ViewID)
-                {
-                    m_multiplayerEnemyController.Move(Vector3.zero);
-                    isEnterState = false;
-                }
+                m_multiplayerEnemyController.Move(Vector3.zero);
+                isEnterState = false;
+                
+                if(ismove)
+                    print("Exit Stoppppppppppppp");
+                
+                ismove = false;
             }
         }
     }

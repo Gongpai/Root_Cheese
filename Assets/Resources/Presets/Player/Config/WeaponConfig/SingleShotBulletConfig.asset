@@ -17,7 +17,7 @@ MonoBehaviour:
   _skillDescription: Description - Single Shot Bullet
   _bulletObject: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef,
     type: 3}
-  m_damage: 1
+  m_damage: 5
   m_rate: 1
   m_shot: 1
   m_power: 20

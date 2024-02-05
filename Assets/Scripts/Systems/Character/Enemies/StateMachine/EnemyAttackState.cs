@@ -9,6 +9,14 @@ namespace GDD
 {
     public class EnemyAttackState : EnemyState
     {
+        private bool _isLockRot;
+
+        public bool isLockRot
+        {
+            get => _isLockRot;
+            set => _isLockRot = value;
+        }
+        
         public override string StateName()
         {
             return "EnemyAttackState";
@@ -40,7 +48,7 @@ namespace GDD
             base.Handle(contrller);
             
             //print("Handleeeeeee");
-            if(GM.players.Count > 0)
+            if(GM.players.Count > 0 && !_isLockRot)
                 transform.LookAt(target);
         }
 

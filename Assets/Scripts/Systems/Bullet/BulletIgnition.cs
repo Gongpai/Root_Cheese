@@ -135,24 +135,25 @@ namespace GDD
             if(bullet_rot_spawn == null)
                 bullet_rot_spawn = new GameObject("bullet rot spawn");
             
+            spawnPoint.rotation = Quaternion.identity;
             bullet_rot_spawn.transform.parent = spawnPoint;
             bullet_rot_spawn.transform.localPosition = Vector3.zero;
-            bullet_rot_spawn.transform.rotation = Quaternion.Euler(Vector3.zero);
+            bullet_rot_spawn.transform.rotation = Quaternion.identity;
             
             if (rots_random.Count <= 0)
             {
                 for (int i = 0; i < shot; i++)
                 {
                     //Rotation Parent Spawn Point
-                    Quaternion rot = Quaternion.AngleAxis(current_axis, spawnPoint.up);
+                    Quaternion rot = Quaternion.AngleAxis(current_axis, Vector3.up);
                     spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) + 90, 0));
                     spawnPoint.rotation *= rot;
                     rots_random.Add(spawnPoint.rotation);
 
                     //Rot
                     bullet_rot_spawn.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                    bullet_rot_spawn.transform.rotation = Quaternion.identity;
                     bullet_rot_spawn.transform.localPosition = Vector3.forward * distance;
-                    bullet_rot_spawn.transform.rotation = Quaternion.Euler(Vector3.zero);
                     
                     
                     //Add Axis
@@ -172,8 +173,11 @@ namespace GDD
                 bullet.GetComponent<Collider>().isTrigger = true;
                 
                 //Set Rot
+                bullet.transform.rotation = Quaternion.identity;
                 bullet.transform.position = bullet_rot_spawn.transform.position;
-                bullet.transform.rotation = transform.rotation * rot;
+
+                Quaternion rot_final = transform.rotation * rot;
+                bullet.transform.rotation = Quaternion.Euler(new Vector3(0, rot_final.eulerAngles.y, 0));
                 bullet.transform.rotation *= Quaternion.AngleAxis(random_rot, Vector3.up);
                 
                 Rigidbody rigidbody = bullet.GetComponent<Rigidbody>();
@@ -239,8 +243,12 @@ namespace GDD
 
             _prBullet.reflex_DirStart = _SPRBC.PRBCs[index].Get_FirstDirection();
             _prBullet.reflex_PosStart = _SPRBC.PRBCs[index].Get_FirstPosition();
-            _prBullet.reflexDir = _SPRBC.PRBCs[index].GetReflectionDirection();;
-            _prBullet.reflexPos = _SPRBC.PRBCs[index].GetReflectionPoint();;
+            _prBullet.reflexDir = _SPRBC.PRBCs[index].GetReflectionDirection();
+            _prBullet.reflexPos = _SPRBC.PRBCs[index].GetReflectionPoint();
+            
+            print($"bullet is null : {bullet == null}");
+            print($"_prBullet is null : {_prBullet == null}");
+            print($"_prBullet.reflexDir is null : {_prBullet.reflexDir == null}");
             bullet.transform.position += _prBullet.reflexDir[0] * 1.25f;
             
             bullet.GetComponent<Collider>().isTrigger = true;

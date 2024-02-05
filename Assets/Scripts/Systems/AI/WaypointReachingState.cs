@@ -20,6 +20,7 @@ namespace GDD
         [SerializeField] protected NavMeshAgent m_NavMeshAgent;
 
         [SerializeField] protected List<Transform> m_Waypoints;
+        
 
         public List<Transform> _waypoints
         {

@@ -9,6 +9,8 @@ namespace GDD
         public override void Start()
         {
             base.Start();
+            
+            transform.rotation = Quaternion.identity;
         }
         
         public override void OnFire(IPawn enemy)
@@ -38,6 +40,7 @@ namespace GDD
                     {
                         yield return new WaitForSeconds(fire_rate);
                         ToggleFire(_enemySpawnBullet);
+                        _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType);
 
                         current_count++;
                     }

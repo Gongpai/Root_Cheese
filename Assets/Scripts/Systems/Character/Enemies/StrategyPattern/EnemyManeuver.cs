@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GDD.StrategyPattern;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace GDD
 {
@@ -12,6 +14,12 @@ namespace GDD
         protected List<Coroutine> _coroutines = new List<Coroutine>();
         protected PlayerSystem _player;
         protected EnemySystem _enemySystem;
+        protected EnemyAttackState _enemyAttackState;
+
+        protected virtual void Awake()
+        {
+            _enemyAttackState = GetComponent<EnemyAttackState>();
+        }
 
         public virtual void Start()
         {

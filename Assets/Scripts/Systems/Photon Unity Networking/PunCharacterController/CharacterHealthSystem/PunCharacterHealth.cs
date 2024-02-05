@@ -44,8 +44,8 @@ namespace GDD.PUN
             if(OwnerNetID != photonView.ViewID || photonView.IsMine)
                 return;
             
-            print($"{gameObject.name} | OnInitializeOtherPlayer || Shield = {(float)datas[2]}");
-            print($"Shield = {(float)datas[2]}");
+            //print($"{gameObject.name} | OnInitializeOtherPlayer || Shield = {(float)datas[2]}");
+            //print($"Shield = {(float)datas[2]}");
             
             _characterSystem.SetHP((float)datas[0]);
             _characterSystem.SetMaxHP((float)datas[1]);
@@ -60,7 +60,7 @@ namespace GDD.PUN
             if((int)OwnerNetID != photonView.ViewID)
                 return;
             
-            print($"GetPlayerStatsToOtherPlayer : {gameObject.name} || ID : {OwnerNetID} = {photonView}");
+            //print($"GetPlayerStatsToOtherPlayer : {gameObject.name} || ID : {OwnerNetID} = {photonView}");
 
             float shield;
             if (photonView.IsMine)
@@ -152,8 +152,8 @@ namespace GDD.PUN
             if(OwnerNetID != photonView.ViewID)
                 return;
             
-            print($"HP Amount = {amount}");
-            print($"Total HP = {_characterSystem.GetHP() + amount} || Char HP = {_characterSystem.GetHP()}");
+            //print($"HP Amount = {amount}");
+            //print($"Total HP = {_characterSystem.GetHP() + amount} || Char HP = {_characterSystem.GetHP()}");
             
             if (_characterSystem.GetHP() + amount > 0)
                 _characterSystem.SetHP(_characterSystem.GetHP() + amount);

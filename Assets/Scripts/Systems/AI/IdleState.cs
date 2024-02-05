@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,7 +10,13 @@ namespace GDD
     public class IdleState : MonoBehaviour
     {
         protected float m_IdleTime;
-        
+        protected BulletFireManeuver _bulletFireManeuver;
+
+        private void Start()
+        {
+            _bulletFireManeuver = GetComponent<BulletFireManeuver>();
+        }
+
         public void EnterState()
         {
             RandomIdleTime();
@@ -17,7 +24,10 @@ namespace GDD
 
         private void RandomIdleTime()
         {
-            m_IdleTime = UnityEngine.Random.Range(2, 5);
+            if(_bulletFireManeuver == null)
+                _bulletFireManeuver = GetComponent<BulletFireManeuver>();
+            
+            m_IdleTime = UnityEngine.Random.Range(2, 5) + _bulletFireManeuver.timeDelay;
         }
         
         public void UpdateState()
