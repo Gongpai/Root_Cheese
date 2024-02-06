@@ -39,11 +39,11 @@ namespace GDD
             base.OnExit();
         }
 
-        public void ApplyEnemyStrategy()
+        public void ApplyEnemyStrategy(Transform target)
         {
             strategy = GetComponent<EnemyManeuver>();
             //print("Apply Enemy Strategy");
-            strategy.Maneuver(this);
+            strategy.Maneuver(this, this.target);
         }
 
         public void WithdrawEnemyStrategy()

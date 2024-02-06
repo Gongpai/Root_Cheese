@@ -29,12 +29,12 @@ namespace GDD
             _punECC.OnProjectileReflectionLinesEnable(true);
         }
 
-        public override void Maneuver(EnemyState pawn)
+        public override void Maneuver(EnemyState pawn, Transform target)
         {
             _punECC.OnProjectileReflectionLinesEnable(true);
             OnShowProjectileReflectionLines();
             
-            base.Maneuver(pawn);
+            base.Maneuver(pawn, target);
         }
 
         public override void Truce()
@@ -64,6 +64,7 @@ namespace GDD
                 _enemyBulletConfig.bullet_power,
                 _enemyBulletConfig.shot,
                 _enemyBulletConfig.damage,
+                _target,
                 _enemyBulletConfig.bulletType,
                 BulletShotSurroundMode.Front,
                 BulletShotMode.SurroundMode

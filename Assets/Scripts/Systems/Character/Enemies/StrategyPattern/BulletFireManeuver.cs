@@ -57,9 +57,9 @@ namespace GDD
             base.Start();
         }
 
-        public override void Maneuver(EnemyState pawn)
+        public override void Maneuver(EnemyState pawn, Transform target)
         {
-            base.Maneuver(pawn);
+            base.Maneuver(pawn, target);
 
             if (_player == null)
             {

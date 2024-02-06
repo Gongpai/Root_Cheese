@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using GDD.Spatial_Partition;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -183,6 +184,8 @@ namespace GDD
             if(_weapon == null)
                 return;
             
+            IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
+            
             playerSpawnBullet.bulletObjectPool.weapon = _weapon;
             playerSpawnBullet.bulletObjectPool.Set_GameObject = _weapon.bulletObject;
             playerSpawnBullet.OnSpawnBullet(
@@ -190,6 +193,7 @@ namespace GDD
                 _weapon.power,
                 _weapon.shot,
                 _weapon.damage,
+                closestEnemy.GetPawnTransform(),
                 BulletType.Rectilinear,
                 _weapon.surroundMode,
                 _weapon.bulletShotMode

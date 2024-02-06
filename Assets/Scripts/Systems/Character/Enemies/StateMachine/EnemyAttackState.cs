@@ -29,7 +29,7 @@ namespace GDD
             //Get New Target
             GetNewTarget(contrller.SetTargetRandom());
             
-            ApplyEnemyStrategy();
+            ApplyEnemyStrategy(target);
         }
 
         protected void GetNewTarget(int targetID)

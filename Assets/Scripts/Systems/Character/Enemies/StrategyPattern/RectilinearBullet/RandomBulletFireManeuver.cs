@@ -71,6 +71,7 @@ namespace GDD
                 _enemyBulletConfig.bullet_power,
                 _enemyBulletConfig.shot,
                 _enemyBulletConfig.damage,
+                _target,
                 _enemyBulletConfig.bulletType,
                 BulletShotSurroundMode.Back,
                 BulletShotMode.RandomMode

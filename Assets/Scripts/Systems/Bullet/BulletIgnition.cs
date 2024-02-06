@@ -45,11 +45,12 @@ namespace GDD
             
         }
 
-        public virtual List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damge, BulletType type, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)
+        public virtual List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damge, Transform target, BulletType type, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)
         {
             if (shotMode == BulletShotMode.SurroundMode)
                 return OnIgnitionBulletSurround(builder,
                     m_spawnPoint,
+                    target,
                     type,
                     distance,
                     power,
@@ -57,7 +58,7 @@ namespace GDD
                     damge,
                     surroundMode);
             else
-                return OnIgnitionBulletRandom(builder, m_spawnPoint, distance, power, shot, damge);
+                return OnIgnitionBulletRandom(builder, m_spawnPoint, target, distance, power, shot, damge);
         }
 
         public virtual void OnSpawnGrenade(int shot, float damge, int[] posIndex = default, ObjectPoolBuilder builder = null)
@@ -67,14 +68,14 @@ namespace GDD
             OnProjectileLaunch(builder, m_spawnPoint, shot, damge, posIndex);
         }
 
-        public List<GameObject> OnIgnitionBulletSurround(ObjectPoolBuilder builder, Transform spawnPoint, BulletType _type, float distance, float power, int shot, float damage, BulletShotSurroundMode surroundMode)
+        public List<GameObject> OnIgnitionBulletSurround(ObjectPoolBuilder builder, Transform spawnPoint, Transform target, BulletType _type, float distance, float power, int shot, float damage, BulletShotSurroundMode surroundMode)
         {
-            int current_axis = 0;
-            int surrounded_axis;
+            float current_axis = 0;
+            float surrounded_axis;
             int helf_axis = 0;
             if (surroundMode == BulletShotSurroundMode.Surround)
             {
-                surrounded_axis = 360 / shot;
+                surrounded_axis = 360.0f / shot;
             }
             else
             {
@@ -83,6 +84,10 @@ namespace GDD
             }
 
             bullets = new List<GameObject>();
+            
+            //Aim to target
+            Quaternion lookAt = Quaternion.LookRotation(target.position - spawnPoint.position);
+            current_axis += lookAt.eulerAngles.y - transform.eulerAngles.y;
             
             if(bullet_rot_spawn == null)
                 bullet_rot_spawn = new GameObject("bullet rot spawn");
@@ -103,7 +108,6 @@ namespace GDD
                 else if (surroundMode == BulletShotSurroundMode.Back)
                     spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) + 90, 0));
                     
-                
                 spawnPoint.rotation *= rot;
                 
                 //Rot
@@ -123,7 +127,7 @@ namespace GDD
             return bullets;
         }
         
-        public List<GameObject> OnIgnitionBulletRandom(ObjectPoolBuilder builder, Transform spawnPoint, float distance, float power, int shot, float damage)
+        public List<GameObject> OnIgnitionBulletRandom(ObjectPoolBuilder builder, Transform spawnPoint, Transform target, float distance, float power, int shot, float damage)
         {
             int current_axis = 0;
             int surrounded_axis;

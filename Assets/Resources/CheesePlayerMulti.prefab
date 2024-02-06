@@ -238,7 +238,7 @@ MonoBehaviour:
   m_triggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6300914170578224804}
         m_TargetAssemblyTypeName: GDD.PlayerSystem, Assembly-CSharp
         m_MethodName: OnEnterSpinWheel
         m_Mode: 0
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_triggerStayEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6300914170578224804}
         m_TargetAssemblyTypeName: GDD.PlayerSystem, Assembly-CSharp
         m_MethodName: OnDoorEnter
         m_Mode: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_triggerExitEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6300914170578224804}
         m_TargetAssemblyTypeName: GDD.PlayerSystem, Assembly-CSharp
         m_MethodName: OnDoorExit
         m_Mode: 0

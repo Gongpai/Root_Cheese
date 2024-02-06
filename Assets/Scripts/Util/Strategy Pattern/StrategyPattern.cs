@@ -12,7 +12,7 @@ namespace GDD.StrategyPattern
             GM = GameManager.Instance;
         }
 
-        public abstract void Maneuver(T pawn);
+        public abstract void Maneuver(T pawn, Transform target);
 
         public abstract void Truce();
     }

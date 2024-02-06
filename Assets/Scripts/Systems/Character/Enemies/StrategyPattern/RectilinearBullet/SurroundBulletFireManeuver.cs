@@ -19,6 +19,7 @@
                 _enemyBulletConfig.bullet_power,
                 _enemyBulletConfig.shot,
                 _enemyBulletConfig.damage,
+                _target,
                 _enemyBulletConfig.bulletType,
                 BulletShotSurroundMode.Surround,
                 BulletShotMode.SurroundMode

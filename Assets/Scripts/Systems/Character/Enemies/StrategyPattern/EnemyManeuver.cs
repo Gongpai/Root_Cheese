@@ -15,6 +15,7 @@ namespace GDD
         protected PlayerSystem _player;
         protected EnemySystem _enemySystem;
         protected EnemyAttackState _enemyAttackState;
+        protected Transform _target;
 
         protected virtual void Awake()
         {
@@ -28,8 +29,10 @@ namespace GDD
             _enemySystem = GetComponent<EnemySystem>();
         }
 
-        public override void Maneuver(EnemyState pawn)
+        public override void Maneuver(EnemyState pawn, Transform target)
         {
+            _target = target;
+            
             if(GM.players.Count <= 0)
                 return;
             
