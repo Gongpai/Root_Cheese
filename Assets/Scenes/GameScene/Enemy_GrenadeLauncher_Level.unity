@@ -1313,6 +1313,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2115371027949020943, guid: fbb78fa1062f9b349bcced6dc093cf07,
         type: 3}
+      propertyPath: m_GameAIPrefab._serializedList.Array.data[0].Key
+      value: 
+      objectReference: {fileID: 628791750963113795, guid: 81519d50a219def47890037649803238,
+        type: 3}
+    - target: {fileID: 2115371027949020943, guid: fbb78fa1062f9b349bcced6dc093cf07,
+        type: 3}
       propertyPath: m_GameAIPrefab._serializedList.Array.data[1].Key
       value: 
       objectReference: {fileID: 628791750963113795, guid: 3878c7c3106e6204781c5698067e3c49,

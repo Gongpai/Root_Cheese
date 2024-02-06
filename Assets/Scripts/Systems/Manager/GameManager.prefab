@@ -57,6 +57,8 @@ MonoBehaviour:
     mainSkill: -1
     mainAttachmentSkill: -1
     secondaryAttachmentSkill: -1
+  m_pauseMenu: {fileID: 1247892556584948905, guid: 2ed1333d6fb01e540847d52d6ae45d5f,
+    type: 3}
   m_players:
     _serializedList: []
   m_player_layer: {fileID: 0}
