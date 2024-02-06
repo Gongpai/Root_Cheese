@@ -7,6 +7,8 @@ namespace GDD
 {
     public class ProjectileReflectionLines : MonoBehaviour
     {
+        [SerializeField] private Material m_lineMat;
+        [SerializeField] private Material m_arrowMat;
         private List<GameObject> _lines = new List<GameObject>();
         private List<GameObject> _arrows = new List<GameObject>();
         private GameObject _spawnLine;
@@ -14,7 +16,7 @@ namespace GDD
         private Transform _line_parent;
         private Vector3 default_scale_arrow = new Vector3(0.75f, 0.2f, 1);
         private Vector3 default_scale_line = new Vector3(0.1f, 0.05f, 0.25f);
-
+        
         public bool is_null
         {
             get
@@ -33,6 +35,11 @@ namespace GDD
             //line
             _spawnLine = GameObject.CreatePrimitive(PrimitiveType.Cube);
             
+            //Mat
+            Material linemat = Resources.Load<Material>("Materials/LineMat");
+            m_lineMat = linemat;
+            m_arrowMat = linemat;
+            
             _spawnLine.transform.parent = transform;
             _spawnLine.name = "PRLine_Object";
             _spawnLine.layer = LayerMask.NameToLayer("Bullet");
@@ -47,12 +54,13 @@ namespace GDD
             Destroy(line.GetComponent<Collider>());
             line.transform.parent = _line_parent;
             line.transform.localPosition = Vector3.zero;
+            line.GetComponent<MeshRenderer>().sharedMaterial = m_lineMat;
             line.SetActive(true);
             
             //Line------------------------------------------------
             //Scale
             float dis = Vector3.Distance(start, end);
-            line.transform.localScale = new Vector3(line.transform.localScale.x, line.transform.localScale.y, dis - 0.5f);
+            line.transform.localScale = new Vector3(line.transform.localScale.x * 0.5f, line.transform.localScale.y, dis - 0.5f);
             
             //Position
             Vector3 pos = VectorUtil.GetVectorDistance(start, end, (dis / 2) - (0.25f / 2));
@@ -83,6 +91,7 @@ namespace GDD
             arrow.name = "Arrow";
             arrow.layer = LayerMask.NameToLayer("Bullet");
             Destroy(_spawnLine.GetComponent<Collider>());
+            arrow.GetComponent<MeshRenderer>().sharedMaterial = m_arrowMat;
             arrow.transform.position = pos;
             arrow.transform.rotation = rot;
 

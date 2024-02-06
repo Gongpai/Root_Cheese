@@ -1166,7 +1166,7 @@ PrefabInstance:
     - target: {fileID: 5458690532270962618, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5458690532330227305, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
@@ -1206,7 +1206,7 @@ PrefabInstance:
     - target: {fileID: 5458690532552941512, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
       propertyPath: m_Text
-      value: 1212312121@GGG
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5458690532552941514, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
@@ -1301,7 +1301,7 @@ PrefabInstance:
     - target: {fileID: 5458690533416711506, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
       propertyPath: m_Text
-      value: treecom2014@outlook.co.th
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5458690533416711516, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
@@ -1336,7 +1336,7 @@ PrefabInstance:
     - target: {fileID: 5458690533544386430, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5458690533762692278, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}

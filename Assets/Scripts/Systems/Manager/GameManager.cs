@@ -9,6 +9,7 @@ using GDD.PUN;
 using GDD.Sinagleton;
 using GDD.Timer;
 using Photon.Pun;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Grid = GDD.Spatial_Partition.Grid;
@@ -20,6 +21,9 @@ namespace GDD
         //GameInstance
         [SerializeField] private GameInstance _GI = new GameInstance();
         private PlayerInfo _playerInfo = new PlayerInfo();
+        
+        //Pause Menu
+        [SerializeField] private GameObject m_pauseMenu;
         
         //Game Setting
         [Header("Finding System")] 
@@ -56,6 +60,7 @@ namespace GDD
         private AwaitTimer readyTimer;
         private DataBaseController DBC;
         private GameObject _warningUI;
+        private GameObject pauseMenu;
 
         public GameInstance gameInstance
         {
@@ -152,7 +157,7 @@ namespace GDD
             }, time =>
             {
                 Canvas_Element_List canvasElementList = _warningUI.GetComponent<Canvas_Element_List>();
-                canvasElementList.images[0].fillAmount = 5.0f - time / 5.0f;
+                canvasElementList.images[0].fillAmount = (5.0f - time) / 5.0f;
                 canvasElementList.texts[0].text = ((int)(5.0f - time)).ToString();
             });
         }
@@ -160,7 +165,20 @@ namespace GDD
         // Update is called once per frame
         void Update()
         {
-            
+            if(Input.GetKeyDown(KeyCode.Escape))
+                CreateOrOpenPauseMenu();
+        }
+
+        public void CreateOrOpenPauseMenu()
+        {
+            if (pauseMenu == null)
+            {
+                pauseMenu = Instantiate(m_pauseMenu, Vector3.zero, quaternion.identity);
+            }
+            else
+            {
+                pauseMenu.SetActive(true);
+            }
         }
         
         public void OnReady(bool isLobby = false)
