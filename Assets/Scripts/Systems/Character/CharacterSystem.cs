@@ -5,6 +5,7 @@ using GDD.Spatial_Partition;
 using GDD.Timer;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -21,6 +22,14 @@ namespace GDD
         [SerializeField] protected float m_shield = 100;
         [SerializeField] protected int _maxEXP = 100;
         [SerializeField] protected float m_levelUp = 1.1f;
+
+        [Header("Animation")] 
+        [SerializeField] private Animator m_animator;
+        [SerializeField] private string m_deadAnimatorState = "isDead";
+        [SerializeField] private string m_reviveAnimatorState = "isRevive";
+        [SerializeField] private UnityEvent m_OnDead;
+        [SerializeField] private UnityEvent m_OnRevive;
+        
         protected bool _isMasterClient = true;
         protected bool _isDead;
         protected int _EXP;
@@ -66,6 +75,8 @@ namespace GDD
             {
                 _punCharacterHealth = GetComponent<PunCharacterHealth>();
             }
+
+            m_animator = GetComponent<Animator>();
 
             updateEXPTimer = new AwaitTimer(1.0f,
                 () =>
@@ -145,7 +156,28 @@ namespace GDD
 
         public virtual void OnCharacterDead()
         {
-            gameObject.SetActive(false);
+            m_animator.SetTrigger(m_deadAnimatorState);
+            m_OnDead?.Invoke();
+        }
+
+        public void OnReviveTrigger(Collider other)
+        {
+            if (other.CompareTag("Revive"))
+            {
+                OnRevive(other.gameObject);
+            }
+        }
+
+        public virtual void OnRevive(GameObject other)
+        {
+            other.GetComponent<CharacterSystem>().OnCharacterRevive();
+        }
+
+        public void OnCharacterRevive()
+        {
+            m_animator.SetTrigger(m_reviveAnimatorState);
+            SetHP(GetMaxHP());
+            m_OnRevive?.Invoke();
         }
         
         public virtual void OnDisable()

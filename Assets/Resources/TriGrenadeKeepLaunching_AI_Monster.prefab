@@ -16,8 +16,20 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
+      propertyPath: _dropEXP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_max_HP
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
+      propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 7434617591950528823}
+    - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
+      propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: set_enabled
       objectReference: {fileID: 0}
     - target: {fileID: 549421544, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_3rdPersonControllerAI
@@ -293,7 +305,7 @@ PrefabInstance:
     - target: {fileID: 7963713794769125096, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
         type: 3}
       propertyPath: m_Name
-      value: Enemy_Template
+      value: TriGrenadeKeepLaunching_AI_Monster
       objectReference: {fileID: 0}
     - target: {fileID: 7963713794769125096, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
         type: 3}
@@ -487,3 +499,15 @@ NavMeshAgent:
     type: 3}
   m_PrefabInstance: {fileID: 7367081144338960811}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7434617591950528823 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 76614021475303580, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
+    type: 3}
+  m_PrefabInstance: {fileID: 7367081144338960811}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628791750963113795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f9edcadbf7431ebe984ef44ff7d220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

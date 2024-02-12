@@ -16,8 +16,20 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
+      propertyPath: _dropEXP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_max_HP
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
+      propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 2079041054498569845}
+    - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
+      propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: set_enabled
       objectReference: {fileID: 0}
     - target: {fileID: 549421544, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_3rdPersonControllerAI
@@ -432,6 +444,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8019451e08154a6f8d97f06fb763f09f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2079041054498569845 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8856079723556138974, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
+    type: 3}
+  m_PrefabInstance: {fileID: 7367081144338960811}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628791750963113795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349d4298902e4bb086f661c28f417c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &6906947594196193478 stripped

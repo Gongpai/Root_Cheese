@@ -21,6 +21,9 @@ namespace GDD
         //Ready Button
         private UnityAction readyAction;
         
+        //Revive Button
+        private UnityAction reviveAction;
+        
         public Vector2 GetMovement
         {
             get => _movement;
@@ -48,6 +51,11 @@ namespace GDD
         public void MoveInput(Vector2 newMoveDirection)
         {
             _movement = newMoveDirection;
+        }
+
+        public void OnRevive(InputValue value)
+        {
+            reviveAction?.Invoke();
         }
 
         private void Update()

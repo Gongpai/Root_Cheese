@@ -13856,7 +13856,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1931856562}
 --- !u!33 &788861755
@@ -19918,7 +19918,7 @@ GameObject:
   - component: {fileID: 1021880302}
   - component: {fileID: 1021880301}
   - component: {fileID: 1021880300}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Cube (69)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19936,7 +19936,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1795268773}
 --- !u!33 &1021880301

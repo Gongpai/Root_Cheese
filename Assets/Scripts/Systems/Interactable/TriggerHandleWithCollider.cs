@@ -8,21 +8,24 @@ namespace GDD
         {
             base.OnTriggerEnter(other);
             
-            m_triggerEnterEvent?.Invoke(other);
+            if(other.gameObject != checkID.gameObject)
+                m_triggerEnterEvent?.Invoke(other);
         }
 
         protected override void OnTriggerStay(Collider other)
         {
             base.OnTriggerStay(other);
             
-            m_triggerStayEvent?.Invoke(other);
+            if(other.gameObject != checkID.gameObject)
+                m_triggerStayEvent?.Invoke(other);
         }
 
         protected override void OnTriggerExit(Collider other)
         {
             base.OnTriggerExit(other);
             
-            m_triggerExitEvent?.Invoke(other);
+            if(other.gameObject != checkID.gameObject)
+                m_triggerExitEvent?.Invoke(other);
         }
     }
 }

@@ -43,6 +43,11 @@ namespace StarterAssets
 		{
 			SprintInput(value.isPressed);
 		}
+
+		public void OnRevive(InputValue value)
+		{
+			
+		}
 #endif
 
 

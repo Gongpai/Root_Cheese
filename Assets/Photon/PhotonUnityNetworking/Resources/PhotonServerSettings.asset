@@ -66,6 +66,7 @@ MonoBehaviour:
   - PunEnterState
   - RPCProjectileReflectionLinesEnable
   - PunExitState
+  - PunReviveCharacter
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

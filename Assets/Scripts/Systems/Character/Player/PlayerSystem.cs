@@ -221,6 +221,13 @@ namespace GDD
             }
         }
 
+        public override void OnRevive(GameObject other)
+        {
+            base.OnRevive(other);
+            
+            other.GetComponent<CharacterSystem>().punCharacterHealth.OnRevive();
+        }
+
         protected override void OnLevelUP()
         {
             base.OnLevelUP();
