@@ -22,7 +22,7 @@ namespace GDD
         private UnityAction readyAction;
         
         //Revive Button
-        private UnityAction reviveAction;
+        private UnityAction<bool> reviveAction;
         
         public Vector2 GetMovement
         {
@@ -33,6 +33,12 @@ namespace GDD
         {
             get => readyAction;
             set => readyAction = value;
+        }
+        
+        public UnityAction<bool> Revive
+        {
+            get => reviveAction;
+            set => reviveAction = value;
         }
 
         //Get Input Value From Input System
@@ -55,7 +61,7 @@ namespace GDD
 
         public void OnRevive(InputValue value)
         {
-            reviveAction?.Invoke();
+            reviveAction?.Invoke(value.isPressed);
         }
 
         private void Update()

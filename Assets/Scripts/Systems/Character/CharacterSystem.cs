@@ -22,6 +22,7 @@ namespace GDD
         [SerializeField] protected float m_shield = 100;
         [SerializeField] protected int _maxEXP = 100;
         [SerializeField] protected float m_levelUp = 1.1f;
+        [SerializeField] private float _reviveTime = 2;
 
         [Header("Animation")] 
         [SerializeField] private Animator m_animator;
@@ -32,6 +33,7 @@ namespace GDD
         
         protected bool _isMasterClient = true;
         protected bool _isDead;
+        private bool _isRevive;
         protected int _EXP;
         protected int _currentUpdateEXP;
         protected int _updateEXP;
@@ -40,7 +42,9 @@ namespace GDD
         protected int _idPhotonView;
         protected AwaitTimer updateEXPTimer;
         protected AwaitTimer timer;
+        protected AwaitTimeCounting _reviveCounting;
         protected PunCharacterHealth _punCharacterHealth;
+        private float _reviveCurrentTime;
 
         public bool isMasterClient
         {
@@ -160,11 +164,33 @@ namespace GDD
             m_OnDead?.Invoke();
         }
 
+        public void ReviveButton(bool isRevive)
+        {
+            if (isRevive)
+            {
+                _reviveCounting = new AwaitTimeCounting(time =>
+                {
+                    print("Revive Time : " + time);
+
+                    if (time >= _reviveTime)
+                    {
+                        _reviveCounting.Stop();
+                    }
+                }, () => { _isRevive = true; });
+            }
+            else
+            {
+                _isRevive = false;
+                _reviveCounting.Stop();
+            }
+        }
+        
         public void OnReviveTrigger(Collider other)
         {
             if (other.CompareTag("Revive"))
             {
-                OnRevive(other.gameObject);
+                if(other.gameObject.GetComponent<CharacterSystem>().GetHP() <= 0 && _isRevive)
+                    OnRevive(other.gameObject);
             }
         }
 

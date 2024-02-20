@@ -28,7 +28,6 @@ namespace GDD
         [Header("Player In Lobby Mode")] 
         [SerializeField] protected bool isLobbyMode = false;
         
-        private CharacterControllerSystem _controllerSystem;
         private IState<PlayerSystem> _attackState, _moveState;
         private StateContext<PlayerSystem> _playerStateContext;
         private WeaponSystem _weaponSystem;
@@ -74,8 +73,6 @@ namespace GDD
             
             if (isMasterClient)
             {
-                _controllerSystem = GetComponent<CharacterControllerSystem>();
-                _controllerSystem.input.Ready = ReadyButton;
                 _punCharacterHealth = GetComponent<PunCharacterHealth>();
 
                 SetSpinWheelAction();
@@ -112,23 +109,17 @@ namespace GDD
                 return;
             
             base.Update();
-            
-            if(!_isMasterClient)
-                return;
-            
-            /*
+        }
+
+        public void RandomSkillDebug()
+        {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 GameObject r_skill_ui = Instantiate(m_skillRandomUI);
                 _randomSkillUI = r_skill_ui.transform.GetChild(0).GetComponent<RandomSkillUI>();
                 _randomSkillUI.randomSkill = _randomSkill;
                 _randomSkillUI.OnCreate();
-            }*/
-            
-            if(_controllerSystem.Get_Player_Move)
-                StartMove();
-            else
-                StartAttack();
+            }
         }
 
         public void ReadyButton()

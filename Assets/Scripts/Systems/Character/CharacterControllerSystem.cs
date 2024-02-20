@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 namespace GDD
 {
     [RequireComponent(typeof(PlayerInput))]
-    public class CharacterControllerSystem : MonoBehaviour
+    public class CharacterControllerSystem<T> : MonoBehaviour
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
@@ -69,6 +69,7 @@ namespace GDD
         
         // Other
         protected CharacterController _controller;
+        protected T _characterSystem;
         protected AssetsInputsSystem _input;
         protected bool _hasAnimator;
         protected GameObject _mainCamera;
@@ -99,6 +100,7 @@ namespace GDD
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<AssetsInputsSystem>();
             _playerInput = GetComponent<PlayerInput>();
+            _characterSystem = GetComponent<T>();
             
             AssignAnimationIDs();
         }

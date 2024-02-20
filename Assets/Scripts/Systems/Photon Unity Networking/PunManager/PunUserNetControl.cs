@@ -63,7 +63,7 @@ namespace GDD.PUN
             {
                 gameObject.name += $" [Other] [{photonView.ViewID}]";
                 //GM.players.Add(GetComponent<PlayerSystem>());
-                GetComponent<CharacterControllerSystem>().enabled = false;
+                GetComponent<CharacterControllerSystem<PlayerSystem>>().enabled = false;
                 GetComponent<PlayerSystem>().isMasterClient = false;
                 OnPlayerPropertiesUpdate(photonView.Owner, photonView.Owner.CustomProperties);
                 

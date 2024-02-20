@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace GDD
 {
-    public class EnemyControllerSystem : CharacterControllerSystem
+    public class EnemyControllerSystem : CharacterControllerSystem<EnemySystem>
     {
         // AI variables
         [Header("AI Setting")]
