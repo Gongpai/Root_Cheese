@@ -17,7 +17,6 @@ namespace GDD
         
         [Header("UI")]
         [SerializeField] private ReadyCheckUI _readyCheck;
-        [SerializeField] private GameObject m_ReviveUI;
         
         [Header("Player Attack Setting")]
         [SerializeField][Tooltip("Time For Delay Enter Attack State")] 
@@ -36,7 +35,6 @@ namespace GDD
         private RandomSkillUI _randomSkillUI;
         private GameManager GM;
         private bool _isEnterRoom;
-        private Canvas_Element_List _reviveUI;
         List<UnityAction<float, float>> _spinWheelActions = new List<UnityAction<float, float>>();
         
         public float delay_attack
@@ -95,12 +93,7 @@ namespace GDD
             _randomSkill = GetComponent<RandomSkill>();
             _randomSkill.weaponSystem = _weaponSystem;
             _randomSkill.OnInitialize();
-
-            if (m_ReviveUI != null)
-            {
-                _reviveUI = Instantiate(m_ReviveUI, Vector3.zero, Quaternion.identity).GetComponent<Canvas_Element_List>();
-                _reviveUI.gameObject.SetActive(false);
-            }
+            
             /*
             GameObject r_skill_ui = Instantiate(m_skillRandomUI);
             _randomSkillUI = r_skill_ui.transform.GetChild(0).GetComponent<RandomSkill_UI>();
@@ -219,11 +212,14 @@ namespace GDD
             }
         }
 
-        public override void OnReviveTrigger(Collider other)
+        public override void OnReviveTriggerEnter(Collider other)
         {
-            base.OnReviveTrigger(other);
-            
-            _reviveUI.gameObject.SetActive(true);
+            base.OnReviveTriggerEnter(other);
+        }
+
+        public override void OnReviveTriggerExit(Collider other)
+        {
+            base.OnReviveTriggerExit(other);
         }
 
         public override void OnRevive(GameObject other)

@@ -177,27 +177,34 @@ namespace GDD
             _weapon = new WeaponDecorator(_weaponConfig.Item1, null, _weaponConfigStats, _attachmentStats);
         }
         
-        public void ToggleFire(PlayerSpawnBullet playerSpawnBullet)
+        public void ToggleFire(PlayerSpawnBullet playerSpawnBullet, Transform target)
         {
             //print($"PlayerS is null : {playerSpawnBullet == null} | Weapon is null : {_weapon == null}");
             
             if(_weapon == null)
                 return;
             
-            IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
-            
             playerSpawnBullet.bulletObjectPool.weapon = _weapon;
             playerSpawnBullet.bulletObjectPool.Set_GameObject = _weapon.bulletObject;
-            playerSpawnBullet.OnSpawnBullet(
-                _weapon.bullet_spawn_distance,
-                _weapon.power,
-                _weapon.shot,
-                _weapon.damage,
-                closestEnemy.GetPawnTransform(),
-                BulletType.Rectilinear,
-                _weapon.surroundMode,
-                _weapon.bulletShotMode
+
+            try
+            {
+                playerSpawnBullet.OnSpawnBullet(
+                    _weapon.bullet_spawn_distance,
+                    _weapon.power,
+                    _weapon.shot,
+                    _weapon.damage,
+                    target,
+                    BulletType.Rectilinear,
+                    _weapon.surroundMode,
+                    _weapon.bulletShotMode
                 );
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+            
         }
         
         

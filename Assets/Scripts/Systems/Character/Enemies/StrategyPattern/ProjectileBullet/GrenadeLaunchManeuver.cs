@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Linq;
 using GDD.PUN;
 using GDD.Spatial_Partition;
+using Photon.Pun;
 using UnityEngine;
 
 namespace GDD
@@ -26,7 +28,7 @@ namespace GDD
                     int[] posIndex = RandomPositionTargetFromCustomProperties(m_enemyBulletConfig.shot);
 
                     ToggleFire(_enemySpawnBullet, posIndex);
-                    _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType, posIndex);
+                    _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType, PhotonNetwork.PlayerList.ToList().IndexOf(_target.GetComponent<PhotonView>().Owner), posIndex);
                 };
             }
         }

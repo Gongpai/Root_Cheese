@@ -166,6 +166,11 @@ namespace GDD
             base.OnCharacterDead();
         }
 
+        public void EnemyDead()
+        {
+            Destroy(gameObject);
+        }
+
         protected void AddEXPToPlayer()
         {
             if(GM.playMode == PlayMode.Singleplayer || GM.players.Count <= 1)

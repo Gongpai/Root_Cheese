@@ -265,18 +265,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 6300914170578224804}
-        m_TargetAssemblyTypeName: GDD.CharacterSystem, Assembly-CSharp
-        m_MethodName: OnRevive
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   m_triggerExitEvent:
     m_PersistentCalls:
       m_Calls:
@@ -2461,7 +2449,6 @@ MonoBehaviour:
   m_shield: 100
   _maxEXP: 100
   m_levelUp: 1.1
-  _reviveTime: 2
   m_animator: {fileID: 1423831220031116971}
   m_deadAnimatorState: isDead
   m_reviveAnimatorState: isDead
@@ -2519,12 +2506,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  _reviveTime: 2
+  m_ReviveUI: {fileID: 1199033681664359225, guid: c98dd378fd333ec41aee54b4006c0032,
+    type: 3}
   m_skillRandomUI: {fileID: 2005608045575106628, guid: dd27f74880ca05948922fe56b975edce,
     type: 3}
   m_randomSpinWheel: {fileID: 7748829778939500841, guid: 5b551d98d27fd9949abd1c7c6f72bfff,
     type: 3}
   _readyCheck: {fileID: 6574438764085959929}
-  m_ReviveUI: {fileID: 0}
   m_delay_attack: 0.25
   vision: {x: 10, y: 10}
   isLobbyMode: 0
@@ -2687,6 +2676,7 @@ GameObject:
   - component: {fileID: 1047340457318440747}
   - component: {fileID: 5873746528938034500}
   - component: {fileID: 5713295737137870072}
+  - component: {fileID: 1095301407952545811}
   m_Layer: 6
   m_Name: ReviveCollider
   m_TagString: Revive
@@ -2733,11 +2723,57 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6789750463692398344}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.25
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1095301407952545811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6789750463692398344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 188dbfb6f93e438fa156a839f26b6321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkID: {fileID: 5042343504155092394}
+  m_triggerEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6300914170578224804}
+        m_TargetAssemblyTypeName: GDD.PlayerSystem, Assembly-CSharp
+        m_MethodName: OnReviveTriggerEnter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_triggerStayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_triggerExitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6300914170578224804}
+        m_TargetAssemblyTypeName: GDD.PlayerSystem, Assembly-CSharp
+        m_MethodName: OnReviveTriggerExit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7140289266405939283
 GameObject:
   m_ObjectHideFlags: 0

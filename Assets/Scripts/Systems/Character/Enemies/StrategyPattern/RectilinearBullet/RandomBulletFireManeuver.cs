@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Linq;
 using GDD.Spatial_Partition;
+using Photon.Pun;
 using UnityEngine;
 
 namespace GDD
@@ -40,7 +42,7 @@ namespace GDD
                     {
                         yield return new WaitForSeconds(fire_rate);
                         ToggleFire(_enemySpawnBullet);
-                        _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType);
+                        _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType, PhotonNetwork.PlayerList.ToList().IndexOf(_target.GetComponent<PhotonView>().Owner));
 
                         current_count++;
                     }

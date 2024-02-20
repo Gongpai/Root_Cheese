@@ -56,7 +56,6 @@ MonoBehaviour:
   m_shield: 100
   _maxEXP: 100
   m_levelUp: 1.1
-  _reviveTime: 2
   m_animator: {fileID: 0}
   m_deadAnimatorState: isDead
   m_reviveAnimatorState: isRevive
@@ -66,10 +65,11 @@ MonoBehaviour:
   m_OnRevive:
     m_PersistentCalls:
       m_Calls: []
+  _reviveTime: 2
+  m_ReviveUI: {fileID: 0}
   m_skillRandomUI: {fileID: 0}
   m_randomSpinWheel: {fileID: 0}
   _readyCheck: {fileID: 0}
-  m_ReviveUI: {fileID: 0}
   m_delay_attack: 0.5
   vision: {x: 0, y: 0}
   isLobbyMode: 1

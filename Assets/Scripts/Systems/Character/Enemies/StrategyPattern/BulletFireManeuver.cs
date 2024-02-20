@@ -4,6 +4,7 @@ using System.Linq;
 using GDD.PUN;
 using GDD.Spatial_Partition;
 using GDD.StrategyPattern;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -48,7 +49,7 @@ namespace GDD
                 OnFireEvent = () =>
                 {
                     ToggleFire(_enemySpawnBullet);
-                    _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType);
+                    _punECC.CallRaiseToggleFireEvent(m_enemyBulletConfig.bulletType, PhotonNetwork.PlayerList.ToList().IndexOf(_target.GetComponent<PhotonView>().Owner));
                 };
             }
         }
@@ -134,6 +135,7 @@ namespace GDD
         public virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet, int targetIndex, int[] posIndex = default)
         {
             _target = GM.players.ElementAt(targetIndex).Key.transform;
+            ToggleFire(enemySpawnBullet, posIndex);
         }
     }
 }

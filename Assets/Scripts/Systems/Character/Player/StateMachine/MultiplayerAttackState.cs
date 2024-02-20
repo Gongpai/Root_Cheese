@@ -26,7 +26,7 @@ namespace GDD
         {
             base.ToggleFire();
             
-            _punPlayerController.CallRaiseToggleFireEvent();
+            _punPlayerController.CallRaiseToggleFireEvent(GM.enemies.IndexOf(closestEnemy.GetPawnTransform().GetComponent<EnemySystem>()));
         }
     }
 }

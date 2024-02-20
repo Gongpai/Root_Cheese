@@ -22,7 +22,6 @@ namespace GDD
         [SerializeField] protected float m_shield = 100;
         [SerializeField] protected int _maxEXP = 100;
         [SerializeField] protected float m_levelUp = 1.1f;
-        [SerializeField] private float _reviveTime = 2;
 
         [Header("Animation")] 
         [SerializeField] private Animator m_animator;
@@ -31,10 +30,16 @@ namespace GDD
         [SerializeField] private UnityEvent m_OnDead;
         [SerializeField] private UnityEvent m_OnRevive;
         
+        [Header("Revive")]
+        [SerializeField] private float _reviveTime = 2;
+        [SerializeField] protected GameObject m_ReviveUI;
+        
         protected bool _isMasterClient = true;
         protected bool _isDead;
-        private bool _isRevive;
+        protected Canvas_Element_List _reviveUI;
+        protected bool _isOtherPlayerRevive;
         protected int _EXP;
+        protected Transform OtherPlayer;
         protected int _currentUpdateEXP;
         protected int _updateEXP;
         protected int _level;
@@ -44,7 +49,6 @@ namespace GDD
         protected AwaitTimer timer;
         protected AwaitTimeCounting _reviveCounting;
         protected PunCharacterHealth _punCharacterHealth;
-        private float _reviveCurrentTime;
 
         public bool isMasterClient
         {
@@ -81,6 +85,13 @@ namespace GDD
             }
 
             m_animator = GetComponent<Animator>();
+            
+            if (m_ReviveUI != null && isMasterClient)
+            {
+                _reviveUI = Instantiate(m_ReviveUI, Vector3.zero, Quaternion.identity).GetComponent<Canvas_Element_List>();
+                _reviveUI.gameObject.SetActive(false);
+                _reviveUI.GetComponent<Canvas>().worldCamera = Camera.main;
+            }
 
             updateEXPTimer = new AwaitTimer(1.0f,
                 () =>
@@ -169,31 +180,51 @@ namespace GDD
 
         public void ReviveButton(bool isRevive)
         {
+            if(!_isOtherPlayerRevive)
+                return;
+            
             if (isRevive)
             {
                 _reviveCounting = new AwaitTimeCounting(time =>
                 {
                     print("Revive Time : " + time);
+                    _reviveUI.images[0].fillAmount = time / _reviveTime;
 
                     if (time >= _reviveTime)
                     {
                         _reviveCounting.Stop();
+                        
+                        if(OtherPlayer != null)
+                            OnRevive(OtherPlayer.parent.gameObject);
                     }
-                }, () => { _isRevive = true; });
+                }, () => { });
+                _reviveCounting.Start();
             }
             else
             {
-                _isRevive = false;
                 _reviveCounting.Stop();
             }
         }
         
-        public virtual void OnReviveTrigger(Collider other)
+        public virtual void OnReviveTriggerEnter(Collider other)
         {
             if (other.CompareTag("Revive"))
             {
-                if(other.gameObject.GetComponent<CharacterSystem>().GetHP() <= 0 && _isRevive)
-                    OnRevive(other.gameObject);
+                print("Revive Enter");
+                _isOtherPlayerRevive = other.transform.parent.GetComponent<CharacterSystem>().GetHP() <= 0;
+                _reviveUI.gameObject.SetActive(_isOtherPlayerRevive);
+                OtherPlayer = other.transform;
+            }
+        }
+        
+        public virtual void OnReviveTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Revive"))
+            {
+                print("Revive Exit");
+                _reviveUI.gameObject.SetActive(false);
+                _isOtherPlayerRevive = false;
+                OtherPlayer = null;
             }
         }
 

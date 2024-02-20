@@ -11,6 +11,7 @@ namespace GDD
     {
         protected WeaponSystem _weaponSystem;
         private bool _is_end_rotation = false;
+        protected IPawn closestEnemy;
 
         protected override void OnEnable()
         {
@@ -38,7 +39,7 @@ namespace GDD
             
             //Start Coroutines Here
             //print("Is null :: " + (GM == null));
-            IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
+            closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
             SmoothLookAtEnemy(closestEnemy);
             OnFire(closestEnemy);
         }
@@ -48,7 +49,7 @@ namespace GDD
             base.Handle(contrller);
             
             //print("Character System = null : " + (_characterSystem == null));
-            IPawn closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
+            closestEnemy = GM.grid.FindClosestEnemy(_characterSystem);
             //print("ClosestEnemy null : " + (closestEnemy == null));
 
             if (closestEnemy == null)
@@ -138,7 +139,7 @@ namespace GDD
 
         protected virtual void ToggleFire()
         {
-            _weaponSystem.ToggleFire(PlayerSpawnBullet);
+            _weaponSystem.ToggleFire(PlayerSpawnBullet, closestEnemy.GetPawnTransform());
         }
 
         private void SmoothLookAtEnemy(IPawn enemy)

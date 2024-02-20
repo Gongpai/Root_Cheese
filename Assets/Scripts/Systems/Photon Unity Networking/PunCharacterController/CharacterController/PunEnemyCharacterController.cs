@@ -95,7 +95,7 @@ namespace GDD.PUN
                 ((ProjectileReflectionBulletFireManeuver)_bulletFireManeuver). OnHideProjectileReflectionLines();
         }
 
-        public void CallRaiseToggleFireEvent(BulletType type, int[] posIndex = default)
+        public void CallRaiseToggleFireEvent(BulletType type, int targetIndex, int[] posIndex = default)
         {
             print($"Fire To Online : {gameObject.name}");
             
@@ -106,7 +106,8 @@ namespace GDD.PUN
                 content = new object[]
                 {
                     photonView.ViewID,
-                    type
+                    type,
+                    targetIndex
                 };
             }
             else
@@ -115,6 +116,7 @@ namespace GDD.PUN
                 {
                     photonView.ViewID,
                     type,
+                    targetIndex,
                     posIndex
                 };
             }
@@ -147,9 +149,9 @@ namespace GDD.PUN
                 if ((int)datas[0] == photonView.ViewID)
                 {
                     if((BulletType)datas[1] != BulletType.Projectile)
-                        _bulletFireManeuver.ToggleFire(_enemySpawnBullet, (int)datas[3]);
+                        _bulletFireManeuver.ToggleFire(_enemySpawnBullet, (int)datas[2]);
                     else
-                        _bulletFireManeuver.ToggleFire(_enemySpawnBullet, (int)datas[3], (int[])datas[2]);
+                        _bulletFireManeuver.ToggleFire(_enemySpawnBullet, (int)datas[2], (int[])datas[3]);
                 }
             }
             else

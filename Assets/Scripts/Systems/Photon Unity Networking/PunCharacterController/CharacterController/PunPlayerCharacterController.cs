@@ -206,11 +206,12 @@ namespace GDD.PUN
             _weaponSystem.UpgradeAttachmentSkill((AttachmentSkillUpgrade)_skill);
         }
         
-        public void CallRaiseToggleFireEvent()
+        public void CallRaiseToggleFireEvent(int targetIndex)
         {
             object[] content = new object[]
             {
-                photonView.ViewID
+                photonView.ViewID,
+                targetIndex
             };
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions()
@@ -243,7 +244,15 @@ namespace GDD.PUN
                     
                     //Invoke Event --------------------
                     print($"Weapon is null {_weaponSystem == null}");
-                    _weaponSystem.ToggleFire(_playerSpawnBullet);
+
+                    try
+                    {
+                        _weaponSystem.ToggleFire(_playerSpawnBullet, GM.enemies[(int)datas[1]].transform);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log(e);
+                    }
                 }
             }
         }

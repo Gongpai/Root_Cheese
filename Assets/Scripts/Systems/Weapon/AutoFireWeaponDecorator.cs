@@ -23,7 +23,7 @@ namespace GDD
             while (true)
             {
                yield return new WaitForSeconds(1);
-               _weaponSystem.ToggleFire(_playerSpawnBullet);
+               //_weaponSystem.ToggleFire(_playerSpawnBullet);
             }
         }
     }
