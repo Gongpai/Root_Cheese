@@ -110,9 +110,11 @@ namespace GDD
                 m_shield_bar.value = GetShield() / GetMaxShield();
             else
                 m_shield_bar.value = 0;
-                    
-            if(GetHP() <= 0)
+
+            if (GetHP() <= 0 && !_isDead)
+            {
                 OnCharacterDead();
+            }
 
             LevelProgress();
         }
@@ -162,6 +164,7 @@ namespace GDD
         {
             m_animator.SetTrigger(m_deadAnimatorState);
             m_OnDead?.Invoke();
+            _isDead = true;
         }
 
         public void ReviveButton(bool isRevive)
@@ -185,7 +188,7 @@ namespace GDD
             }
         }
         
-        public void OnReviveTrigger(Collider other)
+        public virtual void OnReviveTrigger(Collider other)
         {
             if (other.CompareTag("Revive"))
             {
@@ -204,6 +207,7 @@ namespace GDD
             m_animator.SetTrigger(m_reviveAnimatorState);
             SetHP(GetMaxHP());
             m_OnRevive?.Invoke();
+            _isDead = false;
         }
         
         public virtual void OnDisable()

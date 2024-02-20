@@ -7,7 +7,6 @@ namespace GDD
     public class EnemyState : CharacterStateMachine<EnemySystem>
     {
         protected IManeuverBehaviour<EnemyState> strategy;
-        protected Transform target;
         
         protected override void Start()
         {
@@ -39,11 +38,11 @@ namespace GDD
             base.OnExit();
         }
 
-        public void ApplyEnemyStrategy(Transform target)
+        public void ApplyEnemyStrategy()
         {
             strategy = GetComponent<EnemyManeuver>();
             //print("Apply Enemy Strategy");
-            strategy.Maneuver(this, this.target);
+            strategy.Maneuver(this, target);
         }
 
         public void WithdrawEnemyStrategy()

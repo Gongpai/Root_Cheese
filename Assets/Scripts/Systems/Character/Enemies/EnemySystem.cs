@@ -152,8 +152,6 @@ namespace GDD
 
         public override void OnCharacterDead()
         {
-            base.OnCharacterDead();
-            
             _dropItemObject.OnCreateObject();
             AddEXPToPlayer();
             
@@ -162,6 +160,10 @@ namespace GDD
                 GM.grid.Remove(cellPos, this);
             }
             GM.enemies.Remove(this);
+
+            GetComponent<Unity.VisualScripting.StateMachine>().enabled = false;
+            
+            base.OnCharacterDead();
         }
 
         protected void AddEXPToPlayer()

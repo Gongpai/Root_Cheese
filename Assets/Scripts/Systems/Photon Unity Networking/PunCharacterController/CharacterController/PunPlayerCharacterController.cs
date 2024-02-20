@@ -32,9 +32,6 @@ namespace GDD.PUN
         protected override void Awake()
         {
             base.Awake();
-            
-            _weaponSystem = GetComponent<WeaponSystem>();
-            _playerSpawnBullet = GetComponent<PlayerSpawnBullet>();
 
             _skillPath = new SkillPath();
             _skillPath._skillConfigPath = _skillConfigPath;
@@ -46,6 +43,8 @@ namespace GDD.PUN
         {
             base.OnEnable();
       
+            _weaponSystem = GetComponent<WeaponSystem>();
+            _playerSpawnBullet = GetComponent<PlayerSpawnBullet>();
             _randomSkill = GetComponent<RandomSkill>();
         }
 
@@ -243,7 +242,7 @@ namespace GDD.PUN
                     //print(data[0] + " : " + gameObject.name);
                     
                     //Invoke Event --------------------
-                    //print($"Weapon is null {_weaponSystem == null}");
+                    print($"Weapon is null {_weaponSystem == null}");
                     _weaponSystem.ToggleFire(_playerSpawnBullet);
                 }
             }

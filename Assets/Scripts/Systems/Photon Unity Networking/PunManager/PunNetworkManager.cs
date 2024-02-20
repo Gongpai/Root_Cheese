@@ -335,8 +335,12 @@ namespace GDD.PUN
             
             PLM = PunLevelManager.Instance;
             _vCam = PLM.vCam;
-            if(PLM.GamePlayerPrefab != null)
-                PhotonNetwork.Instantiate(PLM.GamePlayerPrefab.name, new Vector3(5f, 5f, 2f), Quaternion.identity, 0);
+            if (PLM.GamePlayerPrefab != null)
+            {
+                Transform spawnPoint = PLM.playerSpawnPoint[PhotonNetwork.PlayerList.ToList().IndexOf(PhotonNetwork.LocalPlayer)];
+                PhotonNetwork.Instantiate(PLM.GamePlayerPrefab.name, spawnPoint.position, spawnPoint.rotation, 0);
+            }
+
             if (PLM.GameAIPrefab != null)
             {
                 for (int i = 0; i < PLM.GameAIPrefab.Count; i++)

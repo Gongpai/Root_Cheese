@@ -2524,6 +2524,7 @@ MonoBehaviour:
   m_randomSpinWheel: {fileID: 7748829778939500841, guid: 5b551d98d27fd9949abd1c7c6f72bfff,
     type: 3}
   _readyCheck: {fileID: 6574438764085959929}
+  m_ReviveUI: {fileID: 0}
   m_delay_attack: 0.25
   vision: {x: 10, y: 10}
   isLobbyMode: 0

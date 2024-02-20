@@ -16,6 +16,7 @@ namespace GDD.PUN
         [SerializedDictionary("AIPrefab", "Position")]
         [SerializeField] private SerializedDictionary<GameObject, List<Transform>> m_GameAIPrefab;
         [SerializeField] private Transform m_playerLevel;
+        [SerializeField] private List<Transform> m_playerSpawnPoint;
         [SerializeField] private Transform m_enemyLevel;
         [SerializeField] private string m_openLevel;
         [SerializeField] private CinemachineVirtualCamera _vCam;
@@ -23,6 +24,11 @@ namespace GDD.PUN
         private GameManager GM;
         private UnityAction _sceneLoaded;
 
+        public List<Transform> playerSpawnPoint
+        {
+            get => m_playerSpawnPoint;
+        }
+        
         public GameObject GamePlayerPrefab
         {
             get => m_GamePlayerPrefab;

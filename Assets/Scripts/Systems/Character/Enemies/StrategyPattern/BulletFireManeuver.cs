@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using GDD.PUN;
 using GDD.Spatial_Partition;
 using GDD.StrategyPattern;
@@ -60,12 +61,6 @@ namespace GDD
         public override void Maneuver(EnemyState pawn, Transform target)
         {
             base.Maneuver(pawn, target);
-
-            if (_player == null)
-            {
-                //Debug.LogError($"Enemy {gameObject.name} : target player is null");
-                return;
-            }
 
             OnFire(_player);
         }
@@ -134,6 +129,11 @@ namespace GDD
         public virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
         {
             //print("Fire!!!!!!!!!!!");
+        }
+        
+        public virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet, int targetIndex, int[] posIndex = default)
+        {
+            _target = GM.players.ElementAt(targetIndex).Key.transform;
         }
     }
 }

@@ -147,9 +147,9 @@ namespace GDD.PUN
                 if ((int)datas[0] == photonView.ViewID)
                 {
                     if((BulletType)datas[1] != BulletType.Projectile)
-                        _bulletFireManeuver.ToggleFire(_enemySpawnBullet);
+                        _bulletFireManeuver.ToggleFire(_enemySpawnBullet, (int)datas[3]);
                     else
-                        _bulletFireManeuver.ToggleFire(_enemySpawnBullet, (int[])datas[2]);
+                        _bulletFireManeuver.ToggleFire(_enemySpawnBullet, (int)datas[3], (int[])datas[2]);
                 }
             }
             else
