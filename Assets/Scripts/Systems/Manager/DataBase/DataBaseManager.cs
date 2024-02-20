@@ -20,6 +20,7 @@ namespace GDD.DataBase
         private Task<Session> _sessionTask;
         private Session _session;
         private ITableData _data;
+        private bool isGuest;
 
         public delegate void Action();
         public event Action errorAction;
@@ -44,24 +45,31 @@ namespace GDD.DataBase
         {
             get
             {
-                if (_sessionTask != null)
+                if (isGuest)
                 {
-                    if (_sessionTask.Status == TaskStatus.Created ||
-                        _sessionTask.Status == TaskStatus.WaitingForActivation ||
-                        _sessionTask.Status == TaskStatus.WaitingToRun)
-                        return 0.1f;
-                    else if (_sessionTask.Status == TaskStatus.Running)
-                        return 0.5f;
-                    else if (_sessionTask.Status == TaskStatus.WaitingForChildrenToComplete)
-                        return 0.9f;
-                    else if (_sessionTask.Status == TaskStatus.RanToCompletion)
-                        return 1;
-                    else
-                        return 0;
+                    return 1;
                 }
                 else
                 {
-                    return 0;
+                    if (_sessionTask != null)
+                    {
+                        if (_sessionTask.Status == TaskStatus.Created ||
+                            _sessionTask.Status == TaskStatus.WaitingForActivation ||
+                            _sessionTask.Status == TaskStatus.WaitingToRun)
+                            return 0.1f;
+                        else if (_sessionTask.Status == TaskStatus.Running)
+                            return 0.5f;
+                        else if (_sessionTask.Status == TaskStatus.WaitingForChildrenToComplete)
+                            return 0.9f;
+                        else if (_sessionTask.Status == TaskStatus.RanToCompletion)
+                            return 1;
+                        else
+                            return 0;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
 
                 return 0;
@@ -158,6 +166,12 @@ namespace GDD.DataBase
         //SignIn
         public async Task SignIn(string email, string password)
         {
+            if (isGuest)
+            {
+                _result = "You are logged in as a guest.";
+                Debug.LogWarning(_result);
+                return;
+            }
             if (_client != null)
                 await _client.InitializeAsync();
             else
@@ -205,9 +219,32 @@ namespace GDD.DataBase
             }
         }
 
+        //Guest SignIn
+        public void GuestSignIn()
+        {
+            _data = new InsertRowData();
+            PlayerInfo playerInfo = new PlayerInfo();
+            playerInfo.playerName = $"Guest {DateTime.Now.Millisecond}{DateTime.Now.Minute}";
+            playerInfo.date = DateTime.Now.ToString();
+            playerInfo.age = 1;
+            _data.playerInfo = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(playerInfo));
+            _data.user_id = "";
+            _data.created_at = DateTime.Now;
+            _data.gameSave = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(GameManager.Instance.gameInstance));
+
+            Debug.LogWarning($"Player Inf : {_data.playerInfo}");
+            isGuest = true;
+        }
+
         //Update row
         public async Task Update(JObject[] jObject)
         {
+            if (isGuest)
+            {
+                _result = "You are logged in as a guest.";
+                Debug.LogWarning(_result);
+                return;
+            }
             if (_client == null)
             {
                 _result = "Client not found or Client has not been created.";
@@ -235,6 +272,12 @@ namespace GDD.DataBase
         //SyncData
         public async Task SyncClientData()
         {
+            if (isGuest)
+            {
+                _result = "You are logged in as a guest.";
+                Debug.LogWarning(_result);
+                return;
+            }
             if (_client == null)
             {
                 _result = "Client not found or Client has not been created.";
@@ -250,6 +293,7 @@ namespace GDD.DataBase
             _result = $"Successfully sync data user id: {_session?.User?.Id}";
             Debug.Log(_result);
             _data = data;
+            Debug.LogWarning($"Player Inf : {_data.playerInfo}");
         }
 
         public T GetData<T>(object data)
@@ -279,12 +323,14 @@ namespace GDD.DataBase
             }
 
             _session = null;
+            isGuest = false;
         }
 
         public void RemoveClient()
         {
             _client = null;
             _result = "Client deleted";
+            isGuest = false;
             Debug.Log(_result);
         }
         

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace GDD
 {
+    [Serializable]
     public class PlayerInfo
     {
         public string playerName = "Kong NaJa";
@@ -13,9 +14,9 @@ namespace GDD
     public class GameInstance
     {
         //Character State
-        public float HP;
-        public float maxHP;
-        public float shield;
+        public float HP = 100;
+        public float maxHP = 100;
+        public float shield = 100;
         public int EXP;
         public int maxEXP;
         public int updateEXP;

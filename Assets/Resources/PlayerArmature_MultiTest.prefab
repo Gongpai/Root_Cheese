@@ -265,6 +265,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2646027910677788185, guid: 64dce48905ffd9b4293e595fa6941544,
         type: 3}
+      propertyPath: checkID
+      value: 
+      objectReference: {fileID: 8428201040951839085}
+    - target: {fileID: 2646027910677788185, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
       propertyPath: m_triggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8095716035511171481}
@@ -947,6 +952,16 @@ MonoBehaviour:
   m_shield: 100
   _maxEXP: 100
   m_levelUp: 1.1
+  _reviveTime: 2
+  m_animator: {fileID: 0}
+  m_deadAnimatorState: isDead
+  m_reviveAnimatorState: isRevive
+  m_OnDead:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
   m_skillRandomUI: {fileID: 2005608045575106628, guid: dd27f74880ca05948922fe56b975edce,
     type: 3}
   m_randomSpinWheel: {fileID: 7748829778939500841, guid: 5b551d98d27fd9949abd1c7c6f72bfff,
@@ -964,6 +979,12 @@ Transform:
 --- !u!4 &5509665787452780490 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8338988566280778637, guid: 64dce48905ffd9b4293e595fa6941544,
+    type: 3}
+  m_PrefabInstance: {fileID: 4597130944737664071}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &8428201040951839085 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 5420845272312337706, guid: 64dce48905ffd9b4293e595fa6941544,
     type: 3}
   m_PrefabInstance: {fileID: 4597130944737664071}
   m_PrefabAsset: {fileID: 0}

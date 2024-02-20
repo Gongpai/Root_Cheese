@@ -60,6 +60,13 @@ namespace GDD
             }
         }
 
+        public override void OnLoginGuest()
+        {
+            base.OnLoginGuest();
+            
+            OnUserSignIn?.Invoke();
+        }
+
         public override void OnSignUp()
         {
             m_errorText.text = "";

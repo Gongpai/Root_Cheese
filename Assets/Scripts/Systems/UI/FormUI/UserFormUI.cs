@@ -22,12 +22,13 @@ namespace GDD
         private void OnEnable()
         {
             _dataBaseController = DataBaseController.Instance;
+            GM = GameManager.Instance;
             UpdateInfo();
         }
 
         private void Start()
         {
-            GM = GameManager.Instance;
+            
         }
 
         public async void OnUpdateSave()

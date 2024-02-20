@@ -61,6 +61,11 @@ namespace GDD
             _dataBaseController.ConnectionError = this;
         }
 
+        public virtual void OnLoginGuest()
+        {
+            _dataBaseController.GuestSignIn();
+        }
+
         public virtual void OnSignUp()
         {
             _dataBaseController.ConnectionError = this;

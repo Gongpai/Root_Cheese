@@ -106,6 +106,13 @@ namespace GDD.DataBase
             _onSignInSucceed?.Invoke();
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
         }
+
+        public void GuestSignIn()
+        {
+            _dataBaseManager.GuestSignIn();
+            GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
+            GM.gameInstance = _dataBaseManager.GetData<GameInstance>(_dataBaseManager.data.gameSave);
+        }
         
         private void SignInOnErrorAction()
         {
@@ -129,6 +136,7 @@ namespace GDD.DataBase
             };
             await _dataBaseManager.Update(data);
             _onUpdateSucceed?.Invoke();
+            print($"Update Succeed!");
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
             GM.gameInstance = _dataBaseManager.GetData<GameInstance>(_dataBaseManager.data.gameSave);
         }
@@ -139,6 +147,7 @@ namespace GDD.DataBase
             await _dataBaseManager.SyncClientData();
             print("Sync End...");
             _onSyncSucceed?.Invoke();
+            print($"Invoke Succeed!!");
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
             GM.gameInstance = _dataBaseManager.GetData<GameInstance>(_dataBaseManager.data.gameSave);
         }

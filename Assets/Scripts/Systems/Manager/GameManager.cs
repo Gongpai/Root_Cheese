@@ -152,8 +152,8 @@ namespace GDD
                 print("Update SaveGame To Server");
                 HideWarningUI();
                 //Update Save
-                DBC.OnUpdate(playerInfo, gameInstance);
                 DBC.OnUpdateSucceed += UpdateSaveGameServer;
+                DBC.OnUpdate(playerInfo, gameInstance);
             }, time =>
             {
                 Canvas_Element_List canvasElementList = _warningUI.GetComponent<Canvas_Element_List>();
@@ -244,8 +244,8 @@ namespace GDD
         private void UpdateSaveGameServer()
         {
             print("Sync Save Game");
-            DBC.OnSync();
             DBC.OnSyncSucceed += PunLoadLevel;
+            DBC.OnSync();
             DBC.OnUpdateSucceed -= UpdateSaveGameServer;
         }
         

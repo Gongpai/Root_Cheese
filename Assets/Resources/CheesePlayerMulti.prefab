@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188dbfb6f93e438fa156a839f26b6321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkID: {fileID: 0}
+  checkID: {fileID: 5042343504155092394}
   m_triggerEnterEvent:
     m_PersistentCalls:
       m_Calls:
@@ -2461,6 +2461,7 @@ MonoBehaviour:
   m_shield: 100
   _maxEXP: 100
   m_levelUp: 1.1
+  _reviveTime: 2
   m_animator: {fileID: 1423831220031116971}
   m_deadAnimatorState: isDead
   m_reviveAnimatorState: isDead
