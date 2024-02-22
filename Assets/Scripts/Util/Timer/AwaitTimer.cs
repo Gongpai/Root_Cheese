@@ -40,9 +40,6 @@ namespace GDD.Timer
         {
             isStop = false;
             isStart = true;
-
-            if (cts != null)
-                cts.Cancel();
             
             cts = new CancellationTokenSource();
             
@@ -50,16 +47,31 @@ namespace GDD.Timer
             await _task;
         }
         
+        public void Stop()
+        {
+            Debug.LogWarning("Timer is Stop!!!!!");
+            isStop = true;
+            isStart = false;
+            
+            if(cts != null)
+                cts.Cancel();
+            
+            cts = new CancellationTokenSource();
+        }
+        
         public async Task Timer(CancellationToken ct)
         {
-            float _currentTime = 0;
+            float _currentTime;
             _isRunning = true;
+            Debug.LogWarning("Timer is Start!!!!!");
 
             try
             {
+                _currentTime = 0;
                 while (_currentTime <= _time)
                 {
                     _currentTime += Time.deltaTime;
+                    Debug.LogWarning($"Invoke : {_time}");
                     _actionElapsed?.Invoke(_currentTime);
                     await Task.Delay(_delayTime);
                     ct.ThrowIfCancellationRequested();
@@ -68,12 +80,14 @@ namespace GDD.Timer
                     {
                         _isRunning = false;
                         _actionEnd?.Invoke();
+                        Debug.LogWarning("Timer is Stop {App Not Playing}");
                         return;
                     }
                 
                     if (isStop)
                     {
                         _isRunning = false;
+                        Debug.LogWarning("Timer is Stop {Pause Timer}");
                         return;
                     }
                 }
@@ -87,15 +101,6 @@ namespace GDD.Timer
                 Debug.Log(e);
                 throw;
             }
-        }
-
-        public void Stop()
-        {
-            isStop = true;
-            isStart = false;
-            
-            if(cts != null)
-                cts.Cancel();
         }
     }
 }

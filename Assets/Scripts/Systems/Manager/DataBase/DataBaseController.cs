@@ -129,10 +129,10 @@ namespace GDD.DataBase
 
         public async Task OnUpdate(PlayerInfo playerInfo, GameInstance gameInstance)
         {
-            JObject[] data = new JObject[]
+            object[] data = new object[]
             {
-                JsonHelperScript.CreateJsonObject<PlayerInfo>(playerInfo),
-                JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)
+                playerInfo,
+                gameInstance
             };
             await _dataBaseManager.Update(data);
             _onUpdateSucceed?.Invoke();

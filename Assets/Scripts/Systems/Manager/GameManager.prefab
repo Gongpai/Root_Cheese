@@ -64,8 +64,9 @@ MonoBehaviour:
   m_player_layer: {fileID: 0}
   m_enemies: []
   m_enemy_layer: {fileID: 0}
-  m_mapWidth: 20
-  m_cellSize: 10
+  m_mapWidth: 40
+  m_cellSize: 20
+  m_mainMenuScene: MainMenuScene
   m_playerMasterClient: {fileID: 0}
   m_warningUI: {fileID: 5452987832098946938, guid: 7d3d3d55abc9ab6428c18f81d4e59651,
     type: 3}

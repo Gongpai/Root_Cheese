@@ -2,6 +2,7 @@
 using GDD.PUN;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GDD
 {
@@ -19,7 +20,14 @@ namespace GDD
 
         public void OnBackToMainMenu()
         {
+            SceneManager.sceneUnloaded += ResetGrid;
             PhotonNetwork.LoadLevel(m_nameMainMenu);
+        }
+
+        private void ResetGrid(Scene scene)
+        {
+            GM.ResetGird();
+            SceneManager.sceneUnloaded -= ResetGrid;
         }
         
         public void OnReOpenLevelScene()

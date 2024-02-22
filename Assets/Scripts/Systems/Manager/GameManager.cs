@@ -45,6 +45,9 @@ namespace GDD
         [SerializeField]
         private int m_cellSize = 10;
 
+        [SerializeField] 
+        private string m_mainMenuScene = "MainMenuScene";
+
         [Header("Player Client")] 
         [SerializeField]
         private PlayerSystem m_playerMasterClient;
@@ -59,8 +62,9 @@ namespace GDD
         private Grid _grid;
         private AwaitTimer readyTimer;
         private DataBaseController DBC;
-        private GameObject _warningUI;
+        private Canvas_Element_List _warningUI;
         private GameObject pauseMenu;
+        private float openSceneTime = 0;
 
         public GameInstance gameInstance
         {
@@ -141,7 +145,7 @@ namespace GDD
 
         private void OnEnable()
         {
-            _grid = new Grid((int)m_mapWidth, m_cellSize, enemies.Count);
+            ResetGird();
         }
 
         // Start is called before the first frame update
@@ -156,9 +160,8 @@ namespace GDD
                 DBC.OnUpdate(playerInfo, gameInstance);
             }, time =>
             {
-                Canvas_Element_List canvasElementList = _warningUI.GetComponent<Canvas_Element_List>();
-                canvasElementList.images[0].fillAmount = (5.0f - time) / 5.0f;
-                canvasElementList.texts[0].text = ((int)(5.0f - time)).ToString();
+                openSceneTime = time;
+                print($"Time : {time}");
             });
         }
 
@@ -167,6 +170,8 @@ namespace GDD
         {
             if(Input.GetKeyDown(KeyCode.Escape))
                 CreateOrOpenPauseMenu();
+
+            UpdateTimeWarningUI(openSceneTime);
         }
 
         public void CreateOrOpenPauseMenu()
@@ -179,6 +184,11 @@ namespace GDD
             {
                 pauseMenu.SetActive(true);
             }
+        }
+
+        public void ResetGird()
+        {
+            _grid = new Grid((int)m_mapWidth, m_cellSize, enemies.Count);
         }
         
         public void OnReady(bool isLobby = false)
@@ -195,18 +205,16 @@ namespace GDD
 
                 readyPlayer = player.Key;
             }
-            
-            print("Ready Check !!!");
 
             if (readyPlayer && (enemies.Count <= 0 || isLobby))
             {
+                print("Ready Check !!!");
                 readyTimer.Start();
                 Canvas_Element_List canvasElementList = CreateWarningUI();
                 canvasElementList.texts[1].text = $"Entering to {PunLevelManager.Instance.openLevel}";
             }
             else
             {
-                print("Wait Other Player");
                 HideWarningUI();
                 readyTimer.Stop();
             }
@@ -216,19 +224,30 @@ namespace GDD
         {
             if (_warningUI == null)
             {
-                _warningUI = Instantiate(m_warningUI);
+                _warningUI = Instantiate(m_warningUI).GetComponent<Canvas_Element_List>();
                 _warningUI.transform.position = Vector3.zero;
+                _warningUI.animators[1].enabled = true;
+                _warningUI.animators[0].SetBool("IsPlay", true);
 
-                return _warningUI.GetComponent<Canvas_Element_List>();
+                return _warningUI;
             }
             else
             {
-                Canvas_Element_List canvasElementList = _warningUI.GetComponent<Canvas_Element_List>();
-                canvasElementList.animators[1].enabled = true;
-                canvasElementList.animators[0].SetBool("IsPlay", true);
+                _warningUI.animators[1].enabled = true;
+                _warningUI.animators[0].SetBool("IsPlay", true);
                 
-                return canvasElementList;
+                return _warningUI;
             }
+        }
+
+        public void UpdateTimeWarningUI(float time)
+        {
+            if(_warningUI == null || !_warningUI.gameObject.activeSelf)
+                return;
+            
+            float showTime = 5.0f - time;
+            _warningUI.images[0].fillAmount = showTime / 5.0f;
+            _warningUI.texts[0].text = ((int)showTime).ToString();
         }
 
         private void HideWarningUI()
@@ -236,9 +255,15 @@ namespace GDD
             if(_warningUI == null)
                 return;
             
+            print("Wait Other Player");
             Canvas_Element_List canvasElementList = _warningUI.GetComponent<Canvas_Element_List>();
             canvasElementList.animators[1].enabled = false;
             canvasElementList.animators[0].SetBool("IsPlay", false);
+        }
+
+        public void ResetGameInstance()
+        {
+            _GI = new GameInstance();
         }
         
         private void UpdateSaveGameServer()
@@ -254,11 +279,23 @@ namespace GDD
             //Pun System
             print("Next Level");
             
-            PhotonNetwork.LoadLevel(PunLevelManager.Instance.openLevel);
+            SceneManager.sceneUnloaded += UnloadScene;
+            PunLevelManager PLM = PunLevelManager.Instance;
+            
+            if(PLM.openLevel == m_mainMenuScene)
+                ResetGameInstance();
+            
+            PhotonNetwork.LoadLevel(PLM.openLevel);
             PunNetworkManager.Instance.isLoadLevel = true;
             print($"GameInstance : {JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)}");
             
             DBC.OnSyncSucceed -= PunLoadLevel;
+        }
+        
+        private void UnloadScene(Scene scene)
+        { 
+            ResetGird();
+            SceneManager.sceneUnloaded -= UnloadScene;
         }
         
         void OnDrawGizmosSelected()

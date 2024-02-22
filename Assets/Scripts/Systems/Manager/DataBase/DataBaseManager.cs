@@ -237,12 +237,14 @@ namespace GDD.DataBase
         }
 
         //Update row
-        public async Task Update(JObject[] jObject)
+        public async Task Update(object[] updateData)
         {
             if (isGuest)
             {
                 _result = "You are logged in as a guest.";
                 Debug.LogWarning(_result);
+                string s_data = JsonConvert.SerializeObject(updateData[1]);
+                _data.gameSave = s_data;
                 return;
             }
             if (_client == null)
@@ -257,8 +259,8 @@ namespace GDD.DataBase
                 .Single();
             
             //Set model
-            update_model.playerInfo = jObject[0];
-            update_model.gameSave = jObject[1];
+            update_model.playerInfo = JsonConvert.SerializeObject(updateData[0]);
+            update_model.gameSave = JsonConvert.SerializeObject(updateData[1]);
             ThaiBuddhistCalendar thaiBuddhistCalendar = new ThaiBuddhistCalendar();
             DateTime currentDateTime = data.created_at;
             update_model.created_at = thaiBuddhistCalendar.ToDateTime(currentDateTime.Year, currentDateTime.Month, currentDateTime.Day, currentDateTime.Hour, currentDateTime.Minute, currentDateTime.Second, currentDateTime.Millisecond);

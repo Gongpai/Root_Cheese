@@ -18,7 +18,7 @@ namespace GDD
         public float maxHP = 100;
         public float shield = 100;
         public int EXP;
-        public int maxEXP;
+        public int maxEXP = 100;
         public int updateEXP;
         public int level;
         
