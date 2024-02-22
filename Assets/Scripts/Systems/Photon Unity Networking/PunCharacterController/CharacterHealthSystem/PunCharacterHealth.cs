@@ -169,17 +169,21 @@ namespace GDD.PUN
             Debug.Log("Reset ...");
         }
 
-        public void OnRevive()
+        public void SendRevive()
         {
-            photonView.RPC("PunReviveCharacter", RpcTarget.All);
+            photonView.RPC("PunReviveCharacter", RpcTarget.All, photonView.ViewID);
         }
-        
+
         [PunRPC]
-        public void PunReviveCharacter()
+        public void PunReviveCharacter(int ViewID)
         {
+            if(ViewID != photonView.ViewID)
+                return;
+
+            print($"Recipt : OnCharacterRevive = {ViewID} || {photonView.ViewID}");
             _characterSystem.OnCharacterRevive();
         }
-        
+
         protected virtual void OnDisable()
         {
             

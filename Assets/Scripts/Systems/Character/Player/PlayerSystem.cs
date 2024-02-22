@@ -222,11 +222,11 @@ namespace GDD
             base.OnReviveTriggerExit(other);
         }
 
-        public override void OnRevive(GameObject other)
+        public override void ReviveResetHP(GameObject other)
         {
-            base.OnRevive(other);
+            base.ReviveResetHP(other);
             
-            other.GetComponent<CharacterSystem>().punCharacterHealth.OnRevive();
+            other.GetComponent<CharacterSystem>().punCharacterHealth.SendRevive();
         }
 
         protected override void OnLevelUP()

@@ -180,9 +180,12 @@ namespace GDD
 
         public void ReviveButton(bool isRevive)
         {
-            if(!_isOtherPlayerRevive)
+            if (!_isOtherPlayerRevive || !isMasterClient)
+            {
+                print($"Cannot Revive Button");
                 return;
-            
+            }
+
             if (isRevive)
             {
                 _reviveCounting = new AwaitTimeCounting(time =>
@@ -195,7 +198,7 @@ namespace GDD
                         _reviveCounting.Stop();
                         
                         if(OtherPlayer != null)
-                            OnRevive(OtherPlayer.parent.gameObject);
+                            ReviveResetHP(OtherPlayer.parent.gameObject);
                     }
                 }, () => { });
                 _reviveCounting.Start();
@@ -208,6 +211,9 @@ namespace GDD
         
         public virtual void OnReviveTriggerEnter(Collider other)
         {
+            if(!isMasterClient)
+                return;
+            
             if (other.CompareTag("Revive"))
             {
                 print("Revive Enter");
@@ -219,6 +225,9 @@ namespace GDD
         
         public virtual void OnReviveTriggerExit(Collider other)
         {
+            if(!isMasterClient)
+                return;
+            
             if (other.CompareTag("Revive"))
             {
                 print("Revive Exit");
@@ -228,8 +237,11 @@ namespace GDD
             }
         }
 
-        public virtual void OnRevive(GameObject other)
+        public virtual void ReviveResetHP(GameObject other)
         {
+            if(!isMasterClient)
+                return;
+            
             other.GetComponent<CharacterSystem>().OnCharacterRevive();
         }
 
@@ -335,6 +347,9 @@ namespace GDD
 
         public override Transform GetPawnTransform()
         {
+            if (this == null)
+                return null;
+            
             return transform;
         }
 
