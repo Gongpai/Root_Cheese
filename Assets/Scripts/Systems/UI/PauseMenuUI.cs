@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace GDD
 {
-    public class PauseMenuUI : MonoBehaviour
+    public class PauseMenuUI : UI
     {
         [SerializeField] private string m_nameMainMenu;
         private GameManager GM;

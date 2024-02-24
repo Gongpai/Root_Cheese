@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace GDD
 {
-    public class FormUI : MonoBehaviour, IConnectionError
+    public class FormUI : UI, IConnectionError
     {
         [SerializeField] protected GameObject m_loading;
         [SerializeField] protected DataBaseController _dataBaseController;

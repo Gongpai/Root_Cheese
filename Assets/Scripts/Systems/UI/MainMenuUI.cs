@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace GDD
 {
-    public class MainMenuUI : MonoBehaviour
+    public class MainMenuUI : UI
     {
         [Header("Play Panel")] 
         [SerializeField] private Button m_playButton;
