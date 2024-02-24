@@ -122,6 +122,7 @@ namespace GDD
             GameObject picker = new GameObject(namePicker);
             picker.transform.parent = transform;
             picker.transform.localPosition = Vector3.zero;
+            picker.transform.localScale = Vector3.one;
 
             RectTransform pickerRect = picker.AddComponent<RectTransform>();
             pickerRect.anchorMin = Vector2.zero;
