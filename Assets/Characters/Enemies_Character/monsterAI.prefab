@@ -708,6 +708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPos: {x: 0, y: 0}
   m_hp_text: {fileID: 3080366776680199491}
+  m_namePlayerText: {fileID: 0}
   m_hp_bar: {fileID: 886661300818477596}
   m_shield_bar: {fileID: 2070386151588174110}
   m_hp: 100
@@ -715,7 +716,6 @@ MonoBehaviour:
   m_shield: 0
   _maxEXP: 100
   m_levelUp: 1.1
-  _reviveTime: 2
   m_animator: {fileID: 3688228160980844072}
   m_deadAnimatorState: IsDead
   m_reviveAnimatorState: isRevive
@@ -764,6 +764,8 @@ MonoBehaviour:
   m_OnRevive:
     m_PersistentCalls:
       m_Calls: []
+  _reviveTime: 2
+  m_ReviveUI: {fileID: 0}
   _dropEXP: 30
 --- !u!114 &549421544
 MonoBehaviour:
@@ -987,6 +989,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7336112194551489618}
     m_Modifications:
+    - target: {fileID: 567575061488961594, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1798195752521723703, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2622021137496978663, guid: f21ab0b33c35fa643b20be7913d6980a,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1005,6 +1017,26 @@ PrefabInstance:
     - target: {fileID: 2805569764732933948, guid: f21ab0b33c35fa643b20be7913d6980a,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460127454469681278, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460127454469681278, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3460127454469681278, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642302965477148524, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4466738426028758464, guid: f21ab0b33c35fa643b20be7913d6980a,
@@ -1146,6 +1178,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CharacterStautsBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 8338816413863594067, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825170497395382792, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825170497395382792, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825170497395382792, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f21ab0b33c35fa643b20be7913d6980a, type: 3}

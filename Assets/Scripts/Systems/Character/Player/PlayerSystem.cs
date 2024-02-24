@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GDD.PUN;
 using GDD.Spatial_Partition;
 using GDD.StateMachine;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -34,7 +35,7 @@ namespace GDD
         private RandomSkill _randomSkill;
         private RandomSkillUI _randomSkillUI;
         private GameManager GM;
-        private bool _isEnterRoom;
+        private bool _isEnterDoor;
         List<UnityAction<float, float>> _spinWheelActions = new List<UnityAction<float, float>>();
         
         public float delay_attack
@@ -109,6 +110,15 @@ namespace GDD
                 return;
             
             base.Update();
+            
+            if (m_namePlayerText != null)
+            {
+                int numberP = 1;
+                if ((PhotonNetwork.IsMasterClient && !_punCharacterHealth.photonView.IsMine) || !PhotonNetwork.IsMasterClient && _punCharacterHealth.photonView.IsMine)
+                    numberP = 2;
+                    
+                m_namePlayerText.text = $"(P{numberP}) {_punCharacterHealth.photonView.Owner.NickName}";
+            }
         }
 
         public void RandomSkillDebug()
@@ -124,7 +134,7 @@ namespace GDD
 
         public void ReadyButton()
         {
-            if (GM.enemies.Count > 0 && !isLobbyMode)
+            if ((GM.enemies.Count > 0 || !_isEnterDoor) && !isLobbyMode)
                 return;
             
             GM.players[this] = !GM.players[this];
@@ -184,7 +194,7 @@ namespace GDD
             if (other.tag == "Door")
             {
                 _readyCheck.gameObject.SetActive(true);
-                _isEnterRoom = true;
+                _isEnterDoor = true;
                 _readyCheck.ready = GM.players[this];
             }
         }
@@ -193,7 +203,7 @@ namespace GDD
         {
             if (other.tag == "Door")
             {
-                _isEnterRoom = false;
+                _isEnterDoor = false;
                 GM.players[this] = false;
                 _readyCheck.gameObject.SetActive(false);
                 GM.OnReady();

@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPos: {x: 0, y: 0}
   m_hp_text: {fileID: 0}
+  m_namePlayerText: {fileID: 0}
   m_hp_bar: {fileID: 0}
   m_shield_bar: {fileID: 0}
   m_hp: 100
@@ -126,3 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraRoot: {fileID: 0}
   m_statusUI: {fileID: 0}
+  m_bodySkin: {fileID: 0}

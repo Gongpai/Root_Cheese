@@ -16,6 +16,9 @@ namespace GDD.PUN
 
         [Header("Status UI")] 
         [SerializeField] private GameObject m_statusUI;
+
+        [Header("Character")] 
+        [SerializeField] private SkinnedMeshRenderer m_bodySkin;
         
         public static GameObject LocalPlayerInstance;
         protected GameManager GM;
@@ -67,6 +70,8 @@ namespace GDD.PUN
                 GetComponent<PlayerSystem>().isMasterClient = false;
                 OnPlayerPropertiesUpdate(photonView.Owner, photonView.Owner.CustomProperties);
                 
+                if(m_bodySkin != null)
+                    m_bodySkin.material.color = Color.cyan;
             }
         }
 

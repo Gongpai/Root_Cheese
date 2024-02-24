@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.11768, g: 324.74365, b: 429.81006, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1226,12 +1226,12 @@ PrefabInstance:
     - target: {fileID: 5458690532001667413, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
       propertyPath: m_text
-      value: "guest1@tech-center.com\u200B"
+      value: "\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 5458690532147527296, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
       propertyPath: m_text
-      value: "123456789@Nb\u200B"
+      value: "\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 5458690532202910504, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
@@ -1266,7 +1266,7 @@ PrefabInstance:
     - target: {fileID: 5458690532270962618, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5458690532330227305, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
@@ -1303,11 +1303,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5458690532552941512, guid: 425162f2d964d4349b5e52d90e5668e2,
-        type: 3}
-      propertyPath: m_Text
-      value: 123456789@Nb
-      objectReference: {fileID: 0}
     - target: {fileID: 5458690532552941514, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1487,11 +1482,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5458690533416711506, guid: 425162f2d964d4349b5e52d90e5668e2,
-        type: 3}
-      propertyPath: m_Text
-      value: guest1@tech-center.com
       objectReference: {fileID: 0}
     - target: {fileID: 5458690533416711516, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
@@ -1526,7 +1516,7 @@ PrefabInstance:
     - target: {fileID: 5458690533544386430, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5458690533569214043, guid: 425162f2d964d4349b5e52d90e5668e2,
         type: 3}

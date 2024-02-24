@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 339713d6827bffb41a6e0d39c9968e36,
+  m_LightingDataAsset: {fileID: 112000000, guid: 37b5cb2a5e6ad0441bd562d2ad9a8884,
     type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 3b3f7400d3526e9429c39d03afb714b3,
     type: 2}
@@ -124,7 +124,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 44929a0d2a739df4692eb4c693deeafa, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4994be1d762bd474fb65b38dd4e68259, type: 2}
 --- !u!1001 &5355763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -297,6 +297,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tentout (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: faa9472fb747ab64eb6e51619f73302d,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faa9472fb747ab64eb6e51619f73302d, type: 3}
@@ -811,6 +816,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: haystack1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4884bb9c32164474d9bbf0e1576c80ea,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4884bb9c32164474d9bbf0e1576c80ea, type: 3}
 --- !u!4 &329953905 stripped
@@ -932,6 +942,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree oak (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d2291193471c1594f8afe30fa6a40fd3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2291193471c1594f8afe30fa6a40fd3, type: 3}
 --- !u!4 &402091279 stripped
@@ -1035,6 +1050,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: tree oak (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d2291193471c1594f8afe30fa6a40fd3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2291193471c1594f8afe30fa6a40fd3, type: 3}
@@ -1663,6 +1683,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: haystack2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 55caaf29744217244a74e92f027156ca,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55caaf29744217244a74e92f027156ca, type: 3}
 --- !u!4 &835346313 stripped
@@ -1940,6 +1965,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: haystack2 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 55caaf29744217244a74e92f027156ca,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55caaf29744217244a74e92f027156ca, type: 3}
 --- !u!4 &859343365 stripped
@@ -2168,7 +2198,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 67cfcb331011ae249bbbf8c70affc12f, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 4d4bbd8af4bada74298a76dc3d460186, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -2481,6 +2511,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tentout (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: faa9472fb747ab64eb6e51619f73302d,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faa9472fb747ab64eb6e51619f73302d, type: 3}
 --- !u!4 &955946534 stripped
@@ -2786,6 +2821,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree oak (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d2291193471c1594f8afe30fa6a40fd3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2291193471c1594f8afe30fa6a40fd3, type: 3}
 --- !u!4 &1052814964 stripped
@@ -2875,6 +2915,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stone
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 803a40a6fd109384abe57c821627eb3d,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 803a40a6fd109384abe57c821627eb3d, type: 3}
@@ -3131,6 +3176,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tentout
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: faa9472fb747ab64eb6e51619f73302d,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faa9472fb747ab64eb6e51619f73302d, type: 3}
 --- !u!4 &1169780800 stripped
@@ -3220,6 +3270,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: haystack1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4884bb9c32164474d9bbf0e1576c80ea,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4884bb9c32164474d9bbf0e1576c80ea, type: 3}
@@ -3778,6 +3833,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: haystack2 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 55caaf29744217244a74e92f027156ca,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55caaf29744217244a74e92f027156ca, type: 3}
 --- !u!4 &1245484925 stripped
@@ -4142,7 +4202,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 3f951b5abd0cf474bbca2c9cf630d39d, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: f8d688825825d2549a3ef6616d2517a0, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -4908,6 +4968,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree oak (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d2291193471c1594f8afe30fa6a40fd3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2291193471c1594f8afe30fa6a40fd3, type: 3}
 --- !u!4 &1414983915 stripped
@@ -5061,6 +5126,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stone (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 803a40a6fd109384abe57c821627eb3d,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 803a40a6fd109384abe57c821627eb3d, type: 3}
@@ -5504,6 +5574,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tentout (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: faa9472fb747ab64eb6e51619f73302d,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faa9472fb747ab64eb6e51619f73302d, type: 3}
 --- !u!4 &1737672296 stripped
@@ -5691,6 +5766,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree oak
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d2291193471c1594f8afe30fa6a40fd3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2291193471c1594f8afe30fa6a40fd3, type: 3}
 --- !u!4 &1782714096 stripped
@@ -5817,6 +5897,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: tree oak (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d2291193471c1594f8afe30fa6a40fd3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2291193471c1594f8afe30fa6a40fd3, type: 3}
@@ -6259,7 +6344,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 68136078ce7e6d14293edfd3fa8cd4a1, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 8fa072b1f06abef4ebd251871308ed9a, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -6586,6 +6671,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: haystack2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 55caaf29744217244a74e92f027156ca,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55caaf29744217244a74e92f027156ca, type: 3}

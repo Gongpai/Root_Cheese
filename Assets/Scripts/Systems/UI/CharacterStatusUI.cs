@@ -10,6 +10,7 @@ namespace GDD
         [Header("HP")] 
         [SerializeField] private TextMeshProUGUI m_textHP;
         [SerializeField] private Image m_HPProgress;
+        [SerializeField] private Image m_ShieldProgress;
         
         [Header("EXP And Level")] 
         [SerializeField] private TextMeshProUGUI m_textEXPLevel;
@@ -26,10 +27,17 @@ namespace GDD
         private void Update()
         {
             if(_characterSystem == null)
-                return;
+                Destroy(gameObject);
 
-            m_textHP.text = $"HP : {_characterSystem.GetHP()}";
+            string hpText = "";
+            if (_characterSystem.GetShield() <= 0)
+                hpText = $"HP : {_characterSystem.GetHP()} / {_characterSystem.GetMaxHP()}";
+            else
+                hpText = $"HP : {_characterSystem.GetHP()} / {_characterSystem.GetMaxHP()} | Shield : {_characterSystem.GetShield()} / {_characterSystem.GetMaxShield()}";
+                    
+            m_textHP.text = hpText;
             m_HPProgress.fillAmount = _characterSystem.GetHP() / _characterSystem.GetMaxHP();
+            m_ShieldProgress.fillAmount = _characterSystem.GetShield() / _characterSystem.GetMaxShield();
             m_textEXPLevel.text = $"Level : {_characterSystem.GetLevel()} | EXP : {_characterSystem.GetUpdateEXP()} / {_characterSystem.GetMaxEXP()}";
             m_EXPProgress.fillAmount = (float)_characterSystem.GetUpdateEXP() / (float)_characterSystem.GetMaxEXP();
         }

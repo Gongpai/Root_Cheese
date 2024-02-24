@@ -3,6 +3,7 @@ using System.Collections;
 using GDD.PUN;
 using GDD.Spatial_Partition;
 using GDD.Timer;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +16,7 @@ namespace GDD
     {
         [Header("Player Stats Setting")] 
         [SerializeField] protected TextMeshProUGUI m_hp_text;
+        [SerializeField] protected TextMeshProUGUI m_namePlayerText;
         [SerializeField] protected Slider m_hp_bar;
         [SerializeField] protected Slider m_shield_bar;
         [SerializeField] protected float m_hp = 100;
@@ -115,7 +117,9 @@ namespace GDD
         public virtual void Update()
         {
             m_hp_bar.value = GetHP() / GetMaxHP();
-            m_hp_text.text = $"HP : {GetHP()} / {GetMaxHP()} || Shield : {GetShield()} / {GetMaxShield()}";
+            
+            if(m_hp_text != null)
+                m_hp_text.text = $"HP : {GetHP()} / {GetMaxHP()} || Shield : {GetShield()} / {GetMaxShield()}";
 
             if (m_shield_bar != null && (GetShield() / GetMaxShield()) > 0)
                 m_shield_bar.value = GetShield() / GetMaxShield();
