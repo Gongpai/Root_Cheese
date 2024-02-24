@@ -468,7 +468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_textHP: {fileID: 5825938031353813385}
   m_HPProgress: {fileID: 7236731501791783930}
-  m_ShieldProgress: {fileID: 793713603524449855}
+  m_ShieldProgress: {fileID: 0}
   m_textEXPLevel: {fileID: 5825938032015083461}
   m_EXPProgress: {fileID: 859298254391012612}
 --- !u!114 &8910124535595774818
@@ -1017,7 +1017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.42210913, b: 1, a: 0.39215687}
+  m_Color: {r: 0, g: 0.42210913, b: 1, a: 0.88235295}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

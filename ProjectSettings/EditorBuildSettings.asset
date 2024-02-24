@@ -22,13 +22,19 @@ EditorBuildSettings:
     guid: d282371432c098f478d491ac47dce089
   - enabled: 1
     path: Assets/Scenes/TemplateLevel/CH1/Level 1.unity
-    guid: 78844049353445443ae80a96ab7a7f1c
+    guid: 55f7f228cfbcb0449b32800238ce56a5
   - enabled: 1
     path: Assets/Scenes/TemplateLevel/CH1/Level 2.unity
-    guid: 2884d7ef56073604abca74f8ee24b9f2
+    guid: bff53cd3f3870534d88348ad8ee3fe35
   - enabled: 1
     path: Assets/Scenes/TemplateLevel/CH1/Level 3.unity
-    guid: e15f56da4cf566743ac449af213aca6a
+    guid: 9c6d1283377f99245ab6242263327e7c
+  - enabled: 1
+    path: Assets/Scenes/TemplateLevel/CH1/Level 4.unity
+    guid: 15729de7ccc056a4683c008397f4701e
+  - enabled: 1
+    path: Assets/Scenes/TemplateLevel/CH1/Level 5.unity
+    guid: 18f058d208dea5141ae61f5e19e9636a
   - enabled: 1
     path: Assets/Scenes/GameScene/Pray_Goat_Statue 1.unity
     guid: 0f789356a1ec204409048bf0378c7546
@@ -47,8 +53,4 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/OutdoorsScene.unity
     guid: 8124e5870f4fd4c779e7a5f994e84ad1
-  m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
-      type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 73512578676ec0e45a022d550fb98ce7,
-      type: 2}
+  m_configObjects: {}
