@@ -71,6 +71,7 @@ namespace GDD.PUN
         private UnityAction<Room> _onPlayerEnteredRoomAction;
         private UnityAction<List<FriendInfo>> _onFriendListUpdateAction;
         private UnityAction<List<Player>> _onPlayerListUpdateAction;
+        private List<RoomInfo> _currentRoomList = new List<RoomInfo>();
 
         public UnityAction OnJoinLobbyAction
         {
@@ -184,6 +185,7 @@ namespace GDD.PUN
             OnGameOver += GameOverSetting;
 
             PhotonNetwork.ConnectUsingSettings();
+            PhotonNetwork.EnableCloseConnection = true;
             _dataBaseController = DataBaseController.Instance;
             UpdateInfo();
             //OnCreateCharacterUI();
@@ -239,9 +241,18 @@ namespace GDD.PUN
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             base.OnRoomListUpdate(roomList);
+            _currentRoomList = roomList;
             _onRoomListUpdate?.Invoke(roomList);
             
             print($"Update Room List");
+        }
+
+        public void OnReUpdateRoomList()
+        {
+            if(!PhotonNetwork.InLobby)
+                return;
+            
+            _onRoomListUpdate?.Invoke(_currentRoomList);
         }
         
         public override void OnFriendListUpdate(List<FriendInfo> friendList)
@@ -262,6 +273,17 @@ namespace GDD.PUN
         {
             base.OnPlayerLeftRoom(otherPlayer);
             _onPlayerListUpdateAction?.Invoke(PhotonNetwork.CurrentRoom.Players.Values.ToList());
+        }
+
+        public void OnReCheckPlayerRoom()
+        {
+            if(!PhotonNetwork.InRoom)
+                return;
+            
+            var players = PhotonNetwork.CurrentRoom.Players;
+            
+            if(players != null)
+                _onPlayerListUpdateAction?.Invoke(players.Values.ToList());
         }
 
         public override void OnConnectedToMaster()
@@ -320,12 +342,17 @@ namespace GDD.PUN
         {
             base.OnLeftRoom();
             print("Left Room!!!!!!");
+            _onJoinRoomAction?.Invoke();
+            _onPlayerListUpdateAction?.Invoke(new List<Player>());
+            OnReUpdateRoomList();
         }
 
         public override void OnLeftLobby()
         {
             base.OnLeftLobby();
             print("Left Lobby!!!!!!!!!!!!!!");
+            
+            _onPlayerListUpdateAction?.Invoke(new List<Player>());
         }
 
         public void SpawnPlayer()

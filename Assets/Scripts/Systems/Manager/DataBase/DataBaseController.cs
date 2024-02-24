@@ -109,7 +109,12 @@ namespace GDD.DataBase
 
         public void GuestSignIn()
         {
-            _dataBaseManager.GuestSignIn();
+            object[] data = new object[]
+            {
+                "",
+                GM.gameInstance
+            };
+            _dataBaseManager.GuestSignIn(data);
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
             GM.gameInstance = _dataBaseManager.GetData<GameInstance>(_dataBaseManager.data.gameSave);
         }
@@ -150,6 +155,7 @@ namespace GDD.DataBase
             print($"Invoke Succeed!!");
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
             GM.gameInstance = _dataBaseManager.GetData<GameInstance>(_dataBaseManager.data.gameSave);
+            print("Sync Succ!!!!!");
         }
 
         public float GetProgress()

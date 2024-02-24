@@ -30,6 +30,9 @@ namespace GDD
         private void Start()
         {
             GM = GameManager.Instance;
+            
+            if(_friendsSlot.Count <= 0)
+                PNM.OnReCheckPlayerRoom();
         }
 
         private void OnPlayerListUpdate(List<Player> playerList)
@@ -54,10 +57,12 @@ namespace GDD
                 f_object.transform.localScale = Vector3.one;
                 f_object.transform.localPosition = Vector3.zero;
                 f_object.texts[0].text = playerList[i].NickName;
+
+                int iPlayer = i;
                 f_object.buttons[0].onClick.AddListener(() =>
                 {
                     PNM.OnPlayerListUpdateAction?.Invoke(new List<Player>());
-                    PhotonNetwork.CloseConnection(playerList[i]);
+                    PhotonNetwork.CloseConnection(playerList[iPlayer]);
                 });
 
                 PlayerInfoSlot _playerInfoSlot = f_object.GetComponent<PlayerInfoSlot>();

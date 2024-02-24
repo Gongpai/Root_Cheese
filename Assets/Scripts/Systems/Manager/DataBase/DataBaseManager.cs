@@ -220,17 +220,17 @@ namespace GDD.DataBase
         }
 
         //Guest SignIn
-        public void GuestSignIn()
+        public void GuestSignIn(object[] updateData)
         {
             _data = new InsertRowData();
             PlayerInfo playerInfo = new PlayerInfo();
             playerInfo.playerName = $"Guest {DateTime.Now.Millisecond}{DateTime.Now.Minute}";
             playerInfo.date = DateTime.Now.ToString();
             playerInfo.age = 1;
-            _data.playerInfo = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(playerInfo));
+            _data.playerInfo = playerInfo;
             _data.user_id = "";
             _data.created_at = DateTime.Now;
-            _data.gameSave = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(GameManager.Instance.gameInstance));
+            _data.gameSave = updateData[1];
 
             Debug.LogWarning($"Player Inf : {_data.playerInfo}");
             isGuest = true;
@@ -243,8 +243,7 @@ namespace GDD.DataBase
             {
                 _result = "You are logged in as a guest.";
                 Debug.LogWarning(_result);
-                string s_data = JsonConvert.SerializeObject(updateData[1]);
-                _data.gameSave = s_data;
+                _data.gameSave = updateData[1];
                 return;
             }
             if (_client == null)

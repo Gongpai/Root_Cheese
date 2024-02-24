@@ -26,7 +26,7 @@ namespace GDD
 
         private void Update()
         {
-            if(GM.players.Count <= 0 && _iPlayer > GM.players.Values.Count)
+            if(GM.players.Count <= 0 || _iPlayer > GM.players.Values.Count - 1)
                 return;
             
             if (GM.players.Values.ElementAt(_iPlayer))

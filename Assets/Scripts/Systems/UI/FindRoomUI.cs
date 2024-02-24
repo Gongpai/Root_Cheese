@@ -27,6 +27,8 @@ namespace GDD
         private List<GameObject> _rooms = new List<GameObject>();
         private List<RoomInfo> _roomList = new List<RoomInfo>();
         private Tuple<RoomInfo, GameObject> currentRoomInfo;
+        private string _currentRoomName;
+
         private string _roomName;
 
         private void OnEnable()
@@ -38,6 +40,8 @@ namespace GDD
             PNM.OnJoinRoomAction += OnJoinRoomCallBack;
             PNM.OnJoinRoomFailedAction += OnJoinRoomFailedCallBack;
             PNM.OnPlayerEnteredRoomAction += OnPlayerEnteredRoomCallBack;
+            
+            PNM.OnReUpdateRoomList();
         }
 
         private void Start()
@@ -85,7 +89,7 @@ namespace GDD
                 f_object.transform.localPosition = Vector3.zero;
                 
                 RoomInfoSlot f_slot = f_object.GetComponent<RoomInfoSlot>();
-                if (roomInfo.Name == _roomName)
+                if (PhotonNetwork.InRoom && roomInfo.Name == PhotonNetwork.CurrentRoom.Name)
                 {
                     f_object.texts[0].text = $"{roomInfo.Name} - You";
                     f_slot.isRoomFull = true;

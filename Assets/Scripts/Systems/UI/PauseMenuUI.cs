@@ -21,6 +21,7 @@ namespace GDD
         public void OnBackToMainMenu()
         {
             SceneManager.sceneUnloaded += ResetGrid;
+            PhotonNetwork.LeaveRoom();
             PhotonNetwork.LoadLevel(m_nameMainMenu);
         }
 
