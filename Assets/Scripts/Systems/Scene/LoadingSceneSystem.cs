@@ -83,7 +83,7 @@ public class LoadingSceneSystem : MonoBehaviour
             progressValue = Mathf.Clamp01(operation.progress / 0.9f);
 
             LoadingBarfill.GetComponent<Image>().fillAmount = progressValue;
-            print("Loading : " + operation.progress + " ----------------------------------------------");
+            //print("Loading : " + operation.progress + " ----------------------------------------------");
             yield return null;
             if((operation.progress / 0.9f) >= 1)
                 OpenScene();

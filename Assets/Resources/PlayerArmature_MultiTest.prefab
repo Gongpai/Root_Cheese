@@ -868,6 +868,7 @@ MonoBehaviour:
   CameraRoot: {fileID: 5509665787452780490}
   m_statusUI: {fileID: 5825938031019873916, guid: a814269ff4c6fc442a255976deb331c6,
     type: 3}
+  m_bodySkin: {fileID: 0}
 --- !u!114 &3687693191306519284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -945,6 +946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPos: {x: 0, y: 0}
   m_hp_text: {fileID: 475180726385747780}
+  m_namePlayerText: {fileID: 0}
   m_hp_bar: {fileID: 2335550544014905371}
   m_shield_bar: {fileID: 3502949648701098777}
   m_hp: 100
@@ -952,7 +954,6 @@ MonoBehaviour:
   m_shield: 100
   _maxEXP: 100
   m_levelUp: 1.1
-  _reviveTime: 2
   m_animator: {fileID: 0}
   m_deadAnimatorState: isDead
   m_reviveAnimatorState: isRevive
@@ -962,13 +963,15 @@ MonoBehaviour:
   m_OnRevive:
     m_PersistentCalls:
       m_Calls: []
+  _reviveTime: 2
+  m_ReviveUI: {fileID: 0}
   m_skillRandomUI: {fileID: 2005608045575106628, guid: dd27f74880ca05948922fe56b975edce,
     type: 3}
   m_randomSpinWheel: {fileID: 7748829778939500841, guid: 5b551d98d27fd9949abd1c7c6f72bfff,
     type: 3}
   _readyCheck: {fileID: 291524276705014652}
   m_delay_attack: 0.25
-  vision: {x: 10, y: 10}
+  vision: {x: 20, y: 20}
   isLobbyMode: 0
 --- !u!4 &705807638788262956 stripped
 Transform:
@@ -995,6 +998,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 705807638788262956}
     m_Modifications:
+    - target: {fileID: 2440012129404535158, guid: f21ab0b33c35fa643b20be7913d6980a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2622021137496978663, guid: f21ab0b33c35fa643b20be7913d6980a,
         type: 3}
       propertyPath: m_AnchorMax.x

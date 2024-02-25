@@ -153,7 +153,7 @@ namespace GDD
         {
             readyTimer = new AwaitTimer(5.0f, () =>
             {
-                print("Update SaveGame To Server");
+                //print("Update SaveGame To Server");
                 HideWarningUI();
                 //Update Save
                 DBC.OnUpdateSucceed += UpdateSaveGameServer;
@@ -161,7 +161,7 @@ namespace GDD
             }, time =>
             {
                 openSceneTime = time;
-                print($"Time : {time}");
+                //print($"Time : {time}");
             });
         }
 
@@ -208,7 +208,7 @@ namespace GDD
 
             if (readyPlayer && (enemies.Count <= 0 || isLobby))
             {
-                print("Ready Check !!!");
+                //print("Ready Check !!!");
                 readyTimer.Start();
                 Canvas_Element_List canvasElementList = CreateWarningUI();
                 canvasElementList.texts[1].text = $"Entering to {PunLevelManager.Instance.openLevel}";

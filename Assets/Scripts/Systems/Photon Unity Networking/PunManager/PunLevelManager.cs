@@ -22,7 +22,7 @@ namespace GDD.PUN
         [SerializeField] private CinemachineVirtualCamera _vCam;
         [SerializeField] private bool _isReJoinLobbyOrRoom = true;
         private GameManager GM;
-        private UnityAction _sceneLoaded;
+        private UnityAction<bool> _sceneLoaded;
 
         public List<Transform> playerSpawnPoint
         {
@@ -63,7 +63,7 @@ namespace GDD.PUN
             get => _vCam;
         }
         
-        public UnityAction sceneLoaded
+        public UnityAction<bool> sceneLoaded
         {
             get => _sceneLoaded;
             set => _sceneLoaded = value;
@@ -85,8 +85,7 @@ namespace GDD.PUN
             GM.player_layer = m_playerLevel;
             GM.enemy_layer = m_enemyLevel;
             
-            if(_isReJoinLobbyOrRoom)
-                _sceneLoaded?.Invoke();
+            _sceneLoaded?.Invoke(isReJoinLobbyOrRoom);
             
             if(PhotonNetwork.IsMasterClient)
                 PunNetworkManager.Instance.currentGameState = PunGameState.GamePlay;

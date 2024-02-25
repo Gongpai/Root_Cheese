@@ -49,7 +49,7 @@ namespace GDD.Timer
         
         public void Stop()
         {
-            Debug.LogWarning("Timer is Stop!!!!!");
+            //Debug.LogWarning("Timer is Stop!!!!!");
             isStop = true;
             isStart = false;
             
@@ -63,7 +63,7 @@ namespace GDD.Timer
         {
             float _currentTime;
             _isRunning = true;
-            Debug.LogWarning("Timer is Start!!!!!");
+            //Debug.LogWarning("Timer is Start!!!!!");
 
             try
             {
@@ -71,7 +71,7 @@ namespace GDD.Timer
                 while (_currentTime <= _time)
                 {
                     _currentTime += Time.deltaTime;
-                    Debug.LogWarning($"Invoke : {_time}");
+                    //Debug.LogWarning($"Invoke : {_time}");
                     _actionElapsed?.Invoke(_currentTime);
                     await Task.Delay(_delayTime);
                     ct.ThrowIfCancellationRequested();
@@ -80,14 +80,14 @@ namespace GDD.Timer
                     {
                         _isRunning = false;
                         _actionEnd?.Invoke();
-                        Debug.LogWarning("Timer is Stop {App Not Playing}");
+                       // Debug.LogWarning("Timer is Stop {App Not Playing}");
                         return;
                     }
                 
                     if (isStop)
                     {
                         _isRunning = false;
-                        Debug.LogWarning("Timer is Stop {Pause Timer}");
+                        //Debug.LogWarning("Timer is Stop {Pause Timer}");
                         return;
                     }
                 }

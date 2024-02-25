@@ -292,9 +292,6 @@ namespace GDD.PUN
             _onJoinConnectToMasterAction?.Invoke();
             print("OnConnectedToMaster !!!!!!!!!");
             
-            if(!PLM.isReJoinLobbyOrRoom)
-                return;
-            
             OnLeftLevel?.Invoke();
             OnJoinLevel = () =>
             {
@@ -392,18 +389,20 @@ namespace GDD.PUN
         private void OnLevelLoad(Scene scene, LoadSceneMode loadSceneMode)
         {
             PLM = PunLevelManager.Instance;
-            if(!PLM.isReJoinLobbyOrRoom)
-                return;
             
-            PLM.sceneLoaded = () =>
+            PLM.sceneLoaded = isLobby =>
             {
-                if(_characterStatusUI == null)
+                if(_characterStatusUI == null && isLobby)
                     OnCreateCharacterUI();
 
                 if (PhotonNetwork.InRoom)
                 {
-                    GameManager.Instance.players = new SerializedDictionary<PlayerSystem, bool>();
-                    _currentGameState = PunGameState.GameOver;
+                    if (isLobby)
+                    {
+                        GameManager.Instance.players = new SerializedDictionary<PlayerSystem, bool>();
+                        _currentGameState = PunGameState.GameOver;
+                    }
+
                     PunNetworkManager.Instance.SpawnPlayer();
                 }
                 
@@ -448,7 +447,7 @@ namespace GDD.PUN
             object gameStateFromProps;
 
             if (propertiesThatChanged.TryGetValue(PunGameSetting.GAMESTATE, out gameStateFromProps)) {
-                Debug.Log("GetStartTime Prop is : " + (PunGameState)gameStateFromProps);
+                //Debug.Log("GetStartTime Prop is : " + (PunGameState)gameStateFromProps);
                 _currentGameState = (PunGameState)gameStateFromProps;
             }
 

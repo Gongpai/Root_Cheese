@@ -263,8 +263,7 @@ namespace GDD
             bullets.Add(bullet);
         }
 
-        public void OnProjectileLaunch(ObjectPoolBuilder builder, Transform spawnPoint, int shot, float damage,
-            int[] posIndex = default)
+        public void OnProjectileLaunch(ObjectPoolBuilder builder, Transform spawnPoint, int shot, float damage, int[] posIndex = default)
         {
             EnemySystem _enemySystem = builder.GetComponent<EnemySystem>();
 
@@ -322,6 +321,7 @@ namespace GDD
                     else
                         posToTarget = PtvTarget.transform.position;
                 }
+                
                 if (i > 0)
                 {
                     if (GM.playMode == PlayMode.Singleplayer)

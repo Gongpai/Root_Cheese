@@ -136,9 +136,22 @@ namespace GDD
             Vector3 randomDirection = Random.insideUnitSphere * (GM.mapWidth / 2);
             randomDirection += new Vector3(GM.mapWidth / 2, transform.position.y, GM.mapWidth / 2);
             NavMeshHit _hit;
-            NavMesh.SamplePosition(randomDirection, out _hit, (GM.mapWidth / 2), 1);
+            NavMeshHit _hitOverMap;
+            
+            bool isOverMap = NavMesh.SamplePosition(randomDirection, out _hit, (GM.mapWidth / 2), 1);
 
-            _waypoint.transform.position = _hit.position;
+            if (isOverMap)
+            {
+                print($"Over Map {_hit.position}");
+                NavMesh.SamplePosition(randomDirection * Random.Range(0.5f, 0.85f), out _hitOverMap, (GM.mapWidth / 2), 1);
+                _waypoint.transform.position = _hitOverMap.position;
+                print($"New Pos {_hitOverMap.position}");
+            }
+            else
+            {
+                print("Not Over Map");
+                _waypoint.transform.position = _hit.position;
+            }
         }
         
         private void UpdateEnemyMove()

@@ -58,13 +58,20 @@ namespace GDD
                 f_object.transform.localPosition = Vector3.zero;
                 f_object.texts[0].text = playerList[i].NickName;
 
-                int iPlayer = i;
-                f_object.buttons[0].onClick.AddListener(() =>
+                if (PhotonNetwork.IsMasterClient)
                 {
-                    PNM.OnPlayerListUpdateAction?.Invoke(new List<Player>());
-                    PhotonNetwork.CloseConnection(playerList[iPlayer]);
-                });
-
+                    int iPlayer = i;
+                    f_object.buttons[0].onClick.AddListener(() =>
+                    {
+                        PNM.OnPlayerListUpdateAction?.Invoke(new List<Player>());
+                        PhotonNetwork.CloseConnection(playerList[iPlayer]);
+                    });
+                }
+                else
+                {
+                    f_object.buttons[0].gameObject.SetActive(false);
+                }
+                
                 PlayerInfoSlot _playerInfoSlot = f_object.GetComponent<PlayerInfoSlot>();
                 _playerInfoSlot.iPlayer = i;
 

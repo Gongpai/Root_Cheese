@@ -468,7 +468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_textHP: {fileID: 5825938031353813385}
   m_HPProgress: {fileID: 7236731501791783930}
-  m_ShieldProgress: {fileID: 0}
+  m_ShieldProgress: {fileID: 102397271222286733}
   m_textEXPLevel: {fileID: 5825938032015083461}
   m_EXPProgress: {fileID: 859298254391012612}
 --- !u!114 &8910124535595774818

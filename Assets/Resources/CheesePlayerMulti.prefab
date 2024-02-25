@@ -2340,7 +2340,7 @@ MonoBehaviour:
     type: 3}
   _readyCheck: {fileID: 6816264394569927125}
   m_delay_attack: 0.25
-  vision: {x: 10, y: 10}
+  vision: {x: 20, y: 20}
   isLobbyMode: 0
 --- !u!114 &7120464432609602796
 MonoBehaviour:

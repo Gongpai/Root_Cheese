@@ -28,7 +28,6 @@ namespace GDD
         private List<RoomInfo> _roomList = new List<RoomInfo>();
         private Tuple<RoomInfo, GameObject> currentRoomInfo;
         private string _currentRoomName;
-
         private string _roomName;
 
         private void OnEnable()
@@ -42,6 +41,9 @@ namespace GDD
             PNM.OnPlayerEnteredRoomAction += OnPlayerEnteredRoomCallBack;
             
             PNM.OnReUpdateRoomList();
+
+            if (PhotonNetwork.InRoom)
+                _currentRoomName = $"Room : {PhotonNetwork.CurrentRoom.Name}";
         }
 
         private void Start()
@@ -56,7 +58,8 @@ namespace GDD
                 _createRoomText.text = "Leave Room";
             else
                 _createRoomText.text = "Create Room";
-            
+
+            m_roomName.text = _currentRoomName;
             /*
             if(currentRoomInfo != null)
                 print($"Room Info = {currentRoomInfo.PlayerCount}/{currentRoomInfo.MaxPlayers}");*/
@@ -138,7 +141,7 @@ namespace GDD
                 PNM.OnPlayerListUpdateAction?.Invoke(new List<Player>());
                 
                 PhotonNetwork.LeaveRoom();
-                m_roomName.text = "Room :";
+                _currentRoomName = "Room :";
                 _roomName = "";
                 
                 OnRoomListUpdate(_roomList);
@@ -155,7 +158,7 @@ namespace GDD
             RoomOptions _roomOptions = new RoomOptions();
             _roomOptions.MaxPlayers = m_maxPlayer;
             PhotonNetwork.CreateRoom(_roomName, _roomOptions, TypedLobby.Default);
-            m_roomName.text = $"Room : {_roomName}";
+            _currentRoomName = $"Room : {_roomName}";
             m_loadingUI.SetActive(true);
             OnRoomListUpdate(_roomList);
         }
@@ -167,7 +170,7 @@ namespace GDD
 
             m_loadingUI.SetActive(true);
             
-            m_roomName.text = $"Room : {name}";
+            _currentRoomName = $"Room : {name}";
             _roomName = name;
             
             PhotonNetwork.JoinRoom(name);
