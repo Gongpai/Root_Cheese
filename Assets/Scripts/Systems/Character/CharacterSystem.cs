@@ -204,7 +204,10 @@ namespace GDD
                         if(OtherPlayer != null)
                             ReviveResetHP(OtherPlayer.parent.gameObject);
                     }
-                }, () => { });
+                }, () =>
+                {
+                    _reviveUI.images[0].fillAmount = 0;
+                });
                 _reviveCounting.Start();
             }
             else
@@ -218,7 +221,7 @@ namespace GDD
             if(!isMasterClient)
                 return;
             
-            if (other.CompareTag("Revive"))
+            if (other.CompareTag("Revive") && !_reviveUI.gameObject.activeSelf)
             {
                 print("Revive Enter");
                 _isOtherPlayerRevive = other.transform.parent.GetComponent<CharacterSystem>().GetHP() <= 0;

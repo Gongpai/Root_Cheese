@@ -64,12 +64,18 @@ namespace GDD
         private DataBaseController DBC;
         private Canvas_Element_List _warningUI;
         private GameObject pauseMenu;
+        private GameState _gameState;
         private float openSceneTime = 0;
 
         public GameInstance gameInstance
         {
             get => _GI;
             set => _GI = value;
+        }
+
+        public GameState gameState
+        {
+            get => _gameState;
         }
 
         public PlayerInfo playerInfo
@@ -172,6 +178,15 @@ namespace GDD
                 CreateOrOpenPauseMenu();
 
             UpdateTimeWarningUI(openSceneTime);
+
+            if (m_enemies.Count > 0)
+            {
+                _gameState = GameState.Playing;
+            }
+            else
+            {
+                _gameState = GameState.GameOver;
+            }
         }
 
         public void CreateOrOpenPauseMenu()

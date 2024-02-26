@@ -2568,6 +2568,9 @@ MonoBehaviour:
   checkID: {fileID: 5042343504155092394}
   m_triggerEnterEvent:
     m_PersistentCalls:
+      m_Calls: []
+  m_triggerStayEvent:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6300914170578224804}
         m_TargetAssemblyTypeName: GDD.PlayerSystem, Assembly-CSharp
@@ -2581,9 +2584,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_triggerStayEvent:
-    m_PersistentCalls:
-      m_Calls: []
   m_triggerExitEvent:
     m_PersistentCalls:
       m_Calls:
