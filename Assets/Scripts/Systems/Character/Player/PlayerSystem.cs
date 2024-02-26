@@ -29,7 +29,7 @@ namespace GDD
         [Header("Player In Lobby Mode")] 
         [SerializeField] protected bool isLobbyMode = false;
         
-        private IState<PlayerSystem> _attackState, _moveState;
+        private IState<PlayerSystem> _attackState, _moveState, _downState;
         private StateContext<PlayerSystem> _playerStateContext;
         private WeaponSystem _weaponSystem;
         private RandomSkill _randomSkill;
@@ -90,6 +90,9 @@ namespace GDD
             
             //MoveState
             _moveState = gameObject.AddComponent<PlayerMoveState>();
+            
+            //DownState
+            _downState = gameObject.AddComponent<PlayerDownState>();
             
             _randomSkill = GetComponent<RandomSkill>();
             _randomSkill.weaponSystem = _weaponSystem;
@@ -561,6 +564,11 @@ namespace GDD
         public void StartMove()
         {
             _playerStateContext.Transition(_moveState);
+        }
+
+        public void StartPlayerDown()
+        {
+            _playerStateContext.Transition(_downState);
         }
 
         //Spatial Partition Enemy Finding

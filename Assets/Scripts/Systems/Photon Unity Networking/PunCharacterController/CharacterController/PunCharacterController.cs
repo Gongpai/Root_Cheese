@@ -111,13 +111,13 @@ namespace GDD.PUN
             _animationBlend = amount[0];
             inputMagnitude = amount[1];
             //print($"ReceiveData {OwnerNetID}");
-            photonView.RPC("OnMove", RpcTarget.Others);
+            photonView.RPC("OnMove", RpcTarget.Others, OwnerNetID);
         }
 
         [PunRPC]
-        protected virtual void OnMove()
+        protected virtual void OnMove(int OwnerViewID)
         {
-            if (_hasAnimator)
+            if (_hasAnimator && OwnerViewID == photonView.ViewID)
             {
                 //print($"Anim Moveeeeeeeee {gameObject.name}");
                 //print($"Speed Data 1.AnimationBlend {_animationBlend} 2.InputMagnitude {inputMagnitude}");

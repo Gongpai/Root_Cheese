@@ -49,7 +49,7 @@ namespace GDD.Timer
         
         public void Stop()
         {
-            //Debug.LogWarning("Timer is Stop!!!!!");
+            Debug.LogWarning("Timer is Stop!!!!!");
             isStop = true;
             isStart = false;
             
@@ -79,7 +79,6 @@ namespace GDD.Timer
                     if (!Application.isPlaying)
                     {
                         _isRunning = false;
-                        _actionEnd?.Invoke();
                        // Debug.LogWarning("Timer is Stop {App Not Playing}");
                         return;
                     }
@@ -92,9 +91,9 @@ namespace GDD.Timer
                     }
                 }
 
+                Stop();
                 _isRunning = false;
                 _actionEnd?.Invoke();
-                Stop();
             }
             catch (OperationCanceledException e)
             {

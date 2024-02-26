@@ -59,11 +59,18 @@ namespace GDD
         {
             if(!_characterSystem.isMasterClient)
                 return;
-            
-            if(Get_Player_Move)
-                _characterSystem.StartMove();
+
+            if (_characterSystem.GetHP() > 0)
+            {
+                if (Get_Player_Move)
+                    _characterSystem.StartMove();
+                else
+                    _characterSystem.StartAttack();
+            }
             else
-                _characterSystem.StartAttack();
+            {
+                _characterSystem.StartPlayerDown();
+            }
         }
         
         protected override float Move()

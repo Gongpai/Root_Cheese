@@ -27,7 +27,7 @@ namespace GDD
         private List<GameObject> _rooms = new List<GameObject>();
         private List<RoomInfo> _roomList = new List<RoomInfo>();
         private Tuple<RoomInfo, GameObject> currentRoomInfo;
-        private string _currentRoomName;
+        private string _currentRoomName = "Room : ";
         private string _roomName;
 
         private void OnEnable()
