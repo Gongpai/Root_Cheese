@@ -8,6 +8,7 @@ using GDD.JsonHelper;
 using GDD.PUN;
 using GDD.Sinagleton;
 using GDD.Timer;
+using Newtonsoft.Json;
 using Photon.Pun;
 using Unity.Mathematics;
 using UnityEngine;
@@ -161,18 +162,7 @@ namespace GDD
         // Start is called before the first frame update
         void Start()
         {
-            readyTimer = new AwaitTimer(5.0f, () =>
-            {
-                //print("Update SaveGame To Server");
-                HideWarningUI();
-                //Update Save
-                DBC.OnUpdateSucceed += UpdateSaveGameServer;
-                DBC.OnUpdate(playerInfo, gameInstance);
-            }, time =>
-            {
-                openSceneTime = time;
-                //print($"Time : {time}");
-            });
+            NewTimerReady();
         }
 
         // Update is called once per frame
@@ -186,6 +176,32 @@ namespace GDD
             _gameState = enemies.Count > 0 ? GameState.Playing : GameState.Win;
 
             PlayerAllDown();
+        }
+
+        public void NewTimerReady()
+        {
+            readyTimer = new AwaitTimer(5.0f, () =>
+            {
+                //print("Update SaveGame To Server");
+                HideWarningUI();
+                //Update Save
+                PunLevelManager PLM = PunLevelManager.Instance;
+            
+                if (PLM.isUnLoadSceneReSetGameInstance)
+                {
+                    print("Send Reset");
+                    ResetGameInstance();
+                }
+                
+                DBC.OnUpdateSucceed += UpdateSaveGameServer;
+                DBC.OnUpdate(playerInfo, gameInstance);
+                
+                NewTimerReady();
+            }, time =>
+            {
+                openSceneTime = time;
+                //print($"Time : {time}");
+            });
         }
 
         public void PlayerAllDown()
@@ -313,22 +329,18 @@ namespace GDD
             DBC.OnSyncSucceed += PunLoadLevel;
             DBC.OnSync();
             DBC.OnUpdateSucceed -= UpdateSaveGameServer;
+            
+            print($"GameInstance : {JsonConvert.SerializeObject(DBC.dataBase.data.gameSave)}");
         }
         
         private void PunLoadLevel()
         {
             //Pun System
             print("Next Level");
-            
             SceneManager.sceneUnloaded += UnloadScene;
             PunLevelManager PLM = PunLevelManager.Instance;
-            
-            if(PLM.openLevel == m_mainMenuScene)
-                ResetGameInstance();
-            
             PhotonNetwork.LoadLevel(PLM.openLevel);
             PunNetworkManager.Instance.isLoadLevel = true;
-            print($"GameInstance : {JsonHelperScript.CreateJsonObject<GameInstance>(gameInstance)}");
             
             DBC.OnSyncSucceed -= PunLoadLevel;
         }

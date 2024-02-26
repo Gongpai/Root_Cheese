@@ -13,12 +13,8 @@ MonoBehaviour:
   m_Name: SkillConfigPath
   m_EditorClassIdentifier: 
   _paths:
-  - Presets/Player/Config/AttachmentConfig/EffectDamageSkillAttachment
   - Presets/Player/Config/AttachmentConfig/ShieldAttachment
-  - Presets/Player/Config/AttachmentConfig/SwordSpinSkillAttachment
-  - Presets/Player/Config/WeaponConfig/FBTwoShotBulletConfig
   - Presets/Player/Config/WeaponConfig/FrontFiveShotBulletConfig
   - Presets/Player/Config/WeaponConfig/FrontTripleShotBulletConfig
-  - Presets/Player/Config/WeaponConfig/LRFTripleShotBulletConfig
   - Presets/Player/Config/WeaponConfig/SingleShotBulletConfig
   - Presets/Player/Config/WeaponConfig/SurroundShotBulletConfig

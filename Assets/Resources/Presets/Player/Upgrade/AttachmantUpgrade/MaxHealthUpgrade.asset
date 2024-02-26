@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2561ef9166a42c0812f0d5b1b942f3a, type: 3}
   m_Name: MaxHealthUpgrade
   m_EditorClassIdentifier: 
-  _skillIcon: {fileID: 21300000, guid: 7633c37895d8f412b9638b720e56983a, type: 3}
-  _skillName: MaxHealthUpgrade
-  _skillDescription: Description - Max Health Upgrade
+  _skillIcon: {fileID: 21300000, guid: 3f21e29df335a344ea429bac5461bc6d, type: 3}
+  _skillName: "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E04\u0E48\u0E32 HP \u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14"
+  _skillDescription: "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E04\u0E48\u0E32 HP \u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14
+    10 %"
   _maxHealth: 1.1
   _shield: 0
   _effect_health: 0

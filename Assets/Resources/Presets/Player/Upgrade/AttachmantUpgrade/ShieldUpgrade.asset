@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2561ef9166a42c0812f0d5b1b942f3a, type: 3}
   m_Name: ShieldUpgrade
   m_EditorClassIdentifier: 
-  _skillIcon: {fileID: 21300000, guid: c669996f15ebd407bac96e5a5aedece8, type: 3}
-  _skillName: ShieldUpgrade
-  _skillDescription: Description - Shield Upgrade
+  _skillIcon: {fileID: 21300000, guid: 5b804662cc66b1d4a9df9123d059b6be, type: 3}
+  _skillName: "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E04\u0E48\u0E32\u0E40\u0E01\u0E23\u0E32\u0E30\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14"
+  _skillDescription: "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E04\u0E48\u0E32\u0E40\u0E01\u0E23\u0E32\u0E30\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14
+    10 %"
   _maxHealth: 0
   _shield: 0.1
   _effect_health: 0

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660979d277cb49c7b912da597c597412, type: 3}
   m_Name: WeaponPowerUpgrade
   m_EditorClassIdentifier: 
-  _skillIcon: {fileID: 21300000, guid: a784fb054b1c04bb0b5ca252fb2ff778, type: 3}
-  _skillName: WeaponPowerUpgrade
-  _skillDescription: Description - Weapon Power Upgrade
+  _skillIcon: {fileID: 21300000, guid: 97df2cd9e5b99ef439e1ee55e95cea13, type: 3}
+  _skillName: "\u0E40\u0E1E\u0E34\u0E48\u0E07\u0E41\u0E23\u0E07\u0E01\u0E23\u0E30\u0E2A\u0E38\u0E19\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14"
+  _skillDescription: "\u0E40\u0E1E\u0E34\u0E48\u0E07\u0E41\u0E23\u0E07\u0E01\u0E23\u0E30\u0E2A\u0E38\u0E19\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14
+    10 %"
   _damage: 0
   _rate: 0
   _power: 0.1

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660979d277cb49c7b912da597c597412, type: 3}
   m_Name: WeaponDamageUpgrade
   m_EditorClassIdentifier: 
-  _skillIcon: {fileID: 21300000, guid: 830ef5ebf56f040938259cef13b73c10, type: 3}
-  _skillName: WeaponDamageUpgrade
-  _skillDescription: Description - Weapon Damage Upgrade
+  _skillIcon: {fileID: 21300000, guid: 562286e09190f0f4c9f28a52ccb1e7ae, type: 3}
+  _skillName: "\u0E40\u0E1E\u0E34\u0E48\u0E21 Damage \u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14"
+  _skillDescription: "\u0E40\u0E1E\u0E34\u0E48\u0E21 Damage \u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14
+    10 %"
   _damage: 0.1
   _rate: 0
   _power: 0

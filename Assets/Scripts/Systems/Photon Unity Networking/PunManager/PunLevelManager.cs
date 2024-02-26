@@ -20,6 +20,7 @@ namespace GDD.PUN
         [SerializeField] private Transform m_enemyLevel;
         [SerializeField] private string m_openLevel;
         [SerializeField] private CinemachineVirtualCamera _vCam;
+        [SerializeField] private bool _isUnLoadSceneReSetGameInstance;
         [SerializeField] private bool _isReJoinLobbyOrRoom = true;
         private GameManager GM;
         private UnityAction<bool> _sceneLoaded;
@@ -27,6 +28,11 @@ namespace GDD.PUN
         public List<Transform> playerSpawnPoint
         {
             get => m_playerSpawnPoint;
+        }
+
+        public bool isUnLoadSceneReSetGameInstance
+        {
+            get => _isUnLoadSceneReSetGameInstance;
         }
         
         public GameObject GamePlayerPrefab
@@ -72,6 +78,7 @@ namespace GDD.PUN
         public override void OnAwake()
         {
             base.OnAwake();
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         private void OnEnable()
@@ -89,6 +96,11 @@ namespace GDD.PUN
             
             if(PhotonNetwork.IsMasterClient)
                 PunNetworkManager.Instance.currentGameState = PunGameState.GamePlay;
+        }
+
+        void OnSceneUnloaded(Scene scene)
+        {
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
 /*
         private void OnGUI()

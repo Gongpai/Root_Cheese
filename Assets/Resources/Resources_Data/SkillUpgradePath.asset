@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: SkillUpgradePath
   m_EditorClassIdentifier: 
   _paths:
-  - Presets/Player/Upgrade/AttachmantUpgrade/EffectDamageUpgrade
   - Presets/Player/Upgrade/AttachmantUpgrade/MaxHealthUpgrade
   - Presets/Player/Upgrade/AttachmantUpgrade/ShieldUpgrade
-  - Presets/Player/Upgrade/AttachmantUpgrade/SwordDamageUpgrade
-  - Presets/Player/Upgrade/AttachmantUpgrade/SwordSpinSpeedUpgrade
   - Presets/Player/Upgrade/MainWeaponUpgrade/WeaponDamageUpgrade
   - Presets/Player/Upgrade/MainWeaponUpgrade/WeaponPowerUpgrade
   - Presets/Player/Upgrade/MainWeaponUpgrade/WeaponRateUpgrade
+  - Presets/Player/Upgrade/AttachmantUpgrade/EffectDamageUpgrade
