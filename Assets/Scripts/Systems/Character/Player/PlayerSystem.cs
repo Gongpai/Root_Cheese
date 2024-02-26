@@ -227,7 +227,10 @@ namespace GDD
 
         public override void OnReviveTriggerEnter(Collider other)
         {
-            base.OnReviveTriggerEnter(other);
+            if (GM.gameState == GameState.GameOver && _reviveUI != null)
+                _reviveUI.gameObject.SetActive(false);
+            else
+                base.OnReviveTriggerEnter(other);
         }
 
         public override void OnReviveTriggerExit(Collider other)

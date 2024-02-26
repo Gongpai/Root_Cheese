@@ -23,8 +23,10 @@ namespace GDD
 
         private void Update()
         {
-            if(GM.gameState == GameState.GameOver)
+            if(GM.gameState == GameState.Win)
                m_UI.SetActive(true);
+            else
+                m_UI.SetActive(false);
         }
     }
 }

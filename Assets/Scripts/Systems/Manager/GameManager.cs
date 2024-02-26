@@ -25,6 +25,9 @@ namespace GDD
         //Pause Menu
         [SerializeField] private GameObject m_pauseMenu;
         
+        //GameOver Menu
+        [SerializeField] private GameObject m_gameOverMenu;
+        
         //Game Setting
         [Header("Finding System")] 
         [SerializeField]
@@ -64,7 +67,8 @@ namespace GDD
         private DataBaseController DBC;
         private Canvas_Element_List _warningUI;
         private GameObject pauseMenu;
-        private GameState _gameState;
+        private GameObject gameOverMenu;
+        private GameState _gameState = GameState.Playing;
         private float openSceneTime = 0;
 
         public GameInstance gameInstance
@@ -179,16 +183,29 @@ namespace GDD
 
             UpdateTimeWarningUI(openSceneTime);
 
-            if (m_enemies.Count > 0)
-            {
-                _gameState = GameState.Playing;
-            }
-            else
-            {
-                _gameState = GameState.GameOver;
-            }
+            _gameState = enemies.Count > 0 ? GameState.Playing : GameState.Win;
+
+            PlayerAllDown();
         }
 
+        public void PlayerAllDown()
+        {
+            bool isAllPlayerDown = false;
+            foreach (var player in m_players)
+            {
+                isAllPlayerDown = player.Key.GetHP() <= 0;
+                
+                if(!isAllPlayerDown)
+                    break;
+            }
+
+            if (isAllPlayerDown)
+            {
+                _gameState = GameState.GameOver;
+                CreateOrOpenGameOverMenu();
+            }
+        }
+        
         public void CreateOrOpenPauseMenu()
         {
             if (pauseMenu == null)
@@ -199,6 +216,14 @@ namespace GDD
             {
                 pauseMenu.SetActive(true);
             }
+        }
+
+        public void CreateOrOpenGameOverMenu()
+        {
+            if (gameOverMenu == null)
+                gameOverMenu = Instantiate(m_gameOverMenu, Vector3.zero, quaternion.identity);
+            else
+                gameOverMenu.SetActive(true);
         }
 
         public void ResetGird()
@@ -278,6 +303,7 @@ namespace GDD
 
         public void ResetGameInstance()
         {
+            print("Reset GameInstance");
             _GI = new GameInstance();
         }
         
