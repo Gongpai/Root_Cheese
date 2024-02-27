@@ -71,6 +71,7 @@ namespace GDD
         private GameObject gameOverMenu;
         private GameState _gameState = GameState.Playing;
         private float openSceneTime = 0;
+        private int m_selectChapter;
 
         public GameInstance gameInstance
         {
@@ -143,6 +144,12 @@ namespace GDD
             get => m_mapWidth;
         }
 
+        public int selectChapter
+        {
+            get => m_selectChapter;
+            set => m_selectChapter = value;
+        }
+        
         public PlayMode playMode
         {
             get => m_playMode;
@@ -267,7 +274,10 @@ namespace GDD
                 //print("Ready Check !!!");
                 readyTimer.Start();
                 Canvas_Element_List canvasElementList = CreateWarningUI();
-                canvasElementList.texts[1].text = $"Entering to {PunLevelManager.Instance.openLevel}";
+                string[] levelNames = PunLevelManager.Instance.openLevel.Split("-");
+                string levelName;
+                levelName = levelNames.Length > 1 ? levelNames[1] : levelNames[0];
+                canvasElementList.texts[1].text = $"Entering to {levelName}";
             }
             else
             {

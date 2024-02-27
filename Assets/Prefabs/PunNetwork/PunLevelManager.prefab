@@ -87,7 +87,9 @@ MonoBehaviour:
   - {fileID: 8295309524044398033}
   m_enemyLevel: {fileID: 0}
   m_openLevel: 
+  _isOpenChapterLevel: 1
   _vCam: {fileID: 0}
+  _isUnLoadSceneReSetGameInstance: 0
   _isReJoinLobbyOrRoom: 1
 --- !u!1 &8413438912342019759
 GameObject:

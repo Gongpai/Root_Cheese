@@ -19,6 +19,7 @@ namespace GDD.PUN
         [SerializeField] private List<Transform> m_playerSpawnPoint;
         [SerializeField] private Transform m_enemyLevel;
         [SerializeField] private string m_openLevel;
+        [SerializeField] private bool _isOpenChapterLevel;
         [SerializeField] private CinemachineVirtualCamera _vCam;
         [SerializeField] private bool _isUnLoadSceneReSetGameInstance;
         [SerializeField] private bool _isReJoinLobbyOrRoom = true;
@@ -47,7 +48,13 @@ namespace GDD.PUN
 
         public string openLevel
         {
-            get => m_openLevel;
+            get
+            {
+                if (_isOpenChapterLevel)
+                    return $"CH {GM.selectChapter}-{m_openLevel}";
+                else
+                    return m_openLevel;
+            }
         }
         
         public Transform playerLevel
