@@ -10,6 +10,7 @@ namespace GDD.PUN
         public const string RANDOMPOSITIONTARGETCOUNT = "RandomPositionTargetCount";
         public const string PLAYERREADYNEXTLEVEL = "PlayerReadyNextLevel";
         public const string ROOMNAME = "RoomName";
+        public const string NUMBERCHAPTER = "NumberChapter";
 
         //Values
         public static float2D[] Pre_RandomTargetPosition;

@@ -3,19 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GDD
 {
     public class MoveMultiObject : MonoBehaviour
     {
-        [Header("UI")] 
-        [SerializeField] private TextMeshProUGUI m_chapter;
-        
         [Header("Setting Position")]
         [SerializeField] private List<ObjectMoveAnimation> m_objects;
         [SerializeField] private List<Vector3> m_positions;
         [SerializeField] private int originPosIndex;
+
+        [Header("Unity Events")] 
+        [SerializeField] private UnityEvent<int> m_OnSelect;
         private int _select = 0;
+
+        public UnityEvent<int> OnSelect
+        {
+            get => m_OnSelect;
+            set => m_OnSelect = value;
+        }
 
         public int select
         {
@@ -56,8 +63,8 @@ namespace GDD
             {
                 if (_select + -move >= 0 && _select + -move <= m_objects.Count - 1)
                     _select += -move;
-
-                m_chapter.text = $"Chapter {_select + 1}";
+                
+                m_OnSelect?.Invoke(_select);
                 print($"Select i = {_select}");
             };
             

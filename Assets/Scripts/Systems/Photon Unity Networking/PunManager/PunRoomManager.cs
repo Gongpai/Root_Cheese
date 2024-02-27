@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Photon.Pun;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace GDD.PUN
@@ -18,9 +19,16 @@ namespace GDD.PUN
         [SerializeField]
         private floatMinMax m_impactPointArea;
         private GameManager GM;
+        private UnityAction<int> _selectChapterCallback;
         
         //Singleton
         protected static PunRoomManager _instance;
+
+        public UnityAction<int> SelectChapterCallback
+        {
+            get => _selectChapterCallback;
+            set => _selectChapterCallback = value;
+        }
 
         public static PunRoomManager Instance
         {
@@ -101,6 +109,9 @@ namespace GDD.PUN
             
             //RoomNameUpdate
             OnRoomNameUpdate(propertiesThatChanged);
+            
+            //ChapterSelectUpdate
+            OnSelectChapter(propertiesThatChanged);
         }
 
         private void CreatePreRandomPositionHashtable(float2D[] positions)
@@ -129,6 +140,23 @@ namespace GDD.PUN
                 }
             };
                 
+            PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
+        }
+
+        public void CreateChapterSelect(int chapter)
+        {
+            if(!PhotonNetwork.InRoom)
+                return;
+            
+            Hashtable prop = new Hashtable()
+            {
+                {
+                    PunGameSetting.NUMBERCHAPTER,
+                    chapter
+                }
+            };
+
+            
             PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
         }
         
@@ -188,6 +216,17 @@ namespace GDD.PUN
             if (propertiesChanged.TryGetValue(PunGameSetting.RANDOMPOSITIONTARGETCOUNT, out object countFromProps)) {
                 //Debug.Log($"Update Random Count Prop is : {(int)countFromProps}");
                 PunGameSetting.RandomPositionTargetCount = (int)countFromProps;
+            }
+        }
+
+        private void OnSelectChapter(Hashtable propertiesChanged)
+        {
+            if (propertiesChanged.TryGetValue(PunGameSetting.NUMBERCHAPTER, out object chapter))
+            {
+                int chapterNumber = (int)chapter;
+                GM.selectChapter = chapterNumber;
+                print($"Chapter is : {chapterNumber}");
+                _selectChapterCallback?.Invoke(chapterNumber);
             }
         }
 
