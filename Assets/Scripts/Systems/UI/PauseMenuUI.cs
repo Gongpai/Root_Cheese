@@ -18,11 +18,11 @@ namespace GDD
             PLM = PunLevelManager.Instance;
         }
 
-        public void OnBackToMainMenu()
+        public async void OnBackToMainMenu()
         {
             SceneManager.sceneUnloaded += ResetGrid;
+            await GM.PunLoadLevel(m_nameMainMenu);
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.LoadLevel(m_nameMainMenu);
         }
 
         private void ResetGrid(Scene scene)

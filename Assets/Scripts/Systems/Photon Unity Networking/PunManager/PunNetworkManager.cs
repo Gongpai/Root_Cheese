@@ -141,7 +141,7 @@ namespace GDD.PUN
             {
                 _currentGameState = value;
                 
-                if (PhotonNetwork.CurrentRoom == null)
+                if (!PhotonNetwork.InRoom || !PhotonNetwork.InLobby || !PhotonNetwork.IsConnected)
                     return;
                 
                 Hashtable prop = new Hashtable()

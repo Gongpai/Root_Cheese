@@ -51,7 +51,7 @@ namespace GDD.PUN
             get
             {
                 if (_isOpenChapterLevel)
-                    return $"CH {GM.selectChapter}-{m_openLevel}";
+                    return $"CH {GM.selectChapter + 1}-{m_openLevel}";
                 else
                     return m_openLevel;
             }

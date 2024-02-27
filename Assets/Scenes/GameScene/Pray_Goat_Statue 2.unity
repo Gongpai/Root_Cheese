@@ -959,7 +959,7 @@ PrefabInstance:
     - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
         type: 3}
       propertyPath: m_openLevel
-      value: Level 3
+      value: Level 4
       objectReference: {fileID: 0}
     - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
         type: 3}
@@ -3635,7 +3635,7 @@ PrefabInstance:
     - target: {fileID: 8944336655422409496, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}
       propertyPath: near clip plane
-      value: 0.2
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409496, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}

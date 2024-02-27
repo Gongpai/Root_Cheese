@@ -343,7 +343,7 @@ namespace GDD
             print($"GameInstance : {JsonConvert.SerializeObject(DBC.dataBase.data.gameSave)}");
         }
         
-        private void PunLoadLevel()
+        public void PunLoadLevel()
         {
             //Pun System
             print("Next Level");
@@ -353,6 +353,19 @@ namespace GDD
             PunNetworkManager.Instance.isLoadLevel = true;
             
             DBC.OnSyncSucceed -= PunLoadLevel;
+        }
+        
+        public async Task PunLoadLevel(string scene)
+        {
+            //Pun System
+            print("Next Level");
+            ResetGameInstance();
+            await DBC.OnUpdate(playerInfo, gameInstance);
+            await DBC.OnSync();
+            
+            SceneManager.sceneUnloaded += UnloadScene;
+            PhotonNetwork.LoadLevel(scene);
+            PunNetworkManager.Instance.isLoadLevel = true;
         }
         
         private void UnloadScene(Scene scene)

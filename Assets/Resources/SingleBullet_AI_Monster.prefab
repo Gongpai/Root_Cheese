@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_hp
-      value: 50
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: _dropEXP
@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_max_HP
-      value: 50
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Target
