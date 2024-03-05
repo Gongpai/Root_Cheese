@@ -31,7 +31,9 @@ namespace GDD
 
         protected override void SetChapter(int value)
         {
+            base.SetChapter(value);
             PRM.CreateChapterSelect(value);
+            m_chapter.text = $"Chapter {GM.selectChapter + 1}";
         }
 
         private void SetChapterWhenJointRoom()
@@ -41,6 +43,7 @@ namespace GDD
 
         private void SelectChapterCallback(int value)
         {
+            GM.selectChapter = value;
             m_chapter.text = $"Chapter {GM.selectChapter + 1}";
         }
 

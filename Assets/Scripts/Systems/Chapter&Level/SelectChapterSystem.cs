@@ -14,7 +14,7 @@ namespace GDD
         protected virtual void Start()
         {
             GM = GameManager.Instance;
-            AddEvents();
+            m_moveMultiObject.OnSelect.AddListener(SetChapter);
         }
 
         protected virtual void Update()
@@ -22,14 +22,9 @@ namespace GDD
             m_chapter.text = $"Chapter {GM.selectChapter + 1}";
         }
 
-        protected virtual void AddEvents()
-        {
-            m_moveMultiObject.OnSelect.AddListener(SetChapter);
-        }
-
         protected virtual void SetChapter(int value)
         {
-            GM.selectChapter = value + 1;
+            GM.selectChapter = value;
         }
     }
 }
