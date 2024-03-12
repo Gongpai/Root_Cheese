@@ -71,6 +71,7 @@ namespace GDD.PUN
         private UnityAction<Room> _onPlayerEnteredRoomAction;
         private UnityAction<List<FriendInfo>> _onFriendListUpdateAction;
         private UnityAction<List<Player>> _onPlayerListUpdateAction;
+        private UnityAction _onLeftRoomAction;
         private List<RoomInfo> _currentRoomList = new List<RoomInfo>();
 
         public UnityAction OnJoinLobbyAction
@@ -117,6 +118,12 @@ namespace GDD.PUN
         {
             get => _onPlayerListUpdateAction;
             set => _onPlayerListUpdateAction = value;
+        }
+        
+        public UnityAction OnLeftRoomAction
+        {
+            get => _onLeftRoomAction;
+            set => _onLeftRoomAction = value;
         }
         
         //Singleton
@@ -340,6 +347,7 @@ namespace GDD.PUN
             base.OnLeftRoom();
             print("Left Room!!!!!!");
             _onJoinRoomAction?.Invoke();
+            _onLeftRoomAction?.Invoke();
             _onPlayerListUpdateAction?.Invoke(new List<Player>());
             OnReUpdateRoomList();
         }

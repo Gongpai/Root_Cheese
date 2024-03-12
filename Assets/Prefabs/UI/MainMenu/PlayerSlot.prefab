@@ -292,6 +292,7 @@ MonoBehaviour:
   m_notReady: {fileID: 21300000, guid: 9b0679643495b23439c5a9ca341d473d, type: 3}
   m_ready: {fileID: 21300000, guid: 179cc2d33c808ed42aa92258796d9e75, type: 3}
   m_status: {fileID: 4807342504971405836}
+  m_border: {fileID: 4942567067369131271}
 --- !u!1 &4942567068356802896
 GameObject:
   m_ObjectHideFlags: 0

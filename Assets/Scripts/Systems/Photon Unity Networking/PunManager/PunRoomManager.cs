@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ExitGames.Client.Photon;
 using GDD.Util;
@@ -162,6 +163,7 @@ namespace GDD.PUN
         public void CreateUpdateReadyNextLevelPlayer()
         {
             object[] readyPlayer = new object[GM.players.Count];
+            
             for (int i = 0; i < GM.players.Count; i++)
             {
                 readyPlayer[i] = new object[]
@@ -235,15 +237,12 @@ namespace GDD.PUN
             {
                 for (int i = 0; i < GM.players.Count; i++)
                 {
-                    if (GM.players.Keys.ElementAt(i).isMasterClient)
-                    {
-                        object[] data = (object[])playerReadyStates;
-                        PhotonView photonView = PhotonNetwork.GetPhotonView((int)((object[])data[i])[1]);
-                        //print($"{photonView.gameObject.name} Ready is [F] = {(int)((object[])data[i])[1]} || [R] = {(bool)((object[])data[i])[0]}");
-                        PlayerSystem player = photonView.gameObject.GetComponent<PlayerSystem>();
-                        GM.players[player] = (bool)((object[])data[i])[0];
-                        player.UpdateReadyCheckUI();
-                    }
+                    object[] data = (object[])playerReadyStates;
+                    object[] playerData = (object[])data[i];
+
+                    KeyValuePair<PlayerSystem, bool> player = GM.players.FirstOrDefault(p => p.Key.idPhotonView == (int)playerData[1]);
+                    GM.players[player.Key] = (bool)playerData[0];
+                    player.Key.UpdateReadyCheckUI();
                 }
             }
         }
