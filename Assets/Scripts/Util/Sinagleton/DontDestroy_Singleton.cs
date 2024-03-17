@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GDD.Sinagleton
@@ -17,9 +18,7 @@ namespace GDD.Sinagleton
 
                     if (_instance == null)
                     {
-                        GameObject obj = new GameObject();
-                        obj.name = typeof(T).Name;
-                        _instance = obj.AddComponent<T>();
+                        CreateInstance();
                     }
                 }
 
@@ -27,6 +26,13 @@ namespace GDD.Sinagleton
             }
         }
 
+        public static void CreateInstance()
+        {
+            GameObject obj = new GameObject();
+            obj.name = typeof(T).Name;
+            _instance = obj.AddComponent<T>();
+        }
+        
         public void Awake()
         {
             OnAwake();
@@ -37,12 +43,14 @@ namespace GDD.Sinagleton
             if (_instance == null)
             {
                 _instance = this as T;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
-                DontDestroyOnLoad(gameObject);
+                if(_instance != this as T)
+                    Destroy(gameObject);
             }
+            
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

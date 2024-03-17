@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace GDD
 {
-    public class UserFormUI : MonoBehaviour
+    public class UserFormUI : UI
     {
         [SerializeField] private TextMeshProUGUI m_username;
         [SerializeField] private TMP_InputField m_name;

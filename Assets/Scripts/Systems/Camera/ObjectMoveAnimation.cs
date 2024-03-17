@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +16,7 @@ namespace GDD
         private Vector3 currentPos;
         private bool isCanMove = true;
         private UnityAction _onMoveEnd;
+        private AnimationStateAction ASA;
 
         public UnityAction OnMoveEnd
         {
@@ -27,9 +29,19 @@ namespace GDD
             set => m_positions = value;
         }
 
-        private void Start()
+        private void Awake()
         {
             _animator = GetComponent<Animator>();
+            ASA = _animator.GetBehaviour<AnimationStateAction>();
+        }
+
+        private void OnEnable()
+        {
+            ASA.OnStateUpdateAction += MoveEndAction;
+        }
+
+        private void Start()
+        {
             currentPos = transform.localPosition;
         }
 
@@ -40,14 +52,21 @@ namespace GDD
                 currentPos = transform.localPosition;
                 transform.localPosition = currentPos;
                 
-                if(!isCanMove)
-                    _onMoveEnd?.Invoke();
-                
                 isCanMove = true;
             }
             else
             {
                 transform.localPosition = Vector3.Lerp(currentPos, movePos, time);
+            }
+        }
+
+        private void MoveEndAction(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).length <=
+                animator.GetCurrentAnimatorStateInfo(0).normalizedTime)
+            {
+                print($"Invoke State");
+                _onMoveEnd?.Invoke();
             }
         }
 
@@ -62,6 +81,11 @@ namespace GDD
             originalIndex = index;
             _animator.SetTrigger("Play");
             time = 0;
+        }
+
+        private void OnDisable()
+        {
+            ASA.OnStateUpdateAction -= MoveEndAction;
         }
     }
 }

@@ -91,6 +91,8 @@ MonoBehaviour:
   _vCam: {fileID: 0}
   _isUnLoadSceneReSetGameInstance: 0
   _isReJoinLobbyOrRoom: 1
+  m_menuUI: {fileID: 1247892556584948905, guid: 2ed1333d6fb01e540847d52d6ae45d5f,
+    type: 3}
 --- !u!1 &8413438912342019759
 GameObject:
   m_ObjectHideFlags: 0

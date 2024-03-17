@@ -57,8 +57,7 @@ MonoBehaviour:
     mainSkill: -1
     mainAttachmentSkill: -1
     secondaryAttachmentSkill: -1
-  m_pauseMenu: {fileID: 1247892556584948905, guid: 2ed1333d6fb01e540847d52d6ae45d5f,
-    type: 3}
+  m_pauseMenu: {fileID: 0}
   m_gameOverMenu: {fileID: 8983843913552823918, guid: 413ddc7f38bb46645a4a16fe4ce3ba20,
     type: 3}
   m_players:
@@ -68,8 +67,10 @@ MonoBehaviour:
   m_enemy_layer: {fileID: 0}
   m_mapWidth: 40
   m_cellSize: 20
-  m_mainMenuScene: MainMenuScene
   m_playerMasterClient: {fileID: 0}
   m_warningUI: {fileID: 5452987832098946938, guid: 7d3d3d55abc9ab6428c18f81d4e59651,
     type: 3}
   m_playMode: 1
+  m_mainMenuScene: MainMenuScene
+  m_openLevelName: 
+  m_isUnLoadSceneReSetGameInstance: 0

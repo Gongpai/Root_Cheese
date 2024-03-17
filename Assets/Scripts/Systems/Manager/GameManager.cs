@@ -49,9 +49,6 @@ namespace GDD
         [SerializeField]
         private int m_cellSize = 10;
 
-        [SerializeField] 
-        private string m_mainMenuScene = "MainMenuScene";
-
         [Header("Player Client")] 
         [SerializeField]
         private PlayerSystem m_playerMasterClient;
@@ -61,6 +58,11 @@ namespace GDD
         [Header("Play Mode")] 
         [SerializeField] 
         private PlayMode m_playMode;
+
+        [Header("OpenLevel")] 
+        [SerializeField] private string m_mainMenuScene = "MainMenuScene";
+        [SerializeField] private string m_openLevelName;
+        [SerializeField] private bool m_isUnLoadSceneReSetGameInstance;
         
         private GameObject _bullet_pool;
         private Grid _grid;
@@ -77,6 +79,23 @@ namespace GDD
         {
             get => _GI;
             set => _GI = value;
+        }
+
+        public string openLevelName
+        {
+            get => m_openLevelName;
+            set => m_openLevelName = value;
+        }
+
+        public bool isUnLoadSceneReSetGameInstance
+        {
+            get => m_isUnLoadSceneReSetGameInstance;
+            set => m_isUnLoadSceneReSetGameInstance = value;
+        }
+
+        public GameObject pauseMenuUI
+        {
+            set => m_pauseMenu = value;
         }
 
         public GameState gameState
@@ -192,9 +211,8 @@ namespace GDD
                 //print("Update SaveGame To Server");
                 HideWarningUI();
                 //Update Save
-                PunLevelManager PLM = PunLevelManager.Instance;
             
-                if (PLM.isUnLoadSceneReSetGameInstance)
+                if (m_isUnLoadSceneReSetGameInstance)
                 {
                     print("Send Reset");
                     ResetGameInstance();
@@ -231,6 +249,9 @@ namespace GDD
         
         public void CreateOrOpenPauseMenu()
         {
+            if(m_pauseMenu == null)
+                return;
+            
             if (pauseMenu == null)
             {
                 pauseMenu = Instantiate(m_pauseMenu, Vector3.zero, quaternion.identity);
@@ -348,8 +369,7 @@ namespace GDD
             //Pun System
             print("Next Level");
             SceneManager.sceneUnloaded += UnloadScene;
-            PunLevelManager PLM = PunLevelManager.Instance;
-            PhotonNetwork.LoadLevel(PLM.openLevel);
+            PhotonNetwork.LoadLevel(m_openLevelName);
             PunNetworkManager.Instance.isLoadLevel = true;
             
             DBC.OnSyncSucceed -= PunLoadLevel;

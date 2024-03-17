@@ -889,7 +889,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit
+  m_text: Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee45a45177e768646b7f6a49ac8181ea, type: 2}
   m_sharedMaterial: {fileID: -5355595278949040358, guid: ee45a45177e768646b7f6a49ac8181ea,
@@ -2126,8 +2126,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1967575395}
-        m_TargetAssemblyTypeName: GDD.UI, Assembly-CSharp
-        m_MethodName: Quit
+        m_TargetAssemblyTypeName: GDD.MainMenuUI, Assembly-CSharp
+        m_MethodName: OpenMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2268,6 +2268,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
+        type: 3}
+      propertyPath: m_menuUI
+      value: 
+      objectReference: {fileID: 7936593025110407328, guid: 3ae8c286ea0e62b428c34343564ee154,
+        type: 3}
     - target: {fileID: 2114496333430562822, guid: 18459ef613073b74881e10a73369226e,
         type: 3}
       propertyPath: m_openLevel
@@ -7329,6 +7335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c856707c29c4bedb3e6ea00fb122abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ready: Ready?
+  m_wait: Wait!
   m_friendsSlotGroup: {fileID: 682160221}
   m_friendsSlot: {fileID: 4942567067863324678, guid: 181e03df9e112a84791eabc71aaf7773,
     type: 3}

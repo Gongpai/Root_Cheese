@@ -305,6 +305,13 @@ namespace GDD.DataBase
         //SignOut
         public async Task SignOut()
         {
+            if (isGuest)
+            {
+                _result = "You are logged in as a guest.";
+                Debug.LogWarning(_result);
+                _data = new UpdateRowData();
+                return;
+            }
             if (_client == null)
             {
                 _result = "Client not found or Client has not been created.";

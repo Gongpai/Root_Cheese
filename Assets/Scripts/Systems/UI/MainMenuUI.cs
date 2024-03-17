@@ -33,6 +33,11 @@ namespace GDD
             if(!PhotonNetwork.InLobby)
                 PhotonNetwork.JoinLobby();
         }
+
+        public void OpenMenu()
+        {
+            GM.CreateOrOpenPauseMenu();
+        }
         
         private async void UpdateInfo()
         {

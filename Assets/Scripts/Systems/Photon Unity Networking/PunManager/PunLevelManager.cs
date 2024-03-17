@@ -12,6 +12,7 @@ namespace GDD.PUN
 {
     public class PunLevelManager : CanDestroy_Sinagleton<PunLevelManager>
     {
+        [Header("Level Setting")]
         [SerializeField] private GameObject m_GamePlayerPrefab;
         [SerializedDictionary("AIPrefab", "Position")]
         [SerializeField] private SerializedDictionary<GameObject, List<Transform>> m_GameAIPrefab;
@@ -23,6 +24,10 @@ namespace GDD.PUN
         [SerializeField] private CinemachineVirtualCamera _vCam;
         [SerializeField] private bool _isUnLoadSceneReSetGameInstance;
         [SerializeField] private bool _isReJoinLobbyOrRoom = true;
+
+        [Header("Menu UI")] 
+        [SerializeField] private GameObject m_menuUI;
+        
         private GameManager GM;
         private UnityAction<bool> _sceneLoaded;
 
@@ -98,6 +103,9 @@ namespace GDD.PUN
             GM = GameManager.Instance;
             GM.player_layer = m_playerLevel;
             GM.enemy_layer = m_enemyLevel;
+            GM.isUnLoadSceneReSetGameInstance = isUnLoadSceneReSetGameInstance;
+            GM.openLevelName = openLevel;
+            GM.pauseMenuUI = m_menuUI;
             
             _sceneLoaded?.Invoke(isReJoinLobbyOrRoom);
             

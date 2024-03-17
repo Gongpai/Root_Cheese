@@ -17,11 +17,19 @@ namespace GDD
         [Header("Unity Events")] 
         [SerializeField] private UnityEvent<int> m_OnSelect;
         private int _select = 0;
+        private int _currentSelect;
+        private bool _canMove;
 
         public UnityEvent<int> OnSelect
         {
             get => m_OnSelect;
             set => m_OnSelect = value;
+        }
+
+        public int currentSelect
+        {
+            get => _currentSelect;
+            set => _currentSelect = value;
         }
 
         public int select
@@ -44,15 +52,68 @@ namespace GDD
         {
             if (Input.GetKeyUp(KeyCode.LeftArrow))
             {
-                OnMove(1);
+                Select(1);
             }
 
             if (Input.GetKeyUp(KeyCode.RightArrow))
             {
-                OnMove(-1);
+                Select(-1);
             }
         }
 
+        public void Select(int value)
+        {
+            if((m_objects[0].originalIndex + value) < 0 || (m_objects[m_objects.Count - 1].originalIndex + value) > m_positions.Count - 1)
+                return;
+
+            _select += value;
+            StartCoroutine(Moveee(_select));
+        }
+
+        IEnumerator Moveee(int select)
+        {
+            WaitWhile isEnd = new WaitWhile(() => _canMove);
+            
+            while (_currentSelect == select)
+            {
+                _canMove = false;
+                m_objects[0].OnMoveEnd = () =>
+                {
+                    _canMove = true;
+                    if (_currentSelect < select)
+                        _currentSelect++;
+                    else
+                        _currentSelect--;
+                };
+                if(_currentSelect < select)
+                    AnimationMove(_currentSelect + 1);
+                else
+                    AnimationMove(_currentSelect - 1);
+
+                yield return isEnd;
+            }
+        }
+
+        private void AnimationMove(int index)
+        {
+            if (index > 0)
+            {
+                for (int i = 0; i < m_objects.Count; i++)
+                {
+                    int move_i = m_objects[i].originalIndex + 1;
+                    m_objects[i].Move(move_i);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < m_objects.Count; i++)
+                {
+                    int move_i = m_objects[i].originalIndex - 1;
+                    m_objects[i].Move(move_i);
+                }
+            }
+        }
+        
         public void OnMove(int move)
         {
             if((m_objects[0].originalIndex + move) < 0 || (m_objects[m_objects.Count - 1].originalIndex + move) > m_positions.Count - 1)

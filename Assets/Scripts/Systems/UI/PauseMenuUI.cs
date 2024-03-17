@@ -9,10 +9,10 @@ namespace GDD
     public class PauseMenuUI : UI
     {
         [SerializeField] private string m_nameMainMenu;
-        private GameManager GM;
-        private PunLevelManager PLM;
+        protected GameManager GM;
+        protected PunLevelManager PLM;
 
-        private void Start()
+        protected virtual void Start()
         {
             GM = GameManager.Instance;
             PLM = PunLevelManager.Instance;
