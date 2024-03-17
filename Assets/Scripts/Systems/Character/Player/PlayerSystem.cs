@@ -137,10 +137,15 @@ namespace GDD
 
         public void ReadyButton()
         {
+            ReadyButton(!GM.players[this]);
+        }
+        
+        public void ReadyButton(bool ready)
+        {
             if ((GM.enemies.Count > 0 || !_isEnterDoor) && !isLobbyMode)
                 return;
             
-            GM.players[this] = !GM.players[this];
+            GM.players[this] = ready;
 
             if (!isLobbyMode)
                 _readyCheck.ready = GM.players[this];
@@ -261,6 +266,8 @@ namespace GDD
             {
                 print("OnRandomSkillPlayers");
                 _skillUpgradeCount--;
+                ReadyButton(false);
+                ReadyButton();
                 
                 GameObject r_skill_ui = Instantiate(m_skillRandomUI);
                 _randomSkillUI = r_skill_ui.transform.GetChild(0).GetComponent<RandomSkillUI>();
@@ -280,7 +287,7 @@ namespace GDD
             
             GameObject r_spinWheel = Instantiate(m_randomSpinWheel);
             RandomCharacterStatusSpinWheelUI r_spinWheelUI = r_spinWheel.GetComponent<Canvas_Element_List>().canvas_gameObjects[0].GetComponent<RandomCharacterStatusSpinWheelUI>();
-            
+            GameStateManager.Instance.SetState(GameState.Pause);
             r_spinWheelUI.resultActions = _spinWheelActions;
         }
 

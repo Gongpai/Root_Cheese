@@ -265,6 +265,7 @@ MonoBehaviour:
   rotationZ: 0
   m_characterStatusPicker: {fileID: 11400000, guid: 5abbff0aea525ba48adeae8aeef96a81,
     type: 2}
+  m_animator: {fileID: 4494263167844479312}
 --- !u!95 &7748829777402260035
 Animator:
   serializedVersion: 5

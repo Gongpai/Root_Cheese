@@ -260,6 +260,8 @@ namespace GDD
             {
                 pauseMenu.SetActive(true);
             }
+            
+            GameStateManager.Instance.SetState(GameState.Pause);
         }
 
         public void CreateOrOpenGameOverMenu()
@@ -268,6 +270,8 @@ namespace GDD
                 gameOverMenu = Instantiate(m_gameOverMenu, Vector3.zero, quaternion.identity);
             else
                 gameOverMenu.SetActive(true);
+            
+            GameStateManager.Instance.SetState(GameState.Pause);
         }
 
         public void ResetGird()

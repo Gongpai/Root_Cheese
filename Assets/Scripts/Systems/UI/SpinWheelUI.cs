@@ -28,18 +28,26 @@ namespace GDD
         [SerializeField] protected TextMeshProUGUI m_pickerTextResult;
         [SerializeField] protected UnityEvent m_OnEnd;
         [SerializeField] protected int m_count;
+        [SerializeField] protected Animator m_animator;
+        
         protected Image m_image;
         protected RectTransform _rectTransform;
         protected float _randomRot;
         protected bool _isShowResult;
         protected RectTransform m_textGroup;
         protected List<string> m_pickerText = new List<string>();
+        protected AnimationStateAction _animationStateAction;
 
         public float rotationZ;
 
         protected virtual void Start()
         {
             _rectTransform = GetComponent<RectTransform>();
+            
+            if (m_animator == null)
+                m_animator = GetComponent<Animator>();
+            _animationStateAction = m_animator.GetBehaviour<AnimationStateAction>();
+            _animationStateAction.OnStateUpdateAction += OnEndAction;
             
             CreateSpinWheel();
             GetComponent<Animator>().enabled = true;
@@ -71,6 +79,15 @@ namespace GDD
                     ShowResult();
                 
                 m_pickerResult.SetActive(true);
+            }
+        }
+
+        protected virtual void OnEndAction(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).length <=
+                animator.GetCurrentAnimatorStateInfo(0).normalizedTime)
+            {
+                Destroy(gameObject);
             }
         }
 
@@ -189,6 +206,12 @@ namespace GDD
             if (GUI.Button(new Rect(20, 160, 150, 50), "Reset Spin"))
                 GetComponent<Animator>().SetBool("IsReset", true);
                 */
+        }
+
+        private void OnDestroy()
+        {
+            _animationStateAction.OnStateUpdateAction -= OnEndAction;
+            GameStateManager.Instance.SetState(GameState.Playing);
         }
     }
 }

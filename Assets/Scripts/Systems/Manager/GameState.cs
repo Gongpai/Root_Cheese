@@ -4,6 +4,7 @@
     {
         Playing,
         Win,
-        GameOver
+        GameOver,
+        Pause
     }
 }

@@ -27,6 +27,9 @@ namespace GDD
         [Header("Random Skill Script")]
         [SerializeField] private RandomSkill _randomSkill;
         [SerializeField] private ScrollViewForAnimation _scrollViewAnim;
+        [SerializeField] protected Animator m_animator;
+        
+        protected AnimationStateAction _animationStateAction;
 
         //Pun System
         private PunPlayerCharacterController _punPlayerController;
@@ -44,7 +47,30 @@ namespace GDD
             get => _reOpenUIAction;
             set => _reOpenUIAction = value;
         }
-        
+
+        private void Awake()
+        {
+            if (m_animator == null)
+                m_animator = GetComponent<Animator>();
+            //_animationStateAction = m_animator.GetBehaviour<AnimationStateAction>();
+            //_animationStateAction.OnStateUpdateAction += OnEndAction;
+        }
+
+        private void Update()
+        {
+            if(GameStateManager.Instance.currentGameState == GameState.Playing)
+                GameStateManager.Instance.SetState(GameState.Pause);
+        }
+
+        protected virtual void OnEndAction(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).length <=
+                animator.GetCurrentAnimatorStateInfo(0).normalizedTime)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         public void OnCreate()
         {
             _scrollViewAnim.enabled = false;
@@ -189,6 +215,12 @@ namespace GDD
 
             _scrollViewAnim.content = preRandom.transform.GetComponent<RectTransform>();
             _scrollViewAnim.enabled = true;
+        }
+        
+        private void OnDestroy()
+        {
+            GameStateManager.Instance.SetState(GameState.Playing);
+            //_animationStateAction.OnStateUpdateAction -= OnEndAction;
         }
     }
 }

@@ -35,5 +35,10 @@ namespace GDD
         {
             PhotonNetwork.LoadLevel(PLM.openLevel);
         }
+
+        private void OnDisable()
+        {
+            GameStateManager.Instance.SetState(GameState.Playing);
+        }
     }
 }

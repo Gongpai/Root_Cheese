@@ -87,11 +87,24 @@ namespace GDD
         
         protected virtual void Awake()
         {
+            GameStateManager.Instance.OnGameStateChange += OnGameStateChanged;
+            
             // get a reference to our main camera
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+        }
+
+        protected virtual void OnEnable()
+        {
+            
+        }
+
+        private void OnGameStateChanged(GameState gameState)
+        {
+            enabled = gameState == GameState.Playing;
+            print($"Game State is : {gameState}");
         }
         
         protected virtual void Start()
@@ -291,6 +304,11 @@ namespace GDD
             Gizmos.DrawSphere(
                 new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
                 GroundedRadius);
+        }
+        
+        protected virtual void OnDestroy()
+        {
+            GameStateManager.Instance.OnGameStateChange -= OnGameStateChanged;
         }
     }
 }

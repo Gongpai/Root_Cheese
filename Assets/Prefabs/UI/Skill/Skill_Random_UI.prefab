@@ -367,6 +367,7 @@ MonoBehaviour:
     type: 3}
   _randomSkill: {fileID: 0}
   _scrollViewAnim: {fileID: 2005608046798225226}
+  m_animator: {fileID: 0}
 --- !u!95 &2005608045561181857
 Animator:
   serializedVersion: 5
