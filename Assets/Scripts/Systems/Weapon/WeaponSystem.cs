@@ -176,38 +176,28 @@ namespace GDD
         {
             _weapon = new WeaponDecorator(_weaponConfig.Item1, null, _weaponConfigStats, _attachmentStats);
         }
-        
+
         public void ToggleFire(PlayerSpawnBullet playerSpawnBullet, Transform target)
         {
             //print($"PlayerS is null : {playerSpawnBullet == null} | Weapon is null : {_weapon == null}");
-            
-            if(_weapon == null)
+
+            if (_weapon == null)
                 return;
-            
+
             playerSpawnBullet.bulletObjectPool.weapon = _weapon;
             playerSpawnBullet.bulletObjectPool.Set_GameObject = _weapon.bulletObject;
-
-            try
-            {
-                playerSpawnBullet.OnSpawnBullet(
-                    _weapon.bullet_spawn_distance,
-                    _weapon.power,
-                    _weapon.shot,
-                    _weapon.damage,
-                    target,
-                    BulletType.Rectilinear,
-                    _weapon.surroundMode,
-                    _weapon.bulletShotMode
-                );
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-            }
-            
+            playerSpawnBullet.OnSpawnBullet(
+                _weapon.bullet_spawn_distance,
+                _weapon.power,
+                _weapon.shot,
+                _weapon.damage,
+                target,
+                BulletType.Rectilinear,
+                _weapon.surroundMode,
+                _weapon.bulletShotMode
+            );
         }
-        
-        
+
         public void SetMainSkill(WeaponConfig weaponConfig, int index)
         {
             print("Index Set Skill : " + index);

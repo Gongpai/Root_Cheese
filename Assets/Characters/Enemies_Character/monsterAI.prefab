@@ -808,7 +808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnDistance: 0.25
-  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  bullet: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef, type: 3}
   m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
     type: 2}
 --- !u!114 &885309489064837252
@@ -837,7 +837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnDistance: 0.5
-  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  bullet: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef, type: 3}
   m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
     type: 2}
 --- !u!114 &1286383971283845097
@@ -853,7 +853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnDistance: 0.5
-  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  bullet: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef, type: 3}
   m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
     type: 2}
 --- !u!114 &1804085855532818162
@@ -869,7 +869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnDistance: 0.5
-  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  bullet: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef, type: 3}
   m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
     type: 2}
 --- !u!114 &2022173739784471013
@@ -885,7 +885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnDistance: 0.5
-  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  bullet: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef, type: 3}
   m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
     type: 2}
 --- !u!114 &3527415465607005499
@@ -901,7 +901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnDistance: 0.25
-  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  bullet: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef, type: 3}
   m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
     type: 2}
 --- !u!114 &4892013836798234585
@@ -979,7 +979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnDistance: 0.25
-  bullet: {fileID: 2867731740616798847, guid: 7187f0189c83de74e923e6c9ba09d883, type: 3}
+  bullet: {fileID: 2867731740616798847, guid: 5d95a02f0570b0249a4b74fce22d0aef, type: 3}
   m_enemyBulletConfig: {fileID: 11400000, guid: 42378bb5b1f21264fbb02c8a1487f4a4,
     type: 2}
 --- !u!1001 &8176494996912037308

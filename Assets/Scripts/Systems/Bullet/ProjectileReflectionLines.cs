@@ -7,8 +7,10 @@ namespace GDD
 {
     public class ProjectileReflectionLines : MonoBehaviour
     {
-        [SerializeField] private Material m_lineMat;
-        [SerializeField] private Material m_arrowMat;
+        [SerializeField] private Mesh m_lineMesh;
+        [SerializeField] private Material[] m_lineMats;
+        [SerializeField] private Mesh m_arrowMesh;
+        [SerializeField] private Material[] m_arrowMats;
         private List<GameObject> _lines = new List<GameObject>();
         private List<GameObject> _arrows = new List<GameObject>();
         private GameObject _spawnLine;
@@ -30,15 +32,18 @@ namespace GDD
             CreateParent();
             
             //arrow
-            _spawnArrow = Resources.Load<GameObject>("PRBullet/PR_Arrow");
+            if (m_arrowMesh == null)
+                _spawnArrow = Resources.Load<GameObject>("PRBullet/PR_Arrow");
+            else
+                _spawnArrow = CreateArrowObject(m_arrowMesh, m_arrowMats);
             
             //line
             _spawnLine = GameObject.CreatePrimitive(PrimitiveType.Cube);
             
             //Mat
             Material linemat = Resources.Load<Material>("Materials/LineMat");
-            m_lineMat = linemat;
-            m_arrowMat = linemat;
+            m_lineMats =  new Material[]{linemat};
+            m_arrowMats = new Material[]{linemat};
             
             _spawnLine.transform.parent = transform;
             _spawnLine.name = "PRLine_Object";
@@ -48,13 +53,23 @@ namespace GDD
             _spawnLine.SetActive(false);
         }
 
+        private GameObject CreateArrowObject(Mesh mesh, Material[] materials)
+        {
+            GameObject arrow = new GameObject("Arrow Object");
+            arrow.AddComponent<MeshFilter>().sharedMesh = mesh;
+            arrow.AddComponent<MeshRenderer>().sharedMaterials = materials;
+            arrow.transform.position = Vector3.zero * -1000;
+
+            return arrow;
+        }
+
         private void CreateLine(Vector3 start, Vector3 end)
         {
             GameObject line = Instantiate(_spawnLine);
             Destroy(line.GetComponent<Collider>());
             line.transform.parent = _line_parent;
             line.transform.localPosition = Vector3.zero;
-            line.GetComponent<MeshRenderer>().sharedMaterial = m_lineMat;
+            line.GetComponent<MeshRenderer>().sharedMaterials = m_lineMats;
             line.SetActive(true);
             
             //Line------------------------------------------------
@@ -91,7 +106,7 @@ namespace GDD
             arrow.name = "Arrow";
             arrow.layer = LayerMask.NameToLayer("Bullet");
             Destroy(_spawnLine.GetComponent<Collider>());
-            arrow.GetComponent<MeshRenderer>().sharedMaterial = m_arrowMat;
+            arrow.GetComponent<MeshRenderer>().sharedMaterials = m_arrowMats;
             arrow.transform.position = pos;
             arrow.transform.rotation = rot;
 
