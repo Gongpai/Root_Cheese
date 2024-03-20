@@ -21,6 +21,7 @@ namespace GDD
         public int maxEXP = 100;
         public int updateEXP;
         public int level;
+        public float maxWalkSpeed = 3;
         
         //Game Level
         public int sceneLevel;

@@ -12,11 +12,12 @@ namespace GDD
     {
         private PunPlayerCharacterController _punPlayerController;
         private bool _haspunPlayerController;
+        private GameManager GM;
 
         protected override void Start()
         {
             base.Start();
-
+            
             Ready();
             Revive();
             _haspunPlayerController = TryGetComponent(out _punPlayerController);

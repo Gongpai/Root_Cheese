@@ -1,0 +1,188 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class PunRoomManager
+{
+- int m_randomPositionTargetCount
+        - floatMinMax m_impactPointArea
+        - GameManager GM
+        - UnityAction<int> _selectChapterCallback
+        # static PunRoomManager _instance
+
+        + UnityAction<int> SelectChapterCallback {get set}
+        + static PunRoomManager Instance {get}
+        + floatMinMax impactPointArea {get}
+        
+        + override void OnJoinedRoom()
+        - void OnRoomInitializedForOtherClient(Hashtable customProperties)
+        - float2D[] PreRandomPosition(int count, float min, float max)
+        + override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        - void CreatePreRandomPositionHashtable(float2D[] positions)
+        - void CreateRandomPositionTargetCountHashtable(int count)
+        + void CreateChapterSelect(int chapter)
+        + void CreateUpdateReadyNextLevelPlayer()
+        - void CreateRoomName(string roomName)
+        - void OnPreRandomPositionUpdate(Hashtable propertiesChanged)
+        - void OnRandomPositionTargetCountUpdate(Hashtable propertiesChanged)
+        - void OnSelectChapter(Hashtable propertiesChanged)
+        - void OnUpdateReadyNextLevelPlayer(Hashtable propertiesChanged)
+        - void OnRoomNameUpdate(Hashtable propertiesChanged)
+}
+
+class PunNetworkManager
+{
+- CinemachineVirtualCamera _vCam
+         - InputActionAsset _inputActionAsset
+         - List<Transform> m_AISpawnTransform = new List<Transform>()
+        - PunGameState _currentGameState = PunGameState.GameStart
+         - GameObject m_characterStatusUI
+        - GameObject _characterStatusUI
+        - Canvas_Element_List _canvasElementList
+        - bool _isLoadLevel
+        - DataBaseController _dataBaseController
+        - PunLevelManager PLM
+        
+        + bool isLoadLevel {get set}
+        + GameObject characterStatusUI {get}
+        + CinemachineVirtualCamera vCam {get set}
+        + delegate void GameStartCallback()
+        + static event GameStartCallback OnGameStart
+        + delegate void GameOverCallback()
+        + static event GameOverCallback OnGameOver
+        + delegate void JoinLevelCallback()
+        + static event JoinLevelCallback OnJoinLevel
+        + delegate void JoinLeftLevelCallback()
+        + static event JoinLeftLevelCallback OnLeftLevel
+        - UnityAction _onJoinLobbyAction
+        - UnityAction _onJoinConnectToMasterAction
+        - UnityAction<List<RoomInfo>> _onRoomListUpdate
+        - UnityAction _onJoinRoomAction
+        - UnityAction<short, string> _onJoinRoomFailedAction
+        - UnityAction<Room> _onPlayerEnteredRoomAction
+        - UnityAction<List<FriendInfo>> _onFriendListUpdateAction
+        - UnityAction<List<Player>> _onPlayerListUpdateAction
+        - UnityAction _onLeftRoomAction
+        - List<RoomInfo> _currentRoomList
+
+        + UnityAction OnJoinLobbyAction {get set}
+        + UnityAction OnJoinConnectToMasterAction {get set}
+        + UnityAction<List<RoomInfo>> OnRoomListUpdateAction {get set}
+        + UnityAction OnJoinRoomAction {get set}
+        + UnityAction<Room> OnPlayerEnteredRoomAction {get set}
+        + UnityAction<short, string> OnJoinRoomFailedAction {get set}
+        + UnityAction<List<FriendInfo>> OnFriendListUpdateAction {get set}
+        + UnityAction<List<Player>> OnPlayerListUpdateAction {get set}
+        + UnityAction OnLeftRoomAction {get set}
+        
+        # static PunNetworkManager _instance
+        
+        + static PunNetworkManager Instance{get}
+        + PunGameState currentGameState {get set}
+        + CinemachineVirtualCamera vCAm{get}
+        + InputActionAsset inputActionAsset {get}
+        
+        - async void UpdateInfo()
+        - void GameStartSetting()
+        - void GameOverSetting()
+        + override void OnRoomListUpdate(List<RoomInfo> roomList)
+        + void OnReUpdateRoomList()
+        + override void OnFriendListUpdate(List<FriendInfo> friendList)
+        + override void OnPlayerEnteredRoom(Player newPlayer)
+        + override void OnPlayerLeftRoom(Player otherPlayer)
+        + void OnReCheckPlayerRoom()
+        + override void OnConnectedToMaster()
+        + override void OnJoinedLobby()
+        + override void OnJoinedRoom()
+        + override void OnJoinRoomFailed(short returnCode, string message)
+        + override void OnLeftRoom()
+        + override void OnLeftLobby()
+        + void SpawnPlayer()
+        - void OnCreateCharacterUI()
+        - void OnLevelLoad(Scene scene, LoadSceneMode loadSceneMode)
+        + void OnLevelUnLoad(Scene scene)
+        + void gameStateUpdate(Hashtable propertiesThatChanged)
+        + override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+}
+
+class PunLevelManager
+{
+- GameObject m_GamePlayerPrefab
+         - SerializedDictionary<GameObject, List<Transform>> m_GameAIPrefab
+         - Transform m_playerLevel
+         - List<Transform> m_playerSpawnPoint
+         - Transform m_enemyLevel
+         - string m_openLevel
+         - bool _isOpenChapterLevel
+         - CinemachineVirtualCamera _vCam
+         - bool _isUnLoadSceneReSetGameInstance
+         - bool _isReJoinLobbyOrRoom = true
+        - GameManager GM
+        - UnityAction<bool> _sceneLoaded
+
+        + List<Transform> playerSpawnPoint {get}
+        + bool isUnLoadSceneReSetGameInstance {get}
+        + GameObject GamePlayerPrefab {get}
+        + SerializedDictionary<GameObject, List<Transform>>  GameAIPrefab {get}
+        + string openLevel {get}
+        + Transform playerLevel {get}
+        + Transform enemyLevel {get}
+        + bool isReJoinLobbyOrRoom {get}
+        + CinemachineVirtualCamera vCam {get}
+        + UnityAction<bool> sceneLoaded {get set}
+        
+        - void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        - void OnSceneUnloaded(Scene scene)
+}
+
+class PunUserNetLobbyControl extends PunUserNetControl
+{
+public override void OnPhotonInstantiate(PhotonMessageInfo info)
+}
+
+class PunUserNetControl
+{
+- Transform CameraRoot
+         - GameObject m_statusUI
+         - SkinnedMeshRenderer m_bodySkin
+        + static GameObject LocalPlayerInstance
+        # GameManager GM
+        - PlayerCameraFollow _followCam
+        - GameObject _statusUI
+        
+        + virtual void OnPhotonInstantiate(PhotonMessageInfo info)
+        + void AddStatusUI(CharacterSystem characterSystem)
+        + void RemoveStatusUI()
+        + override void OnPlayerPropertiesUpdate(Player target, Hashtable changedProps)
+}
+
+class PunAINetControl
+{
+- List<Behaviour> m_hostComponents
+        - bool isMine
+        - string gameObjectName
+
+        - GameManager GM
+        
+        + void OnPhotonInstantiate(PhotonMessageInfo info)
+        - void AIIsMine()
+        - void AIIsNotMine()
+}
+
+namespace Photon #1f72de {
+    .PunAINetControl <|-- MonoBehaviourPunCallbacks
+    .PunAINetControl <|-- IPunInstantiateMagicCallback
+    .PunUserNetControl <|-- MonoBehaviourPunCallbacks
+    .PunUserNetControl <|-- IPunInstantiateMagicCallback
+    .PunNetworkManager <|-- MonoBehaviourPunCallbacks
+    .PunRoomManager <|-- MonoBehaviourPunCallbacks
+    
+    
+    interface IPunInstantiateMagicCallback
+}
+
+namespace GDD.Util #fe0000 {
+.PunLevelManager <|-- CanDestroy_Sinagleton
+class CanDestroy_Sinagleton<T>
+}
+
+@enduml

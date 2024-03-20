@@ -1,0 +1,80 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class ItemObject extends GameObjectPool
+{
+- float _currentTime = 2.0f;
+        - float _currentTransitionTime = 0f;
+        - float _delay;
+        - Transform _target = null;
+       -  Vector3 _itemPos;
+        - Rigidbody _rig;
+
+        + Transform target {set}
+        + float delay {set}
+        # void OnCollect()
+        + override void ReturnToPool()
+}
+
+class DropItemObjectPool extends SpawnerObjectsPool
+{
+# Transform m_spawnPoint
++ override GameObjectPool CreatePooledItem()
+# override void OnCreateObjectLoop(GameObject gObject, int i)
+# override Vector3 GetTargetPosition(Vector3 pos, int i)
++ override void OnTakeFromPool(GameObjectPool gObject)
+}
+
+class SpawnerObjectsPool extends ObjectPoolBuilder
+{
+- float m_guiOffset = 20.0f;
+         # GameObject m_object;
+         # int m_spawnCount;
+         # floatMinMax m_radius;
+         # bool m_isUseCustomPositions = false;
+         - bool m_showGUI;
+        # ProjectileLauncherCalculate _PLC;
+        # GameObject _objectPoolGroup;
+        # string objectPoolName = "ObjectPool";
+        # Vector2[] _randomPosition;
+        
+        # virtual void RandomPosition()
+        + virtual void OnCreateObject()
+        # virtual Vector3 GetTargetPosition(Vector3 pos, int i = 0)
+        # virtual void OnCreateObjectLoop(GameObject gObject, int i)
+        + override GameObject OnSpawn()
+}
+
+class ObjectPoolBuilder
+{
+# int _maxPoolSize
+        # int _stackDefaultCapacity
+        # GameManager GM
+        # IObjectPool<GameObjectPool> _pool
+        # GameObject _gameObjectPool
+
+        + int maxPoolSize {get }
+        + int stackDefaultCapacity {get }
+        + GameObject Set_GameObject {get }
+        + IObjectPool<GameObjectPool> Pool {get }
+        
+        + virtual GameObjectPool CreatePooledItem()
+        + virtual void OnReturnToPool(GameObjectPool gObject)
+        + virtual void OnTakeFromPool(GameObjectPool gObject)
+        + virtual void OnDestroyPoolObject(GameObjectPool bullet)
+        + virtual GameObject OnSpawn()
+}
+
+class GameObjectPool
+{
++ IObjectPool<GameObjectPool> objectPool { get; set; }
++ virtual void ReturnToPool()
++ virtual void ResetBullet(Transform spawnPoint)
+}
+
+namespace UnityEngine #DDDDDD {
+    .ObjectPoolBuilder <|-- MonoBehaviour
+    .GameObjectPool <|-- MonoBehaviour
+}
+
+@enduml

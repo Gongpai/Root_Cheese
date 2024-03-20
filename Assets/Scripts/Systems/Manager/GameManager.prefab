@@ -52,6 +52,7 @@ MonoBehaviour:
     maxEXP: 100
     updateEXP: 0
     level: 0
+    maxWalkSpeed: 3
     sceneLevel: 0
     chapter: 0
     mainSkill: -1

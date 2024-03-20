@@ -18,5 +18,7 @@
         public void SetUpdateEXP(int EXP);
         public int GetLevel();
         public void SetLevel(int level);
+
+        public void SetMaxWalkSpeed(float speed);
     }
 }

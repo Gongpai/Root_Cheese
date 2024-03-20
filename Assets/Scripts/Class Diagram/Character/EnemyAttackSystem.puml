@@ -1,0 +1,180 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class SurroundBulletFireManeuver extends BulletFireManeuver
+{
++ override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
+}
+
+class TriBulletFireManeuver extends BulletFireManeuver
+{
++ override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
+}
+
+class SingleBulletFireManeuver extends BulletFireManeuver
+{
++ override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
+}
+
+class RandomBulletFireManeuver extends BulletFireManeuver
+{
++ override void OnFire(IPawn enemy)
+IEnumerator StrafeFiring(int count, float time_delay, float fire_rate)
++ override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
+}
+
+ProjectileReflectionLines "1" *-- "many" ProjectileReflectionBulletCalculate : contains
+class ProjectileReflectionLines
+{
+- Mesh m_lineMesh;
+         - Material[] m_lineMats;
+         - Mesh m_arrowMesh;
+         - Material[] m_arrowMats;
+        - List<GameObject> _lines
+        - List<GameObject> _arrows
+        - GameObject _spawnLine;
+        - GameObject _spawnArrow;
+        - Transform _line_parent;
+        - Vector3 default_scale_arrow 
+        - Vector3 default_scale_line 
+        
+        + bool is_null { get;}
+        
+        - GameObject CreateArrowObject(Mesh mesh, Material[] materials)
+        - void CreateLine(Vector3 start, Vector3 end)
+        - GameObject CreateArrow(Vector3 pos, Quaternion rot)
+        + void AddLine(Vector3 start, Vector3 end)
+        + void UpdateLinePosition(Vector3 start, Vector3 end, int index)
+        + void ClearLine()
+        - void CreateParent()
+}
+
+ProjectileReflectionBulletCalculate "1" *-- "many" SpawnerProjectileReflectionBulletCalculate : contains
+class ProjectileReflectionBulletCalculate
+{
+- int maxReflexCount = 5
+        - float maxStepDistance = 50.0f
+        - float time = 0
+        - GameObject bullet
+        - ProjectileReflectionLines _projectileReflectionLines
+        - bool is_line_null = true
+        - bool is_start
+        - Vector3 _reflex_DirStart
+        - Vector3 _reflex_PosStart
+        - List<Vector3> _reflexPos 
+        - List<Vector3> _reflexDir 
+        - int L_Default
+        - int L_Bullet
+        - int L_Character
+        - int L_Enemy
+        - int L_Floor
+        - int L_Obstacle
+        
+        - void ProjectileReflection()
+        + void OnStart()
+        + void OnStop()
+        + Vector3 Get_FirstDirection()
+        + Vector3 Get_FirstPosition()
+        + List<Vector3> GetReflectionPoint()
+        + List<Vector3> GetReflectionDirection()
+}
+
+SpawnerProjectileReflectionBulletCalculate "1" *-- "many" ProjectileReflectionBulletFireManeuver : contains
+class SpawnerProjectileReflectionBulletCalculate
+{
+- List<ProjectileReflectionBulletCalculate> _PRBCs
+        - int _shot = 0
+        - BulletShotSurroundMode _surroundMode
+        - int current_axis = 0
+        - int surrounded_axis
+        - int helf_axis = 0
+        - GameObject spawnPoint
+        - Quaternion rot_dir
+
+        + BulletShotSurroundMode surroundMode {get}
+        + int shot {get}
+        + GameObject Set_spawnPoint {get}
+        + List<ProjectileReflectionBulletCalculate> PRBCs {get}
+
+}
+
+class ProjectileReflectionBulletFireManeuver extends BulletFireManeuver
+{
+- SpawnerProjectileReflectionBulletCalculate _spawnerPRBC
++ SpawnerProjectileReflectionBulletCalculate spawnerPRBC {get }
+
++ override void Maneuver(EnemyState pawn, Transform target)
++ override void Truce()
+# override IEnumerator Firing(float time)
++ override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
++ void OnHideProjectileReflectionLines()
++ void OnShowProjectileReflectionLines()
+}
+
+class GrenadeKeepLaunchingManeuver extends GrenadeLaunchManeuver
+
+class GrenadeLaunchManeuver extends BulletFireManeuver
+{
+# override void ToggleFireToEvent()
++ override void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
+# int[] RandomPositionTargetFromCustomProperties(int shot)
+# Coroutine KeepLaunching(float time)
+# void OneLaunching()
+}
+
+class BulletFireManeuver extends StrategyPattern_EnemyState
+{
+# GameObject bullet
+        # EnemyBulletConfig m_enemyBulletConfig
+        # EnemySpawnBullet _enemySpawnBullet
+        # PunEnemyCharacterController _punECC
+        # bool _haspunECC
+        # UnityAction OnFireEvent
+        
+        + float timeDelay {get}
+        + EnemySpawnBullet enemySpawnBullet {get}
+        # virtual void ToggleFireToEvent()
+        + override void Maneuver(EnemyState pawn, Transform target)
+        + virtual void OnFire(IPawn enemy)
+        # IEnumerator Waiting(UnityAction action , float time)
+        # virtual IEnumerator Firing(float time)
+        + virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet, int[] posIndex = default)
+        + virtual void ToggleFire(EnemySpawnBullet enemySpawnBullet, int targetIndex, int[] posIndex = default)
+}
+
+StrategyPattern_EnemyState <|-- StrategyPattern
+class "EnemyManeuver<EnemyState>" as StrategyPattern_EnemyState
+{
+# float m_bulletSpawnDistance = 0.25f
+        # List<Coroutine> _coroutines = new List<Coroutine>()
+        # PlayerSystem _player
+        # EnemySystem _enemySystem
+        # EnemyAttackState _enemyAttackState
+        # Transform _target
+        
+        + override void Maneuver(EnemyState pawn, Transform target)
+        + override void Truce()
+}
+
+class StrategyPattern<T> implements IManeuverBehaviour
+{
+# GameManager GM
+
+        + abstract void Maneuver(T pawn, Transform target)
+        + abstract void Truce()
+}
+
+interface IManeuverBehaviour<T>
+{
++ abstract void Maneuver(T pawn, Transform target)
++ abstract void Truce()
+}
+
+namespace UnityEngine #DDDDDD {
+    .StrategyPattern <|-- MonoBehaviour
+    .SpawnerProjectileReflectionBulletCalculate <|-- MonoBehaviour
+    .ProjectileReflectionBulletCalculate <|-- MonoBehaviour
+    .ProjectileReflectionLines <|-- MonoBehaviour
+}
+
+@enduml

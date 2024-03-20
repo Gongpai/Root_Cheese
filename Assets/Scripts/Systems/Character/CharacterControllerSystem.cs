@@ -84,6 +84,12 @@ namespace GDD
         {
             get => _input;
         }
+
+        public float CharacterMoveSpeed
+        {
+            get => MoveSpeed;
+            set => MoveSpeed = value;
+        }
         
         protected virtual void Awake()
         {

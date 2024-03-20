@@ -23,6 +23,8 @@ namespace GDD
         private float _attachmentSpinSpeed = 1;
         [SerializeField]
         private float _attachmentDamage = 1;
+        [SerializeField]
+        private float _maxWalkSpeed = 0;
 
         public Sprite skillIcon
         {
@@ -61,6 +63,11 @@ namespace GDD
         public float attachmentDamage
         {
             get => _attachmentDamage;
+        }
+
+        public float maxWalkSpeed
+        {
+            get => _maxWalkSpeed;
         }
     }
 }

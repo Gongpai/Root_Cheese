@@ -1,0 +1,207 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class Weapon implements IWeapon
+{
++ string mainName { get }
+       + string mainAttachmentName { get }
+       + string secAttachmentName { get }
+       + GameObject bulletObject{get}
+       + float damage {get}
+       + float rate {get => _config.rate}
+       + int shot {get}
+       + float bullet_spawn_distance {get}
+       + float power { get }
+       + BulletShotSurroundMode surroundMode { get }
+       + BulletShotMode bulletShotMode { get }
+
+        - WeaponConfig _config {readonly}
+       + Weapon(WeaponConfig weaponConfig)
+       + float shield { get => 0 }
+       + float effect_health { get => 0 }
+       + GameObject attachmentObject { get => null }
+       + float attachmentSpinSpeed { get => 0 }
+       + float attachmentDamage { get => 0 }
+}
+
+interface IWeapon
+{
++ string mainName { get }
+        + string mainAttachmentName { get }
+        + string secAttachmentName { get }
+        + GameObject bulletObject { get }
+        float damage { get }
+        float rate { get }
+        int shot { get }
+        float power { get }
+        float bullet_spawn_distance { get }
+        BulletShotSurroundMode surroundMode { get }
+        BulletShotMode bulletShotMode { get }
+        float shield { get }
+        float effect_health { get }
+        GameObject attachmentObject { get }
+        float attachmentSpinSpeed { get }
+        float attachmentDamage { get }
+}
+
+class WeaponAttachment
+{
+- Sprite _skillIcon
+        + string attachmentName
+        - string _skillDescription
+        - float _shield
+        - float _effect_health
+        - GameObject _attachmentObject
+        - float _attachmentSpinSpeed
+        - float _attachmentDamage
+        
+        + Sprite skillIcon {get }
+        + string skillDescription {get}
+        + float shield { get }
+        + float effect_health { get }
+        + GameObject attachmentObject { get }
+        + float attachmentSpinSpeed { get }
+        + float attachmentDamage { gete }
+}
+
+class WeaponAttachmentStats
+{
+- float _shield = 0
+        - float _effect_health = 1
+        - float _attachmentSpinSpeed = 1
+        - float _attachmentDamage = 1
+        
+        + float shield  {get set}
+        + float effect_health  {get set}
+        + float attachmentSpinSpeed {get set}
+        + float attachmentDamage {get set}
+}
+
+class WeaponConfig implements IWeapon
+{
+        - Sprite _skillIcon
+        + string weaponName
+        - string _skillDescription
+        - GameObject _bulletObject
+        - float m_damage
+        - float m_rate
+        - int m_shot = 1
+        - float m_power
+        - float m_bullet_spawn_distance
+        - BulletShotSurroundMode m_surroundMode
+        - BulletShotMode m_bulletShotMode = BulletShotMode.SurroundMode
+
+        + string mainName { get }
+        + string mainAttachmentName { get }
+        + string secAttachmentName { get }
+        + Sprite skillIcon { get }
+        + string skillDescription { get }
+        + GameObject bulletObject { get }
+        + float damage { get }
+        + float rate { get }
+        + int shot { get }
+        + float power { get }
+        + BulletShotSurroundMode surroundMode { get }
+        + BulletShotMode bulletShotMode { get }
+        + float bullet_spawn_distance { get }
+        + float shield { get }
+        + float effect_health { get }
+        + GameObject attachmentObject { get }
+        + float attachmentSpinSpeed { get }
+        + float attachmentDamage { get }
+}
+
+class WeaponConfigStats
+{
+- float _damage
+        - float _rate
+        - float _power 
+
+        + float damage { get; set; }
+        + float rate { get; set; }
+        + float power { get; set; }
+}
+
+class WeaponDecorator implements IWeapon
+{
+- IWeapon _decoratedWeapon {readonly}
+        - WeaponAttachment {readonly}
+        - WeaponConfigStats {readonly}
+        - WeaponAttachmentStats {readonly}
+
+        + string mainName {get;}
+        + string mainAttachmentName {get;}
+        + string secAttachmentName {get;}
+        + GameObject bulletObject {get;}
+        + virtual float damage {get;}
+        + virtual float rate {get;}
+        + int shot {get;}
+        + float power {get;}
+        + float bullet_spawn_distance {get;}
+        + BulletShotSurroundMode surroundMode {get;}
+        + BulletShotMode bulletShotMode {get;}
+        + float shield {get;}
+        + virtual float effect_health {get;}
+        + GameObject attachmentObject {get;}
+        + virtual float attachmentSpinSpeed {get;}
+        + virtual float attachmentDamage {get;}
+        
+        + WeaponDecorator(IWeapon weapon, WeaponAttachment attachment, WeaponConfigStats weaponConfigStats, WeaponAttachmentStats attachmentStats)
+}
+
+WeaponConfig "2" *-- "many" WeaponSystem : contains
+WeaponAttachment "4" *-- "many" WeaponSystem : contains
+WeaponConfigStats "1" *-- "many" WeaponSystem : contains
+WeaponAttachmentStats "1" *-- "many" WeaponSystem : contains
+WeaponDecorator "2" *-- "many" WeaponSystem : contains
+Weapon "1" *-- "many" WeaponSystem : contains
+
+class WeaponSystem
+{
+ - WeaponConfig m_weaponConfig;
+         - int m_weaponConfigPathIndex;
+         - WeaponAttachment m_mainAttachment;
+         - int m_mainAttachmentPathIndex;
+         - WeaponAttachment m_secondaryAttachment;
+         - int m_secondaryAttachmentPathIndex;
+         - ResourcesPath _skillConfigPath;
+         - ResourcesPath _skillUpgradePath;
+        - SkillPath _skillPath;
+        - Tuple<WeaponConfig, int> _weaponConfig;
+        - Tuple<WeaponAttachment, int> _mainAttachment;
+        - Tuple<WeaponAttachment, int> _secondaryAttachment;
+        - GameManager GM;
+        - WeaponConfigStats _weaponConfigStatsClient;
+        - WeaponAttachmentStats _attachmentStatsClient;
+        - CharacterSystem _characterSystem;
+        - IWeapon _weapon;
+        - bool _isFiring;
+        - bool _isDecorated;
+
+        - WeaponConfigStats _weaponConfigStats {get; set;}
+        - WeaponAttachmentStats _attachmentStats {get; set;}
+        + IWeapon weapon {get;}
+        + Tuple<WeaponConfig, int> weaponConfig {get; set;}
+        + Tuple<WeaponAttachment, int> mainAttachment {get; set;}
+        + Tuple<WeaponAttachment, int> secondaryAttachment {get; set;}
+        + WeaponConfigStats weaponConfigStats {get; set;}
+        + WeaponAttachmentStats attachmentStats {get; set;}
+        
+        - void OnInitializeWeapon()
+        + void SetWeaponConfig()
+        + void ToggleFire(PlayerSpawnBullet playerSpawnBullet, Transform target)
+        + void SetMainSkill(WeaponConfig weaponConfig, int index)
+        + void SetAttachment(WeaponAttachment weaponAttachment, int index)
+        + void UpgradeMainSkill(MainSkillUpgrade _upgrade)
+        + void UpgradeAttachmentSkill(AttachmentSkillUpgrade _upgrade)
+        + void Reset()
+        + void Decorate()
+}
+
+namespace UnityEngine #DDDDDD {
+    .WeaponAttachment <|-- ScriptableObject
+    .WeaponConfig <|-- ScriptableObject
+    .WeaponSystem <|-- MonoBehaviour
+}
+
+@enduml

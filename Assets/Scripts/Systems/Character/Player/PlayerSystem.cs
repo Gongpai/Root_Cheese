@@ -37,6 +37,7 @@ namespace GDD
         private GameManager GM;
         private bool _isEnterDoor;
         List<UnityAction<float, float>> _spinWheelActions = new List<UnityAction<float, float>>();
+        private MultiplayerPlayerControllerSystem MPCS;
         
         public float delay_attack
         {
@@ -53,6 +54,7 @@ namespace GDD
             base.Awake();
             
             _weaponSystem = GetComponent<WeaponSystem>();
+            MPCS = GetComponent<MultiplayerPlayerControllerSystem>();
         }
 
         public override void OnEnable()
@@ -69,6 +71,8 @@ namespace GDD
             
             if(isLobbyMode)
                 return;
+            
+            MPCS.CharacterMoveSpeed = GM.gameInstance.maxWalkSpeed;
             
             base.Start();
             
@@ -250,11 +254,17 @@ namespace GDD
             other.GetComponent<CharacterSystem>().punCharacterHealth.SendRevive();
         }
 
+        protected override void LevelProgress()
+        {
+            base.LevelProgress();
+            
+            if(_skillUpgradeCount > 0 && _randomSkillUI == null)
+                OpenRandomSkillUI();
+        }
+
         protected override void OnLevelUP()
         {
             base.OnLevelUP();
-            
-            OpenRandomSkillUI();
         }
 
         public void OpenRandomSkillUI()
@@ -589,6 +599,17 @@ namespace GDD
         public override void SetPawnVision(Vector2 vision)
         {
             this.vision = vision;
+        }
+
+        public override void SetMaxWalkSpeed(float speed)
+        {
+            base.SetMaxWalkSpeed(speed);
+
+            MPCS.CharacterMoveSpeed *= speed;
+            if (MPCS.CharacterMoveSpeed > 6)
+                MPCS.CharacterMoveSpeed = 6;
+
+            GM.gameInstance.maxWalkSpeed = MPCS.CharacterMoveSpeed;
         }
 
         public override void OnDisable()

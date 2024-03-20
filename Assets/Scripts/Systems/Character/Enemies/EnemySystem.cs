@@ -16,8 +16,8 @@ namespace GDD
         [Header("Drop Item")] 
         [SerializeField] private int _dropEXP = 30;
         
-        private GameManager GM;
-        private Vector3 oldPos;
+        protected GameManager GM;
+        protected Vector3 oldPos;
         
         private IState<EnemySystem> _attackState, _moveState;
         private IState<EnemySystem> _currentState;

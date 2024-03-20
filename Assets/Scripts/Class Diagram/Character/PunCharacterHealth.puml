@@ -1,0 +1,37 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+PunPlayerHealth "1" *-- "many" PlayerSystem : contains
+class PunPlayerHealth extends PunCharacterHealth
+{
++ virtual void UpdateEXPAndLevelPoint()
+[PunRPC] + virtual void PunRPCSetEXPAndLevel(int[] amount)
+}
+
+PunEnemyHealth "1" *-- "many" EnemySystem : contains
+class PunEnemyHealth extends PunCharacterHealth
+
+class PunCharacterHealth
+{
+# CharacterSystem _characterSystem;
+        # byte _punEventCode = 10;
+
+        + CharacterSystem CharacterSystem{get}
+       [PunRPC] + virtual void OnInitializeOtherPlayer(object[] datas, int OwnerNetID)
+        [PunRPC] + virtual void GetPlayerStatsToOtherPlayer(object OwnerNetID)
+        + virtual void TakeDamage(float amount)
+        + virtual void HealingPoint(float amount)
+        + virtual void ShieldPoint(float amount)
+        [PunRPC] + virtual void PunRPCApplyHealth(float amount, int OwnerNetID)
+        [PunRPC] + virtual void PunRPCSetShield(float amount, int OwnerNetID)
+        [PunRPC] + virtual void PunRPCSetHealth(float amount, int OwnerNetID)
+        [PunRPC] + virtual void PunResetCharacter()
+        + void SendRevive()
+        [PunRPC] + void PunReviveCharacter(int ViewID)
+}
+
+namespace Photon #1f72de {
+    .PunCharacterHealth <|-- MonoBehaviourPun
+}
+
+@enduml

@@ -1,0 +1,387 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class PlayerSystem extends CharacterSystem
+{
+ - GameObject m_skillRandomUI
+        - GameObject m_randomSpinWheel
+        - ReadyCheckUI _readyCheck
+        - float m_delay_attack = 0.5f
+        - Vector2 vision
+        # bool isLobbyMode = false
+        - IState<PlayerSystem> _attackState, _moveState, _downState
+        - StateContext<PlayerSystem> _playerStateContext
+        - WeaponSystem _weaponSystem
+        - RandomSkill _randomSkill
+        - RandomSkillUI _randomSkillUI
+        - GameManager GM
+        - bool _isEnterDoor
+        - List<UnityAction<float, float>> _spinWheelActions
+        
+        + float delay_attack {get set}
+        + Vector2 Get_Vision {get set}
+        
+        + void ReadyButton()
+        + void ReadyButton(bool ready)
+        + void UpdateReadyCheckUI()
+        - void SetSpinWheelAction()
+        + void OnDoorEnter(Collider other)
+        + void OnDoorExit(Collider other)
+        + void OnEnterSpinWheel(Collider other)
+        + override void OnReviveTriggerEnter(Collider other)
+        + override void OnReviveTriggerExit(Collider other)
+        + override void ReviveResetHP(GameObject other)
+        # override void OnLevelUP()
+        + void OpenRandomSkillUI()
+        + void OpenRandomSpinWheelUI()
+        - void SetHPFromSpinWheel(float amount)
+        - void SetEXPFromSpinWheel(float amount)
+        - void SetShieldFromSpinWheel(float amount)
+        + override float GetMaxShield()
+        + override float GetMaxHP()
+        + override void SetMaxHP(float maxHP)
+        + override float GetHP()
+        + override void SetHP(float hp)
+        + override float GetShield()
+        + override void SetShield(float shield)
+        + override void SetMaxEXP(int maxEXP)
+        + override int GetMaxEXP()
+        + override void SetUpdateEXP(int EXP)
+        + override void SetEXP(int EXP)
+        + override int GetEXP()
+        + override int GetUpdateEXP()
+        + override int GetLevel()
+        + override void SetLevel(int level)
+        + void StartAttack()
+        + void StartMove()
+        + void StartPlayerDown()
+        + override Vector2 GetPawnVision()
+        + override void SetPawnVision(Vector2 vision)
+}
+
+class EnemySystem extends CharacterSystem
+{
+        - int _dropEXP = 30
+        - GameManager GM
+        - Vector3 oldPos
+        - IState<EnemySystem> _attackState, _moveState
+        - IState<EnemySystem> _currentState
+        - StateContext<EnemySystem> _enemyStateContext
+        - WaypointReachingState _waypointReaching
+        - PunEnemyCharacterController _punECC
+        - DropItemObjectPool _dropItemObject
+        - GameObject _waypoint
+        - int _targetID = 0
+        
+        + int targetID {get set}
+        
+        + void StartAttack()
+        + void StartMove()
+        + int SetTargetRandom()
+        # void RandomWayPointPosition()
+        - void UpdateEnemyMove()
+        + override void OnCharacterDead()
+        + void EnemyDead()
+        # void AddEXPToPlayer()
+}
+
+abstract class CharacterSystem extends Pawn implements ICharacter
+{
+    # TextMeshProUGUI m_hp_text
+            # TextMeshProUGUI m_namePlayerText
+            # Slider m_hp_bar
+            # Slider m_shield_bar
+            # float m_hp = 100
+            # float m_max_HP = 100
+            # float m_shield = 100
+            # int _maxEXP = 100
+            # float m_levelUp = 1.1f
+            - Animator m_animator
+            - string m_deadAnimatorState = "isDead"
+            - string m_reviveAnimatorState = "isRevive"
+            - UnityEvent m_OnDead
+            - UnityEvent m_OnRevive
+            - float _reviveTime = 2
+            # GameObject m_ReviveUI
+            # bool _isMasterClient = true
+            # bool _isDead
+            # Canvas_Element_List _reviveUI
+            # bool _isOtherPlayerRevive
+            # int _EXP
+            # Transform OtherPlayer
+            # int _currentUpdateEXP
+            # int _updateEXP
+            # int _level
+            # int _skillUpgradeCount
+            # int _idPhotonView
+            # AwaitTimer updateEXPTimer
+            # AwaitTimer timer
+            # AwaitTimeCounting _reviveCounting
+            # PunCharacterHealth _punCharacterHealth
+            
+            + bool isMasterClient {get set}
+            + PunCharacterHealth punCharacterHealth {get}
+            + int idPhotonView {get set}
+            
+            # void LevelProgress()
+            # virtual void OnLevelUP()
+            # void OnEXPAdd()
+            + virtual void OnCharacterDead()
+            + void ReviveButton(bool isRevive)
+            + virtual void OnReviveTriggerEnter(Collider other)
+            + virtual void OnReviveTriggerExit(Collider other)
+            + virtual void ReviveResetHP(GameObject other)
+            + void OnCharacterRevive()
+            + virtual float GetHP()
+            + virtual void SetMaxHP(float maxHP)
+            + virtual float GetMaxHP()
+            + virtual void SetHP(float hp)
+            + virtual float GetMaxShield()
+            + virtual float GetShield()
+            + virtual void SetShield(float shield)
+            + virtual void SetMaxEXP(int maxEXP)
+            + virtual int GetMaxEXP()
+            + virtual void AddEXP(int EXP)
+            + virtual void SetUpdateEXP(int EXP)
+            + virtual void SetEXP(int EXP)
+            + virtual int GetEXP()
+            + virtual int GetUpdateEXP()
+            + virtual int GetLevel()
+            + virtual void SetLevel(int level)
+            + override Transform GetPawnTransform()
+}
+
+abstract class Pawn implements IPawn
+{
+    # IPawn previousPawn
+    # IPawn nextPawn
+    # Vector2Int cellPos
+    
+    + Vector2Int GetCellPosition()
+    + void SetCellPosition(Vector2Int cell)
+    + virtual Vector2 GetPawnVision()
+    + virtual void SetPawnVision(Vector2 vision)
+    + abstract Transform GetPawnTransform()
+    + IPawn GetPreviousPawn()
+    + void SetPreviousPawn(IPawn pawn)
+    + IPawn GetNextPawn()
+    + void SetNextPawn(IPawn pawn)
+}
+
+interface IPawn
+{
+        + Vector2Int GetCellPosition()
+        + void SetCellPosition(Vector2Int cell)
+        + Vector2 GetPawnVision()
+        + void SetPawnVision(Vector2 vision)
+        + Transform GetPawnTransform()
+        + IPawn GetPreviousPawn()
+        + void SetPreviousPawn(IPawn pawn)
+        + IPawn GetNextPawn()
+        + void SetNextPawn(IPawn pawn)
+}
+
+interface ICharacter
+{
+        + float GetMaxHP()
+        + void SetMaxHP(float maxHP)
+        + float GetHP()
+        + void SetHP(float hp)
+        + float GetMaxShield()
+        + float GetShield()
+        + void SetShield(float shield)
+        + int GetMaxEXP()
+        + void SetMaxEXP(int maxEXP)
+        + int GetEXP()
+        + int GetUpdateEXP()
+        + void AddEXP(int EXP)
+        + void SetEXP(int EXP)
+        + void SetUpdateEXP(int EXP)
+        + int GetLevel()
+        + void SetLevel(int level)
+}
+
+CharacterStateMachine_PlayerSystem <|-- CharacterStateMachine
+
+class "PlayerState<PlayerSystem>" as CharacterStateMachine_PlayerSystem
+{
+    + override string StateName()
+}
+
+PlayerDownState "1" *-- "many" PlayerSystem : contains
+class PlayerDownState extends CharacterStateMachine_PlayerSystem
+{
++ override string StateName()
+}
+
+PlayerMoveState "1" *-- "many" PlayerSystem : contains
+class PlayerMoveState extends CharacterStateMachine_PlayerSystem
+{
++ override string StateName()
+}
+
+PlayerAttackState "1" *-- "many" PlayerSystem : contains
+class PlayerAttackState extends CharacterStateMachine_PlayerSystem
+{
+# WeaponSystem _weaponSystem
+        - bool _is_end_rotation = false
+        # IPawn closestEnemy
+        
+        + override string StateName()
+        + override void OnStart(PlayerSystem contrller)
+        + override void Handle(PlayerSystem contrller)
+        + override void OnExit()
+        - void OnFire(IPawn enemy)
+        - IEnumerator Waiting(UnityAction action , float time)
+        - IEnumerator Firing(float time)
+        - - virtual void ToggleFire()
+        - void SmoothLookAtEnemy(IPawn enemy)
+        - void LookAtEnemy(Transform pawn)
+        - IEnumerator RotateCharacter(Quaternion start, Quaternion lookat , float time)
+}
+
+CharacterStateMachine_EnemySystem <|-- CharacterStateMachine
+class "EnemyState<EnemySystem>" as CharacterStateMachine_EnemySystem
+{
+    + override string StateName()
+    + void ApplyEnemyStrategy()
+    + void WithdrawEnemyStrategy()
+}
+
+EnemyMoveState "1" *-- "many" EnemySystem : contains
+class EnemyMoveState extends CharacterStateMachine_EnemySystem
+{
++ override string StateName()
+}
+
+EnemyAttackState "1" *-- "many" EnemySystem : contains
+class EnemyAttackState extends CharacterStateMachine_EnemySystem
+{
+- bool _isLockRot
+        + bool isLockRot {get set}
++ override string StateName()
++ override void OnStart(EnemySystem contrller)
+- void GetNewTarget(int targetID)
++ override void Handle(EnemySystem contrller)
++ override void OnExit()
+}
+
+class CharacterStateMachine<T> extends StateMachine
+{
+#T _characterSystem
+        #GameManager GM
+        #Transform target
+        #PlayerSpawnBullet PlayerSpawnBullet
+        #bool _is_Start_Fire
+        #List<Coroutine> _coroutines
+        
+        #void ClearCoriutines()
+        + override string StateName()
+        + override void OnStart(T contrller)
+        + override void Handle(T contrller)
+        + override void OnExit()
+}
+
+abstract class StateMachine<T> implements IState
+{
+    # bool _isEnterState = false
+            - T current_contrller
+            + abstract string StateName()
+            + virtual void OnStart(T contrller)
+            + virtual void Handle(T contrller)
+            + virtual void OnExit()
+}
+
+IState "3" *-- "many" PlayerSystem : contains
+IState "2" *-- "many" EnemySystem : contains
+interface IState<T>
+{
++ string StateName()
+        + void OnStart(T contrller)
+        + void Handle(T contrller)
+        + void OnExit()
+}
+
+CharacterControllerSystem_PlayerSystem "1" *-- "many" PlayerSystem : contains
+CharacterControllerSystem_PlayerSystem <|-- CharacterControllerSystem
+class "MultiplayerPlayerControllerSystem<PlayerSystem>" as CharacterControllerSystem_PlayerSystem
+{
+- PunPlayerCharacterController _punPlayerController
+        - bool _haspunPlayerController
+        # void Ready()
+        # void Revive()
+        # void DetectedPlayerMove()
+        # override float Move()
+}
+
+CharacterControllerSystem_EnemySystem "1" *-- "many" EnemySystem : contains
+CharacterControllerSystem_EnemySystem <|-- CharacterControllerSystem
+class "EnemyControllerSystem<EnemySystem>" as CharacterControllerSystem_EnemySystem
+{
++ float SprintSpeed
+        + Transform Target
+        + bool Sprinting = false
+        + float JumpTimeout
+        + float JumpHeight
+        + bool Jump = false
+        # NavMeshAgent thisAgent
+        
+        + virtual void Move(Vector3 AgentDestination)
+        + virtual float Move(Vector3 AgentDestination, float AgentSpeed)
+        # override void SimulateGravity()
+}
+
+class CharacterControllerSystem<T>
+{
+# float MoveSpeed
+# float SpeedChangeRate
+# float RotationSmoothTime
+# float Gravity
+# LayerMask GroundLayers
+# bool Grounded = true
+# float GroundedOffset
+# float GroundedRadius 
+# float FallTimeout
+# CharacterFootStepAudioClipLists _footStepAudioClipLists
+ # float _speed
+        # float _animationBlend
+        # float _targetRotation = 0.0f
+        # float _rotationVelocity
+        # float _verticalVelocity
+        # float _terminalVelocity = 53.0f
+        # bool _isCharacterMove = false
+        # float _jumpTimeoutDelta
+        # float _fallTimeoutDelta
+        # int _animIDSpeed
+        # int _animIDMotionSpeed
+        # int _animIDGrounded
+        # int _animIDJump
+        # int _animIDFreeFall
+        # PlayerInput _playerInput
+        # Animator _animator
+        # CharacterController _controller
+        # T _characterSystem
+        # AssetsInputsSystem _input
+        # bool _hasAnimator
+        # GameObject _mainCamera
+        
+        + bool Get_Player_Move {get}
+        + AssetsInputsSystem input {get}
+        
+        - void OnGameStateChanged(GameState gameState)
+        # void AssignAnimationIDs()
+        # virtual void OnFootstep(AnimationEvent animationEvent)
+        # virtual void GroundedCheck()
+        # virtual void SimulateGravity()
+        # virtual float Move()
+        # virtual void OnLand(AnimationEvent animationEvent)
+        # virtual void OnDrawGizmosSelected()
+}
+
+namespace UnityEngine #DDDDDD {
+    .Pawn <|-- MonoBehaviour
+    .StateMachine <|-- MonoBehaviour
+    .CharacterControllerSystem <|-- MonoBehaviour
+}
+
+@enduml

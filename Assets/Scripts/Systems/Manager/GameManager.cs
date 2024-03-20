@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Photon.Pun;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Grid = GDD.Spatial_Partition.Grid;
 
@@ -196,10 +197,10 @@ namespace GDD
         {
             if(Input.GetKeyDown(KeyCode.Escape))
                 CreateOrOpenPauseMenu();
-
+            
             UpdateTimeWarningUI(openSceneTime);
-
-            _gameState = enemies.Count > 0 ? GameState.Playing : GameState.Win;
+            
+            _gameState = m_enemies.Count > 0 ? GameState.Playing : GameState.Win;
 
             PlayerAllDown();
         }

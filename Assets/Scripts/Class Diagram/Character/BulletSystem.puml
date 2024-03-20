@@ -1,0 +1,135 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+EnemyBulletConfig "1" *-- "many" BulletFireManeuver : contains
+class EnemyBulletConfig
+{
+- float m_damage;
+        - float m_rate = 0.25f;
+- float m_bullet_power = 5;
+        - float m_timedelay = 0.25f;
+- int m_shot = 1;
+        - BulletType m_bulletType;
+        
+        + float damage {get}
+        + float rate {get}
+        + float bullet_power {get}
+        + float timedelay {get}
+        + int shot {get}
+        + BulletType bulletType {get}
+}
+
+class PlayerSpawnBullet extends BulletIgnition
+{
+- PlayerBulletObjectPool _bulletObjectPool
+        + PlayerBulletObjectPool bulletObjectPool {get}
+        
+        + override List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damage,Transform target, BulletType type, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)
+        + override void OnSpawnGrenade(int shot, float damge, int[] posIndex = default, ObjectPoolBuilder builder = null)
+}
+
+class BulletIgnition
+{
+# Transform m_spawnPoint
+        - GameObject bullet_rot_spawn
+        # List<GameObject> bullets
+        - SpawnerProjectileReflectionBulletCalculate _SPRBC
+        - ProjectileLauncherCalculate _PLC
+        - List<Quaternion> rots_random = new List<Quaternion>()
+        - GameManager GM
+        - GameObject group_launcher_point
+
+        + Transform spawnPoint {get}
+        + virtual List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damge, Transform target, BulletType type, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)
+        + virtual void OnSpawnGrenade(int shot, float damge, int[] posIndex = default, ObjectPoolBuilder builder = null)
+        + List<GameObject> OnIgnitionBulletSurround(ObjectPoolBuilder builder, Transform spawnPoint, Transform target, BulletType _type, float distance, float power, int shot, float damage, BulletShotSurroundMode surroundMode)
+        + List<GameObject> OnIgnitionBulletRandom(ObjectPoolBuilder builder, Transform spawnPoint, Transform target, float distance, float power, int shot, float damage)
+        - void AddForceBullet(ObjectPoolBuilder builder, Transform spawnPoint, float power, float damage)
+        - void CreateProjectileReflectionBullet(ObjectPoolBuilder builder, Transform spawnPoint, float power, float damage, int index)
+        + void OnProjectileLaunch(ObjectPoolBuilder builder, Transform spawnPoint, int shot, float damage, int[] posIndex = default)
+        - Vector3 RandomPositionTargetProjectileLaunch(Vector3 playerTarget)
+        - Vector3 RandomPositionTargetProjectileLaunchCustomProperties(Vector3 playerTarget, int posIndex)
+}
+
+ShootingTargetObjectPool "1" *-- "many" BulletIgnition : contains
+class ShootingTargetObjectPool extends ObjectPoolBuilder
+{
++ override GameObjectPool CreatePooledItem()
+}
+
+EnemyBulletConfig "1" *-- "many" BulletFireManeuver : contains
+class EnemySpawnBullet extends BulletIgnition
+{
+- EnemyBulletObjectPool _bulletObjectPool;
+       + EnemyBulletObjectPool bulletObjectPool {get;}
+       
+       + override List<GameObject> OnSpawnBullet(float distance, float power, int shot, float damage, Transform target, BulletType type, BulletShotSurroundMode surroundMode, BulletShotMode shotMode, ObjectPoolBuilder builder = null)
+       + override void OnSpawnGrenade(int shot, float damge, int[] posIndex = default, ObjectPoolBuilder builder = null)
+}
+
+EnemyBulletObjectPool "1" *-- "many" EnemySpawnBullet : contains
+class EnemyBulletObjectPool extends BulletObjectPool
+{
++ override GameObjectPool CreatePooledItem()
+}
+
+PlayerBulletObjectPool "1" *-- "many" PlayerSpawnBullet : contains
+class PlayerBulletObjectPool extends BulletObjectPool
+{
+- IWeapon _weapon
+
+        + IWeapon weapon {get set}
+        + override GameObjectPool CreatePooledItem()
+        + override GameObject OnSpawn()
+}
+
+class BulletObjectPool extends ObjectPoolBuilder
+{
++ override void OnReturnToPool(GameObjectPool bullet)
++ override GameObject OnSpawn()
+}
+
+class ObjectPoolBuilder
+{
+# int _maxPoolSize
+        # int _stackDefaultCapacity
+        # GameManager GM
+        # IObjectPool<GameObjectPool> _pool
+        # GameObject _gameObjectPool
+
+        + int maxPoolSize {get }
+        + int stackDefaultCapacity {get }
+        + GameObject Set_GameObject {get }
+        + IObjectPool<GameObjectPool> Pool {get }
+        
+        + virtual GameObjectPool CreatePooledItem()
+        + virtual void OnReturnToPool(GameObjectPool gObject)
+        + virtual void OnTakeFromPool(GameObjectPool gObject)
+        + virtual void OnDestroyPoolObject(GameObjectPool bullet)
+        + virtual GameObject OnSpawn()
+}
+
+PlayerBullet "1" *-- "many" PlayerBulletObjectPool : contains
+class PlayerBullet extends GameObjectPool
+{
++ IWeapon _weapon { get; set; }
+}
+
+EnemyBullet "1" *-- "many" EnemyBulletObjectPool : contains
+class EnemyBullet extends GameObjectPool
+
+class GameObjectPool
+{
++ IObjectPool<GameObjectPool> objectPool { get; set; }
++ virtual void ReturnToPool()
++ virtual void ResetBullet(Transform spawnPoint)
+}
+
+namespace UnityEngine #DDDDDD {
+    .BulletIgnition <|-- MonoBehaviour
+    .ObjectPoolBuilder <|-- MonoBehaviour
+    .GameObjectPool <|-- MonoBehaviour
+    .EnemyBulletConfig <|-- ScriptableObject
+}
+
+@enduml

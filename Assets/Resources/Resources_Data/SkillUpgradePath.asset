@@ -18,4 +18,5 @@ MonoBehaviour:
   - Presets/Player/Upgrade/MainWeaponUpgrade/WeaponDamageUpgrade
   - Presets/Player/Upgrade/MainWeaponUpgrade/WeaponPowerUpgrade
   - Presets/Player/Upgrade/MainWeaponUpgrade/WeaponRateUpgrade
+  - Presets/Player/Upgrade/AttachmantUpgrade/MaxWalkSpeedUpgrade
   - Presets/Player/Upgrade/AttachmantUpgrade/EffectDamageUpgrade

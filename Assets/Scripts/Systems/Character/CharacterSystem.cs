@@ -134,7 +134,7 @@ namespace GDD
             LevelProgress();
         }
 
-        protected void LevelProgress()
+        protected virtual void LevelProgress()
         {
             if (GetEXP() >= GetMaxEXP())
             {
@@ -350,6 +350,11 @@ namespace GDD
         public virtual void SetLevel(int level)
         {
             _level = level;
+        }
+
+        public virtual void SetMaxWalkSpeed(float speed)
+        {
+            
         }
 
         public override Transform GetPawnTransform()

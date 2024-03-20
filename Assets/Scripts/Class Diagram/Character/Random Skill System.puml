@@ -1,0 +1,76 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class AttachmentSkillUpgrade
+{
+- Sprite _skillIcon
+        - string _skillName
+        - string _skillDescription
+        - float _maxHealth = 0
+        - float _shield = 1
+        - float _effect_health = 1
+        - float _attachmentSpinSpeed = 1
+        - float _attachmentDamage = 1
+
+         Sprite skillIcon {get}
+         string skillName {get}
+         string skillDescription {get}
+         float maxHealth {get}
+         float shield  {get}
+         float effect_health  {get}
+         float attachmentSpinSpeed {get}
+         float attachmentDamage {get}
+}
+
+class MainSkillUpgrade
+{
+- Sprite _skillIcon
+        - string _skillName
+        - string _skillDescription
+        - float _damage = 1
+        - float _rate = 1
+        - float _power = 1
+
+         Sprite skillIcon {get}
+         string skillName {get}
+         string skillDescription {get}
+         float damage {get set}
+         float rate {get set}
+         float power {get set}
+}
+
+class RandomSkill 
+{
+- bool is_overrideResourcesPath = true
+         - string r_skillConfigPath = "Assets/Resources/Resources_Data/SkillConfigPath.asset"
+         - string r_skillUpgradePath = "Assets/Resources/Resources_Data/SkillUpgradePath.asset"
+        - WeaponSystem _weaponSystem
+        - WeaponAttachment _weaponAttachment
+        - string[,] _paths
+        - ResourcesPath _skillConfigPath
+        - ResourcesPath _skillUpgradePath
+        - List<Tuple<WeaponConfig, WeaponAttachment, int>> _baseSkills
+        - List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>> _upgradeSkills
+
+         WeaponSystem weaponSystem {get set}
+         List<Tuple<WeaponConfig, WeaponAttachment, int>> baseSkills {get}
+         List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>> upgradeSkills {get}
+         string skillConfigPath {get}
+         string skillUpgradePath {get}
+        
+        + void OnInitialize()
+        + void OnRandomSkill(RandomSkillType _type, int count)
+        + List<Tuple<WeaponConfig, WeaponAttachment, int>> RandomBaseSkill(int count)
+        + List<Tuple<MainSkillUpgrade, AttachmentSkillUpgrade, int>> RandomUpgradeSkill(int count)
+}
+
+RandomSkillType "1" *-- "many" RandomSkill : contains
+enum RandomSkillType
+
+namespace UnityEngine #DDDDDD {
+    .AttachmentSkillUpgrade <|-- ScriptableObject
+    .MainSkillUpgrade <|-- ScriptableObject
+    .RandomSkill <|-- MonoBehaviour
+}
+
+@enduml

@@ -260,6 +260,9 @@ namespace GDD
             
             if(_upgrade.attachmentDamage > 0)
                 _attachmentStats.attachmentDamage += _upgrade.attachmentDamage;
+
+            if (_upgrade.maxWalkSpeed > 0)
+                _characterSystem.SetMaxWalkSpeed(_upgrade.maxWalkSpeed);
         }
 
         public void Reset()

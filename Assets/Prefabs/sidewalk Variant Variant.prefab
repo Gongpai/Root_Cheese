@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
@@ -104,12 +104,12 @@ PrefabInstance:
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
       propertyPath: m_Name
-      value: sidewalk Variant
+      value: sidewalk Variant Variant
       objectReference: {fileID: 0}
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
@@ -194,7 +194,7 @@ PrefabInstance:
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
@@ -288,7 +288,7 @@ PrefabInstance:
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
@@ -382,7 +382,7 @@ PrefabInstance:
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 508043692494567900, guid: 1c7355ad4cbb10c45b7280f0e6630a71,
         type: 3}

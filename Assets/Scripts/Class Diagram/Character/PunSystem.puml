@@ -1,0 +1,82 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+PunPlayerCharacterController "1" *-- "many" MultiplayerPlayerControllerSystem : contains
+PunPlayerCharacterController "1" *-- "many" MultiplayerAttackState : contains
+PunPlayerCharacterController "1" *-- "many" RandomSkillUI : contains
+class PunPlayerCharacterController extends PunCharacterController
+{
+- ResourcesPath _skillConfigPath
+        - ResourcesPath _skillUpgradePath
+        - WeaponSystem _weaponSystem
+        - PlayerSpawnBullet _playerSpawnBullet
+        - SkillPath _skillPath
+        - RandomSkill _randomSkill
+        - ScriptableObject _skill
+        
+        + PlayerSpawnBullet playerSpawnBullet {get}
+        
+        [PunRPC] + override void OnGetCharacterData(object OwnerNetID)
+        [PunRPC] + override void RPCInitializeCharacter(object[] datas, int OwnerNetID)
+        + void SetSkill(int[] skills, int OwnerNetID)
+        [PunRPC] + void RPCApplySkill(int[] skills, int OwnerNetID)
+        [PunRPC] + void OnApplyMainSkill(int index)
+        [PunRPC] + void OnApplyAttachmentSkill(int index)
+        [PunRPC] + void OnUpgradeMainSkill()
+        [PunRPC] + void OnUpgradeAttachmentSkill()
+        + void CallRaiseToggleFireEvent(int targetIndex)
+        + override void OnEvent(EventData photonEvent)
+}
+
+PunEnemyCharacterController "1" *-- "many" MultiplayerEnemyController : contains
+PunEnemyCharacterController "1" *-- "many" EnemySystem : contains
+class PunEnemyCharacterController extends PunCharacterController
+{
+- BulletFireManeuver _bulletFireManeuver
+        - EnemySpawnBullet _enemySpawnBullet
+        - EnemySystem _enemySystem
+        
+        [PunRPC] + override void OnGetCharacterData(object OwnerNetID)
+        [PunRPC] + override void RPCInitializeCharacter(object[] datas, int OwnerNetID)
+        + void OnUpdateTargetID(int id)
+        [PunRPC] + void RPCUpdateTargetID(int id)
+        + void OnProjectileReflectionLinesEnable(bool isEnable)
+        [PunRPC] + void RPCProjectileReflectionLinesEnable(bool isEnable)
+        + void CallRaiseToggleFireEvent(BulletType type, int targetIndex, int[] posIndex = default)
+        + override void OnEvent(EventData photonEvent)
+        + override void SetSpeed(float[] amount, int OwnerNetID)
+}
+
+PunCharacterController "1" *-- "many" BulletFireManeuver : contains
+class PunCharacterController
+{
+- CharacterFootStepAudioClipLists _footStepAudioClipLists
+        - float _moveSpeed = 2.0f
+        - float SpeedChangeRate = 10.0f
+        - float _speed
+        - float _animationBlend
+        - float inputMagnitude
+        - int _animIDSpeed
+        - int _animIDMotionSpeed
+        - Animator _animator
+        - bool _hasAnimator
+        - byte _punEventCode = 10
+        - CharacterController _controller
+        - GameManager GM
+
+        + CharacterFootStepAudioClipLists footStepAudioClipLists {get set}
+        [PunRPC] + virtual void OnGetCharacterData(object OwnerNetID)
+        [PunRPC] + virtual void RPCInitializeCharacter(object[] datas, int OwnerNetID)
+        - virtual void AssignAnimationIDs()
+        - virtual void OnFootstep(AnimationEvent animationEvent)
+        + virtual void SetSpeed(float[] amount, int OwnerNetID)
+        [PunRPC] - virtual void OnMove(int OwnerViewID)
+        + virtual void OnEvent(EventData photonEvent)
+}
+
+namespace Photon #1f72de {
+    .PunCharacterController <|-- IOnEventCallback
+    .PunCharacterController <|-- MonoBehaviourPun
+}
+
+@enduml

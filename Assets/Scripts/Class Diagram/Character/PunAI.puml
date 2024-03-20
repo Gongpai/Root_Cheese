@@ -1,0 +1,23 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class PunPuppetAIWaypointReachingState 
+{
+# MultiplayerEnemyController m_multiplayerEnemyController;
+        # NavMeshAgent m_NavMeshAgent;
+        - WaypointReachingState _waypointReachingState;
+        - bool isEnterState = true;
+        - bool ismove;
+        
+        + void EnterStateEvent(Vector3 position)
+        + void ExitStateEvent()
+        + void UpdateState()
+        [PunRPC] + void PunEnterState(object[] data)
+        [PunRPC] + void PunExitState(int viewID)
+}
+
+namespace Photon #1f72de {
+    .PunPuppetAIWaypointReachingState <|-- MonoBehaviourPun
+}
+
+@enduml
