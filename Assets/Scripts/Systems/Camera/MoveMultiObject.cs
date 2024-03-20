@@ -45,6 +45,9 @@ namespace GDD
                 m_objects[i].originalIndex = originPosIndex + i;
                 m_objects[i].positions = m_positions;
             }
+
+            /*_select = 3;
+            MoveObject();*/
         }
 
         // Update is called once per frame
@@ -63,64 +66,81 @@ namespace GDD
 
         public void Select(int value)
         {
-            if((m_objects[0].originalIndex + value) < 0 || (m_objects[m_objects.Count - 1].originalIndex + value) > m_positions.Count - 1)
-                return;
-
             _select += value;
-            StartCoroutine(Moveee(_select));
-        }
 
-        IEnumerator Moveee(int select)
-        {
-            WaitWhile isEnd = new WaitWhile(() => _canMove);
-            
-            while (_currentSelect == select)
+            if (_select < 0)
             {
-                _canMove = false;
-                m_objects[0].OnMoveEnd = () =>
-                {
-                    _canMove = true;
-                    if (_currentSelect < select)
-                        _currentSelect++;
-                    else
-                        _currentSelect--;
-                };
-                if(_currentSelect < select)
-                    AnimationMove(_currentSelect + 1);
-                else
-                    AnimationMove(_currentSelect - 1);
-
-                yield return isEnd;
+                _select = 0;
+                return;
             }
+            else if (_select > m_objects.Count - 1)
+            {
+                _select = m_objects.Count - 1;
+                return;
+            }
+
+            m_OnSelect?.Invoke(_select);
+            
+            if(_canMove)
+                return;
+            
+            MoveObject();
         }
 
-        private void AnimationMove(int index)
+        public void SetSelect(int chapter)
         {
-            if (index > 0)
+            _select = chapter;
+            if(_canMove)
+                return;
+            
+            MoveObject();
+        }
+
+        public void MoveObject()
+        {
+            print("Move Object");
+            _canMove = true;
+            
+            m_objects[0].OnMoveEnd += MoveCallBack;
+            
+            AnimationMove(_currentSelect);
+        }
+
+        private void MoveCallBack()
+        {
+            int moveTo = _currentSelect < _select ? 1 : -1;
+            
+            print($"Move to {_currentSelect}");
+
+            if (_currentSelect != _select)
             {
-                for (int i = 0; i < m_objects.Count; i++)
-                {
-                    int move_i = m_objects[i].originalIndex + 1;
-                    m_objects[i].Move(move_i);
-                }
+                _currentSelect += moveTo;
+                MoveObject();
             }
             else
+                _canMove = false;
+            
+            m_objects[0].OnMoveEnd -= MoveCallBack;
+        }
+
+        private void AnimationMove(int move)
+        {
+            print($"Move to : {move}");
+            
+            for (int i = 0; i < m_objects.Count; i++)
             {
-                for (int i = 0; i < m_objects.Count; i++)
-                {
-                    int move_i = m_objects[i].originalIndex - 1;
-                    m_objects[i].Move(move_i);
-                }
+                int move_i = m_objects[i].originalIndex - move;
+                m_objects[i].Move(move_i, move);
             }
         }
-        
+
         public void OnMove(int move)
         {
-            if((m_objects[0].originalIndex + move) < 0 || (m_objects[m_objects.Count - 1].originalIndex + move) > m_positions.Count - 1)
+            /*if((m_objects[0].originalIndex + move) < 0 || (m_objects[m_objects.Count - 1].originalIndex + move) > m_positions.Count - 1)
                 return;
 
             //Set Select Chapter
-            m_objects[0].OnMoveEnd = () =>
+            m_objects[0].OnMoveEnd = _move =>
             {
                 if (_select + -move >= 0 && _select + -move <= m_objects.Count - 1)
                     _select += -move;
@@ -135,7 +155,7 @@ namespace GDD
                 for (int i = 0; i < m_objects.Count; i++)
                 {
                     int move_i = m_objects[i].originalIndex + 1;
-                    m_objects[i].Move(move_i);
+                    m_objects[i].Move(move_i, move);
                 }
             }
             else
@@ -143,9 +163,9 @@ namespace GDD
                 for (int i = 0; i < m_objects.Count; i++)
                 {
                     int move_i = m_objects[i].originalIndex - 1;
-                    m_objects[i].Move(move_i);
+                    m_objects[i].Move(move_i, move);
                 }
-            }
+            }*/
         }
     }
 }

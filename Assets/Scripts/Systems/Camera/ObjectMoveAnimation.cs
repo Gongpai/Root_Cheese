@@ -14,9 +14,10 @@ namespace GDD
         private Animator _animator;
         private Vector3 movePos;
         private Vector3 currentPos;
-        private bool isCanMove = true;
         private UnityAction _onMoveEnd;
+        private int currentMove;
         private AnimationStateAction ASA;
+        private bool _canMove;
 
         public UnityAction OnMoveEnd
         {
@@ -37,7 +38,7 @@ namespace GDD
 
         private void OnEnable()
         {
-            ASA.OnStateUpdateAction += MoveEndAction;
+            ASA.OnStateExitAction += MoveEndAction;
         }
 
         private void Start()
@@ -51,8 +52,6 @@ namespace GDD
             {
                 currentPos = transform.localPosition;
                 transform.localPosition = currentPos;
-                
-                isCanMove = true;
             }
             else
             {
@@ -62,30 +61,22 @@ namespace GDD
 
         private void MoveEndAction(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).length <=
-                animator.GetCurrentAnimatorStateInfo(0).normalizedTime)
-            {
-                print($"Invoke State");
-                _onMoveEnd?.Invoke();
-            }
+            _onMoveEnd?.Invoke();
         }
 
-        public void Move(int index)
+        public void Move(int index, int move)
         {
-            if(!isCanMove)
-                return;
-            
-            isCanMove = false;
-            
+            print("Moveee Nowwwws");
+            currentMove = move;
             movePos = m_positions[index];
-            originalIndex = index;
             _animator.SetTrigger("Play");
             time = 0;
+            _canMove = false;
         }
 
         private void OnDisable()
         {
-            ASA.OnStateUpdateAction -= MoveEndAction;
+            ASA.OnStateExitAction -= MoveEndAction;
         }
     }
 }

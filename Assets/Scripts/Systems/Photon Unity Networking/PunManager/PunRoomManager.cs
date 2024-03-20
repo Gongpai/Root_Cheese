@@ -146,9 +146,10 @@ namespace GDD.PUN
 
         public void CreateChapterSelect(int chapter)
         {
-            if (!PhotonNetwork.InRoom || !PhotonNetwork.InLobby || !PhotonNetwork.IsConnected)
+            if (!PhotonNetwork.InRoom)
                 return;
             
+            print($"Set Room Chapter {chapter}");
             Hashtable prop = new Hashtable()
             {
                 {
