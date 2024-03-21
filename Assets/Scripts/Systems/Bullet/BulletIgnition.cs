@@ -15,6 +15,7 @@ namespace GDD
 {
     public class BulletIgnition : MonoBehaviour
     {
+        [SerializeField] private GameObject _attackVFX;
         [SerializeField] protected Transform m_spawnPoint;
         private GameObject bullet_rot_spawn;
         protected List<GameObject> bullets;
@@ -22,6 +23,7 @@ namespace GDD
         private ProjectileLauncherCalculate _PLC;
         private List<Quaternion> rots_random = new List<Quaternion>();
         private GameManager GM;
+        private VFXSpawner _vfxSpawner;
         private GameObject group_launcher_point;
 
         public Transform spawnPoint
@@ -32,12 +34,14 @@ namespace GDD
         private void Awake()
         {
             GM = GameManager.Instance;
+            _vfxSpawner = gameObject.AddComponent<VFXSpawner>();
+            _vfxSpawner.Set_GameObject = _attackVFX;
         }
 
         public virtual void Start()
         {
-            string sb = " ␆ ␈ ␇ ␘ ␍ ␐ ␡ ␔ ␑ ␓ ␒ ␙ ␃ ␄ ␗ ␅ ␛ ␜ ␌ ␝ ␉ ␊ ␕ ␤ ␀ ␞ ␏ ␎ ␠ ␁ ␂ ␚ ␖ ␟ ␋";
-            //print(sb);
+            /*string sb = " ␆ ␈ ␇ ␘ ␍ ␐ ␡ ␔ ␑ ␓ ␒ ␙ ␃ ␄ ␗ ␅ ␛ ␜ ␌ ␝ ␉ ␊ ␕ ␤ ␀ ␞ ␏ ␎ ␠ ␁ ␂ ␚ ␖ ␟ ␋";
+            //print(sb);*/
         }
 
         public virtual void Update()
@@ -112,13 +116,17 @@ namespace GDD
                 
                 //Rot
                 bullet_rot_spawn.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                bullet_rot_spawn.transform.localPosition = Vector3.forward * distance;
-                bullet_rot_spawn.transform.rotation = Quaternion.Euler(Vector3.zero);
+                bullet_rot_spawn.transform.localPosition = bullet_rot_spawn.transform.forward * distance;
+                bullet_rot_spawn.transform.rotation = Quaternion.identity;
                 
                 if(_type == BulletType.Rectilinear)
                     AddForceBullet(builder, spawnPoint, power, damage);
                 else if (_type == BulletType.ProjectileReflection)
                     CreateProjectileReflectionBullet(builder, spawnPoint, power, damage, i);
+
+                GameObject vfxObject = _vfxSpawner.OnSpawn();
+                vfxObject.transform.position = bullet_rot_spawn.transform.position;
+                vfxObject.transform.rotation = spawnPoint.rotation;
 
                 //Add Axis
                 current_axis += surrounded_axis;
@@ -157,8 +165,7 @@ namespace GDD
                     //Rot
                     bullet_rot_spawn.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                     bullet_rot_spawn.transform.rotation = Quaternion.identity;
-                    bullet_rot_spawn.transform.localPosition = Vector3.forward * distance;
-                    
+                    bullet_rot_spawn.transform.localPosition = bullet_rot_spawn.transform.forward * distance;
                     
                     //Add Axis
                     current_axis += surrounded_axis;
@@ -195,6 +202,11 @@ namespace GDD
 
                 //Add Bullet To List
                 bullets.Add(bullet);
+                
+                //Spawn VFX
+                GameObject vfxObject = _vfxSpawner.OnSpawn();
+                vfxObject.transform.position = bullet_rot_spawn.transform.position;
+                vfxObject.transform.rotation = spawnPoint.rotation;
             }
 
             return bullets;

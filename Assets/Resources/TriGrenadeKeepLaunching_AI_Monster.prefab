@@ -317,6 +317,12 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8856079723556138974, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
+        type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 2867731740616798847, guid: d635d8405f8b96543a6ec51d7ee76666,
+        type: 3}
     m_RemovedComponents:
     - {fileID: 1804085855532818162, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
     - {fileID: 3527415465607005499, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}

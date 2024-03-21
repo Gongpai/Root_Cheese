@@ -823,6 +823,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76fb53841b0947fd86c44ab1609a58cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackVFX: {fileID: 2937065987751151993, guid: a33173a10586e28478b1f138159d9c99,
+    type: 3}
   m_spawnPoint: {fileID: 4172384370893570413}
 --- !u!114 &1194258277064258382
 MonoBehaviour:

@@ -2147,6 +2147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b1fc1ad3b04ad881a0190863177081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackVFX: {fileID: 2937065987751151993, guid: f605a6cbd3813ad448b7fc57d76742ce,
+    type: 3}
   m_spawnPoint: {fileID: 4451385183552094569}
 --- !u!114 &364043974
 MonoBehaviour:
