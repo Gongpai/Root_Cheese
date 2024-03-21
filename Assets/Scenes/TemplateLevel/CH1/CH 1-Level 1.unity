@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: caad191d2172a8344b6772493dcf27ce,
+  m_LightingDataAsset: {fileID: 112000000, guid: d70afd30695d71949b8af7da70817544,
     type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 3b3f7400d3526e9429c39d03afb714b3,
     type: 2}
@@ -124,7 +124,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: ae9b399ca3ded5a40b2f15164339db01, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 87321a56ea80a2740965055d9705a1b8, type: 2}
 --- !u!1 &2637872
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,7 +2594,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: b6b062ce67109af4b8a67432e4c2d138, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 91a20d8f46843e94dacc24db64b1faba, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -4023,7 +4023,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: 57809d4f2e4ac9b4196990a4e72435e0, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: 0ceaf06818a8a294aab5d40950e44ee9, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -5714,7 +5714,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: d8175bf9910a3184caf2c8cade524460, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: bacacbfd72bbe4641b79cd3b1dd88408, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:

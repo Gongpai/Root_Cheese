@@ -11,10 +11,15 @@ namespace GDD
         [SerializeField] protected MoveMultiObject m_moveMultiObject;
         protected GameManager GM;
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             GM = GameManager.Instance;
             m_moveMultiObject.OnSelect.AddListener(SetChapter);
+        }
+
+        protected virtual void Start()
+        {
+            
         }
 
         protected virtual void Update()

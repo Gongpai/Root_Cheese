@@ -3,12 +3,14 @@ using GDD.PUN;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GDD
 {
     public class PauseMenuUI : UI
     {
         [SerializeField] private string m_nameMainMenu;
+        [SerializeField] private Button m_RejointButton;
         protected GameManager GM;
         protected PunLevelManager PLM;
 
@@ -16,6 +18,15 @@ namespace GDD
         {
             GM = GameManager.Instance;
             PLM = PunLevelManager.Instance;
+        }
+
+        private void Update()
+        {
+            if (m_RejointButton != null)
+                m_RejointButton.interactable = GM.players.Count > 1;
+            
+            if(Input.GetKeyDown(KeyCode.Escape))
+                gameObject.SetActive(false);
         }
 
         public async void OnBackToMainMenu()
@@ -33,7 +44,14 @@ namespace GDD
         
         public void OnReOpenLevelScene()
         {
-            PhotonNetwork.LoadLevel(PLM.openLevel);
+            PhotonNetwork.LeaveRoom();
+            PunNetworkManager.Instance.OnJoinConnectToMasterAction += OnLeaveRoomToLobby;
+        }
+
+        private void OnLeaveRoomToLobby()
+        {
+            PhotonNetwork.JoinRoom(PunGameSetting.roomName);
+            PunNetworkManager.Instance.OnJoinConnectToMasterAction -= OnLeaveRoomToLobby;
         }
 
         private void OnDisable()

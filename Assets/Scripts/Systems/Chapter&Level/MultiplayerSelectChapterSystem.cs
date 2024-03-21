@@ -7,8 +7,13 @@ namespace GDD
     {
         private PunRoomManager PRM;
         private PunNetworkManager PNM;
-        private MoveMultiObject MMOBJ;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            GM.selectChapter = 0;
+        }
+        
         private void OnEnable()
         {
             PNM = PunNetworkManager.Instance;
@@ -16,14 +21,10 @@ namespace GDD
             PRM = PunRoomManager.Instance;
             PRM.SelectChapterCallback += SelectChapterCallback;
         }
-        
+
         protected override void Start()
         {
             base.Start();
-
-            MMOBJ = GetComponent<MoveMultiObject>();
-            GM.selectChapter = 0;
-            m_moveMultiObject.OnSelect.AddListener(SetChapter);
         }
 
         protected override void Update()
@@ -36,6 +37,7 @@ namespace GDD
             base.SetChapter(value);
             PRM.CreateChapterSelect(value);
             GM.selectChapter = value;
+            PunLevelManager.Instance.UpdateLevelName();
             m_chapter.text = $"Chapter {GM.selectChapter + 1}";
         }
 
@@ -50,9 +52,9 @@ namespace GDD
             m_chapter.text = $"Chapter {GM.selectChapter + 1}";
             print($"Call Back Chapter : {value}");
 
-            if (value != MMOBJ.select)
+            if (value != m_moveMultiObject.select)
             {
-                MMOBJ.SetSelect(GM.selectChapter);
+                m_moveMultiObject.SetSelect(GM.selectChapter);
             }
         }
 

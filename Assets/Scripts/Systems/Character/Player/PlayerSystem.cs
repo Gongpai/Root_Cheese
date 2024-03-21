@@ -53,6 +53,7 @@ namespace GDD
         {
             base.Awake();
             
+            GM = GameManager.Instance;
             _weaponSystem = GetComponent<WeaponSystem>();
             MPCS = GetComponent<MultiplayerPlayerControllerSystem>();
         }
@@ -67,6 +68,7 @@ namespace GDD
         public override void Start()
         {
             //Add Player to GameManager
+            GM = GameManager.Instance;
             GM.players.Add(this, false);
             
             if(isLobbyMode)
@@ -361,6 +363,9 @@ namespace GDD
 
         public override float GetHP()
         {
+            if (GM == null)
+                GM = GameManager.Instance;
+            
             if(isLobbyMode)
                 return GM.gameInstance.HP;
             
@@ -469,6 +474,12 @@ namespace GDD
 
         public override void SetEXP(int EXP)
         {
+            if (GM == null || punCharacterHealth == null)
+            {
+                GM = GameManager.Instance;
+                _punCharacterHealth = GetComponent<PunCharacterHealth>();
+            }
+            
             if(isLobbyMode)
                 GM.gameInstance.EXP = EXP;
             

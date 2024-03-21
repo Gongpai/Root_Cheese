@@ -12,8 +12,14 @@ namespace GDD
     {
         private PunPlayerCharacterController _punPlayerController;
         private bool _haspunPlayerController;
+        private bool _isMine;
         private GameManager GM;
 
+        public bool isMine
+        {
+            set => _isMine = value;
+        }
+        
         protected override void Start()
         {
             base.Start();
@@ -32,6 +38,14 @@ namespace GDD
             base.Update();
             
             DetectedPlayerMove();
+        }
+
+        protected override void OnGameStateChanged(GameState gameState)
+        {
+            if(!_isMine)
+                return;
+            
+            base.OnGameStateChanged(gameState);
         }
 
         protected void Ready()

@@ -107,7 +107,7 @@ namespace GDD
             
         }
 
-        private void OnGameStateChanged(GameState gameState)
+        protected virtual void OnGameStateChanged(GameState gameState)
         {
             enabled = gameState == GameState.Playing;
             print($"Game State is : {gameState}");

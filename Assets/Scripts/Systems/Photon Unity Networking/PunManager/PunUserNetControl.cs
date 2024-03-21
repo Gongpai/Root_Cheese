@@ -36,6 +36,10 @@ namespace GDD.PUN
             //Add Status Character UI
             AddStatusUI(GetComponent<CharacterSystem>());
             
+            //Get Character Controller
+            CharacterControllerSystem<PlayerSystem> _characterController = GetComponent<CharacterControllerSystem<PlayerSystem>>();
+            ((MultiplayerPlayerControllerSystem)_characterController).isMine = photonView.IsMine;
+            
             //Debug.Log(info.photonView.Owner.ToString());
             //Debug.Log(info.photonView.ViewID.ToString());
             // #Important
@@ -66,7 +70,7 @@ namespace GDD.PUN
             {
                 gameObject.name += $" [Other] [{photonView.ViewID}]";
                 //GM.players.Add(GetComponent<PlayerSystem>());
-                GetComponent<CharacterControllerSystem<PlayerSystem>>().enabled = false;
+                _characterController.enabled = false;
                 GetComponent<PlayerSystem>().isMasterClient = false;
                 OnPlayerPropertiesUpdate(photonView.Owner, photonView.Owner.CustomProperties);
                 

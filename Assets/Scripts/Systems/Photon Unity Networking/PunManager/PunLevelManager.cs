@@ -48,7 +48,13 @@ namespace GDD.PUN
 
         public SerializedDictionary<GameObject, List<Transform>>  GameAIPrefab
         {
-            get => m_GameAIPrefab;
+            get
+            {
+                if (GM.gameState != GameState.Win || GM.gameState == GameState.GameOver)
+                    return m_GameAIPrefab;
+                else
+                    return new SerializedDictionary<GameObject, List<Transform>>();
+            } 
         }
 
         public string openLevel
@@ -105,12 +111,18 @@ namespace GDD.PUN
             GM.enemy_layer = m_enemyLevel;
             GM.isUnLoadSceneReSetGameInstance = isUnLoadSceneReSetGameInstance;
             GM.openLevelName = openLevel;
+            print($"Open : {GM.openLevelName}");
             GM.pauseMenuUI = m_menuUI;
             
             _sceneLoaded?.Invoke(isReJoinLobbyOrRoom);
             
             if(PhotonNetwork.IsMasterClient)
                 PunNetworkManager.Instance.currentGameState = PunGameState.GamePlay;
+        }
+
+        public void UpdateLevelName()
+        {
+            GM.openLevelName = openLevel;
         }
 
         void OnSceneUnloaded(Scene scene)

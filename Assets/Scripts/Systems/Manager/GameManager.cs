@@ -72,7 +72,7 @@ namespace GDD
         private Canvas_Element_List _warningUI;
         private GameObject pauseMenu;
         private GameObject gameOverMenu;
-        private GameState _gameState = GameState.Playing;
+        private GameState _currentGameState = GameState.Start;
         private float openSceneTime = 0;
         private int m_selectChapter;
 
@@ -101,7 +101,38 @@ namespace GDD
 
         public GameState gameState
         {
-            get => _gameState;
+            get => _currentGameState;
+        }
+
+        public GameState _gameState
+        {
+            get => _currentGameState;
+            set
+            {
+                PunNetworkManager PNM = PunNetworkManager.Instance;
+                if (PNM != null && value != _currentGameState)
+                {
+                    switch (value)
+                    {
+                        case GameState.Playing:
+                            PNM.currentGameState = PunGameState.GamePlay;
+                            break;
+                        case GameState.Win:
+                            PNM.currentGameState = PunGameState.GameWin;
+                            break;
+                        case GameState.GameOver:
+                            PNM.currentGameState = PunGameState.GameOver;
+                            break;
+                        case GameState.Start:
+                            PNM.currentGameState = PunGameState.GameStart;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                _currentGameState = value;
+            }
         }
 
         public PlayerInfo playerInfo
@@ -184,6 +215,7 @@ namespace GDD
         private void OnEnable()
         {
             ResetGird();
+            SceneManager.sceneLoaded += LoadScene;
         }
 
         // Start is called before the first frame update
@@ -200,9 +232,31 @@ namespace GDD
             
             UpdateTimeWarningUI(openSceneTime);
             
-            _gameState = m_enemies.Count > 0 ? GameState.Playing : GameState.Win;
+            if(_gameState != GameState.Start )
+                _gameState = m_enemies.Count > 0 ? GameState.Playing : GameState.Win;
+            else if (m_enemies.Count > 0)
+                _gameState = GameState.Playing;
 
             PlayerAllDown();
+        }
+
+        public void GetMultiPlayerGameSate(PunGameState currentGameState)
+        {
+            switch (currentGameState)
+            {
+                case PunGameState.GameOver:
+                    _currentGameState = GameState.GameOver;
+                    break;
+                case PunGameState.GamePlay:
+                    _currentGameState = GameState.Playing;
+                    break;
+                case PunGameState.GameStart:
+                    _currentGameState = GameState.Start;
+                    break;
+                case PunGameState.GameWin:
+                    _currentGameState = GameState.Win;
+                    break;
+            }
         }
 
         public void NewTimerReady()
@@ -362,7 +416,9 @@ namespace GDD
         private void UpdateSaveGameServer()
         {
             print("Sync Save Game");
-            DBC.OnSyncSucceed += PunLoadLevel;
+            
+            if(PhotonNetwork.IsMasterClient)
+                DBC.OnSyncSucceed += PunLoadLevel;
             DBC.OnSync();
             DBC.OnUpdateSucceed -= UpdateSaveGameServer;
             
@@ -392,11 +448,26 @@ namespace GDD
             PhotonNetwork.LoadLevel(scene);
             PunNetworkManager.Instance.isLoadLevel = true;
         }
+
+        private void LoadScene(Scene scene, LoadSceneMode mode)
+        {
+            PunNetworkManager PNM = PunNetworkManager.Instance;
+            
+            if(PNM != null)
+                PNM.onGameStateUpdate += GetMultiPlayerGameSate;
+        }
         
         private void UnloadScene(Scene scene)
         { 
             ResetGird();
+            _gameState = GameState.Start;
+            
+            PunNetworkManager PNM = PunNetworkManager.Instance;
+            if(PNM != null)
+                PNM.onGameStateUpdate -= GetMultiPlayerGameSate;
+            
             SceneManager.sceneUnloaded -= UnloadScene;
+            
         }
         
         void OnDrawGizmosSelected()
@@ -444,7 +515,12 @@ namespace GDD
                 }
             }
         }
-        
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= LoadScene;
+        }
+
         /*
         private void OnGUI()
         {

@@ -732,6 +732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_nameMainMenu: MainMenuScene
+  m_RejointButton: {fileID: 0}
 --- !u!1 &8983843913715575862
 GameObject:
   m_ObjectHideFlags: 0

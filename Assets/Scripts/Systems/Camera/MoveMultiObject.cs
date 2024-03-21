@@ -46,6 +46,7 @@ namespace GDD
                 m_objects[i].positions = m_positions;
             }
 
+            m_OnSelect?.Invoke(_select);
             /*_select = 3;
             MoveObject();*/
         }

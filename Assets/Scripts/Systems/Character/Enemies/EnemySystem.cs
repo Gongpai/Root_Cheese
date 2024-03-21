@@ -165,8 +165,12 @@ namespace GDD
 
         public override void OnCharacterDead()
         {
+            base.OnCharacterDead();
+            
             _dropItemObject.OnCreateObject();
             AddEXPToPlayer();
+            
+            print("Deaddddddddd!!!!!!!!!!!!!!!!!!!!!!!");
             
             if (Application.isPlaying)
             {
@@ -175,8 +179,6 @@ namespace GDD
             GM.enemies.Remove(this);
 
             GetComponent<Unity.VisualScripting.StateMachine>().enabled = false;
-            
-            base.OnCharacterDead();
         }
 
         public void EnemyDead()

@@ -72,6 +72,7 @@ namespace GDD.PUN
         private UnityAction<List<FriendInfo>> _onFriendListUpdateAction;
         private UnityAction<List<Player>> _onPlayerListUpdateAction;
         private UnityAction _onLeftRoomAction;
+        private UnityAction<PunGameState> _onGameStateUpdate;
         private List<RoomInfo> _currentRoomList = new List<RoomInfo>();
 
         public UnityAction OnJoinLobbyAction
@@ -125,6 +126,12 @@ namespace GDD.PUN
             get => _onLeftRoomAction;
             set => _onLeftRoomAction = value;
         }
+
+        public UnityAction<PunGameState> onGameStateUpdate
+        {
+            get => _onGameStateUpdate;
+            set => _onGameStateUpdate = value;
+        }
         
         //Singleton
         protected static PunNetworkManager _instance;
@@ -148,7 +155,7 @@ namespace GDD.PUN
             {
                 _currentGameState = value;
                 
-                if (!PhotonNetwork.InRoom || !PhotonNetwork.InLobby || !PhotonNetwork.IsConnected)
+                if (!PhotonNetwork.InRoom)
                     return;
                 
                 Hashtable prop = new Hashtable()
@@ -156,20 +163,6 @@ namespace GDD.PUN
                     { PunGameSetting.GAMESTATE, _currentGameState }
                 };
                 PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
-                /*
-                if (PhotonNetwork.CurrentRoom.CustomProperties == null)
-                {
-                    Hashtable prop = new Hashtable()
-                    {
-                        { PunGameSetting.GAMESTATE, _currentGameState }
-                    };
-                    PhotonNetwork.CurrentRoom.SetCustomProperties(prop);
-                }
-                else
-                {
-                    PhotonNetwork.CurrentRoom.CustomProperties.Add(PunGameSetting.GAMESTATE, _currentGameState);
-                }
-                */
             }
         }
         public CinemachineVirtualCamera vCAm
@@ -214,21 +207,6 @@ namespace GDD.PUN
             
             if (!PhotonNetwork.IsMasterClient)
                 return;
-
-            switch (_currentGameState)
-            {
-                case PunGameState.GameStart:
-                    OnGameStart();
-                    break;
-
-                case PunGameState.GamePlay:
-                    //Game Loop Logic
-                
-                    break;
-                case PunGameState.GameOver:
-                    OnGameOver();
-                    break;
-            }
         }
 
         private async void UpdateInfo()
@@ -451,12 +429,13 @@ namespace GDD.PUN
             
         }
         
-        public void gameStateUpdate(Hashtable propertiesThatChanged) {
-            object gameStateFromProps;
-
-            if (propertiesThatChanged.TryGetValue(PunGameSetting.GAMESTATE, out gameStateFromProps)) {
+        public void gameStateUpdate(Hashtable propertiesThatChanged)
+        {
+            if (propertiesThatChanged.TryGetValue(PunGameSetting.GAMESTATE, out object gameStateFromProps)) {
                 //Debug.Log("GetStartTime Prop is : " + (PunGameState)gameStateFromProps);
-                _currentGameState = (PunGameState)gameStateFromProps;
+                PunGameState gameState = (PunGameState)gameStateFromProps;
+                _currentGameState = gameState;
+                _onGameStateUpdate?.Invoke(gameState);
             }
 
             if(_currentGameState == PunGameState.GameOver)
