@@ -10,7 +10,7 @@ namespace GDD
 {
     public class TakeDamage : MonoBehaviourPun
     {
-        private GameObjectPool _bullet;
+        private CharacterBullet _bullet;
         private GameManager GM;
         private float _damage;
         private bool m_is_undying = false;
@@ -39,7 +39,7 @@ namespace GDD
 
         private void Awake()
         {
-            _bullet = GetComponent<GameObjectPool>();
+            _bullet = GetComponent<CharacterBullet>();
             
             if(!m_is_undying)
                 _coroutinereturnpool = StartCoroutine(WaitReturnToPool(5));
@@ -121,7 +121,7 @@ namespace GDD
                 }
             }
 
-            if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+            if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle") || other.gameObject.layer == LayerMask.NameToLayer("Floor"))
                 ReturnToPool();
         }
 

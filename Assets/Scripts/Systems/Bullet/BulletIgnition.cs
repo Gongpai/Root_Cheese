@@ -16,6 +16,7 @@ namespace GDD
     public class BulletIgnition : MonoBehaviour
     {
         [SerializeField] private GameObject _attackVFX;
+        [SerializeField] private GameObject _hitVFX;
         [SerializeField] protected Transform m_spawnPoint;
         private GameObject bullet_rot_spawn;
         protected List<GameObject> bullets;
@@ -23,7 +24,8 @@ namespace GDD
         private ProjectileLauncherCalculate _PLC;
         private List<Quaternion> rots_random = new List<Quaternion>();
         private GameManager GM;
-        private VFXSpawner _vfxSpawner;
+        private VFXSpawner _vfxAttackSpawner;
+        private VFXSpawner _vfxHitSpawner;
         private GameObject group_launcher_point;
 
         public Transform spawnPoint
@@ -34,8 +36,15 @@ namespace GDD
         private void Awake()
         {
             GM = GameManager.Instance;
-            _vfxSpawner = gameObject.AddComponent<VFXSpawner>();
-            _vfxSpawner.Set_GameObject = _attackVFX;
+            _vfxAttackSpawner = gameObject.AddComponent<VFXSpawner>();
+            _vfxAttackSpawner.Set_GameObject = _attackVFX;
+
+            if (_hitVFX != null)
+            {
+                print("SET HIT VFX");
+                _vfxHitSpawner = m_spawnPoint.gameObject.AddComponent<VFXSpawner>();
+                _vfxHitSpawner.Set_GameObject = _hitVFX;
+            }
         }
 
         public virtual void Start()
@@ -124,7 +133,7 @@ namespace GDD
                 else if (_type == BulletType.ProjectileReflection)
                     CreateProjectileReflectionBullet(builder, spawnPoint, power, damage, i);
 
-                GameObject vfxObject = _vfxSpawner.OnSpawn();
+                GameObject vfxObject = _vfxAttackSpawner.OnSpawn();
                 vfxObject.transform.position = bullet_rot_spawn.transform.position;
                 vfxObject.transform.rotation = spawnPoint.rotation;
 
@@ -180,6 +189,11 @@ namespace GDD
                 //print("ROTOTOTOTOTOTOTO : " + rot.eulerAngles);
                 //Add Force And Spawn Bullet
                 GameObject bullet = builder.OnSpawn();
+                
+                CharacterBullet _charBullet = bullet.GetComponent<CharacterBullet>();
+                if (_charBullet != null)
+                    _charBullet.vfxSpawner = _vfxHitSpawner;
+                
                 bullet.GetComponent<TakeDamage>().damage = damage;
                 bullet.GetComponent<Collider>().isTrigger = true;
                 
@@ -204,7 +218,7 @@ namespace GDD
                 bullets.Add(bullet);
                 
                 //Spawn VFX
-                GameObject vfxObject = _vfxSpawner.OnSpawn();
+                GameObject vfxObject = _vfxAttackSpawner.OnSpawn();
                 vfxObject.transform.position = bullet_rot_spawn.transform.position;
                 vfxObject.transform.rotation = spawnPoint.rotation;
             }
@@ -216,6 +230,10 @@ namespace GDD
         {
             GameObject bullet = builder.OnSpawn();
             bullet.GetComponent<TakeDamage>().damage = damage;
+
+            CharacterBullet _charBullet = bullet.GetComponent<CharacterBullet>();
+            if (_charBullet != null)
+                _charBullet.vfxSpawner = _vfxHitSpawner;
                 
             bullet.GetComponent<Collider>().isTrigger = true;
             bullet.transform.position = bullet_rot_spawn.transform.position;
@@ -235,6 +253,11 @@ namespace GDD
         private void CreateProjectileReflectionBullet(ObjectPoolBuilder builder, Transform spawnPoint, float power, float damage, int index)
         {
             GameObject bullet = builder.OnSpawn();
+            
+            CharacterBullet _charBullet = bullet.GetComponent<CharacterBullet>();
+            if (_charBullet != null)
+                _charBullet.vfxSpawner = _vfxHitSpawner;
+            
             TakeDamage _takeDamage = bullet.GetComponent<TakeDamage>();
             _takeDamage.damage = damage;
             _takeDamage.is_undying = true;
@@ -316,6 +339,10 @@ namespace GDD
                 GameObject grenade = builder.OnSpawn();
                 grenade.GetComponent<TakeDamage>().damage = damage;
                 grenade.GetComponent<Collider>().isTrigger = true;
+                
+                CharacterBullet _charBullet = grenade.GetComponent<CharacterBullet>();
+                if (_charBullet != null)
+                    _charBullet.vfxSpawner = _vfxHitSpawner;
 
                 grenade.transform.position = _PLC.transform.position;
                 Rigidbody rig = grenade.GetComponent<Rigidbody>();

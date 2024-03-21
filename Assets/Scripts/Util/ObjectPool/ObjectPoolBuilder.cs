@@ -28,6 +28,11 @@ namespace GDD.ObjectPool
         {
             set => _gameObjectPool = value;
         }
+
+        public bool isSpawnObjectNull
+        {
+            get => _gameObjectPool == null;
+        }
         
         public IObjectPool<GameObjectPool> Pool
         {

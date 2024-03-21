@@ -2,7 +2,7 @@
 
 namespace GDD
 {
-    public class EnemyBullet : GameObjectPool
+    public class EnemyBullet : CharacterBullet
     {
         
     }

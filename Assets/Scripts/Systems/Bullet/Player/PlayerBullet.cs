@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 
 namespace GDD
 {
-    public class PlayerBullet : GameObjectPool
+    public class PlayerBullet : CharacterBullet
     {
         public IWeapon _weapon { get; set; }
 

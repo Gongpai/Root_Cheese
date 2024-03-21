@@ -825,6 +825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackVFX: {fileID: 2937065987751151993, guid: a33173a10586e28478b1f138159d9c99,
     type: 3}
+  _hitVFX: {fileID: 5946457226937504908, guid: 4ef0903a9e4ba8f47821bd7cb0356a5d, type: 3}
   m_spawnPoint: {fileID: 4172384370893570413}
 --- !u!114 &1194258277064258382
 MonoBehaviour:

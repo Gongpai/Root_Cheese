@@ -66,6 +66,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 885309489064837252, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
         type: 3}
+      propertyPath: _hitVFX
+      value: 
+      objectReference: {fileID: 639043374452717960, guid: 7e59ded3a0d1a9a4d8c129a4e89eb2e2,
+        type: 3}
+    - target: {fileID: 885309489064837252, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
+        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
