@@ -8,18 +8,18 @@ using UnityEngine;
 
 namespace GDD
 {
-    public class TakeDamage : MonoBehaviourPun
+    public class TakeDamage : MonoBehaviourPun, ITakeDamage
     {
         private CharacterBullet _bullet;
         private GameManager GM;
-        private float _damage;
+        [SerializeField] private float _damage;
         private bool m_is_undying = false;
         private bool is_MasterClient = true;
         private Coroutine _coroutinereturnpool;
         public int OwnerViewID = -1;
         
         //Character Owner
-        private Transform _ownerLayer;
+        [SerializeField] private Transform _ownerLayer;
 
         public Transform ownerLayer
         {
@@ -88,6 +88,16 @@ namespace GDD
         protected virtual void OnTriggerExit(Collider other)
         {
             
+        }
+
+        public virtual int GetViewID()
+        {
+            return OwnerViewID;
+        }
+
+        public virtual void SetViewID(int OwnerViewID)
+        {
+            this.OwnerViewID = OwnerViewID;
         }
 
         protected virtual void OnDisable()
@@ -160,6 +170,9 @@ namespace GDD
 
         public virtual void ReturnToPool()
         {
+            if(_bullet == null)
+                return;
+            
             if (!m_is_undying)
             {
                 //print("Return TO Poooooollllll!!!!!!!!!!!!");
@@ -170,6 +183,9 @@ namespace GDD
         
         public virtual void ReturnBulletToPool()
         {
+            if(_bullet == null)
+                return;
+            
             _bullet.ReturnToPool();
         }
     }

@@ -26,11 +26,11 @@ namespace GDD
             
         }
 
-        private void OnDrawGizmosSelected()
+        /*private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(transform.position, m_ColliderRadius);
-        }
+        }*/
 
         private void OnDisable()
         {
