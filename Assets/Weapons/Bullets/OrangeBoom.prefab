@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2867731740616798845}
   - component: {fileID: 2867731740616798844}
   - component: {fileID: 2403957805759953190}
+  - component: {fileID: -1571693261510982395}
   m_Layer: 0
   m_Name: OrangeBoom
   m_TagString: Untagged
@@ -115,6 +116,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-1571693261510982395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2867731740616798847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec2dcd4c59524aadb1949a56a80bfd8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ColliderCenter: {x: 0, y: 0, z: 0}
+  m_ColliderRadius: 2
+  m_isTigger: 1
+  m_damageTimeCount: 0.5
 --- !u!1001 &5854366897046785175
 PrefabInstance:
   m_ObjectHideFlags: 0

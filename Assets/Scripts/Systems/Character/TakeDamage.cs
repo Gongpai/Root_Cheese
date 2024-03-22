@@ -29,6 +29,7 @@ namespace GDD
 
         public float damage
         {
+            get => _damage;
             set => _damage = value;
         }
 
@@ -37,23 +38,35 @@ namespace GDD
             set => m_is_undying = value;
         }
 
-        private void Awake()
+        public CharacterBullet bullet
         {
-            _bullet = GetComponent<CharacterBullet>();
+            get => _bullet;
+            set => _bullet = value;
+        }
+
+        protected virtual void Awake()
+        {
+            if(_bullet == null)
+                _bullet = GetComponent<CharacterBullet>();
             
             if(!m_is_undying)
                 _coroutinereturnpool = StartCoroutine(WaitReturnToPool(5));
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             GM = GameManager.Instance;
         }
 
         // Start is called before the first frame update
-        void Start()
+        protected virtual void Start()
         {
             OwnerViewID = GM.playerMasterClient.GetComponent<MonoBehaviourPun>().photonView.ViewID;
+        }
+        
+        protected virtual void Update()
+        {
+            
         }
 
         IEnumerator WaitReturnToPool(float time)
@@ -62,7 +75,27 @@ namespace GDD
             ReturnToPool();
         }
         
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
+        {
+            OnTakeDamage(other);
+        }
+
+        protected virtual void OnTriggerStay(Collider other)
+        {
+            
+        }
+
+        protected virtual void OnTriggerExit(Collider other)
+        {
+            
+        }
+
+        protected virtual void OnDisable()
+        {
+            
+        }
+
+        protected virtual void OnTakeDamage(Collider other)
         {
             /*
             if (ownerLayer != null || ownerLayer.transform.parent == GM.enemy_layer)
@@ -125,7 +158,7 @@ namespace GDD
                 ReturnToPool();
         }
 
-        private void ReturnToPool()
+        public virtual void ReturnToPool()
         {
             if (!m_is_undying)
             {
@@ -135,7 +168,7 @@ namespace GDD
             }
         }
         
-        public void ReturnBulletToPool()
+        public virtual void ReturnBulletToPool()
         {
             _bullet.ReturnToPool();
         }

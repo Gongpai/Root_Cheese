@@ -5,11 +5,17 @@ namespace GDD
 {
     public class CharacterBullet : GameObjectPool
     {
-       protected VFXSpawner _vfxSpawner;
+        protected VFXSpawner _vfxSpawner;
+        protected GameObject _vfxObject;
 
         public VFXSpawner vfxSpawner
         {
             set => _vfxSpawner = value;
+        }
+
+        public GameObject vfxObject
+        {
+            get => _vfxObject;
         }
 
         public override void ReturnToPool()
@@ -17,10 +23,10 @@ namespace GDD
             print("Return TO Poooooollllll!!!!!!!!!!!!");
             if (_vfxSpawner != null && !_vfxSpawner.isSpawnObjectNull)
             {
-                GameObject vfxObject = _vfxSpawner.OnSpawn();
-                vfxObject.transform.position = transform.position;
+                _vfxObject = _vfxSpawner.OnSpawn();
+                _vfxObject.transform.position = transform.position;
             }
-            
+
             base.ReturnToPool();
         }
     }
