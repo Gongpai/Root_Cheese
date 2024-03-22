@@ -21,8 +21,9 @@ namespace GDD
         private GameManager GM;
         DataBaseController _dataBaseController;
         
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             _dataBaseController = DataBaseController.Instance;
             GM = GameManager.Instance;
             UpdateInfo();

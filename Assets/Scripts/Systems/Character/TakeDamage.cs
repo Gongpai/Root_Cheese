@@ -137,6 +137,8 @@ namespace GDD
             //Check PunCharacterHealth
             if (has_punCharacterHealth)
             {
+                CharacterSystem _characterSystem = other.GetComponent<CharacterSystem>();
+                
                 //Check Client
                 is_MasterClient = _punCharacterHealth.CharacterSystem.isMasterClient;
                 if (!is_MasterClient)
@@ -149,6 +151,7 @@ namespace GDD
                 {
                     //print("Enemy Take Damage");
                     _punCharacterHealth.TakeDamage(_damage);
+                    _characterSystem.PlayHPBarAttack();
                     ReturnToPool();
                 }
                 //Check Player Layer & Set HP / Shield
@@ -156,6 +159,7 @@ namespace GDD
                 {
                     //print("Character Take Damage");
                     _punCharacterHealth.TakeDamage(_damage);
+                    _characterSystem.PlayHPBarAttack();
                     ReturnToPool();
                 }
                 else

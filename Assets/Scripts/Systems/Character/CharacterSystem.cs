@@ -31,6 +31,8 @@ namespace GDD
         [SerializeField] private string m_reviveAnimatorState = "isRevive";
         [SerializeField] private UnityEvent m_OnDead;
         [SerializeField] private UnityEvent m_OnRevive;
+        [SerializeField] private Animator m_HPBarAnimator;
+        [SerializeField] private string m_namePlayHPBar = "Play";
         
         [Header("Revive")]
         [SerializeField] private float _reviveTime = 2;
@@ -242,6 +244,11 @@ namespace GDD
                 _isOtherPlayerRevive = false;
                 OtherPlayer = null;
             }
+        }
+
+        public virtual void PlayHPBarAttack()
+        {
+            m_HPBarAnimator.SetTrigger(m_namePlayHPBar);
         }
 
         public virtual void ReviveResetHP(GameObject other)

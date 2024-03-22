@@ -363,12 +363,11 @@ namespace GDD
 
         public override float GetHP()
         {
-            if (GM == null)
-                GM = GameManager.Instance;
-            
-            if(isLobbyMode)
+            GM = GameManager.Instance;
+
+            if (isLobbyMode)
                 return GM.gameInstance.HP;
-            
+
             if (punCharacterHealth.photonView.IsMine)
                 return GM.gameInstance.HP;
             else

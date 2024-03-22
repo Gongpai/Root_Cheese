@@ -66,6 +66,8 @@ MonoBehaviour:
   m_OnRevive:
     m_PersistentCalls:
       m_Calls: []
+  m_HPBarAnimator: {fileID: 0}
+  m_namePlayHPBar: Play
   _reviveTime: 2
   m_ReviveUI: {fileID: 0}
   m_skillRandomUI: {fileID: 0}

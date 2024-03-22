@@ -2334,6 +2334,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  m_HPBarAnimator: {fileID: 6776636099639316152}
+  m_namePlayHPBar: Play
   _reviveTime: 2
   m_ReviveUI: {fileID: 1199033681664359225, guid: c98dd378fd333ec41aee54b4006c0032,
     type: 3}
@@ -3662,6 +3664,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f21ab0b33c35fa643b20be7913d6980a, type: 3}
+--- !u!95 &6776636099639316152 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6606314201458285460, guid: f21ab0b33c35fa643b20be7913d6980a,
+    type: 3}
+  m_PrefabInstance: {fileID: 406772449948800300}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6801054191471984083 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6613280569805727999, guid: f21ab0b33c35fa643b20be7913d6980a,

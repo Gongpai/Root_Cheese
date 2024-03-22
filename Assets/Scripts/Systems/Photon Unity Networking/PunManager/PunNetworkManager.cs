@@ -213,6 +213,7 @@ namespace GDD.PUN
         {
             await _dataBaseController.OnSync();
             PhotonNetwork.LocalPlayer.NickName = GameManager.Instance.playerInfo.playerName;
+            print("eee");
         }
         
         private void GameStartSetting() {

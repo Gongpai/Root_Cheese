@@ -10,8 +10,9 @@ namespace GDD
         private GameManager GM;
         private Animator m_animation;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             m_animation = GetComponent<Animator>();
             GM = GameManager.Instance;
 

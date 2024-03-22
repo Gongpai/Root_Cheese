@@ -275,6 +275,7 @@ namespace GDD.DataBase
         {
             if (isGuest)
             {
+                Debug.LogWarning($"Nulllll : {_data.gameSave == null} || {JsonConvert.SerializeObject(_data.gameSave)}");
                 _result = "You are logged in as a guest.";
                 Debug.LogWarning(_result);
                 return;

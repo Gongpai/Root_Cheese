@@ -413,13 +413,13 @@ namespace GDD
             _GI = new GameInstance();
         }
         
-        private void UpdateSaveGameServer()
+        private async void UpdateSaveGameServer()
         {
             print("Sync Save Game");
             
             if(PhotonNetwork.IsMasterClient)
                 DBC.OnSyncSucceed += PunLoadLevel;
-            DBC.OnSync();
+            await DBC.OnSync();
             DBC.OnUpdateSucceed -= UpdateSaveGameServer;
             
             print($"GameInstance : {JsonConvert.SerializeObject(DBC.dataBase.data.gameSave)}");

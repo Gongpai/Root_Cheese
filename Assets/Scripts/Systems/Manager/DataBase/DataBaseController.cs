@@ -75,6 +75,12 @@ namespace GDD.DataBase
 
         public async Task SingUp(string email, string password, PlayerInfo playerInfo)
         {
+            if(_dataBaseManager.client == null)
+                _dataBaseManager.CreateClient(m_supaBaseURL, m_supaBaseKey);
+            
+            if(GM == null)
+                GM = GameManager.Instance;
+            
             //Error Action
             _dataBaseManager.errorAction -= SignInOnErrorAction;
             _dataBaseManager.errorAction -= SignUpOnErrorAction;
@@ -99,6 +105,12 @@ namespace GDD.DataBase
 
         public async Task SignIn(string email, string password)
         {
+            if(GM == null)
+                GM = GameManager.Instance;
+            
+            if(_dataBaseManager.client == null){
+                _dataBaseManager.CreateClient(m_supaBaseURL, m_supaBaseKey);}
+            
             _dataBaseManager.errorAction -= SignUpOnErrorAction;
             _dataBaseManager.errorAction -= SignInOnErrorAction;
             _dataBaseManager.errorAction += SignInOnErrorAction;
@@ -109,6 +121,12 @@ namespace GDD.DataBase
 
         public void GuestSignIn()
         {
+            if(GM == null)
+                GM = GameManager.Instance;
+            
+            if(_dataBaseManager.client == null)
+                _dataBaseManager.CreateClient(m_supaBaseURL, m_supaBaseKey);
+            
             object[] data = new object[]
             {
                 "",
@@ -127,6 +145,9 @@ namespace GDD.DataBase
         
         public async Task SignOut()
         {
+            if(GM == null)
+                GM = GameManager.Instance;
+            
             await _dataBaseManager.SignOut();
             _onSignOutSucceed?.Invoke();
             GM.playerInfo = _dataBaseManager.GetData<PlayerInfo>(_dataBaseManager.data.playerInfo);
@@ -134,6 +155,9 @@ namespace GDD.DataBase
 
         public async Task OnUpdate(PlayerInfo playerInfo, GameInstance gameInstance)
         {
+            if(GM == null)
+                GM = GameManager.Instance;
+            
             object[] data = new object[]
             {
                 playerInfo,
@@ -148,6 +172,9 @@ namespace GDD.DataBase
 
         public async Task OnSync()
         {
+            if(GM == null)
+                GM = GameManager.Instance;
+            
             print("Begin Sync...");
             await _dataBaseManager.SyncClientData();
             print("Sync End...");
@@ -165,6 +192,12 @@ namespace GDD.DataBase
         
         private async void OnDisable()
         {
+            
+        }
+
+        private async void OnApplicationQuit()
+        {
+            Debug.LogWarning("Destroy D B C");
             await _dataBaseManager.SignOut();
             _dataBaseManager.RemoveClient();
         }

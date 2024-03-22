@@ -14,10 +14,12 @@ namespace GDD
         protected GameManager GM;
         protected PunLevelManager PLM;
 
-        protected virtual void Start()
+        protected override void Start()
         {
             GM = GameManager.Instance;
             PLM = PunLevelManager.Instance;
+            
+            base.Start();
         }
 
         private void Update()
