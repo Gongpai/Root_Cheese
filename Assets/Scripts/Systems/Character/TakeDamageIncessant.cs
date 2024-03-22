@@ -39,7 +39,7 @@ namespace GDD
             {
                 _currentTime = 0;
                 OnTakeDamage(other);
-                print("Take HPHPHPHPHPH");
+                //print("Take HPHPHPHPHPH");
             }
         }
 

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2185868781042355000}
   - component: {fileID: 2185868781042355003}
   - component: {fileID: 2346283656833029547}
+  - component: {fileID: 8129893516706578798}
   m_Layer: 0
   m_Name: MusicBG
   m_TagString: Untagged
@@ -44,11 +45,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 6531344444114399841, guid: 549755650e4fcc047be30a3cea769c33,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4ef21b653862f6244988c12811157b92, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 046ed5b0433fdff46821b800f4ebcab3, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -143,3 +144,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 0.5
+--- !u!114 &8129893516706578798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2185868781042355002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe66778f3b244059f16d3385a61f63a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_audioClips:
+  - {fileID: 8300000, guid: 046ed5b0433fdff46821b800f4ebcab3, type: 3}
+  - {fileID: 8300000, guid: 9b05eb6bdca8851418cccf15c323df77, type: 3}

@@ -59,7 +59,6 @@ namespace GDD
             //Clear All Coriutines
             ClearCoriutines();
         }
-
         public override void Handle(T contrller)
         {
             base.Handle(contrller);

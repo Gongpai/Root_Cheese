@@ -28,13 +28,13 @@ namespace GDD
             set => m_Waypoints = value;
         }
         
-        private void Start()
+        protected virtual void Start()
         {
             m_NavMeshAgent = GetComponent<NavMeshAgent>();
             m_multiplayerEnemyController = GetComponent<MultiplayerEnemyController>();
         }
 
-        public Vector3 EnterState()
+        public virtual Vector3 EnterState()
         {
             Vector3 pos;
             pos = m_Waypoints[m_CurrentWaypointIndex].position;
@@ -43,7 +43,7 @@ namespace GDD
             return pos;
         }
 
-        public void UpdateState()
+        public virtual void UpdateState()
         {
             if (m_NavMeshAgent.remainingDistance > m_NavMeshAgent.stoppingDistance)
             {
@@ -67,7 +67,7 @@ namespace GDD
             }
         }
 
-        public void ExitState()
+        public virtual void ExitState()
         {
             
         }

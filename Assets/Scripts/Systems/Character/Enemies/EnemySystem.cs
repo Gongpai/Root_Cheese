@@ -15,6 +15,9 @@ namespace GDD
     {
         [Header("Drop Item")] 
         [SerializeField] private int _dropEXP = 30;
+
+        [Header("Move State Component Type")] 
+        [SerializeField] private MoveStateType m_moveStateType;
         
         protected GameManager GM;
         protected Vector3 oldPos;
@@ -34,6 +37,13 @@ namespace GDD
             set => _targetID = value;
         }
         
+        [Serializable]
+        public enum MoveStateType
+        {
+            Move,
+            Jump
+        }
+        
         public override void Awake()
         {
             base.Awake();
@@ -47,7 +57,17 @@ namespace GDD
                 return;
             
             _enemyStateContext = new StateContext<EnemySystem>(this);
-            _moveState = gameObject.AddComponent<EnemyMoveState>();
+
+            switch (m_moveStateType)
+            {
+                case MoveStateType.Move:
+                    _moveState = gameObject.AddComponent<EnemyMoveState>();
+                    break;
+                case MoveStateType.Jump:
+                    _moveState = gameObject.AddComponent<EnemyJumpState>();
+                    break;
+            }
+            
             _attackState = gameObject.AddComponent<EnemyAttackState>();
             _dropItemObject = GetComponent<DropItemObjectPool>();
         }
@@ -79,6 +99,7 @@ namespace GDD
             if (_currentState == null)
                 _currentState = _attackState;
             
+            print($"UUUUUUUUU : {_enemyStateContext == null}");
             _enemyStateContext.Transition(_currentState);
             
             UpdateEnemyMove();
@@ -94,7 +115,9 @@ namespace GDD
 
         public void StartMove()
         {
-            RandomWayPointPosition();
+            if(m_moveStateType == MoveStateType.Move)
+                RandomWayPointPosition();
+            
             _currentState = _moveState;
         }
 
@@ -114,9 +137,13 @@ namespace GDD
                     i = 0;
                 //print($"I Random : ({i}) || Player Count : {GM.players.Count}");
                 MonoBehaviourPun _monoBehaviourPun = GM.players.Keys.ElementAt(i).GetComponent<MonoBehaviourPun>();
-                
-                _targetID = _monoBehaviourPun.photonView.ViewID;
-                _punECC.OnUpdateTargetID(_targetID);
+
+                if (_monoBehaviourPun.photonView != null)
+                {
+                    _targetID = _monoBehaviourPun.photonView.ViewID;
+                    _punECC.OnUpdateTargetID(_targetID);
+                }
+
                 return targetID;
             }
         }

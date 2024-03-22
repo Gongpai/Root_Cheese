@@ -40,7 +40,7 @@ namespace GDD
             m_IdleTime -= Time.deltaTime;
             if (m_IdleTime <= 0)
             {
-                CustomEvent.Trigger(gameObject,"GotoWaypointReachingState");
+                CustomEvent.Trigger(gameObject,"GotoMoveState");
             }
         }
 

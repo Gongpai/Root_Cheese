@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace GDD.StateMachine
 {
@@ -17,9 +18,12 @@ namespace GDD.StateMachine
         {
             if (CurrentState != null && CurrentState != state)
                 CurrentState.OnExit();
-
+            
+            Debug.Log("Transition");
             CurrentState = state;
             CurrentState.Handle(_controller);
+            
+            Debug.Log($"Current State : {CurrentState.StateName()}");
         }
     }
 }

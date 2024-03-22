@@ -200,6 +200,7 @@ MonoBehaviour:
   _reviveTime: 2
   m_ReviveUI: {fileID: 0}
   _dropEXP: 30
+  m_moveStateType: 0
 --- !u!114 &9189455374270101200
 MonoBehaviour:
   m_ObjectHideFlags: 0
