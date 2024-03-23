@@ -9,6 +9,7 @@ namespace GDD
 {
     public class EnemyAttackState : EnemyState
     {
+        protected bool _isFreezeLookAt = false;
         private bool _isLockRot;
 
         public bool isLockRot
@@ -47,7 +48,9 @@ namespace GDD
         {
             base.Handle(contrller);
             
-            //print("Handleeeeeee");
+            if(_isFreezeLookAt)
+                return;
+            
             if(GM.players.Count > 0 && !_isLockRot)
                 transform.LookAt(target);
         }

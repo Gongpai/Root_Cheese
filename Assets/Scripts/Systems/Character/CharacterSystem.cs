@@ -26,9 +26,9 @@ namespace GDD
         [SerializeField] protected float m_levelUp = 1.1f;
 
         [Header("Animation")] 
-        [SerializeField] private Animator m_animator;
-        [SerializeField] private string m_deadAnimatorState = "isDead";
-        [SerializeField] private string m_reviveAnimatorState = "isRevive";
+        [SerializeField] protected Animator m_animator;
+        [SerializeField] protected string m_deadAnimatorState = "isDead";
+        [SerializeField] protected string m_reviveAnimatorState = "isRevive";
         [SerializeField] private UnityEvent m_OnDead;
         [SerializeField] private UnityEvent m_OnRevive;
         [SerializeField] private Animator m_HPBarAnimator;
@@ -179,8 +179,8 @@ namespace GDD
 
         public virtual void OnCharacterDead()
         {
-            m_animator.SetTrigger(m_deadAnimatorState);
             m_OnDead?.Invoke();
+            m_animator.SetTrigger(m_deadAnimatorState);
             _isDead = true;
         }
 
@@ -226,7 +226,7 @@ namespace GDD
             if (other.CompareTag("Revive") && !_reviveUI.gameObject.activeSelf)
             {
                 print("Revive Enter");
-                _isOtherPlayerRevive = other.transform.parent.GetComponent<CharacterSystem>().GetHP() <= 0;
+                _isOtherPlayerRevive = other.transform.parent.GetComponent<CharacterSystem>().GetHP() <= 0 && GetHP() > 0;
                 _reviveUI.gameObject.SetActive(_isOtherPlayerRevive);
                 OtherPlayer = other.transform;
             }

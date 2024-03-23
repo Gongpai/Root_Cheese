@@ -9,12 +9,12 @@ namespace GDD
         [SerializeField] private float m_HP = 50;
         private DropItemObjectPool _dropItemObject;
         private GameManager GM;
-        private HealthSystem _healthSystem;
+        private HealthItemObjectSystem _healthItemObjectSystem;
         private bool _isDrop;
         private void Start()
         {
             GM = GameManager.Instance;
-            _healthSystem = GetComponent<HealthSystem>();
+            _healthItemObjectSystem = GetComponent<HealthItemObjectSystem>();
             _dropItemObject = GetComponent<DropItemObjectPool>();
         }
 

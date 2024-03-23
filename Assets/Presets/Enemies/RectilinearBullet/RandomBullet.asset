@@ -16,5 +16,7 @@ MonoBehaviour:
   m_rate: 1
   m_bullet_power: 5
   m_timedelay: 0.25
-  m_shot: 12
+  m_shot: 6
   m_bulletType: 0
+  m_spawnCount: 5
+  m_spawnDelay: 0.1

@@ -22,7 +22,7 @@ namespace GDD
                 print("On Maneuver");
                 _coroutines.Add(StartCoroutine(Waiting(
                     () => { _coroutines.Add(
-                        StartCoroutine(StrafeFiring(7,1, 0.1f/*m_enemyBulletConfig.rate*/)));
+                        StartCoroutine(StrafeFiring(m_enemyBulletConfig.spawnCount,1, m_enemyBulletConfig.spawnDelay)));
                     },
                     m_enemyBulletConfig.timedelay)));
             }

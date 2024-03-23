@@ -112,6 +112,7 @@ namespace GDD
             {
                 if (time_count == time)
                 {
+                    print($"Fireeee!!!!!!!!!!");
                     OnFireEvent?.Invoke();
                 }
 

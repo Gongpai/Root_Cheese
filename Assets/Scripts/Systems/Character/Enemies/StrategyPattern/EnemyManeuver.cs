@@ -16,6 +16,7 @@ namespace GDD
         protected EnemySystem _enemySystem;
         protected EnemyAttackState _enemyAttackState;
         protected Transform _target;
+        protected bool isManeuver;
 
         protected virtual void Awake()
         {
@@ -31,6 +32,7 @@ namespace GDD
 
         public override void Maneuver(EnemyState pawn, Transform target)
         {
+            isManeuver = true;
             _target = target;
             
             if(GM.players.Count <= 0)
@@ -49,7 +51,8 @@ namespace GDD
 
         public override void Truce()
         {
-            //print("On Truce!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            print("On Truce!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            isManeuver = false;
             foreach (var coroutine in _coroutines)
             {
                 if(coroutine != null)

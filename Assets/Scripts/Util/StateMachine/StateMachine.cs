@@ -18,11 +18,12 @@ namespace GDD.StateMachine
 
         public virtual void OnStart(T contrller)
         {
-            //print("OnStartState : " + StateName());
+            
         }
 
         public virtual void Handle(T contrller)
         {
+            //print("Enter Handle");
             current_contrller = contrller;
             
             if(!_isEnterState)

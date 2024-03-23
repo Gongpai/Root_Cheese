@@ -92,7 +92,7 @@ namespace GDD
             }
             else
             {
-                helf_axis = 180 / shot;
+                helf_axis = 90 / shot;
                 surrounded_axis = helf_axis;
             }
 

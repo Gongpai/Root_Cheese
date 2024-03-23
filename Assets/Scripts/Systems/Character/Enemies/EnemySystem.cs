@@ -15,33 +15,23 @@ namespace GDD
     {
         [Header("Drop Item")] 
         [SerializeField] private int _dropEXP = 30;
-
-        [Header("Move State Component Type")] 
-        [SerializeField] private MoveStateType m_moveStateType;
         
         protected GameManager GM;
         protected Vector3 oldPos;
         
-        private IState<EnemySystem> _attackState, _moveState;
-        private IState<EnemySystem> _currentState;
-        private StateContext<EnemySystem> _enemyStateContext;
-        private WaypointReachingState _waypointReaching;
-        private PunEnemyCharacterController _punECC;
-        private DropItemObjectPool _dropItemObject;
-        private GameObject _waypoint;
-        private int _targetID = 0;
+        protected IState<EnemySystem> _attackState, _moveState;
+        protected IState<EnemySystem> _currentState;
+        protected StateContext<EnemySystem> _enemyStateContext;
+        protected WaypointReachingState _waypointReaching;
+        protected PunEnemyCharacterController _punECC;
+        protected DropItemObjectPool _dropItemObject;
+        protected GameObject _waypoint;
+        protected int _targetID = 0;
 
         public int targetID
         {
             get => _targetID;
             set => _targetID = value;
-        }
-        
-        [Serializable]
-        public enum MoveStateType
-        {
-            Move,
-            Jump
         }
         
         public override void Awake()
@@ -57,17 +47,12 @@ namespace GDD
                 return;
             
             _enemyStateContext = new StateContext<EnemySystem>(this);
+            AddStateComponents();
+        }
 
-            switch (m_moveStateType)
-            {
-                case MoveStateType.Move:
-                    _moveState = gameObject.AddComponent<EnemyMoveState>();
-                    break;
-                case MoveStateType.Jump:
-                    _moveState = gameObject.AddComponent<EnemyJumpState>();
-                    break;
-            }
-            
+        protected virtual void AddStateComponents()
+        {
+            _moveState = gameObject.AddComponent<EnemyMoveState>();
             _attackState = gameObject.AddComponent<EnemyAttackState>();
             _dropItemObject = GetComponent<DropItemObjectPool>();
         }
@@ -105,7 +90,7 @@ namespace GDD
             UpdateEnemyMove();
         }
 
-        public void StartAttack()
+        public virtual void StartAttack()
         {
             if (_attackState != null)
             {
@@ -113,10 +98,9 @@ namespace GDD
             }
         }
 
-        public void StartMove()
+        public virtual void StartMove()
         {
-            if(m_moveStateType == MoveStateType.Move)
-                RandomWayPointPosition();
+            RandomWayPointPosition();
             
             _currentState = _moveState;
         }
@@ -197,7 +181,7 @@ namespace GDD
             _dropItemObject.OnCreateObject();
             AddEXPToPlayer();
             
-            print("Deaddddddddd!!!!!!!!!!!!!!!!!!!!!!!");
+            print($"{gameObject.name} Deaddddddddd!!!!!!!!!!!!!!!!!!!!!!!");
             
             if (Application.isPlaying)
             {

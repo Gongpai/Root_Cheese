@@ -4,39 +4,18 @@ using UnityEngine;
 
 namespace GDD
 {
-    public class VFXBulletsTime : MonoBehaviour
+    public class VFXBulletsTime : AutoDisableVFX
     {
-        [SerializeField] private List<ParticleSystem> _particleSystems;
-        private ParticleSystem _particleSystem;
-        private VFXObjectPool _vfxObjectPool;
-
-        public List<ParticleSystem> particleSystems
-        {
-            get => _particleSystems;
-        }
-
+        protected VFXObjectPool _vfxObjectPool;
+        
         public VFXObjectPool vfxObjectPool
         {
             set => _vfxObjectPool = value;
         }
-
-        private void Start()
+        
+        protected override void OnDisableVFX()
         {
-            float currentDuration = 0;
-            foreach (var particleSystem in _particleSystems)
-            {
-                if (particleSystem.duration > currentDuration)
-                {
-                    currentDuration = particleSystem.duration;
-                    _particleSystem = particleSystem;
-                }
-            }
-        }
-
-        private void Update()
-        {
-            if(_particleSystem.isStopped)
-                _vfxObjectPool.ReturnToPool();
+            _vfxObjectPool.ReturnToPool();
         }
     }
 }

@@ -1,15 +1,16 @@
-﻿using Unity.VisualScripting;
+﻿using GDD.StateMachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GDD
 {
-    public class ProjectileJumpState : MonoBehaviour
+    public class ProjectileJumpState : MonoBehaviour, IAiState
     {
         protected void Start()
         {
             
         }
-
+        
         public Vector3 EnterState()
         {
             return new Vector3();

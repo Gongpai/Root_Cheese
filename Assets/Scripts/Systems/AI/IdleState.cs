@@ -7,7 +7,7 @@ using Random = System.Random;
 
 namespace GDD
 {
-    public class IdleState : MonoBehaviour
+    public class IdleState : MonoBehaviour, IAiState
     {
         protected float m_IdleTime;
         protected BulletFireManeuver _bulletFireManeuver;
@@ -17,9 +17,11 @@ namespace GDD
             _bulletFireManeuver = GetComponent<BulletFireManeuver>();
         }
 
-        public void EnterState()
+        public Vector3 EnterState()
         {
             RandomIdleTime();
+            
+            return Vector3.zero;
         }
 
         private void RandomIdleTime()

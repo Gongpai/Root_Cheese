@@ -38,14 +38,14 @@ namespace GDD
             base.OnExit();
         }
 
-        public void ApplyEnemyStrategy()
+        public virtual void ApplyEnemyStrategy()
         {
             strategy = GetComponent<EnemyManeuver>();
             //print("Apply Enemy Strategy");
             strategy.Maneuver(this, target);
         }
 
-        public void WithdrawEnemyStrategy()
+        public virtual void WithdrawEnemyStrategy()
         {
             strategy.Truce();
         }

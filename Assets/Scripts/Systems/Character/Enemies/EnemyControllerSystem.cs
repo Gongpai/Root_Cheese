@@ -22,16 +22,30 @@ namespace GDD
 
         protected NavMeshAgent thisAgent;
 
+        public bool isGrounded
+        {
+	        get => Grounded;
+        }
+
+        public bool isInAir
+        {
+	        get => InAir;
+        }
+
         protected override void Start()
         {
             base.Start();
             
             thisAgent = GetComponent<NavMeshAgent>();
-            thisAgent.updateRotation = false;
-            
-            if(Sprinting) thisAgent.speed = SprintSpeed;
-            else thisAgent.speed = MoveSpeed;
-            
+
+            if (thisAgent != null)
+            {
+	            thisAgent.updateRotation = false;
+
+	            if (Sprinting) thisAgent.speed = SprintSpeed;
+	            else thisAgent.speed = MoveSpeed;
+            }
+
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
@@ -39,15 +53,19 @@ namespace GDD
 
         protected override void Update()
         {
-            if (Target != null)
+            if (Target != null && thisAgent != null)
             {
                 thisAgent.SetDestination(Target.position);
             }
             
-            SimulateGravity();
+            if(SimulatePhysics)
+				SimulateGravity();
+            
             GroundedCheck();
             
             
+            if(thisAgent == null)
+	            return;
             
             if (Sprinting) thisAgent.speed = SprintSpeed;
             else thisAgent.speed = MoveSpeed;

@@ -26,12 +26,13 @@ namespace GDD
             
         }
 
-        /*private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(transform.position, m_ColliderRadius);
-        }*/
-
+            if(_subObject != null && _subObject.activeSelf)
+                Gizmos.DrawWireSphere(_subObject.transform.position, m_ColliderRadius);
+        }
+        
         private void OnDisable()
         {
             if (_subObject == null)

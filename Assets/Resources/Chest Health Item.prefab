@@ -195,12 +195,11 @@ MonoBehaviour:
   m_OnRevive:
     m_PersistentCalls:
       m_Calls: []
-  m_HPBarAnimator: {fileID: 0}
+  m_HPBarAnimator: {fileID: 7298177077370303105}
   m_namePlayHPBar: Play
   _reviveTime: 2
   m_ReviveUI: {fileID: 0}
   _dropEXP: 30
-  m_moveStateType: 0
 --- !u!114 &9189455374270101200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,3 +867,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &7298177077370303105 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6606314201458285460, guid: f21ab0b33c35fa643b20be7913d6980a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4532312969132124437}
+  m_PrefabAsset: {fileID: 0}

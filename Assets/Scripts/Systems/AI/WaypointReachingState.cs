@@ -11,7 +11,7 @@ namespace GDD
 {
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(MultiplayerEnemyController))]
-    public class WaypointReachingState : MonoBehaviour
+    public class WaypointReachingState : MonoBehaviour, IAiState
     {
         [SerializeField] protected int m_CurrentWaypointIndex = 0;
 

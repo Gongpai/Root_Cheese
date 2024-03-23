@@ -16,9 +16,9 @@ namespace GDD
         [SerializeField] private Transform target;
         */
         [SerializeField] private Transform _target;
-        [Range(1.0f, 25.0f)] private float _targetRadius;
-        [Range(20.0f, 75.0f)] private float _launchAngle;
-        [Range(0.0f, 10.0f)] private float _targetHeightOffsetFromGround;
+        [SerializeField][Range(1.0f, 25.0f)] private float _targetRadius;
+        [SerializeField][Range(20.0f, 75.0f)] private float _launchAngle;
+        [SerializeField][Range(0.0f, 10.0f)] private float _targetHeightOffsetFromGround;
 
         private Vector3 random_point;
         private GameObject spawnObject;

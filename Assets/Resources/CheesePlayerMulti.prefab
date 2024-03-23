@@ -2113,6 +2113,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1073741824
   Grounded: 1
+  InAir: 0
+  SimulatePhysics: 1
   GroundedOffset: 0
   GroundedRadius: 0.25
   FallTimeout: 0.2

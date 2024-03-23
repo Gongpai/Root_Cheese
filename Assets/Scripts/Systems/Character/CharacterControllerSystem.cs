@@ -30,6 +30,8 @@ namespace GDD
         [Header("Player Grounded")]
         [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
         [SerializeField]protected bool Grounded = true;
+        [SerializeField] protected bool InAir;
+        [SerializeField] protected bool SimulatePhysics = true;
         
         [Tooltip("Useful for rough ground")]
         [SerializeField]protected float GroundedOffset = -0.14f;
@@ -90,6 +92,11 @@ namespace GDD
             get => MoveSpeed;
             set => MoveSpeed = value;
         }
+
+        public Animator animator
+        {
+            get => _animator;
+        }
         
         protected virtual void Awake()
         {
@@ -128,7 +135,9 @@ namespace GDD
         {
             _hasAnimator = TryGetComponent(out _animator);
             
-            SimulateGravity();
+            if(SimulatePhysics)
+                SimulateGravity();
+            
             GroundedCheck();
             Move();
         }
@@ -162,6 +171,10 @@ namespace GDD
             Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
                 QueryTriggerInteraction.Ignore);
 
+            InAir = !Grounded;
+
+            if(!SimulatePhysics && _hasAnimator)
+                _animator.SetBool(_animIDFreeFall, InAir);
             // update animator if using character
             if (_hasAnimator)
             {

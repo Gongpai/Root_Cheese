@@ -20,6 +20,10 @@ namespace GDD
         [SerializeField] private int m_shot = 1;
 
         [SerializeField] private BulletType m_bulletType;
+
+        [SerializeField] private int m_spawnCount = 1;
+        
+        [SerializeField] private float m_spawnDelay = 0.1f;
         
         public float damage
         {
@@ -49,6 +53,16 @@ namespace GDD
         public BulletType bulletType
         {
             get => m_bulletType;
+        }
+
+        public int spawnCount
+        {
+            get => m_spawnCount;
+        }
+
+        public float spawnDelay
+        {
+            get => m_spawnDelay;
         }
     }
 }

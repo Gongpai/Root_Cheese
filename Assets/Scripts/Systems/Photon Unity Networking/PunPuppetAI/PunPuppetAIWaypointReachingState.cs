@@ -22,6 +22,7 @@ namespace GDD.PUN
         {
             m_NavMeshAgent = GetComponent<NavMeshAgent>();
             m_multiplayerEnemyController = GetComponent<MultiplayerEnemyController>();
+            _waypointReachingState = GetComponent<WaypointReachingState>();
         }
         
         public void EnterStateEvent(Vector3 position)
@@ -55,6 +56,9 @@ namespace GDD.PUN
         
         public void UpdateState()
         {
+            if(m_NavMeshAgent == null)
+                return;
+            
             if (m_NavMeshAgent.remainingDistance > m_NavMeshAgent.stoppingDistance)
             {
                 if (!ismove)
