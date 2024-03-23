@@ -85,6 +85,7 @@ namespace GDD
         {
             float current_axis = 0;
             float surrounded_axis;
+            int axis = 90;
             int helf_axis = 0;
             if (surroundMode == BulletShotSurroundMode.Surround)
             {
@@ -92,7 +93,7 @@ namespace GDD
             }
             else
             {
-                helf_axis = 90 / shot;
+                helf_axis = axis / shot;
                 surrounded_axis = helf_axis;
             }
 
@@ -117,9 +118,9 @@ namespace GDD
                 if(surroundMode == BulletShotSurroundMode.Surround)
                     spawnPoint.rotation = transform.rotation;
                 else if(surroundMode == BulletShotSurroundMode.Front)
-                    spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) - 90, 0));
+                    spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) - axis / 2.0f, 0));
                 else if (surroundMode == BulletShotSurroundMode.Back)
-                    spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) + 90, 0));
+                    spawnPoint.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, (helf_axis / 2) + axis / 2.0f, 0));
                     
                 spawnPoint.rotation *= rot;
                 
