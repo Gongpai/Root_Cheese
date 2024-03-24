@@ -202,9 +202,12 @@ namespace GDD.PUN
 
         private void Update()
         {
-            if(_characterStatusUI != null)
+            if (_characterStatusUI != null)
+            {
                 _canvasElementList.texts[0].enabled = !PhotonNetwork.InRoom;
-            
+                _canvasElementList.texts[1].color = PhotonNetwork.InRoom ? Color.white : new Color(0, 0, 0, 0);
+            }
+
             if (!PhotonNetwork.IsMasterClient)
                 return;
         }
