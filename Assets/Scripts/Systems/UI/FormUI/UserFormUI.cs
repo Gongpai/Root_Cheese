@@ -60,7 +60,8 @@ namespace GDD
             m_age.text = GM.playerInfo.age.ToString();
             m_birthday.text = GM.playerInfo.date;
             m_name.text = GM.playerInfo.playerName;
-            m_username.text = "Username : " + GM.playerInfo.playerName;
+            m_username.text = GM.playerInfo.playerName;
+            //m_username.text = "Username : " + GM.playerInfo.playerName;
         }
         
         public async void OnClose()
