@@ -421,12 +421,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 423250219549192737, guid: c6525255d3471a540a2d08ab5ff1e386,
-        type: 3}
-      propertyPath: m_gameOverMenu
-      value: 
-      objectReference: {fileID: 4157690483967560735, guid: 587a793236935d64b9bf20ded209b9fa,
-        type: 3}
     - target: {fileID: 1659570200318343430, guid: c6525255d3471a540a2d08ab5ff1e386,
         type: 3}
       propertyPath: m_Name

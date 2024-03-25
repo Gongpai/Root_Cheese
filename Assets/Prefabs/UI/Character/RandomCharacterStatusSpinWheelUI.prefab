@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8246e2eed41248b49315c0e87ab8f01d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fontAsset: {fileID: 11400000, guid: ee45a45177e768646b7f6a49ac8181ea, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fda662a0403edea4ebd227e51b1d9be1, type: 2}
   m_fontStyles: 0
   m_fontWeight: 500
   m_fontSize: 22

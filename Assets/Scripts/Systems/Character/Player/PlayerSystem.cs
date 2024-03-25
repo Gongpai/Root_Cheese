@@ -137,7 +137,7 @@ namespace GDD
                 GameObject r_skill_ui = Instantiate(m_skillRandomUI);
                 _randomSkillUI = r_skill_ui.transform.GetChild(0).GetComponent<RandomSkillUI>();
                 _randomSkillUI.randomSkill = _randomSkill;
-                _randomSkillUI.OnCreate();
+                _randomSkillUI.OnCreate(GetLevel());
             }
         }
 
@@ -288,7 +288,7 @@ namespace GDD
                 if (_skillUpgradeCount > 1)
                     _randomSkillUI.reOpenUIAction = OpenRandomSkillUI;
                 
-                _randomSkillUI.OnCreate();
+                _randomSkillUI.OnCreate(GetLevel());
             }
         }
 

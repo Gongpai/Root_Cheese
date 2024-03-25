@@ -28,6 +28,11 @@ namespace GDD
         [SerializeField] private RandomSkill _randomSkill;
         [SerializeField] private ScrollViewForAnimation _scrollViewAnim;
         [SerializeField] protected Animator m_animator;
+
+        [Header("Level")] 
+        [SerializeField] private TextMeshProUGUI m_levelText;
+        [SerializeField] private string m_first = "You have reached level : ";
+        [SerializeField] private string m_end;
         
         protected AnimationStateAction _animationStateAction;
 
@@ -71,8 +76,10 @@ namespace GDD
             }
         }
 
-        public void OnCreate()
+        public void OnCreate(int level)
         {
+            m_levelText.text = m_first + level + m_end;
+            
             _scrollViewAnim.enabled = false;
 
             GameObject group = Instantiate(m_skill_Gruop);

@@ -59,7 +59,7 @@ MonoBehaviour:
     mainAttachmentSkill: -1
     secondaryAttachmentSkill: -1
   m_pauseMenu: {fileID: 0}
-  m_gameOverMenu: {fileID: 8983843913552823918, guid: 413ddc7f38bb46645a4a16fe4ce3ba20,
+  m_gameOverMenu: {fileID: 4157690483967560735, guid: 587a793236935d64b9bf20ded209b9fa,
     type: 3}
   m_players:
     _serializedList: []
