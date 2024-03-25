@@ -372,8 +372,8 @@ TextureImporter:
       name: Section 2_13
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1024
+        x: 256
+        y: 1280
         width: 256
         height: 256
       alignment: 0
@@ -414,10 +414,10 @@ TextureImporter:
       name: Section 2_15
       rect:
         serializedVersion: 2
-        x: 0
-        y: 768
-        width: 256
-        height: 256
+        x: 256
+        y: 256
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

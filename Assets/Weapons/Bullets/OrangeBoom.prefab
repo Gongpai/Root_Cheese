@@ -214,6 +214,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire_Boom
       objectReference: {fileID: 0}
+    - target: {fileID: 4960204390291481715, guid: f4b061b2ac6fdca45b403e82617e098a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4b061b2ac6fdca45b403e82617e098a, type: 3}
 --- !u!4 &1584293642239208574 stripped

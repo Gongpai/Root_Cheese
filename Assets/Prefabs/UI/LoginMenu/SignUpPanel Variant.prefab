@@ -340,7 +340,7 @@ PrefabInstance:
     - target: {fileID: 1512557962783253413, guid: 575619734065cff4f8c89e3b9a29b9cc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1512557962783253413, guid: 575619734065cff4f8c89e3b9a29b9cc,
         type: 3}
@@ -445,7 +445,7 @@ PrefabInstance:
     - target: {fileID: 1786367304373856740, guid: 575619734065cff4f8c89e3b9a29b9cc,
         type: 3}
       propertyPath: m_Name
-      value: SignUpPanel
+      value: SignUpPanel Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1786367304373856740, guid: 575619734065cff4f8c89e3b9a29b9cc,
         type: 3}

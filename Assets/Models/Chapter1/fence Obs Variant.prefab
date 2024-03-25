@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7670967770533488559
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9999259
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000003774616
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 4.5964152e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.01217627
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e06a1bbf859c32e49b786ee10c87a69e,
+        type: 3}
+      propertyPath: m_Name
+      value: fence Obs
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e06a1bbf859c32e49b786ee10c87a69e, type: 3}

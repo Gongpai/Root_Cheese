@@ -68,7 +68,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _hitVFX
       value: 
-      objectReference: {fileID: 639043374452717960, guid: 7e59ded3a0d1a9a4d8c129a4e89eb2e2,
+      objectReference: {fileID: 5946457226937504908, guid: 318a30109da4a024f9403d42429361ed,
         type: 3}
     - target: {fileID: 885309489064837252, guid: 262e3c1c20ec64b4ab5beb8d78568e61,
         type: 3}
@@ -337,7 +337,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bullet
       value: 
-      objectReference: {fileID: 2867731740616798847, guid: d635d8405f8b96543a6ec51d7ee76666,
+      objectReference: {fileID: 2867731740616798847, guid: dda278a09133f5544af61984badb2db8,
         type: 3}
     m_RemovedComponents:
     - {fileID: 1804085855532818162, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}

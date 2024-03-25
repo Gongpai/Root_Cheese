@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 829d4c7aaa6c4cbc8425aa08a197609b, type: 3}
+  m_Name: WASDTutorialsPresets
+  m_EditorClassIdentifier: 
+  m_text: 'Control character movement button
+
+    [W] UP
+
+    [A] Left
+
+    [S] Down
+
+    [D]
+    Right'
+  m_tutorials: {fileID: 21300000, guid: 8a7124d1a00ddb547a1c0780d95c5164, type: 3}
+  m_buttons:
+  - {fileID: 21300000, guid: b11658fe43bec2048910aeab69a1e6cc, type: 3}
+  - {fileID: 21300000, guid: e31f6041aaca8724f849fe293c964474, type: 3}
+  - {fileID: 21300000, guid: 1a3de564e41c2044c8c003f759d07983, type: 3}
+  - {fileID: 21300000, guid: 174548864a4da204792d2fc12f5d1b70, type: 3}

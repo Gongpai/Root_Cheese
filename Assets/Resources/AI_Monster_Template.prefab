@@ -110,7 +110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -126,7 +126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -143,7 +143,7 @@ PrefabInstance:
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 8552330022913925861}
+      objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -174,7 +174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: set_enabled
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -190,6 +190,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: UnityEngine.Behaviour, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
+      propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[5].m_TargetAssemblyTypeName
       value: UnityEngine.Behaviour, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
@@ -210,7 +214,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 549421543, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
+      propertyPath: m_OnDead.m_PersistentCalls.m_Calls.Array.data[5].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 549421544, guid: 262e3c1c20ec64b4ab5beb8d78568e61, type: 3}
       propertyPath: m_3rdPersonControllerAI
